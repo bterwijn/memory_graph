@@ -1,0 +1,27 @@
+# just some notes about how to upload to pypi for 'pip install' purposes
+
+
+# install
+pip install setuptools
+pip uninstall memory_graph
+pip install .
+pip install --upgrade .
+
+
+# create distribution
+python setup.py check
+python setup.py sdist
+
+
+# speed up distribution install? with
+pip install wheel
+python setup.py bdist_wheel --universal
+
+
+# upload
+pip install twine
+# increase version number in setup.py and memory_graph/__init__.py before each upload
+# upload to test url:
+twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+# upload to pypi for real:
+twine upload dist/*
