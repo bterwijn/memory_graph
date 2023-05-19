@@ -15,7 +15,7 @@ memory_graph.show( data )
 This shows the graph with the starting point of your 'data' drawn using thick
 lines, the program blocks until the <ENTER> key is pressed.
 
-![image](images/example1.png)
+![image](https://github.com/bterwijn/memory_graph/blob/main/images/example1.png)
 
 If `show()` doesn't work well on your system (the PDF viewer integration
 is platform specific) use `render()` to output the graph in the format
@@ -51,7 +51,7 @@ my_list.append(data) # recursive reference
 
 memory_graph.show( data )
 ```
-![image](images/example2.png)
+![image](https://github.com/bterwijn/memory_graph/blob/main/images/example2.png)
 
 ### Install ###
 

@@ -1,18 +1,25 @@
 from setuptools import setup
 
-setup(
-    name='memory_graph',
-    version='0.1.0',    
-    description='Draws a graph of memory to understand the structure of references.',
-    readme='README.md',
-    url='https://github.com/bterwijn/memory_graph',
-    author='Bas Terwijn',
-    author_email='bterwijn@gmail.com',
-    license='BSD 2-clause',
-    packages=['memory_graph'],
-    install_requires=['graphviz',],
+# read the contents of your README file
+from pathlib import Path
+this_directory = Path(__file__).parent
+long_description_from_readme = (this_directory / "README.md").read_text()
 
-    classifiers=[
+setup(
+    name = 'memory_graph',
+    version = '0.1.4', # 0.1.1
+    description = 'Draw a graph of your data to see the structure of its references.',
+    long_description = long_description_from_readme,
+    long_description_content_type = 'text/markdown',
+    readme = 'README.md',
+    url = 'https://github.com/bterwijn/memory_graph',
+    author = 'Bas Terwijn',
+    author_email = 'bterwijn@gmail.com',
+    license = 'BSD 2-clause',
+    packages = ['memory_graph'],
+    install_requires = ['graphviz',],
+
+    classifiers = [
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Education',
         'License :: OSI Approved :: BSD License',  

@@ -9,6 +9,7 @@ pip install --upgrade .
 
 
 # create distribution
+rm -f ./dist/*
 python setup.py check
 python setup.py sdist
 
