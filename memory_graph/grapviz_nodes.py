@@ -33,7 +33,7 @@ def add_escape_chars(label):
                                          "{":  r"\{",
                                          "}":  r"\}",
                                          }))
-    if label[-1]=='>': # workaround, weird problem if label ends with '>'
+    if len(label)>0 and label[-1]=='>': # workaround, weird problem if label ends with '>'
         label+=" "
     return label
 
