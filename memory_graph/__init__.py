@@ -3,7 +3,7 @@ from memory_graph import Node
 from memory_graph import rewrite_to_node
 from memory_graph import grapviz_nodes
 
-__version__ = "0.1.4"
+__version__ = "0.1.1"
 __author__ = 'Bas Terwijn'
 
 def show(data,block=True):

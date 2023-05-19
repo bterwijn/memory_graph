@@ -3,7 +3,7 @@
 Want to draw a graph of your data in Python to better understand its
 structure or the Python memory model in general?
 
-Just call "memory_graph.show(your_data)", an example:
+Just call `memory_graph.show(your_data)`, an example:
 
 ```
 import memory_graph
@@ -12,14 +12,15 @@ data = [ (1, 2), [3, 4], {5:'five', 6:'six'} ]
 memory_graph.show( data )
 ```
 
-This shows the graph with the starting point of your 'data' drawn using thick
-lines, the program blocks until the <ENTER> key is pressed.
+This shows the graph with the starting point of your 'data' drawn
+using thick lines, the program blocks until the ENTER key is pressed.
 
-![image](https://github.com/bterwijn/memory_graph/blob/main/images/example1.png)
+![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example1.png)
 
-If `show()` doesn't work well on your system (the PDF viewer integration
-is platform specific) use `render()` to output the graph in the format
-of your choosing. Use `block=False` to turn off blocking.
+If `show()` doesn't work well on your system (the PDF viewer
+integration is platform specific) use `render()` to output the graph
+in the format of your choosing. Use `block=False` to turn off
+blocking.
 
 ```
 memory_graph.render( data, "my_graph.png", block=False)
@@ -51,7 +52,7 @@ my_list.append(data) # recursive reference
 
 memory_graph.show( data )
 ```
-![image](https://github.com/bterwijn/memory_graph/blob/main/images/example2.png)
+![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example2.png)
 
 ### Install ###
 
