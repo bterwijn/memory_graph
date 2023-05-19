@@ -65,4 +65,4 @@ pip install memory_graph
 Bas Terwijn
 
 ### Inspiration ###
-Inspired by [Python Tutor](https://pythontutor.com/visualize.html).
+Inspired by [PythonTutor](https://pythontutor.com/visualize.html).
