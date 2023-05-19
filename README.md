@@ -58,7 +58,7 @@ memory_graph.show( data )
 Install using pip:
 
 ```
-pip install memory_graph
+pip install memory-graph
 ```
 
 ### Author ###
