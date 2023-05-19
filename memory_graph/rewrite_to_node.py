@@ -5,9 +5,10 @@ from memory_graph import rewrite
 from memory_graph import Node
 
 reduce_references=True
+reduce_reference_types={NoneType, bool, int, float, str, complex, range, bytes}
 
 def is_duplication_type(value):
-    return type(value) in {NoneType, bool, int, float, str, complex, range, bytes}
+    return type(value) in reduce_reference_types
 
 def my_construct_singular(data):
     node=Node.Node(data)
