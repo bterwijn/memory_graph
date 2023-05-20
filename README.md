@@ -23,13 +23,13 @@ in the format of your choosing. Use `block=False` to turn off
 blocking.
 
 ```
-memory_graph.render( data, "my_graph.png", block=False)
+memory_graph.render( data, "my_graph.png", block=False )
 ```
 
 ## Larger Example ##
 
 This larger example shows objects that share a class (static) variable and
-also shows a recursive reference.
+also shows we can handle recursive references just fine.
 
 ```
 import memory_graph
@@ -102,24 +102,24 @@ Configure the structure of the nodes in the graph with:
 - ***memory_graph.rewrite_to_node.class_variables_label*** : str
   - the label used to reference the class varibles (mappingproxy)
 
-### Config rewrite ###
+### Config node creation, rewrite ###
 
 Configure what nodes are created based on reading the given data structure:
 
 - ***memory_graph.rewrite.singular_types*** : set
-  - all types rewritten to node as singular values (e.g. bool, int, float, ...)
+  - all types rewritten to node as singular values (bool, int, float, ...)
 - ***memory_graph.rewrite.linear_types*** : set
-  - all types rewritten to node as linear values (e.g. tuple, list, set, ...)
+  - all types rewritten to node as linear values (tuple, list, set, ...)
 - ***memory_graph.rewrite.dict_types*** : set
-  - all types rewritten to node as dictionary values (e.g. dict, mappingproxy, ...)
+  - all types rewritten to node as dictionary values (dict, mappingproxy)
 
 ### Config example ###
 
 With configuration:
 ```
-memory_graph.graphviz_nodes.layout_vertical = True                      # draw list/tuple/set/... vertically
-memory_graph.graphviz_nodes.type_category_to_color_map['list']='yellow' # change color of 'list' types
-memory_graph.rewrite_to_node.reduce_reference_types.remove(int)         # draw references to 'int' types
+memory_graph.graphviz_nodes.layout_vertical = True                        # draw list/tuple/set/... vertically
+memory_graph.graphviz_nodes.type_category_to_color_map['list'] = 'yellow' # change color of 'list' types
+memory_graph.rewrite_to_node.reduce_reference_types.remove(int)           # draw references to 'int' types
 ```
 the last example looks like:
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example3.png)
