@@ -63,6 +63,12 @@ Often it is useful to graph all the local variables using:
 memory_graph.show( memory_graph.filter(locals()) )
 ```
 
+Also useful to set as 'watch' during a debug session:
+
+```
+memory_graph.render( memory_graph.filter(locals()), "my_debug_graph.pdf", block=False )
+```
+
 ## Install ##
 
 Install using pip:
