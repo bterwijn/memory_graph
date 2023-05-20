@@ -25,6 +25,20 @@ in the format of your choosing and open it yourself.
 memory_graph.render( data, "my_graph.png", block=True )
 ```
 
+## Graph all Local Variables ##
+
+Often it is useful to graph all the local variables using:
+
+```
+memory_graph.show( memory_graph.filter(locals()) )
+```
+
+Also useful to set as 'watch' in a debugger tool:
+
+```
+memory_graph.render( memory_graph.filter(locals()), "my_debug_graph.pdf" )
+```
+
 ## Larger Example ##
 
 This larger example shows objects that share a class (static) variable and
@@ -50,23 +64,10 @@ data=[my_list, my_list, obj1, obj2]
 
 my_list.append(data) # recursive reference
 
-memory_graph.show( data )
+memory_graph.show( memory_graph.filter(locals()) )
 ```
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example2.png)
 
-## Graph all Local Variables ##
-
-Often it is useful to graph all the local variables using:
-
-```
-memory_graph.show( memory_graph.filter(locals()) )
-```
-
-Also useful to set as 'watch' during a debug session:
-
-```
-memory_graph.render( memory_graph.filter(locals()), "my_debug_graph.pdf" )
-```
 
 ## Install ##
 
@@ -106,9 +107,7 @@ Configure the structure of the nodes in the graph with:
 - ***memory_graph.rewrite_to_node.reduce_reference_types*** : set
   - the types we copy to a node instead of drawing a reference to it
 - ***memory_graph.rewrite_to_node.reduce_references_for_classes*** : bool
-  - determines if we reduce the references (to dict) in objects of classes
-- ***memory_graph.rewrite_to_node.class_variables_label*** : str
-  - the label used to reference the class varibles (mappingproxy)
+  - determines if we reduce the references (to dict) for classes
 
 ### Config Node Creation, rewrite ###
 
@@ -119,7 +118,11 @@ Configure what nodes are created based on reading the given data structure:
 - ***memory_graph.rewrite.linear_types*** : set
   - all types rewritten to node as linear values (tuple, list, set, ...)
 - ***memory_graph.rewrite.dict_types*** : set
-  - all types rewritten to node as dictionary values (dict, mappingproxy)
+  - all types rewritten to node as dictionary values (dict)
+- ***memory_graph.rewrite.mappingproxy_types*** : set
+  - all types rewritten to node as mappingproxy values (mappingproxy)
+- ***memory_graph.rewrite.mappingproxy_ignore_dunder_keys*** : bool
+  - determines if we ignore dunder keys ('__example__') in mappingproxy
 
 ### Config example ###
 

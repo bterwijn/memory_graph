@@ -21,7 +21,7 @@ def get_type_name(node):
     return rewrite.get_name_attribute(node.get_type())
 
 def get_type_category(node):
-    if rewrite.is_class_type(node.get_original_data()):
+    if rewrite.is_type_with_dict(node.get_original_data()):
         return "class"
     return get_type_name(node)
 
@@ -57,7 +57,7 @@ def build_label_key_value(node):
     return f"{{ {keys} }} | {{ {values} }}"
     
 def get_node_label(node):
-    if rewrite.is_dict_type(node.get_original_data()) or rewrite.is_class_type(node.get_original_data()):
+    if rewrite.is_dict_type(node.get_original_data()) or rewrite.is_type_with_dict(node.get_original_data()):
         return build_label_key_value(node)
     return build_label_line(node)
 

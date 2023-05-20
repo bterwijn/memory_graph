@@ -17,4 +17,4 @@ data=[my_list, my_list, obj1, obj2]
 
 my_list.append(data) # recursive reference
 
-memory_graph.render( data ,'example2.png', block=False)
+memory_graph.render( memory_graph.filter(locals()) ,'example2.png', block=False)

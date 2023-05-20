@@ -31,11 +31,7 @@ def filter(dictionary):
     filtered_dict={}
     for key in dictionary:
         value=dictionary[key]
-        if rewrite.is_known_type(key) and rewrite.is_known_type(value):
-            if type(key)==str:
-                if rewrite.is_dunder_name(key):
-                    continue
-                if key in {'memory_graph'}:
-                    continue
-            filtered_dict[key]=value
+        if type(key)==str and not rewrite.is_dunder_name(key) and not key in {'memory_graph'}:                
+            if rewrite.is_known_type(value) or rewrite.is_type_with_dict(value):
+                filtered_dict[key]=value
     return filtered_dict
