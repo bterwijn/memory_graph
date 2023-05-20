@@ -3,7 +3,7 @@ from memory_graph import Node
 from memory_graph import rewrite_to_node
 from memory_graph import graphviz_nodes
 
-__version__ = "0.1.5"
+__version__ = "0.1.6"
 __author__ = 'Bas Terwijn'
 
 def create_graph(data):
@@ -32,6 +32,6 @@ def filter(dictionary):
     for key in dictionary:
         value=dictionary[key]
         if type(key)==str and not rewrite.is_dunder_name(key) and not key in {'memory_graph'}:                
-            if rewrite.is_known_type(value) or rewrite.is_type_with_dict(value):
+            if rewrite.is_known_type(value):
                 filtered_dict[key]=value
     return filtered_dict

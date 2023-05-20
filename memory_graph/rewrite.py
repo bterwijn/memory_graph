@@ -9,7 +9,7 @@ dict_types={dict}
 mappingproxy_types={MappingProxyType}
 mappingproxy_ignore_dunder_keys=True
 
-known_types=singular_types | linear_types | dict_types | mappingproxy_types
+known_types=singular_types | linear_types | dict_types | mappingproxy_types | {type} # add 'type' for classes and class variables
 
 def is_singular_type(value):
     return type(value) in singular_types
@@ -53,7 +53,7 @@ def type_name(value):
     return get_name_attribute(type(value))
 
 def is_dunder_name(name):
-    return name.startswith('__') and name.endswith('__')
+    return name.startswith('__')
 
 def has_dict_attribute(value):
     return hasattr(value,"__dict__")
