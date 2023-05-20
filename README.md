@@ -122,7 +122,7 @@ Configure what nodes are created based on reading the given data structure:
 - ***memory_graph.rewrite.mappingproxy_types*** : set
   - all types rewritten to node as mappingproxy values (mappingproxy)
 - ***memory_graph.rewrite.mappingproxy_ignore_dunder_keys*** : bool
-  - determines if we ignore dunder keys ('__example__') in mappingproxy
+  - determines if we ignore dunder keys ('`__example__`') in mappingproxy
 
 ### Config example ###
 
