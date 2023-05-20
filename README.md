@@ -26,7 +26,7 @@ blocking.
 memory_graph.render( data, "my_graph.png", block=False)
 ```
 
-### Larger Example ###
+## Larger Example ##
 
 This larger example shows objects that share a class (static) variable and
 also shows a recursive reference.
@@ -54,7 +54,13 @@ memory_graph.show( data )
 ```
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example2.png)
 
-### Install ###
+Often it is useful to show all local variables using:
+
+```
+memory_graph.show( memory_graph.filter(locals()) )
+```
+
+## Install ##
 
 Install using pip:
 
@@ -62,8 +68,54 @@ Install using pip:
 pip install memory-graph
 ```
 
-### Author ###
+## Config ##
+
+Different aspects of memory_graph can be configured.
+
+### Config visualization, graphviz_nodes ###
+
+Configure how the nodes of the graph are visualized with:
+
+- ***memory_graph.graphviz_nodes.layout_vertical*** : bool
+  - determines if list/tuple/... are drawn vertically
+- ***memory_graph.graphviz_nodes.type_category_to_color_map*** : dict
+  - a mapping from type to color
+- ***memory_graph.graphviz_nodes.uncategorized_color*** : string
+  - color used for uncategorized types
+
+See for color names: [graphviz colors](https://graphviz.org/doc/info/colors.html)
+
+To configure more about the visualization use:
+```
+digraph = memory_graph.create_graph( memory_graph.filter(locals()) )
+```
+and see the [graphviz api](https://graphviz.readthedocs.io/en/stable/api.html) to render it in many different ways.
+
+### Config node structure, rewrite_to_node ###
+
+Configure the structure of the nodes in the graph with:
+
+- ***memory_graph.rewrite_to_node.reduce_reference_types*** : set
+  - the types we copy to a node instead of drawing a reference to it
+- ***memory_graph.rewrite_to_node.reduce_references_for_classes*** : bool
+  - determines if we reduce the references (to dict) in objects of classes
+- ***memory_graph.rewrite_to_node.class_variables_label*** : str
+  - the label used to reference the class varibles (mappingproxy)
+
+### Config rewrite ###
+
+Configure what nodes are created based on reading the given data structure:
+
+- ***memory_graph.rewrite.singular_types*** : set
+  - all types rewritten to node as singular values (e.g. bool, int, float, ...)
+- ***memory_graph.rewrite.linear_types*** : set
+  - all types rewritten to node as linear values (e.g. tuple, list, set, ...)
+- ***memory_graph.rewrite.dict_types*** : set
+  - all types rewritten to node as dictionary values (e.g. dict, mappingproxy, ...)
+
+
+## Author ##
 Bas Terwijn
 
-### Inspiration ###
+## Inspiration ##
 Inspired by [PythonTutor](https://pythontutor.com/visualize.html).

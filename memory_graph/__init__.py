@@ -6,18 +6,18 @@ from memory_graph import graphviz_nodes
 __version__ = "0.1.1"
 __author__ = 'Bas Terwijn'
 
-def create(data):
+def create_graph(data):
     all_nodes=rewrite_to_node.rewrite_data(data)
     return graphviz_nodes.create_graph(all_nodes)
 
 def show(data,block=True):
-    graph=create(data)
+    graph=create_graph(data)
     graph.view()
     if block:
         input(f"showing '{graph.filename}', press <ENTER> to continue...")
 
 def render(data,output_filename=None,block=True):
-    graph=create(data)
+    graph=create_graph(data)
     if output_filename:
         graph.render(outfile=output_filename)
         if block:
