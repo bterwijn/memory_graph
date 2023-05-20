@@ -9,7 +9,7 @@ Just call `memory_graph.show(your_data)`, an example:
 import memory_graph
 
 data = [ (1, 2), [3, 4], {5:'five', 6:'six'} ]
-memory_graph.show( data )
+memory_graph.show( data, block=True )
 ```
 
 This shows the graph with the starting point of your 'data' drawn
@@ -19,11 +19,10 @@ using thick lines, the program blocks until the ENTER key is pressed.
 
 If `show()` doesn't work well on your system (the PDF viewer
 integration is platform specific) use `render()` to output the graph
-in the format of your choosing. Use `block=False` to turn off
-blocking.
+in the format of your choosing and open it yourself.
 
 ```
-memory_graph.render( data, "my_graph.png", block=False )
+memory_graph.render( data, "my_graph.png", block=True )
 ```
 
 ## Larger Example ##
@@ -66,7 +65,7 @@ memory_graph.show( memory_graph.filter(locals()) )
 Also useful to set as 'watch' during a debug session:
 
 ```
-memory_graph.render( memory_graph.filter(locals()), "my_debug_graph.pdf", block=False )
+memory_graph.render( memory_graph.filter(locals()), "my_debug_graph.pdf" )
 ```
 
 ## Install ##

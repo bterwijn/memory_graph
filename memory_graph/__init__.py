@@ -10,13 +10,13 @@ def create_graph(data):
     all_nodes=rewrite_to_node.rewrite_data(data)
     return graphviz_nodes.create_graph(all_nodes)
 
-def show(data,block=True):
+def show(data,block=False):
     graph=create_graph(data)
     graph.view()
     if block:
         input(f"showing '{graph.filename}', press <ENTER> to continue...")
 
-def render(data,output_filename=None,block=True):
+def render(data,output_filename=None,block=False):
     graph=create_graph(data)
     if output_filename:
         graph.render(outfile=output_filename)
