@@ -34,14 +34,15 @@ also shows we can handle recursive references just fine.
 ```
 import memory_graph
 
-my_list = [10, 20, 30]
+my_list = [10, 20, 10]
 
 class My_Class:
-    my_class_var = 1000 # class variable: shared by different objects
+    my_class_var = 20 # class variable: shared by different objects
     
     def __init__(self):
         self.var1 = "foo"
         self.var2 = "bar"
+        self.var3 = 20
 
 obj1 = My_Class()
 obj2 = My_Class()
@@ -54,7 +55,9 @@ memory_graph.show( data )
 ```
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example2.png)
 
-Often it is useful to show all local variables using:
+## Graph all Local Variables ##
+
+Often it is useful to graph all the local variables using:
 
 ```
 memory_graph.show( memory_graph.filter(locals()) )
@@ -72,7 +75,7 @@ pip install memory-graph
 
 Different aspects of memory_graph can be configured.
 
-### Config visualization, graphviz_nodes ###
+### Config Visualization, graphviz_nodes ###
 
 Configure how the nodes of the graph are visualized with:
 
@@ -91,7 +94,7 @@ digraph = memory_graph.create_graph( memory_graph.filter(locals()) )
 ```
 and see the [graphviz api](https://graphviz.readthedocs.io/en/stable/api.html) to render it in many different ways.
 
-### Config node structure, rewrite_to_node ###
+### Config Node Structure, rewrite_to_node ###
 
 Configure the structure of the nodes in the graph with:
 
@@ -102,7 +105,7 @@ Configure the structure of the nodes in the graph with:
 - ***memory_graph.rewrite_to_node.class_variables_label*** : str
   - the label used to reference the class varibles (mappingproxy)
 
-### Config node creation, rewrite ###
+### Config Node Creation, rewrite ###
 
 Configure what nodes are created based on reading the given data structure:
 
@@ -117,7 +120,7 @@ Configure what nodes are created based on reading the given data structure:
 
 With configuration:
 ```
-memory_graph.graphviz_nodes.layout_vertical = True                        # draw list/tuple/set/... vertically
+memory_graph.graphviz_nodes.layout_vertical = False                       # draw lists,tuples,sets,... horizontally
 memory_graph.graphviz_nodes.type_category_to_color_map['list'] = 'yellow' # change color of 'list' types
 memory_graph.rewrite_to_node.reduce_reference_types.remove(int)           # draw references to 'int' types
 ```

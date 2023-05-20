@@ -5,10 +5,10 @@ import graphviz
 from memory_graph import Node
 from memory_graph import rewrite
 
-layout_vertical=False
+layout_vertical=True
 type_category_to_color_map={
     "NoneType":"gray", "type":"lime", "bool":"pink", "int":"green", "float":"yellow", "str":"cyan", # fundamental types
-    "tuple":"orange", "list":"brown1", "set":"darkolivegreen1", "frozenset":"darkolivegreen3", "dict":"blue", "mappingproxy":"blue3", "class":"purple" # containers
+    "tuple":"orange", "list":"brown1", "set":"darkolivegreen1", "frozenset":"darkolivegreen3", "dict":"royalblue1", "mappingproxy":"royalblue3", "class":"orchid" # containers
 }
 uncategorized_color="red"
 
