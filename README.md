@@ -107,7 +107,7 @@ Configure the structure of the nodes in the graph with:
 - ***memory_graph.rewrite_to_node.reduce_reference_types*** : set
   - the types we copy to a node instead of drawing a reference to it
 - ***memory_graph.rewrite_to_node.reduce_references_for_classes*** : bool
-  - determines if we reduce the references (to dict) for classes
+  - determines if we reduce the references (to dict/mappingproxy) for classes
 
 ### Config Node Creation, rewrite ###
 
@@ -129,8 +129,8 @@ Configure what nodes are created based on reading the given data structure:
 With configuration:
 ```
 memory_graph.graphviz_nodes.layout_vertical = False                       # draw lists,tuples,sets,... horizontally
-memory_graph.graphviz_nodes.type_category_to_color_map['list'] = 'yellow' # change color of 'list' types
-memory_graph.rewrite_to_node.reduce_reference_types.remove(int)           # draw references to 'int' types
+memory_graph.graphviz_nodes.type_category_to_color_map['list'] = 'yellow' # change color of 'list' type
+memory_graph.rewrite_to_node.reduce_reference_types.remove(int)           # draw references to 'int' type
 ```
 
 the last example looks like:
