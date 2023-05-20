@@ -5,15 +5,17 @@ import graphviz
 from memory_graph import Node
 from memory_graph import rewrite
 
+layout_vertical=False
 type_category_to_color_map={
     "NoneType":"gray", "type":"lime", "bool":"pink", "int":"green", "float":"yellow", "str":"cyan", # fundamental types
     "tuple":"orange", "list":"brown1", "set":"darkolivegreen1", "frozenset":"darkolivegreen3", "dict":"blue", "mappingproxy":"blue3", "class":"purple" # containers
 }
+uncategorized_color="red"
 
 def type_category_to_color(type_catergory):
     if type_catergory in type_category_to_color_map:
         return type_category_to_color_map[type_catergory]
-    return "red"
+    return uncategorized_color
 
 def get_type_name(node):
     return rewrite.get_name_attribute(node.get_type())
@@ -44,7 +46,10 @@ def get_element_label(element):
     return add_escape_chars(str(value))
 
 def build_label_line(node):
-    return " | ".join( (f"<f{index}> "+ get_element_label(element) for index,element in enumerate(node.get_elements())) )
+    label=" | ".join( (f"<f{index}> "+ get_element_label(element) for index,element in enumerate(node.get_elements())) )
+    if layout_vertical:
+        return "{ "+label+" }"
+    return label
 
 def build_label_key_value(node):
     keys=   " | ".join( (f"<f{index}> "+ get_element_label(element) for index,element in enumerate(node.get_elements()) if index%2==0) ) 
