@@ -4,8 +4,9 @@ from types import MappingProxyType
 from memory_graph import rewrite
 from memory_graph import Node
 
-reduce_references=True
-reduce_reference_types={NoneType, bool, int, float, str, complex, range, bytes}
+reduce_reference_types={NoneType, bool, int, float, complex, str, range, bytes}
+reduce_references_for_classes=True
+class_variables_label="class vars:"
 
 def is_duplication_type(value):
     return type(value) in reduce_reference_types
@@ -19,19 +20,16 @@ def my_construct_iterable(data):
     return Node.Node(data)
     
 def my_add_to_iterable(iterable,data):
-    if not reduce_references:
-        iterable.add_element(data.get_ref())
-    else:
-        if is_duplication_type(data.get_original_data()):
-            iterable.add_elements(data.get_elements())
-        elif rewrite.is_class_type(iterable.get_original_data()):
-            if type(data.get_original_data()) is MappingProxyType:
-                iterable.add_element(Node.Element(value="class vars:"))
-                iterable.add_element(data.get_ref())
-            else:
-                iterable.add_elements(data.get_elements())
-        else:
+    if is_duplication_type(data.get_original_data()):
+        iterable.add_elements(data.get_elements())
+    elif reduce_references_for_classes and rewrite.is_class_type(iterable.get_original_data()):
+        if type(data.get_original_data()) is MappingProxyType:
+            iterable.add_element(Node.Element(value=class_variables_label))
             iterable.add_element(data.get_ref())
+        else:
+            iterable.add_elements(data.get_elements())
+    else:
+        iterable.add_element(data.get_ref())
 
 rewrite.construct_singular_fun=my_construct_singular
 rewrite.construct_iterable_fun=my_construct_iterable
@@ -41,5 +39,4 @@ def rewrite_data(data):
     Node.all_nodes=[]
     Node.Node.index=0
     rewrite.rewrite_data(data)
-    #Node.print_all_nodes(Node.all_nodes)
     return Node.all_nodes

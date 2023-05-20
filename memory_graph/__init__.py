@@ -1,10 +1,14 @@
 from memory_graph import rewrite
 from memory_graph import Node
 from memory_graph import rewrite_to_node
-from memory_graph import grapviz_nodes
+from memory_graph import graphviz_nodes
 
 __version__ = "0.1.1"
 __author__ = 'Bas Terwijn'
+
+def create(data):
+    all_nodes=rewrite_to_node.rewrite_data(data)
+    return graphviz_nodes.create_graph(all_nodes)
 
 def show(data,block=True):
     graph=create(data)
@@ -22,10 +26,6 @@ def render(data,output_filename=None,block=True):
         graph.render()
         if block:
             input(f"rendering '{graph.filename}', press <ENTER> to continue...")
-
-def create(data):
-    all_nodes=rewrite_to_node.rewrite_data(data)
-    return grapviz_nodes.create_graph(all_nodes)
 
 def filter(dictionary):
     filtered_dict={}

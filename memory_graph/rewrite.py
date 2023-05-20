@@ -1,24 +1,9 @@
 from types import NoneType
 from types import MappingProxyType
 
-def has_dict_attribute(value):
-    return hasattr(value,"__dict__")
-
-def get_dict_attribute(value):
-    return getattr(value,"__dict__")
-
-def has_class_attribute(value):
-    return hasattr(value,"__class__")
-
-def get_class_attribute(value):
-    return getattr(value,"__class__")
-
-def get_name_attribute(value):
-    return getattr(value,"__name__")
-
 # the types of the values we rewrite
 
-singular_types={NoneType, bool, int, float, complex, str, type}
+singular_types={NoneType, bool, int, float, complex, str, range, bytes, type}
 linear_types={tuple, list, set, frozenset, bytearray}
 dict_types={dict, MappingProxyType}
 known_types=singular_types | linear_types | dict_types
@@ -61,6 +46,23 @@ def add_to_iterable(iterable,data): # default implementation appends to list
 construct_singular_fun=construct_singular
 construct_iterable_fun=construct_iterable
 add_to_iterable_fun=add_to_iterable
+
+# just some helper functions
+
+def has_dict_attribute(value):
+    return hasattr(value,"__dict__")
+
+def get_dict_attribute(value):
+    return getattr(value,"__dict__")
+
+def has_class_attribute(value):
+    return hasattr(value,"__class__")
+
+def get_class_attribute(value):
+    return getattr(value,"__class__")
+
+def get_name_attribute(value):
+    return getattr(value,"__name__")
 
 # functions that traverse all the data recursively and call the rewrite functions
 
