@@ -124,7 +124,9 @@ memory_graph.graphviz_nodes.layout_vertical = False                       # draw
 memory_graph.graphviz_nodes.type_category_to_color_map['list'] = 'yellow' # change color of 'list' types
 memory_graph.rewrite_to_node.reduce_reference_types.remove(int)           # draw references to 'int' types
 ```
+
 the last example looks like:
+
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example3.png)
 
 
