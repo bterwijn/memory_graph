@@ -35,26 +35,37 @@ def add_escape_chars(label):
                                          "{":  r"\{",
                                          "}":  r"\}",
                                          }))
-    if len(label)>0 and label[-1]=='>': # workaround, weird problem if label ends with '>'
-        label+=" "
+    #if len(label)>0 and label[-1]=='>': # workaround, weird problem if label ends with '>'  # TODO
+    #    label+=" "
     return label
 
 def get_element_label(element):
     value=element.get_value()
     if value is None:
         return ""
-    return add_escape_chars(str(value))
+    return str(value)
+    #return add_escape_chars(str(value)) # TODO vertical
 
 def build_label_line(node):
-    label=" | ".join( (f"<f{index}> "+ get_element_label(element) for index,element in enumerate(node.get_elements())) )
+    color=type_category_to_color(get_type_category(node))
     if layout_vertical:
-        return "{ "+label+" }"
-    return label
+        label="".join( (f'<TR><TD PORT="f{index}">{get_element_label(element)}</TD></TR>' for index,element in enumerate(node.get_elements())) )
+    else:
+        label="<TR>"+ "".join( (f'<TD PORT="f{index}">{get_element_label(element)}</TD>' for index,element in enumerate(node.get_elements())) ) +"</TR>"
+    return f'<<TABLE CELLSPACING="2" CELLPADDING="2" BGCOLOR="{color}">{label}</TABLE>>'
 
 def build_label_key_value(node):
-    keys=   " | ".join( (f"<f{index}> "+ get_element_label(element) for index,element in enumerate(node.get_elements()) if index%2==0) ) 
-    values= " | ".join( (f"<f{index}> "+ get_element_label(element) for index,element in enumerate(node.get_elements()) if index%2==1) ) 
-    return f"{{ {keys} }} | {{ {values} }}"
+    color=type_category_to_color(get_type_category(node))
+    label=""
+    iterator=iter(enumerate(node.get_elements()))
+    while True:
+        try:
+            ki,k=next(iterator)
+            vi,v=next(iterator)
+            label+=f'<TR><TD PORT="f{ki}">{get_element_label(k)}</TD><TD PORT="f{vi}">{get_element_label(v)}</TD></TR>'
+        except StopIteration:
+            break
+    return f'<<TABLE CELLSPACING="2" CELLPADDING="2" BGCOLOR="{color}">{label}</TABLE>>'
     
 def get_node_label(node):
     if rewrite.is_dict_type(node.get_original_data()) or rewrite.is_type_with_dict(node.get_original_data()):
@@ -71,10 +82,8 @@ def create_node(node,all_nodes,graph):
     node_label=get_node_label(node)
     type_name=get_type_name(node)
     color=type_category_to_color(get_type_category(node))
-    if node.get_index()==0:
-        graph.node(name, node_label, xlabel=type_name, style="filled", fillcolor=color, penwidth="3")
-    else:
-        graph.node(name, node_label, xlabel=type_name, style="filled", fillcolor=color)
+    #if node.get_index()==0:
+    graph.node(name, node_label, xlabel=type_name) # TODO penwidth="3"
     for node_src,node_dst in get_refs(node,all_nodes):
         graph.edge(node_src, node_dst)
     
@@ -89,6 +98,6 @@ def create_graph_recursive(all_nodes,node_index,memo,graph):
                 create_graph_recursive(all_nodes,ref,memo,graph)
 
 def create_graph(all_nodes):
-    graph=graphviz.Digraph('memory_graph', node_attr={'shape': 'record'})
+    graph=graphviz.Digraph('memory_graph', node_attr={'shape':'plaintext'})
     create_graph_recursive(all_nodes,0,set(),graph)
     return graph
