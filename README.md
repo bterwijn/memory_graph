@@ -113,9 +113,21 @@ Configure what nodes are created based on reading the given data structure:
 - ***memory_graph.rewrite.dict_types*** : set
   - all types rewritten to node as dictionary values (e.g. dict, mappingproxy, ...)
 
+### Config example ###
+
+With configuration:
+```
+memory_graph.graphviz_nodes.layout_vertical = True                      # draw list/tuple/set/... vertically
+memory_graph.graphviz_nodes.type_category_to_color_map['list']='yellow' # change color of 'list' types
+memory_graph.rewrite_to_node.reduce_reference_types.remove(int)         # draw references to 'int' types
+```
+the last example looks like:
+![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example3.png)
+
 
 ## Author ##
 Bas Terwijn
+
 
 ## Inspiration ##
 Inspired by [PythonTutor](https://pythontutor.com/visualize.html).
