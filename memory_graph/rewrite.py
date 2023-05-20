@@ -3,7 +3,7 @@ from types import MappingProxyType
 
 # the types of the values we rewrite
 
-singular_types={NoneType, bool, int, float, complex, str, range, bytes} # not 'type' to prevent issues with reading class methods
+singular_types={NoneType, bool, int, float, complex, str, range, bytes}
 linear_types={tuple, list, set, frozenset, bytearray}
 dict_types={dict}
 mappingproxy_types={MappingProxyType}
