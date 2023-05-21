@@ -42,17 +42,17 @@ def add_escape_chars(label):
 def get_element_label(element):
     value=element.get_value()
     if value is None:
-        return ""
+        return "&nbsp;"
     return str(value)
     #return add_escape_chars(str(value)) # TODO vertical
 
 def build_label_line(node):
     color=type_category_to_color(get_type_category(node))
     if layout_vertical:
-        label="".join( (f'<TR><TD PORT="f{index}">{get_element_label(element)}</TD></TR>' for index,element in enumerate(node.get_elements())) )
+        label="".join( (f'<TR><TD PORT="f{index}"> {get_element_label(element)} </TD></TR>' for index,element in enumerate(node.get_elements())) )
     else:
         label="<TR>"+ "".join( (f'<TD PORT="f{index}">{get_element_label(element)}</TD>' for index,element in enumerate(node.get_elements())) ) +"</TR>"
-    return f'<<TABLE CELLSPACING="2" CELLPADDING="2" BGCOLOR="{color}">{label}</TABLE>>'
+    return f'<<TABLE BORDER="0"><TR><TD PORT="X"> <TABLE CELLSPACING="2" CELLPADDING="2" BGCOLOR="{color}">{label}</TABLE> </TD></TR></TABLE>>'
 
 def build_label_key_value(node):
     color=type_category_to_color(get_type_category(node))
@@ -62,10 +62,10 @@ def build_label_key_value(node):
         try:
             ki,k=next(iterator)
             vi,v=next(iterator)
-            label+=f'<TR><TD PORT="f{ki}">{get_element_label(k)}</TD><TD PORT="f{vi}">{get_element_label(v)}</TD></TR>'
+            label+=f'<TR><TD PORT="f{ki}"> {get_element_label(k)} </TD><TD PORT="f{vi}"> {get_element_label(v)} </TD></TR>'
         except StopIteration:
             break
-    return f'<<TABLE CELLSPACING="2" CELLPADDING="2" BGCOLOR="{color}">{label}</TABLE>>'
+    return f'<<TABLE BORDER="0"><TR><TD PORT="X"><TABLE CELLSPACING="2" CELLPADDING="2" BGCOLOR="{color}">{label}</TABLE></TD></TR></TABLE>>'
     
 def get_node_label(node):
     if rewrite.is_dict_type(node.get_original_data()) or rewrite.is_type_with_dict(node.get_original_data()):
@@ -73,7 +73,7 @@ def get_node_label(node):
     return build_label_line(node)
 
 def get_refs(node,all_nodes):
-    return ((f"{get_node_name(node)}:f{index}",f"{get_node_name(all_nodes[element.get_ref()])}")
+    return ((f"{get_node_name(node)}:f{index}",f"{get_node_name(all_nodes[element.get_ref()])}:X")
             for index,element in enumerate(node.get_elements())
             if not element.get_ref() is None)
 
@@ -83,7 +83,7 @@ def create_node(node,all_nodes,graph):
     type_name=get_type_name(node)
     color=type_category_to_color(get_type_category(node))
     #if node.get_index()==0:
-    graph.node(name, node_label, xlabel=type_name) # TODO penwidth="3"
+    graph.node(name, node_label, xlabel=type_name) # TODO penwidth="3" 
     for node_src,node_dst in get_refs(node,all_nodes):
         graph.edge(node_src, node_dst)
     
