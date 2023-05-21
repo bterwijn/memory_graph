@@ -14,6 +14,9 @@ uncategorized_color="red"
 padding=0
 spacing=3
 
+
+taken_children=set()
+
 def type_category_to_color(type_catergory):
     if type_catergory in type_category_to_color_map:
         return type_category_to_color_map[type_catergory]
@@ -89,25 +92,31 @@ def create_node(node,all_nodes,graph):
     type_name=get_type_name(node)
     color=type_category_to_color(get_type_category(node))
     graph.node(name, node_label, xlabel=type_name)
+    my_children=[]
     for node_src,node_dst in get_refs(node,all_nodes):
-        graph.edge(node_src, node_dst, weight='0')
-    if rewrite.is_linear_type(node.get_original_data()):
-        children=[node_dst for node_src,node_dst in get_refs(node,all_nodes) ]
-        if len(children)>1:        
-            lineup=" -> ".join( children )
-            graph.body.append("{ rank=same  "+lineup+"  [weight=10,style=invis]; }\n") # dotted / invis
+        if node_dst in taken_children:
+            graph.edge(node_src, node_dst, weight='0')
+        else:
+            graph.edge(node_src, node_dst)
+            taken_children.add(node_dst)
+            my_children.append(node_dst)
+    if len(my_children)>1:
+        lineup=" -> ".join(my_children)
+        graph.body.append("{ rank=same  "+lineup+"  [weight=99,style=invis]; }\n")
     
 def create_graph_recursive(all_nodes,node_index,memo,graph):
     if not node_index in memo:
         memo.add(node_index)
         node=all_nodes[node_index]
-        create_node(node,all_nodes,graph)
         for e in node.get_elements():
             ref=e.get_ref()
             if ref:
                 create_graph_recursive(all_nodes,ref,memo,graph)
+        create_node(node,all_nodes,graph) # create while backtracking recursion 
 
 def create_graph(all_nodes):
-    graph=graphviz.Digraph('memory_graph', node_attr={'shape':'plaintext'})
+    global taken_children
+    taken_children=set()
+    graph=graphviz.Digraph('memory_graph', graph_attr={'concentrate':'true'}, node_attr={'shape':'none', 'margin':'0'})
     create_graph_recursive(all_nodes,0,set(),graph)
     return graph
