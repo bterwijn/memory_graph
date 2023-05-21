@@ -91,6 +91,10 @@ Configure how the nodes of the graph are visualized with:
   - a mapping from type to color
 - ***memory_graph.graphviz_nodes.uncategorized_color*** : string
   - color used for uncategorized types
+- ***memory_graph.graphviz_nodes.padding*** : int
+  - amount of padding for node cells
+- ***memory_graph.graphviz_nodes.spacing*** : int
+  - amount of spacing for node cells
 
 See for color names: [graphviz colors](https://graphviz.org/doc/info/colors.html)
 

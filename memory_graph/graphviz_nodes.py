@@ -12,7 +12,7 @@ type_category_to_color_map={
 }
 uncategorized_color="red"
 padding=0
-spacing=3
+spacing=5
 
 
 taken_children=set()
@@ -45,7 +45,7 @@ def add_escape_chars(label):
 def get_element_label(element):
     value=element.get_value()
     if value is None:
-        return "&nbsp;"
+        return "&nbsp;&nbsp;"
     return add_escape_chars(str(value))
 
 def build_label_line(node,border=1):
@@ -57,7 +57,7 @@ def build_label_line(node,border=1):
             cells="<TR>"+ "".join( (f'<TD PORT="f{index}">{get_element_label(element)}</TD>' for index,element in enumerate(node.get_elements())) ) +"</TR>"
         table=f'<TABLE BORDER="{border}" CELLSPACING="{spacing}" CELLPADDING="{padding}">{cells}</TABLE>'
         return f'<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="{color}"><TR><TD PORT="X"> {table} </TD></TR></TABLE>>'
-    return f'<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="0" BGCOLOR="{color}"><TR><TD PORT="X"> &nbsp; </TD></TR></TABLE>>'
+    return f'<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="0" BGCOLOR="{color}"><TR><TD PORT="X"> &nbsp;&nbsp; </TD></TR></TABLE>>'
     
 def build_label_key_value(node,border=1):
     color=type_category_to_color(get_type_category(node))
@@ -73,7 +73,7 @@ def build_label_key_value(node,border=1):
                 break
             table=f'<TABLE BORDER="{border}" CELLSPACING="{spacing}" CELLPADDING="{padding}" BGCOLOR="{color}">{cells}</TABLE>'
         return f'<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0"><TR><TD PORT="X"> {table} </TD></TR></TABLE>>'
-    return f'<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="0" BGCOLOR="{color}"><TR><TD PORT="X"> &nbsp; </TD></TR></TABLE>>'
+    return f'<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="0" BGCOLOR="{color}"><TR><TD PORT="X"> &nbsp;&nbsp; </TD></TR></TABLE>>'
     
 def get_node_label(node,border=1):
     if rewrite.is_dict_type(node.get_original_data()) or rewrite.is_type_with_dict(node.get_original_data()):
