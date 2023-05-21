@@ -146,8 +146,8 @@ the last example looks like:
 
 When edges overlap it can be hard to distinguish them. Using an
 interactive graphviz viewer, such as
-![xdot](https://github.com/jrfonseca/xdot.py), on a '*.gv' output
-file will help.
+[xdot](https://github.com/jrfonseca/xdot.py), on a '*.gv' output file
+will help.
 
 
 ## Author ##
