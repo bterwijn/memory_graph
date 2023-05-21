@@ -11,6 +11,8 @@ type_category_to_color_map={
     "tuple":"orange", "list":"brown1", "set":"darkolivegreen1", "frozenset":"darkolivegreen3", "dict":"royalblue1", "mappingproxy":"royalblue3", "class":"orchid" # containers
 }
 uncategorized_color="red"
+padding=3
+spacing=3
 
 def type_category_to_color(type_catergory):
     if type_catergory in type_category_to_color_map:
@@ -48,24 +50,30 @@ def get_element_label(element):
 
 def build_label_line(node):
     color=type_category_to_color(get_type_category(node))
-    if layout_vertical:
-        label="".join( (f'<TR><TD PORT="f{index}"> {get_element_label(element)} </TD></TR>' for index,element in enumerate(node.get_elements())) )
-    else:
-        label="<TR>"+ "".join( (f'<TD PORT="f{index}">{get_element_label(element)}</TD>' for index,element in enumerate(node.get_elements())) ) +"</TR>"
-    return f'<<TABLE BORDER="0"><TR><TD PORT="X"> <TABLE CELLSPACING="2" CELLPADDING="2" BGCOLOR="{color}">{label}</TABLE> </TD></TR></TABLE>>'
-
+    if len(node.get_elements())>0:
+        if layout_vertical:
+            cells="".join( (f'<TR><TD PORT="f{index}"> {get_element_label(element)} </TD></TR>' for index,element in enumerate(node.get_elements())) )
+        else:
+            cells="<TR>"+ "".join( (f'<TD PORT="f{index}">{get_element_label(element)}</TD>' for index,element in enumerate(node.get_elements())) ) +"</TR>"
+        table=f'<TABLE CELLSPACING="{spacing}" CELLPADDING="{padding}">{cells}</TABLE>'
+        return f'<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="{color}"><TR><TD PORT="X"> {table} </TD></TR></TABLE>>'
+    return f'<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="0" BGCOLOR="{color}"><TR><TD PORT="X"> &nbsp; </TD></TR></TABLE>>'
+    
 def build_label_key_value(node):
     color=type_category_to_color(get_type_category(node))
-    label=""
-    iterator=iter(enumerate(node.get_elements()))
-    while True:
-        try:
-            ki,k=next(iterator)
-            vi,v=next(iterator)
-            label+=f'<TR><TD PORT="f{ki}"> {get_element_label(k)} </TD><TD PORT="f{vi}"> {get_element_label(v)} </TD></TR>'
-        except StopIteration:
-            break
-    return f'<<TABLE BORDER="0"><TR><TD PORT="X"><TABLE CELLSPACING="2" CELLPADDING="2" BGCOLOR="{color}">{label}</TABLE></TD></TR></TABLE>>'
+    if len(node.get_elements())>0:
+        iterator=iter(enumerate(node.get_elements()))
+        cells=""
+        while True:
+            try:
+                ki,k=next(iterator)
+                vi,v=next(iterator)
+                cells+=f'<TR><TD PORT="f{ki}"> {get_element_label(k)} </TD><TD PORT="f{vi}"> {get_element_label(v)} </TD></TR>'
+            except StopIteration:
+                break
+            table=f'<TABLE CELLSPACING="{spacing}" CELLPADDING="{padding}" BGCOLOR="{color}">{cells}</TABLE>'
+        return f'<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0"><TR><TD PORT="X"> {table} </TD></TR></TABLE>>'
+    return f'<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="0" BGCOLOR="{color}"><TR><TD PORT="X"> &nbsp; </TD></TR></TABLE>>'
     
 def get_node_label(node):
     if rewrite.is_dict_type(node.get_original_data()) or rewrite.is_type_with_dict(node.get_original_data()):
