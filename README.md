@@ -64,7 +64,7 @@ data=[my_list, my_list, obj1, obj2]
 
 my_list.append(data) # recursive reference
 
-memory_graph.show( memory_graph.filter(locals()) )
+memory_graph.show( locals() )
 ```
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example2.png)
 
@@ -100,7 +100,7 @@ See for color names: [graphviz colors](https://graphviz.org/doc/info/colors.html
 
 To configure more about the visualization use:
 ```
-digraph = memory_graph.create_graph( memory_graph.filter(locals()) )
+digraph = memory_graph.create_graph( locals() )
 ```
 and see the [graphviz api](https://graphviz.readthedocs.io/en/stable/api.html) to render it in many different ways.
 
