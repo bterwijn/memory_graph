@@ -99,7 +99,7 @@ def rewrite_dict(dictionary):
     new_iterable,is_just_constructed=remember_or_construct_iterable(dictionary)
     if is_just_constructed:
         for key in dictionary:
-            if not type(key) or not is_dunder_name(key):
+            if not type(key) is str or not is_dunder_name(key):
                 if not is_ignore_type(key):
                     value=dictionary[key]
                     if not is_ignore_type(value):
@@ -115,7 +115,7 @@ def rewrite_object_with_dict(obj):
 
 def rewrite(data):
     if is_ignore_type(data):
-        rewrite_singular("ignore_type")
+        return rewrite_singular("ignore_type")
     elif type(data) is types.NoneType:
         return rewrite_singular("None") # special case, make a string because value 'None' is later used for not-specified in this software
     elif is_singular_type(data):
