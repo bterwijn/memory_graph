@@ -1,12 +1,12 @@
-from types import NoneType
-from types import MappingProxyType
+import types
 
 # the types of the values we rewrite
 
-singular_types={NoneType, bool, int, float, complex, str, range, bytes}
+singular_types={types.NoneType, bool, int, float, complex, str, range, bytes}
 linear_types={tuple, list, set, frozenset, bytearray}
 dict_types={dict}
-mappingproxy_types={MappingProxyType}
+filter_types={types.FunctionType,types.ModuleType}
+mappingproxy_types={types.MappingProxyType}
 mappingproxy_ignore_dunder_keys=True
 
 known_types=singular_types | linear_types | dict_types | mappingproxy_types | {type} # add 'type' for classes and class variables
@@ -31,6 +31,9 @@ def is_type_with_dict(value):
 
 def is_iterable_type(value):
     return is_linear_type(value) or is_dict_type(value) or is_type_with_dict(value)
+
+def is_filter_type(value):
+    return type(value) in filter_types
 
 # functions that we rewrite the values with
     
@@ -120,7 +123,7 @@ def rewrite_object_with_dict(obj):
     return new_iterable
 
 def rewrite(data):
-    if type(data) is NoneType:
+    if type(data) is types.NoneType:
         return rewrite_singular("None") # special case, make a string because value 'None' is used for not-specified in software
     elif is_singular_type(data):
         return rewrite_singular(data)
