@@ -8,11 +8,12 @@ from memory_graph import rewrite
 layout_vertical=True
 type_category_to_color_map={
     "NoneType":"gray", "type":"lime", "bool":"pink", "int":"green", "float":"yellow", "str":"cyan", # fundamental types
-    "tuple":"orange", "list":"brown1", "set":"darkolivegreen1", "frozenset":"darkolivegreen3", "dict":"royalblue1", "mappingproxy":"royalblue3", "class":"orchid" # containers
+    "tuple":"orange", "list":"lightcoral", "set":"darkolivegreen1", "frozenset":"darkolivegreen3", "dict":"royalblue1", "mappingproxy":"royalblue3", "class":"orchid" # containers
 }
 uncategorized_color="red"
 padding=0
 spacing=5
+empty_label="&nbsp;&nbsp;"
 
 
 taken_children=set()
@@ -33,20 +34,20 @@ def get_type_category(node):
 def get_node_name(node):
     return "node"+str(node.get_index())
 
-def add_escape_chars(label):
-    label=label.translate(str.maketrans({"<":  r"\<",
-                                         ">":  r"\>",
-                                         "|":  r"\|",
-                                         "{":  r"\{",
-                                         "}":  r"\}",
-                                         })) # TODO
+def avoid_html_injection(label):
+    label=label.translate(str.maketrans({"<" : r"&lt;",
+                                         ">" : r"&gt;",
+                                         "&" : r"&amp;",
+                                         "\"": r"&quot;",
+                                         "\'": r"&apos;",
+                                         }))
     return label
 
 def get_element_label(element):
     value=element.get_value()
     if value is None:
-        return "&nbsp;&nbsp;"
-    return add_escape_chars(str(value))
+        return empty_label
+    return avoid_html_injection(str(value))
 
 def build_label_line(node,border=1):
     color=type_category_to_color(get_type_category(node))
@@ -54,10 +55,10 @@ def build_label_line(node,border=1):
         if layout_vertical:
             cells="".join( (f'<TR><TD PORT="f{index}"> {get_element_label(element)} </TD></TR>' for index,element in enumerate(node.get_elements())) )
         else:
-            cells="<TR>"+ "".join( (f'<TD PORT="f{index}">{get_element_label(element)}</TD>' for index,element in enumerate(node.get_elements())) ) +"</TR>"
+            cells="<TR>"+ "".join( (f'<TD PORT="f{index}"> {get_element_label(element)} </TD>' for index,element in enumerate(node.get_elements())) ) +"</TR>"
         table=f'<TABLE BORDER="{border}" CELLSPACING="{spacing}" CELLPADDING="{padding}">{cells}</TABLE>'
         return f'<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="{color}"><TR><TD PORT="X"> {table} </TD></TR></TABLE>>'
-    return f'<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="0" BGCOLOR="{color}"><TR><TD PORT="X"> &nbsp;&nbsp; </TD></TR></TABLE>>'
+    return f'<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="0" BGCOLOR="{color}"><TR><TD PORT="X"> {empty_label} </TD></TR></TABLE>>'
     
 def build_label_key_value(node,border=1):
     color=type_category_to_color(get_type_category(node))
@@ -73,7 +74,7 @@ def build_label_key_value(node,border=1):
                 break
             table=f'<TABLE BORDER="{border}" CELLSPACING="{spacing}" CELLPADDING="{padding}" BGCOLOR="{color}">{cells}</TABLE>'
         return f'<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0"><TR><TD PORT="X"> {table} </TD></TR></TABLE>>'
-    return f'<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="0" BGCOLOR="{color}"><TR><TD PORT="X"> &nbsp;&nbsp; </TD></TR></TABLE>>'
+    return f'<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="0" BGCOLOR="{color}"><TR><TD PORT="X"> {empty_label} </TD></TR></TABLE>>'
     
 def get_node_label(node,border=1):
     if rewrite.is_dict_type(node.get_original_data()) or rewrite.is_type_with_dict(node.get_original_data()):
