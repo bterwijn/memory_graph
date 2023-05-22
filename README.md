@@ -30,13 +30,13 @@ memory_graph.render( data, "my_graph.png", block=True )
 Often it is useful to graph all the local variables using:
 
 ```
-memory_graph.show( memory_graph.filter(locals()) )
+memory_graph.show( locals(), block=True )
 ```
 
 Also useful to set as 'watch' in a debugger tool:
 
 ```
-memory_graph.render( memory_graph.filter(locals()), "my_debug_graph.pdf" )
+memory_graph.render( locals(), "my_debug_graph.pdf" )
 ```
 
 ## Larger Example ##
@@ -104,29 +104,29 @@ digraph = memory_graph.create_graph( memory_graph.filter(locals()) )
 ```
 and see the [graphviz api](https://graphviz.readthedocs.io/en/stable/api.html) to render it in many different ways.
 
-### Config Node Structure, rewrite_to_node ###
+### Config Graph Structure, rewrite_to_node ###
 
 Configure the structure of the nodes in the graph with:
 
 - ***memory_graph.rewrite_to_node.reduce_reference_types*** : set
-  - the types we copy to a node instead of drawing a reference to it
+  - the types we add to a node instead of drawing a reference to it
 - ***memory_graph.rewrite_to_node.reduce_references_for_classes*** : bool
-  - determines if we reduce the references (to dict/mappingproxy) for classes
+  - determines if we reduce the reference (to dictionary) for classes
 
 ### Config Node Creation, rewrite ###
 
 Configure what nodes are created based on reading the given data structure:
 
+- ***memory_graph.rewrite.ignore_types*** : set
+  - all types that we ignore, these will not be in the graph
 - ***memory_graph.rewrite.singular_types*** : set
   - all types rewritten to node as singular values (bool, int, float, ...)
 - ***memory_graph.rewrite.linear_types*** : set
   - all types rewritten to node as linear values (tuple, list, set, ...)
 - ***memory_graph.rewrite.dict_types*** : set
-  - all types rewritten to node as dictionary values (dict)
-- ***memory_graph.rewrite.mappingproxy_types*** : set
-  - all types rewritten to node as mappingproxy values (mappingproxy)
-- ***memory_graph.rewrite.mappingproxy_ignore_dunder_keys*** : bool
-  - determines if we ignore dunder keys ('`__example__`') in mappingproxy
+  - all types rewritten to node as dictionary values (dict, mappingproxy)
+- ***memory_graph.rewrite.dict_ignore_dunder_keys*** : bool
+  - determines if we ignore dunder keys ('`__example`') in dict_types
 
 ### Config example ###
 

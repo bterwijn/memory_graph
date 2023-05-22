@@ -19,9 +19,8 @@ def my_construct_iterable(data):
     return Node.Node(data)
     
 def my_add_to_iterable(iterable,data):
-    if is_duplication_type(data.get_original_data()):
-        iterable.add_elements(data.get_elements())
-    elif reduce_references_for_classes and rewrite.is_type_with_dict(iterable.get_original_data()):
+    if ( is_duplication_type(data.get_original_data()) or
+         (reduce_references_for_classes and rewrite.is_type_with_dict(iterable.get_original_data()) ):
         iterable.add_elements(data.get_elements())
     else:
         iterable.add_element(data.get_ref())

@@ -1,15 +1,16 @@
 import types
 
 # the types of the values we rewrite
-
+ignore_types={types.FunctionType,types.ModuleType}
 singular_types={types.NoneType, bool, int, float, complex, str, range, bytes}
 linear_types={tuple, list, set, frozenset, bytearray}
-dict_types={dict}
-filter_types={types.FunctionType,types.ModuleType}
-mappingproxy_types={types.MappingProxyType}
-mappingproxy_ignore_dunder_keys=True
+dict_types={dict,types.MappingProxyType}
+dict_ignore_dunder_keys=True
 
-known_types=singular_types | linear_types | dict_types | mappingproxy_types | {type} # add 'type' for classes and class variables
+known_types=singular_types | linear_types | dict_types | {type} # add 'type' for classes and class variables
+
+def is_ignore_type(value):
+    return type(value) in ignore_types
 
 def is_singular_type(value):
     return type(value) in singular_types
@@ -20,9 +21,6 @@ def is_linear_type(value):
 def is_dict_type(value):
     return type(value) in dict_types
 
-def is_mappingproxy_type(value):
-    return type(value) in mappingproxy_types
-
 def is_known_type(value):
     return type(value) in known_types
 
@@ -31,9 +29,6 @@ def is_type_with_dict(value):
 
 def is_iterable_type(value):
     return is_linear_type(value) or is_dict_type(value) or is_type_with_dict(value)
-
-def is_filter_type(value):
-    return type(value) in filter_types
 
 # functions that we rewrite the values with
     
@@ -96,24 +91,20 @@ def rewrite_iterable(iterable):
     new_iterable,is_just_constructed=remember_or_construct_iterable(iterable)
     if is_just_constructed:
         for i in iterable:
-            add_to_iterable_fun(new_iterable,rewrite(i))
+            if not is_ignore_type(i):
+                add_to_iterable_fun(new_iterable,rewrite(i))
     return new_iterable
 
 def rewrite_dict(dictionary):
     new_iterable,is_just_constructed=remember_or_construct_iterable(dictionary)
     if is_just_constructed:
         for key in dictionary:
-            add_to_iterable_fun(new_iterable,rewrite(key))
-            add_to_iterable_fun(new_iterable,rewrite(dictionary[key]))
-    return new_iterable
-
-def rewrite_mappingproxy(dictionary):
-    new_iterable,is_just_constructed=remember_or_construct_iterable(dictionary)
-    if is_just_constructed:
-        for key in dictionary:
-            if not mappingproxy_ignore_dunder_keys or not is_dunder_name(key):
-                add_to_iterable_fun(new_iterable,rewrite(key))
-                add_to_iterable_fun(new_iterable,rewrite(dictionary[key]))
+            if not type(key) or not is_dunder_name(key):
+                if not is_ignore_type(key):
+                    value=dictionary[key]
+                    if not is_ignore_type(value):
+                        add_to_iterable_fun(new_iterable,rewrite(key))
+                        add_to_iterable_fun(new_iterable,rewrite(value))
     return new_iterable
 
 def rewrite_object_with_dict(obj):
@@ -123,16 +114,16 @@ def rewrite_object_with_dict(obj):
     return new_iterable
 
 def rewrite(data):
-    if type(data) is types.NoneType:
-        return rewrite_singular("None") # special case, make a string because value 'None' is used for not-specified in software
+    if is_ignore_type(data):
+        rewrite_singular("ignore_type")
+    elif type(data) is types.NoneType:
+        return rewrite_singular("None") # special case, make a string because value 'None' is later used for not-specified in this software
     elif is_singular_type(data):
         return rewrite_singular(data)
     elif is_linear_type(data):
         return rewrite_iterable(data)
     elif is_dict_type(data):
         return rewrite_dict(data)
-    elif is_mappingproxy_type(data):
-        return rewrite_mappingproxy(data)
     elif is_type_with_dict(data):
         return rewrite_object_with_dict(data)
     return rewrite_singular("??"+type_name(data)+"??") # unknown type
