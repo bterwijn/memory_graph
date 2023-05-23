@@ -14,7 +14,9 @@ uncategorized_color="red"
 padding=0
 spacing=5
 empty_label="&nbsp;&nbsp;"
-
+graph_attr={'concentrate':'true'}
+node_attr={'shape':'plaintext'}
+edge_attr={}
 
 taken_children=set()
 
@@ -118,6 +120,9 @@ def create_graph_recursive(all_nodes,node_index,memo,graph):
 def create_graph(all_nodes):
     global taken_children
     taken_children=set()
-    graph=graphviz.Digraph('memory_graph', graph_attr={'concentrate':'true'}, node_attr={'shape':'none', 'margin':'0'})
+    graph=graphviz.Digraph('memory_graph',
+                           graph_attr=graph_attr,
+                           node_attr=node_attr,
+                           edge_attr=edge_attr)
     create_graph_recursive(all_nodes,0,set(),graph)
     return graph
