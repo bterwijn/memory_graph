@@ -1,6 +1,6 @@
 from memory_graph import rewrite
 
-def my_construct_singular(data):
+def my_construct_singular(data,rewrite_class):
     return str(data)
 
 def my_construct_iterable(data,rewrite_class):

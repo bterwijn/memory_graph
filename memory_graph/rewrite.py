@@ -40,10 +40,10 @@ def is_any_iterable(value):
 
 # functions that we rewrite the values with
     
-def construct_singular(data): # default implementation just returns data
+def construct_singular(data,rewrite_class): # default implementation just returns data
     return data
 
-def construct_iterable(data,key_value): # default implementation makes a list
+def construct_iterable(data,rewrite_class): # default implementation makes a list
     return []
     
 def add_to_iterable(iterable,data): # default implementation appends to list
