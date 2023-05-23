@@ -1,7 +1,7 @@
 import types
 
 # the types of the values we rewrite
-
+custom_accessor_functions={}
 ignore_types={types.FunctionType,types.ModuleType}
 singular_types={type(None), bool, int, float, complex, str, range, bytes}
 linear_types={tuple, list, set, frozenset, bytearray}
@@ -9,6 +9,9 @@ dict_types={dict,types.MappingProxyType}
 dict_ignore_dunder_keys=True
 rewrite_generators=False
 rewrite_any_iterable=True
+
+def is_custom_accessor_type(value):
+    return type(value) in custom_accessor_functions.keys()
 
 def is_ignore_type(value):
     return type(value) in ignore_types
@@ -40,7 +43,7 @@ def is_any_iterable(value):
 def construct_singular(data): # default implementation just returns data
     return data
 
-def construct_iterable(data): # default implementation makes a list
+def construct_iterable(data,key_value): # default implementation makes a list
     return []
     
 def add_to_iterable(iterable,data): # default implementation appends to list
@@ -61,15 +64,6 @@ def has_dict_attribute(value):
 def get_dict_attribute(value):
     return getattr(value,"__dict__")
 
-def has_class_attribute(value):
-    return hasattr(value,"__class__")
-
-def get_class_attribute(value):
-    return getattr(value,"__class__")
-
-def get_name_attribute(value):
-    return getattr(value,"__name__")
-
 # functions that traverse all the data recursively and call the rewrite functions
 
 memo={} # remember all values to traverse each value only once
@@ -77,20 +71,27 @@ memo={} # remember all values to traverse each value only once
 def rewrite_singular(singular):
     identifier=id(singular)
     if not identifier in memo:
-        new_singular=construct_singular_fun(singular)
+        new_singular=construct_singular_fun(singular,"rewrite_singular")
         memo[identifier]=new_singular
         return new_singular
     return memo[identifier]
 
-def remember_or_construct_iterable(iterable):
+def remember_or_construct_iterable(iterable,rewrite_call):
     identifier=id(iterable)
     if not identifier in memo:
-        memo[identifier]=construct_iterable_fun(iterable)
+        memo[identifier]=construct_iterable_fun(iterable,rewrite_call)
         return memo[identifier],True
     return memo[identifier],False
 
+def rewrite_using_custom_accessor(data):
+    new_iterable,is_just_constructed=remember_or_construct_iterable(data,"rewrite_custom")
+    if is_just_constructed:
+        custom_result=custom_accessor_functions[type(data)](data)
+        add_to_iterable_fun(new_iterable,rewrite(custom_result))
+    return new_iterable
+
 def rewrite_iterable(iterable):
-    new_iterable,is_just_constructed=remember_or_construct_iterable(iterable)
+    new_iterable,is_just_constructed=remember_or_construct_iterable(iterable,"rewrite_iterable")
     if is_just_constructed:
         for i in iterable:
             if not is_ignore_type(i):
@@ -98,7 +99,7 @@ def rewrite_iterable(iterable):
     return new_iterable
 
 def rewrite_dict(dictionary):
-    new_iterable,is_just_constructed=remember_or_construct_iterable(dictionary)
+    new_iterable,is_just_constructed=remember_or_construct_iterable(dictionary,"rewrite_dict")
     if is_just_constructed:
         for key in dictionary:
             if not type(key) is str or not is_dunder_name(key):
@@ -110,13 +111,15 @@ def rewrite_dict(dictionary):
     return new_iterable
 
 def rewrite_object_with_dict(obj):
-    new_iterable,is_just_constructed=remember_or_construct_iterable(obj)
+    new_iterable,is_just_constructed=remember_or_construct_iterable(obj,"rewrite_class")
     if is_just_constructed:
         add_to_iterable_fun(new_iterable,rewrite(get_dict_attribute(obj)))
     return new_iterable
 
 def rewrite(data):
-    if is_ignore_type(data):
+    if is_custom_accessor_type(data):
+        return rewrite_using_custom_accessor(data)
+    elif is_ignore_type(data):
         return rewrite_singular("ignore_type")
     elif data is None:
         return rewrite_singular("None") # special case, make a string because value 'None' is later used for not-specified in this software

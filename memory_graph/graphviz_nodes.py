@@ -5,9 +5,9 @@ from memory_graph import Node
 from memory_graph import rewrite
 
 layout_vertical=True
-type_category_to_color_map={
-    "NoneType":"gray", "type":"lime", "bool":"pink", "int":"green", "float":"yellow", "str":"cyan", # fundamental types
-    "tuple":"orange", "list":"lightcoral", "set":"darkolivegreen1", "frozenset":"darkolivegreen3", "dict":"royalblue1", "mappingproxy":"royalblue3", "class":"orchid" # containers
+category_to_color_map={
+    "NoneType":"gray", "type":"lightgreen", "bool":"pink", "int":"green", "float":"yellow", "str":"cyan", # fundamental types
+    "tuple":"orange", "list":"lightcoral", "set":"darkolivegreen1", "frozenset":"darkolivegreen3", "dict":"royalblue1", "mappingproxy":"royalblue3", "rewrite_class":"orchid" # containers
 }
 uncategorized_color="red"
 padding=0
@@ -17,20 +17,17 @@ graph_attr={'concentrate':'true'}
 node_attr={'shape':'plaintext'}
 edge_attr={}
 
+
 taken_children=set()
 
-def type_category_to_color(type_catergory):
-    if type_catergory in type_category_to_color_map:
-        return type_category_to_color_map[type_catergory]
+def get_color(node):
+    category=node.get_type_name()
+    if category in category_to_color_map:
+        return category_to_color_map[category]
+    category=node.get_rewrite_class()
+    if category in category_to_color_map:
+        return category_to_color_map[category]
     return uncategorized_color
-
-def get_type_name(node):
-    return rewrite.get_name_attribute(node.get_type())
-
-def get_type_category(node):
-    if rewrite.is_type_with_dict(node.get_original_data()):
-        return "class"
-    return get_type_name(node)
 
 def get_node_name(node):
     return "node"+str(node.get_index())
@@ -51,7 +48,7 @@ def get_element_label(element):
     return avoid_html_injection(str(value))
 
 def build_label_line(node,border=1):
-    color=type_category_to_color(get_type_category(node))
+    color=get_color(node)
     if len(node.get_elements())>0:
         if layout_vertical:
             cells="".join( (f'<TR><TD PORT="f{index}"> {get_element_label(element)} </TD></TR>' for index,element in enumerate(node.get_elements())) )
@@ -62,7 +59,7 @@ def build_label_line(node,border=1):
     return f'<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="0" BGCOLOR="{color}"><TR><TD PORT="X"> {empty_label} </TD></TR></TABLE>>'
     
 def build_label_key_value(node,border=1):
-    color=type_category_to_color(get_type_category(node))
+    color=get_color(node)
     if len(node.get_elements())>0:
         iterator=iter(enumerate(node.get_elements()))
         cells=""
@@ -78,7 +75,7 @@ def build_label_key_value(node,border=1):
     return f'<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="0" BGCOLOR="{color}"><TR><TD PORT="X"> {empty_label} </TD></TR></TABLE>>'
     
 def get_node_label(node,border=1):
-    if rewrite.is_dict_type(node.get_original_data()) or rewrite.is_type_with_dict(node.get_original_data()):
+    if node.is_key_value():
         return build_label_key_value(node,border)
     return build_label_line(node,border)
 
@@ -91,9 +88,7 @@ def create_node(node,all_nodes,graph):
     name="node"+str(node.get_index())
     border=2 if node.get_index()==0 else 1
     node_label=get_node_label(node,border)
-    type_name=get_type_name(node)
-    color=type_category_to_color(get_type_category(node))
-    graph.node(name, node_label, xlabel=type_name)
+    graph.node(name, node_label, xlabel=node.get_type_name())
     my_children=[]
     for node_src,node_dst in get_refs(node,all_nodes):
         if node_dst in taken_children:
@@ -119,6 +114,7 @@ def create_graph_recursive(all_nodes,node_index,memo,graph):
 def create_graph(all_nodes):
     global taken_children
     taken_children=set()
+    #Node.print_all_nodes(all_nodes)
     graph=graphviz.Digraph('memory_graph',
                            graph_attr=graph_attr,
                            node_attr=node_attr,

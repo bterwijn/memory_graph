@@ -4,12 +4,14 @@ all_nodes=[]
 def print_all_nodes(all_nodes):
     for i,n in enumerate(all_nodes):
         print(i,n)
-        
+
 class Node:
     index=0
     
-    def __init__(self,original_data):
+    def __init__(self,original_data,rewrite_class,key_value=False):
         self.original_data=original_data
+        self.rewrite_class=rewrite_class
+        self.key_value=key_value
         self.index=Node.index
         self.elements=[]
         self.ref=None
@@ -17,13 +19,19 @@ class Node:
         Node.index+=1
         
     def __repr__(self):
-        return f"index:{self.index} type:{self.get_type()} elements:{self.elements}"
+        return f"index:{self.index} rewrite_class:{self.rewrite_class} type_name:{self.get_type_name()} key_value:{self.key_value} elements:{self.elements}"
 
     def get_original_data(self):
         return self.original_data
-        
-    def get_type(self):
-        return type(self.original_data)
+
+    def get_rewrite_class(self):
+        return self.rewrite_class
+
+    def is_key_value(self):
+        return self.key_value
+    
+    def get_type_name(self):
+        return type(self.original_data).__name__
         
     def get_index(self):
         return self.index
@@ -36,8 +44,14 @@ class Node:
     def get_elements(self):
         return self.elements
 
-    def add_elements(self,elements):
-        for e in elements:
+    def add_elements(self,other):
+        if other.get_rewrite_class()!="rewrite_singular":
+            if len(self.elements)==0:
+                self.key_value=other.key_value
+            else:
+                if self.key_value!=other.key_value:
+                    self.key_value=False  # don't mix
+        for e in other.elements:
             self.add_element(e)
         
     def add_element(self,element):
