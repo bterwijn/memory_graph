@@ -133,6 +133,10 @@ Configure what nodes are created based on reading the given data structure:
   - all types rewritten to node as dictionary values (dict, mappingproxy)
 - ***memory_graph.rewrite.dict_ignore_dunder_keys*** : bool
   - determines if we ignore dunder keys ('`__example`') in dict_types
+- ***memory_graph.rewrite.rewrite_generators*** : bool
+  - determines if we read and rewrite a generator to node
+- ***memory_graph.rewrite.rewrite_any_iterable*** : bool
+  - determines if we rewrite any iterable to node
 
 ### Config example ###
 

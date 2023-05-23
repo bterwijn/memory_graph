@@ -1,13 +1,14 @@
 import types
 
 # the types of the values we rewrite
+
 ignore_types={types.FunctionType,types.ModuleType}
 singular_types={type(None), bool, int, float, complex, str, range, bytes}
 linear_types={tuple, list, set, frozenset, bytearray}
 dict_types={dict,types.MappingProxyType}
 dict_ignore_dunder_keys=True
-
-known_types=singular_types | linear_types | dict_types | {type} # add 'type' for classes and class variables
+rewrite_generators=False
+rewrite_any_iterable=True
 
 def is_ignore_type(value):
     return type(value) in ignore_types
@@ -21,14 +22,18 @@ def is_linear_type(value):
 def is_dict_type(value):
     return type(value) in dict_types
 
-def is_known_type(value):
-    return type(value) in known_types
-
 def is_type_with_dict(value):
     return has_dict_attribute(value)
 
-def is_iterable_type(value):
-    return is_linear_type(value) or is_dict_type(value) or is_type_with_dict(value)
+def is_generator_type(value):
+    return type(value) is types.GeneratorType
+
+def is_any_iterable(value):
+    try:
+        iter(value)
+        return True
+    except TypeError:
+        return False
 
 # functions that we rewrite the values with
     
@@ -46,9 +51,6 @@ construct_iterable_fun=construct_iterable
 add_to_iterable_fun=add_to_iterable
 
 # just some helper functions
-
-def type_name(value):
-    return get_name_attribute(type(value))
 
 def is_dunder_name(name):
     return name.startswith('__')
@@ -126,9 +128,15 @@ def rewrite(data):
         return rewrite_dict(data)
     elif is_type_with_dict(data):
         return rewrite_object_with_dict(data)
-    return rewrite_singular("??"+type_name(data)+"??") # unknown type
+    elif is_generator_type(data):
+        if rewrite_generators:
+            return rewrite_iterable(data)
+        else:
+            return rewrite_singular(str(type(data)))
+    elif rewrite_any_iterable and is_any_iterable(data):
+        return rewrite_iterable(data)
+    return rewrite_singular(str(data)) # unknown type
 
 def rewrite_data(data):
     memo.clear() # forget all previous values
     return rewrite(data)
-
