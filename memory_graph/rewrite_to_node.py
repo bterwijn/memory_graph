@@ -1,10 +1,9 @@
-from types import NoneType
 from types import MappingProxyType
 
 from memory_graph import rewrite
 from memory_graph import Node
 
-reduce_reference_types={NoneType, bool, int, float, complex, str, range, bytes}
+reduce_reference_types={type(None), bool, int, float, complex, str, range, bytes}
 reduce_references_for_classes=True
 
 def is_duplication_type(value):

@@ -1,4 +1,3 @@
-from types import NoneType
 from types import MappingProxyType
 import graphviz
 

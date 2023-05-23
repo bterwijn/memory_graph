@@ -2,7 +2,7 @@ import types
 
 # the types of the values we rewrite
 ignore_types={types.FunctionType,types.ModuleType}
-singular_types={types.NoneType, bool, int, float, complex, str, range, bytes}
+singular_types={type(None), bool, int, float, complex, str, range, bytes}
 linear_types={tuple, list, set, frozenset, bytearray}
 dict_types={dict,types.MappingProxyType}
 dict_ignore_dunder_keys=True
@@ -116,7 +116,7 @@ def rewrite_object_with_dict(obj):
 def rewrite(data):
     if is_ignore_type(data):
         return rewrite_singular("ignore_type")
-    elif type(data) is types.NoneType:
+    elif data is None:
         return rewrite_singular("None") # special case, make a string because value 'None' is later used for not-specified in this software
     elif is_singular_type(data):
         return rewrite_singular(data)
