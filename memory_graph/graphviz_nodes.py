@@ -4,16 +4,23 @@ import graphviz
 from memory_graph import Node
 from memory_graph import rewrite
 
-layout_vertical=True
+linear_layout_vertical=True
+linear_any_ref_layout_vertical=False
+linear_all_ref_layout_vertical=False
+key_value_layout_vertical=True
+key_value_any_ref_layout_vertical=True
+key_value_all_ref_layout_vertical=False
 category_to_color_map={
     "NoneType":"gray", "type":"lightgreen", "bool":"pink", "int":"green", "float":"yellow", "str":"cyan", # fundamental types
-    "tuple":"orange", "list":"lightcoral", "set":"darkolivegreen1", "frozenset":"darkolivegreen3", "dict":"royalblue1", "mappingproxy":"royalblue3", "rewrite_class":"orchid" # containers
+    "tuple":"orange", "list":"lightcoral", "set":"darkolivegreen1", "frozenset":"darkolivegreen3", "dict":"royalblue1", "mappingproxy":"royalblue2", # containers
+    "category_class":"orchid" # catergories
 }
+key_color="cornsilk"
 uncategorized_color="red"
 padding=0
 spacing=5
-empty_label="&nbsp;&nbsp;"
-graph_attr={'concentrate':'true'}
+empty_label=""
+graph_attr={}
 node_attr={'shape':'plaintext'}
 edge_attr={}
 
@@ -24,7 +31,7 @@ def get_color(node):
     category=node.get_type_name()
     if category in category_to_color_map:
         return category_to_color_map[category]
-    category=node.get_rewrite_class()
+    category=node.get_category()
     if category in category_to_color_map:
         return category_to_color_map[category]
     return uncategorized_color
@@ -47,10 +54,21 @@ def get_element_label(element):
         return empty_label
     return avoid_html_injection(str(value))
 
-def build_label_line(node,border=1):
+def test_references_linear(node,fun):
+    return fun((not e.get_ref() is None) for e in node.get_elements())
+
+def test_references_key_value(node,fun):
+    return fun((not e.get_ref() is None) for i,e in enumerate(node.get_elements()) if i%2==1)
+
+def build_label_linear(node,border):
     color=get_color(node)
+    vertical=linear_layout_vertical
+    if test_references_linear(node,any):
+        vertical&=linear_any_ref_layout_vertical
+    if test_references_linear(node,all):
+        vertical&=linear_all_ref_layout_vertical
     if len(node.get_elements())>0:
-        if layout_vertical:
+        if vertical:
             cells="".join( (f'<TR><TD PORT="f{index}"> {get_element_label(element)} </TD></TR>' for index,element in enumerate(node.get_elements())) )
         else:
             cells="<TR>"+ "".join( (f'<TD PORT="f{index}"> {get_element_label(element)} </TD>' for index,element in enumerate(node.get_elements())) ) +"</TR>"
@@ -58,26 +76,46 @@ def build_label_line(node,border=1):
         return f'<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="{color}"><TR><TD PORT="X"> {table} </TD></TR></TABLE>>'
     return f'<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="0" BGCOLOR="{color}"><TR><TD PORT="X"> {empty_label} </TD></TR></TABLE>>'
     
-def build_label_key_value(node,border=1):
+def build_label_key_value(node,border):
     color=get_color(node)
+    vertical=key_value_layout_vertical
+    if test_references_key_value(node,any):
+        vertical&=key_value_any_ref_layout_vertical
+    if test_references_key_value(node,all):
+        vertical&=key_value_all_ref_layout_vertical
     if len(node.get_elements())>0:
         iterator=iter(enumerate(node.get_elements()))
-        cells=""
-        while True:
-            try:
-                ki,k=next(iterator)
-                vi,v=next(iterator)
-                cells+=f'<TR><TD PORT="f{ki}"> {get_element_label(k)} </TD><TD PORT="f{vi}"> {get_element_label(v)} </TD></TR>'
-            except StopIteration:
-                break
+        if vertical:
+            cells=""
+            while True:
+                try:
+                    ki,k=next(iterator)
+                    vi,v=next(iterator)
+                    cells+=f'<TR><TD PORT="f{ki}" STYLE="ROUNDED"> {get_element_label(k)} </TD><TD PORT="f{vi}"> {get_element_label(v)} </TD></TR>'
+                except StopIteration:
+                    break
             table=f'<TABLE BORDER="{border}" CELLSPACING="{spacing}" CELLPADDING="{padding}" BGCOLOR="{color}">{cells}</TABLE>'
+        else:
+            keys='<TR>'
+            values='<TR>'
+            while True:
+                try:
+                    ki,k=next(iterator)
+                    keys+=f'<TD PORT="f{ki}" STYLE="ROUNDED"> {get_element_label(k)} </TD>'
+                    vi,v=next(iterator)
+                    values+=f'<TD PORT="f{vi}"> {get_element_label(v)} </TD>'
+                except StopIteration:
+                    break
+            keys+='</TR>'
+            values+='</TR>'
+            table=f'<TABLE BORDER="{border}" CELLSPACING="{spacing}" CELLPADDING="{padding}" BGCOLOR="{color}">{keys}{values}</TABLE>'
         return f'<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0"><TR><TD PORT="X"> {table} </TD></TR></TABLE>>'
     return f'<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="0" BGCOLOR="{color}"><TR><TD PORT="X"> {empty_label} </TD></TR></TABLE>>'
     
 def get_node_label(node,border=1):
     if node.is_key_value():
         return build_label_key_value(node,border)
-    return build_label_line(node,border)
+    return build_label_linear(node,border)
 
 def get_refs(node,all_nodes):
     return ((f"{get_node_name(node)}:f{index}",f"{get_node_name(all_nodes[element.get_ref()])}:X")

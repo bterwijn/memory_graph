@@ -1,9 +1,9 @@
 from memory_graph import rewrite
 
-def my_construct_singular(data,rewrite_class):
+def my_construct_singular(data,category):
     return str(data)
 
-def my_construct_iterable(data,rewrite_class):
+def my_construct_iterable(data,category):
     return []
     
 def my_add_to_iterable(iterable,data):

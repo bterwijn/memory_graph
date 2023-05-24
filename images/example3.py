@@ -1,11 +1,11 @@
 import memory_graph
 
-memory_graph.graphviz_nodes.layout_vertical = False                       # draw lists,tuples,sets,... horizontally
-memory_graph.graphviz_nodes.type_category_to_color_map['list'] = 'yellow' # change color of 'list' type
-memory_graph.graphviz_nodes.spacing=15                                    # more spacing in each node
-memory_graph.graphviz_nodes.graph_attr['ranksep']='1.2'                   # more vertical separation
-memory_graph.graphviz_nodes.graph_attr['nodesep']='1.2'                   # more horizontal separation
-memory_graph.rewrite_to_node.reduce_reference_types.remove(int)           # draw references to 'int' type
+memory_graph.graphviz_nodes.layout_vertical = False                  # draw lists,tuples,sets,... horizontally
+memory_graph.graphviz_nodes.category_to_color_map['list'] = 'yellow' # change color of 'list' type
+memory_graph.graphviz_nodes.spacing=15                               # more spacing in each node
+memory_graph.graphviz_nodes.graph_attr['ranksep']='1.2'              # more vertical separation
+memory_graph.graphviz_nodes.graph_attr['nodesep']='1.2'              # more horizontal separation
+memory_graph.rewrite_to_node.reduce_reference_children.remove("int") # draw references to 'int' type
 
 my_list = [10, 20, 10]
 
