@@ -8,7 +8,7 @@ linear_layout_vertical=True
 linear_any_ref_layout_vertical=False
 linear_all_ref_layout_vertical=False
 key_value_layout_vertical=True
-key_value_any_ref_layout_vertical=True
+key_value_any_ref_layout_vertical=False
 key_value_all_ref_layout_vertical=False
 category_to_color_map={
     "NoneType":"gray", "type":"lightgreen", "bool":"pink", "int":"green", "float":"yellow", "str":"cyan", # fundamental types
@@ -137,12 +137,12 @@ def create_node(node,all_nodes,graph):
     my_children=[]
     for node_src,node_dst in get_refs(node,all_nodes):
         add_reference(node_src,node_dst)
-        if node_dst in taken_children:
+        if not node_dst in taken_children:
             taken_children.add(node_dst)
             my_children.append(node_dst)
     if len(my_children)>1:
         lineup=" -> ".join(my_children)
-        graph.body.append("{ rank=same  "+lineup+"  [weight=99,style=invis]; }\n")
+        graph.body.append('{ rank="same"  '+lineup+'  [weight=99,style=invis]; }\n')
         
 def create_graph_recursive(all_nodes,node_index,memo,graph):
     if not node_index in memo:
@@ -159,14 +159,13 @@ def add_references(graph):
         src_list=all_references[dst]
         if len(src_list)<join_references_count:
             for src in src_list:
-                print("dst:",dst,"src:",src)
                 graph.edge(src, dst)
         else:
             join="join_"+dst[:dst.index(':')]
-            graph.node(join, label="", height="0.15", width="0.15", shape="circle")
+            graph.node(join, label="", height="0.45", width="0.45", shape="circle", weight="50")
             graph.edge(join, dst)
             for src in src_list:
-                graph.edge(src, join, arrowsize="0")
+                graph.edge(src, join, dir="none", minlen="2")
             
 def create_graph(all_nodes):
     global taken_children
