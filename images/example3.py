@@ -1,6 +1,6 @@
 import memory_graph
 
-memory_graph.graphviz_nodes.layout_vertical = False                  # draw lists,tuples,sets,... horizontally
+memory_graph.graphviz_nodes.linear_layout_vertical = False           # draw lists,tuples,sets,... horizontally
 memory_graph.graphviz_nodes.category_to_color_map['list'] = 'yellow' # change color of 'list' type
 memory_graph.graphviz_nodes.spacing=15                               # more spacing in each node
 memory_graph.graphviz_nodes.graph_attr['ranksep']='1.2'              # more vertical separation

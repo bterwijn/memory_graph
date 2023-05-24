@@ -20,12 +20,19 @@ uncategorized_color="red"
 padding=0
 spacing=5
 empty_label=""
+join_references_count=3
 graph_attr={}
 node_attr={'shape':'plaintext'}
 edge_attr={}
 
-
+# ------- private ----------
 taken_children=set()
+all_references={}
+
+def add_reference(src,dst):
+    if not dst in all_references:
+        all_references[dst]=[]
+    all_references[dst].append(src)
 
 def get_color(node):
     category=node.get_type_name()
@@ -129,16 +136,14 @@ def create_node(node,all_nodes,graph):
     graph.node(name, node_label, xlabel=node.get_type_name())
     my_children=[]
     for node_src,node_dst in get_refs(node,all_nodes):
+        add_reference(node_src,node_dst)
         if node_dst in taken_children:
-            graph.edge(node_src, node_dst, weight='0')
-        else:
-            graph.edge(node_src, node_dst)
             taken_children.add(node_dst)
             my_children.append(node_dst)
     if len(my_children)>1:
         lineup=" -> ".join(my_children)
         graph.body.append("{ rank=same  "+lineup+"  [weight=99,style=invis]; }\n")
-    
+        
 def create_graph_recursive(all_nodes,node_index,memo,graph):
     if not node_index in memo:
         memo.add(node_index)
@@ -149,13 +154,29 @@ def create_graph_recursive(all_nodes,node_index,memo,graph):
                 create_graph_recursive(all_nodes,ref,memo,graph)
         create_node(node,all_nodes,graph) # create while backtracking recursion 
 
+def add_references(graph):
+    for dst in all_references:
+        src_list=all_references[dst]
+        if len(src_list)<join_references_count:
+            for src in src_list:
+                print("dst:",dst,"src:",src)
+                graph.edge(src, dst)
+        else:
+            join="join_"+dst[:dst.index(':')]
+            graph.node(join, label="", height="0.15", width="0.15", shape="circle")
+            graph.edge(join, dst)
+            for src in src_list:
+                graph.edge(src, join, arrowsize="0")
+            
 def create_graph(all_nodes):
     global taken_children
-    taken_children=set()
+    taken_children.clear()
+    all_references.clear()
     #Node.print_all_nodes(all_nodes)
     graph=graphviz.Digraph('memory_graph',
                            graph_attr=graph_attr,
                            node_attr=node_attr,
                            edge_attr=edge_attr)
     create_graph_recursive(all_nodes,0,set(),graph)
+    add_references(graph)
     return graph
