@@ -41,8 +41,10 @@ memory_graph.render( locals(), "my_debug_graph.pdf" )
 
 ## Larger Example ##
 
-This larger example shows objects that share a class (static) variable and
-also shows we can handle recursive references just fine.
+This larger example shows objects that share a class (static) variable
+and also shows we can handle recursive references although the graph
+layout might be less pretty (trust me there are good reasons for
+this).
 
 ```
 import memory_graph
@@ -67,7 +69,6 @@ my_list.append(data) # recursive reference
 memory_graph.show( locals() )
 ```
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example2.png)
-
 
 
 ## Config ##
@@ -145,7 +146,7 @@ Configure what nodes are created based on reading the given data structure:
 - ***memory_graph.rewrite.dict_ignore_dunder_keys*** : bool
   - determines if we ignore dunder keys ('`__example`') in dict_types
 - ***memory_graph.rewrite.custom_accessor_functions*** : dict
-  - custom accessor function for various types
+  - custom accessor functions to defined how to read various types
 
 
 ### Config Examples ###
@@ -180,10 +181,11 @@ data = {'Name':['Tom', 'Anna', 'Steve', 'Lisa'],
 df = pd.DataFrame(data)
 
 import memory_graph
-memory_graph.rewrite.custom_accessor_functions[pd.DataFrame]=lambda d: list(d.iteritems())
-memory_graph.rewrite.custom_accessor_functions[pd.Series]=lambda d: list(d.items())
+memory_graph.rewrite.custom_accessor_functions[pd.DataFrame] = lambda d: list(d.iteritems())
+memory_graph.rewrite.custom_accessor_functions[pd.Series] = lambda d: list(d.items())
 memory_graph.rewrite_to_node.reduce_reference_parents.add("DataFrame")
 memory_graph.rewrite_to_node.reduce_reference_parents.add("Series")
+memory_graph.graphviz_nodes.category_to_color_map['Series'] = 'lightskyblue'
 
 memory_graph.show( locals() )
 ```
@@ -206,6 +208,9 @@ Install using pip:
 ```
 pip install memory-graph
 ```
+
+additionally [Graphviz](https://graphviz.org/) needs to be installed.
+
 
 ## Author ##
 Bas Terwijn

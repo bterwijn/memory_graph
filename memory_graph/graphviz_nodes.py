@@ -10,18 +10,18 @@ linear_all_ref_layout_vertical=False
 key_value_layout_vertical=True
 key_value_any_ref_layout_vertical=False
 key_value_all_ref_layout_vertical=False
-category_to_color_map={
-    "NoneType":"gray", "type":"lightgreen", "bool":"pink", "int":"green", "float":"yellow", "str":"cyan", # fundamental types
-    "tuple":"orange", "list":"lightcoral", "set":"darkolivegreen1", "frozenset":"darkolivegreen3", "dict":"royalblue1", "mappingproxy":"royalblue2", # containers
-    "category_class":"orchid" # catergories
-}
-uncategorized_color="red"
 padding=0
 spacing=5
 join_references_count=3
 join_circle_size="0.4"
 join_circle_minlen="2"
 max_string_length=70
+category_to_color_map={
+    "NoneType":"gray", "type":"lightgreen", "bool":"pink", "int":"green", "float":"yellow", "str":"cyan", # fundamental types
+    "tuple":"orange", "list":"lightcoral", "set":"darkolivegreen1", "frozenset":"darkolivegreen3", "dict":"royalblue1", "mappingproxy":"royalblue2", # containers
+    "category_class":"orchid", "category_custom":"seagreen1" # catergories
+}
+uncategorized_color="red"
 graph_attr={}
 node_attr={'shape':'plaintext'}
 edge_attr={}
