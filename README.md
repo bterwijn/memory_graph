@@ -6,9 +6,9 @@ structure or the Python memory model in general?
 Just call `memory_graph.show(your_data)`, an example:
 
 ```
-import memory_graph
-
 data = [ (1, 2), [3, 4], {5:'five', 6:'six'} ]
+
+import memory_graph
 memory_graph.show( data, block=True )
 ```
 
@@ -47,8 +47,6 @@ layout might be less pretty (trust me there are good reasons for
 this).
 
 ```
-import memory_graph
-
 my_list = [10, 20, 10]
 
 class My_Class:
@@ -66,6 +64,7 @@ data=[my_list, my_list, obj1, obj2]
 
 my_list.append(data) # recursive reference
 
+import memory_graph
 memory_graph.show( locals() )
 ```
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example2.png)
@@ -186,7 +185,6 @@ memory_graph.rewrite.custom_accessor_functions[pd.Series] = lambda d: list(d.ite
 memory_graph.rewrite_to_node.reduce_reference_parents.add("DataFrame")
 memory_graph.rewrite_to_node.reduce_reference_parents.add("Series")
 memory_graph.graphviz_nodes.category_to_color_map['Series'] = 'lightskyblue'
-
 memory_graph.show( locals() )
 ```
 which results in:
