@@ -81,15 +81,15 @@ Configure how the nodes of the graph are visualized with:
 - ***memory_graph.graphviz_nodes.linear_layout_vertical*** : bool
   - if False, linear node layout is horizontal
 - ***memory_graph.graphviz_nodes.linear_any_ref_layout_vertical*** : bool
-  - if False, linear node layout is horizontal if it has any references
-- ***memory_graph.graphviz_nodes.linear_any_ref_layout_vertical*** : bool
-  - if False, linear node layout is horizontal if it has all references
+  - if False, linear node layout is horizontal if any of its elements is a refence
+- ***memory_graph.graphviz_nodes.linear_all_ref_layout_vertical*** : bool
+  - if False, linear node layout is horizontal if all elements are reference
 - ***memory_graph.graphviz_nodes.key_value_layout_vertical*** : bool
   - if False, key_value node layout is horizontal
 - ***memory_graph.graphviz_nodes.key_value_any_ref_layout_vertical*** : bool
-  - if False, key_value node layout is horizontal if it has any references
-- ***memory_graph.graphviz_nodes.key_value_any_ref_layout_vertical*** : bool
-  - if False, key_value node layout is horizontal if it has all references
+  - if False, key_value node layout is horizontal if any of its elements is a refence
+- ***memory_graph.graphviz_nodes.key_value_all_ref_layout_vertical*** : bool
+  - if False, key_value node layout is horizontal if all elements are reference
 - ***memory_graph.graphviz_nodes.padding*** : int
   - the padding in nodes
 - ***memory_graph.graphviz_nodes.padding*** : int
