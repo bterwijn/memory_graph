@@ -189,7 +189,7 @@ memory_graph.show( locals() )
 ```
 which results in:
 
-![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example3.png)
+![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example4.png)
 
 ## Troubleshooting ##
 
