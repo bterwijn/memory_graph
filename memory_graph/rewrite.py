@@ -1,12 +1,12 @@
 import types
 
 # the types of the values we rewrite
-custom_accessor_functions={}
 ignore_types={types.FunctionType,types.ModuleType}
 singular_types={type(None), bool, int, float, complex, str, range, bytes}
 linear_types={tuple, list, set, frozenset, bytearray}
 dict_types={dict,types.MappingProxyType}
 dict_ignore_dunder_keys=True
+custom_accessor_functions={}
 
 def is_custom_accessor_type(value):
     return type(value) in custom_accessor_functions.keys()

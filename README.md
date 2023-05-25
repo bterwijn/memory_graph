@@ -69,13 +69,6 @@ memory_graph.show( locals() )
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example2.png)
 
 
-## Install ##
-
-Install using pip:
-
-```
-pip install memory-graph
-```
 
 ## Config ##
 
@@ -85,16 +78,34 @@ Different aspects of memory_graph can be configured.
 
 Configure how the nodes of the graph are visualized with:
 
-- ***memory_graph.graphviz_nodes.layout_vertical*** : bool
-  - determines if list/tuple/... are drawn vertically
-- ***memory_graph.graphviz_nodes.type_category_to_color_map*** : dict
-  - a mapping from type to color
-- ***memory_graph.graphviz_nodes.uncategorized_color*** : string
-  - color used for uncategorized types
+- ***memory_graph.graphviz_nodes.linear_layout_vertical*** : bool
+  - if False, linear node layout is horizontal
+- ***memory_graph.graphviz_nodes.linear_any_ref_layout_vertical*** : bool
+  - if False, linear node layout is horizontal if it has any references
+- ***memory_graph.graphviz_nodes.linear_any_ref_layout_vertical*** : bool
+  - if False, linear node layout is horizontal if it has all references
+- ***memory_graph.graphviz_nodes.key_value_layout_vertical*** : bool
+  - if False, key_value node layout is horizontal
+- ***memory_graph.graphviz_nodes.key_value_any_ref_layout_vertical*** : bool
+  - if False, key_value node layout is horizontal if it has any references
+- ***memory_graph.graphviz_nodes.key_value_any_ref_layout_vertical*** : bool
+  - if False, key_value node layout is horizontal if it has all references
 - ***memory_graph.graphviz_nodes.padding*** : int
-  - amount of padding for node cells
-- ***memory_graph.graphviz_nodes.spacing*** : int
-  - amount of spacing for node cells
+  - the padding in nodes
+- ***memory_graph.graphviz_nodes.padding*** : int
+  - the spacing in nodes
+- ***memory_graph.graphviz_nodes.join_references_count*** : int
+  - minimum number of reference we join together
+- ***memory_graph.graphviz_nodes.join_circle_size*** : string
+  - size of the join circle
+- ***memory_graph.graphviz_nodes.join_circle_minlen*** : string
+  - extra space for references above a join circle
+- ***memory_graph.graphviz_nodes.max_string_length*** : int
+  - maximum string length where the string is cut off
+- ***memory_graph.graphviz_nodes.category_to_color_map*** : dict
+  - mapping van type/caterogries to node colors
+- ***memory_graph.graphviz_nodes.uncategorized_color*** : dict
+  - color for unkown types/categories
 - ***memory_graph.graphviz_nodes.graph_attr*** : dict
   - allows to set various [graphviz graph attributes](https://graphviz.org/docs/graph/)
 - ***memory_graph.graphviz_nodes.node_attr*** : dict
@@ -114,16 +125,16 @@ and see the [graphviz api](https://graphviz.readthedocs.io/en/stable/api.html) t
 
 Configure the structure of the nodes in the graph with:
 
-- ***memory_graph.rewrite_to_node.reduce_reference_types*** : set
-  - the types we add to a node instead of drawing a reference to it
-- ***memory_graph.rewrite_to_node.reduce_references_for_classes*** : bool
-  - determines if we reduce the reference (to dictionary) for classes
-
+- ***memory_graph.rewrite_to_node.reduce_reference_parents*** : set
+  - the node types/categories for which we remove the reference to children
+- ***memory_graph.rewrite_to_node.reduce_reference_children*** : bool
+  - the node types/categories for which we remove the reference from parents
+  
 ### Config Node Creation, rewrite ###
 
 Configure what nodes are created based on reading the given data structure:
 
-- ***memory_graph.rewrite.ignore_types*** : set
+- ***memory_graph.rewrite.ignore_types*** : dict
   - all types that we ignore, these will not be in the graph
 - ***memory_graph.rewrite.singular_types*** : set
   - all types rewritten to node as singular values (bool, int, float, ...)
@@ -133,12 +144,11 @@ Configure what nodes are created based on reading the given data structure:
   - all types rewritten to node as dictionary values (dict, mappingproxy)
 - ***memory_graph.rewrite.dict_ignore_dunder_keys*** : bool
   - determines if we ignore dunder keys ('`__example`') in dict_types
-- ***memory_graph.rewrite.rewrite_generators*** : bool
-  - determines if we read and rewrite a generator to node
-- ***memory_graph.rewrite.rewrite_any_iterable*** : bool
-  - determines if we rewrite any iterable to node
+- ***memory_graph.rewrite.custom_accessor_functions*** : dict
+  - custom accessor function for various types
 
-### Config example ###
+
+### Config Examples ###
 
 With configuration:
 ```
@@ -155,6 +165,32 @@ the last example looks like:
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example3.png)
 
 
+### Custom Accessor Functions ###
+
+For any type a custom accessor function can be introduced. For example
+Panda DataFrames and Series are not visualized correctly by
+default. This can be fixed by adding custom accessor functions:
+
+```
+import pandas as pd
+
+data = {'Name':['Tom', 'Anna', 'Steve', 'Lisa'],
+        'Age':[28,34,29,42],
+        'Length':[1.70,1.66,1.82,1.73] }
+df = pd.DataFrame(data)
+
+import memory_graph
+memory_graph.rewrite.custom_accessor_functions[pd.DataFrame]=lambda d: list(d.iteritems())
+memory_graph.rewrite.custom_accessor_functions[pd.Series]=lambda d: list(d.items())
+memory_graph.rewrite_to_node.reduce_reference_parents.add("DataFrame")
+memory_graph.rewrite_to_node.reduce_reference_parents.add("Series")
+
+memory_graph.show( locals() )
+```
+which results in:
+
+![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example3.png)
+
 ## Troubleshooting ##
 
 When edges overlap it can be hard to distinguish them. Using an
@@ -162,6 +198,14 @@ interactive graphviz viewer, such as
 [xdot](https://github.com/jrfonseca/xdot.py), on a '*.gv' output file
 will help.
 
+
+## Install ##
+
+Install using pip:
+
+```
+pip install memory-graph
+```
 
 ## Author ##
 Bas Terwijn

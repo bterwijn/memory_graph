@@ -15,12 +15,13 @@ category_to_color_map={
     "tuple":"orange", "list":"lightcoral", "set":"darkolivegreen1", "frozenset":"darkolivegreen3", "dict":"royalblue1", "mappingproxy":"royalblue2", # containers
     "category_class":"orchid" # catergories
 }
-key_color="cornsilk"
 uncategorized_color="red"
 padding=0
 spacing=5
-empty_label=""
 join_references_count=3
+join_circle_size="0.4"
+join_circle_minlen="2"
+max_string_length=70
 graph_attr={}
 node_attr={'shape':'plaintext'}
 edge_attr={}
@@ -55,11 +56,16 @@ def avoid_html_injection(label):
                                          }))
     return label
 
+def limit_string(s):
+    if len(s)>max_string_length:
+        return s[:max_string_length]+"..."
+    return s
+
 def get_element_label(element):
     value=element.get_value()
     if value is None:
-        return empty_label
-    return avoid_html_injection(str(value))
+        return ""
+    return avoid_html_injection(limit_string(str(value)))
 
 def test_references_linear(node,fun):
     return fun((not e.get_ref() is None) for e in node.get_elements())
@@ -81,7 +87,7 @@ def build_label_linear(node,border):
             cells="<TR>"+ "".join( (f'<TD PORT="f{index}"> {get_element_label(element)} </TD>' for index,element in enumerate(node.get_elements())) ) +"</TR>"
         table=f'<TABLE BORDER="{border}" CELLSPACING="{spacing}" CELLPADDING="{padding}">{cells}</TABLE>'
         return f'<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="{color}"><TR><TD PORT="X"> {table} </TD></TR></TABLE>>'
-    return f'<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="0" BGCOLOR="{color}"><TR><TD PORT="X"> {empty_label} </TD></TR></TABLE>>'
+    return f'<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="0" BGCOLOR="{color}"><TR><TD PORT="X"> </TD></TR></TABLE>>'
     
 def build_label_key_value(node,border):
     color=get_color(node)
@@ -117,7 +123,7 @@ def build_label_key_value(node,border):
             values+='</TR>'
             table=f'<TABLE BORDER="{border}" CELLSPACING="{spacing}" CELLPADDING="{padding}" BGCOLOR="{color}">{keys}{values}</TABLE>'
         return f'<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0"><TR><TD PORT="X"> {table} </TD></TR></TABLE>>'
-    return f'<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="0" BGCOLOR="{color}"><TR><TD PORT="X"> {empty_label} </TD></TR></TABLE>>'
+    return f'<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="0" BGCOLOR="{color}"><TR><TD PORT="X"> </TD></TR></TABLE>>'
     
 def get_node_label(node,border=1):
     if node.is_key_value():
@@ -162,10 +168,10 @@ def add_references(graph):
                 graph.edge(src, dst)
         else:
             join="join_"+dst[:dst.index(':')]
-            graph.node(join, label="", height="0.45", width="0.45", shape="circle", weight="50")
+            graph.node(join, label="", height=join_circle_size, width=join_circle_size, shape="circle", weight="50")
             graph.edge(join, dst)
             for src in src_list:
-                graph.edge(src, join, dir="none", minlen="2")
+                graph.edge(src, join, dir="none", minlen=join_circle_minlen)
             
 def create_graph(all_nodes):
     global taken_children
