@@ -187,6 +187,7 @@ memory_graph.rewrite_to_node.reduce_reference_parents.add("Series")
 memory_graph.graphviz_nodes.category_to_color_map['Series'] = 'lightskyblue'
 memory_graph.show( locals() )
 ```
+
 which results in:
 
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example4.png)
@@ -207,7 +208,7 @@ Install using pip:
 pip install memory-graph
 ```
 
-additionally [Graphviz](https://graphviz.org/) needs to be installed.
+Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 
 
 ## Author ##
