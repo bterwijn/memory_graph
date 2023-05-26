@@ -6,7 +6,7 @@ data = {'Name':['Tom', 'Anna', 'Steve', 'Lisa'],
 df = pd.DataFrame(data)
 
 import memory_graph
-memory_graph.rewrite.custom_accessor_functions[pd.DataFrame] = lambda d: list(d.iteritems())
+memory_graph.rewrite.custom_accessor_functions[pd.DataFrame] = lambda d: list(d.items())
 memory_graph.rewrite.custom_accessor_functions[pd.Series] = lambda d: list(d.items())
 memory_graph.rewrite_to_node.reduce_reference_parents.add("DataFrame")
 memory_graph.rewrite_to_node.reduce_reference_parents.add("Series")
