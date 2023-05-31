@@ -32,17 +32,22 @@ Often it is useful to graph all the local variables using:
 memory_graph.show( locals(), block=True )
 ```
 
-So much so that function `d()` is available as alias for exactly this for easier debugging, for example:
+So much so that function `d()` is available as alias for exactly this
+for easier debugging. Additionally it logs all locals by printing them
+which allows for comparing them over time. For example:
 ```
 from memory_graph import d
 
-my_squares=[]
+my_squares = []
 for i in range(10):
     my_squares.append(i**2)
-    d() # 'd' for debug, shows all local variables and blocks
+    d()                                   # 'd' for debug, graphs and logs all local variables and blocks
+my_squares = [i*1000 for i in my_squares]
+d(log=False,block=False)                  # this time without printing and blocking
+d(stream=open("log.txt","a"),graph=False) # this time logging to file and without showing the graph 
 ```
 
-Or set this expression as 'watch' in a debugger tool and open the output file:
+Alternatively debug by setting this expression as 'watch' in a debugger tool and open the output file:
 ```
 memory_graph.render( locals(), "my_debug_graph.pdf" )
 ```
