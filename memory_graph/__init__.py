@@ -6,7 +6,7 @@ from memory_graph import graphviz_nodes
 import traceback
 import inspect
 
-__version__ = "0.1.14"
+__version__ = "0.1.15"
 __author__ = 'Bas Terwijn'
 
 def block_print(skipframes):
