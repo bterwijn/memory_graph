@@ -9,12 +9,13 @@ import inspect
 __version__ = "0.1.14"
 __author__ = 'Bas Terwijn'
 
-def block_print():
+def block_print(skipframes):
     press="press <ENTER> to continue..."
     try:
         iterable=traceback.walk_stack(None)
         iterator=iter(iterable)
-        next(iterator) # skip frame
+        for i in range(skipframes):
+            next(iterator) # pop frame 
         frame,linenr=next(iterator) # read the frame that called show()/render()
         tb=inspect.getframeinfo(frame)
         return f'from file:"{tb.filename}" line:{tb.lineno} function:"{tb.function}", '+press
@@ -26,19 +27,22 @@ def create_graph(data):
     all_nodes=rewrite_to_node.rewrite_data(data)
     return graphviz_nodes.create_graph(all_nodes)
 
-def show(data,block=False):
+def show(data,block=False,skipframes=1):
     graph=create_graph(data)
     graph.view()
     if block:
-        input(f"showing '{graph.filename}', {block_print()}")
+        input(f"showing '{graph.filename}', {block_print(skipframes)}")
 
-def render(data,output_filename=None,block=False):
+def render(data,output_filename=None,block=False,skipframes=1):
     graph=create_graph(data)
     if output_filename:
         graph.render(outfile=output_filename)
         if block:
-            input(f"rendering '{output_filename}', {block_print()}")
+            input(f"rendering '{output_filename}', {block_print(skipframes)}")
     else:
         graph.render()
         if block:
-            input(f"rendering '{graph.filename}', {block_print()}")
+            input(f"rendering '{graph.filename}', {block_print(skipframes)}")
+
+def d(data):
+    show(data,block=True,skipframes=2)

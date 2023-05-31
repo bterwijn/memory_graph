@@ -28,16 +28,26 @@ memory_graph.render( data, "my_graph.png", block=True )
 ## Graph all Local Variables ##
 
 Often it is useful to graph all the local variables using:
-
 ```
 memory_graph.show( locals(), block=True )
 ```
 
-Also useful to set as 'watch' in a debugger tool:
+So much so that function `d()` is available as alias:
+```
+from memory_graph import d
 
+my_list=[]
+for i in range(10):
+    square=i**2
+    my_list.append(square)
+    d(locals())   # 'd' for debug, shows all local variables
+```
+
+Or set this expression as 'watch' in a debugger tool and open the output file:
 ```
 memory_graph.render( locals(), "my_debug_graph.pdf" )
 ```
+
 
 ## Larger Example ##
 
