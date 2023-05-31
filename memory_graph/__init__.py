@@ -66,7 +66,7 @@ def d(data=None,log=True,stream=sys.stdout,graph=True,block=True):
         else:
             print(data,file=stream)
         if not stream==sys.stdout:
-            print(prompt_line,file=stream)
+            print(prompt_line,file=stream,flush=True)
     if graph:
         grph=create_graph(data)
         grph.view()
