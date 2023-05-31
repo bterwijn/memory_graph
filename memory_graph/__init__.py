@@ -44,5 +44,9 @@ def render(data,output_filename=None,block=False,skipframes=1):
         if block:
             input(f"rendering '{graph.filename}', {block_print(skipframes)}")
 
-def d(data):
-    show(data,block=True,skipframes=2)
+def d():
+    iterable=traceback.walk_stack(None)
+    iterator=iter(iterable)
+    frame,linenr=next(iterator) # read the frame that called show()/render()
+    locals_from_calling_frame=frame.f_locals
+    show(locals_from_calling_frame,block=True,skipframes=2)

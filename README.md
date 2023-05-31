@@ -32,15 +32,14 @@ Often it is useful to graph all the local variables using:
 memory_graph.show( locals(), block=True )
 ```
 
-So much so that function `d()` is available as alias:
+So much so that function `d()` is available as alias for exactly this for easier debugging, for example:
 ```
 from memory_graph import d
 
-my_list=[]
+my_squares=[]
 for i in range(10):
-    square=i**2
-    my_list.append(square)
-    d(locals())   # 'd' for debug, shows all local variables
+    my_squares.append(i**2)
+    d() # 'd' for debug, shows all local variables and blocks
 ```
 
 Or set this expression as 'watch' in a debugger tool and open the output file:
