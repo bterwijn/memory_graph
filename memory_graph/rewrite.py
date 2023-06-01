@@ -96,16 +96,20 @@ def rewrite_iterable(iterable,category):
                 add_to_iterable_fun(new_iterable,rewrite(i))
     return new_iterable
 
+def filter_dict(dictionary):
+    for key in dictionary:
+        if not type(key) is str or not is_dunder_name(key):
+            if not is_ignore_type(key):
+                value=dictionary[key]
+                if not is_ignore_type(value):
+                    yield (key,value)
+
 def rewrite_dict(dictionary,category):
     new_iterable,is_just_constructed=remember_or_construct_iterable(dictionary,category)
     if is_just_constructed:
-        for key in dictionary:
-            if not type(key) is str or not is_dunder_name(key):
-                if not is_ignore_type(key):
-                    value=dictionary[key]
-                    if not is_ignore_type(value):
-                        add_to_iterable_fun(new_iterable,rewrite(key))
-                        add_to_iterable_fun(new_iterable,rewrite(value))
+        for key,value in filter_dict(dictionary):
+            add_to_iterable_fun(new_iterable,rewrite(key))
+            add_to_iterable_fun(new_iterable,rewrite(value))
     return new_iterable
 
 def rewrite_object_with_dict(obj,category):

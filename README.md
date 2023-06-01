@@ -37,15 +37,24 @@ which allows for comparing them over time. For example:
 from memory_graph import d
 
 my_squares = []
-for i in range(10):
+my_squares_ref = my_squares
+for i in range(5):
     my_squares.append(i**2)
-    d()                                   # 'd' for debug, graphs and logs all local variables and blocks
-my_squares = [i*1000 for i in my_squares]
-d(log=False,block=False)                  # this time without printing and blocking
-d(stream=open("log.txt","a"),graph=False) # this time logging to file and without showing the graph 
-```
+    d()                                    # 'd' for debug, logs and graphs all local variables and blocks
+my_squares_copy = my_squares.copy()
+d(block=False)                             # debug without blocking
+d(log=False,block=False)                   # debug without logging and blocking
 
-Alternatively debug by setting this expression as 'watch' in a debugger tool and open the output file:
+import memory_graph
+memory_graph.log_file=open("log.txt","w")  # now log to file instead of screen (sys.stdout)
+d(graph=False)                             # debug without showing the graph
+```
+Notice that in the graph it is clear that 'my_squares' and
+'my_squares_ref' share their data while 'my_squares_copy' has its own
+copy. This can not be observed in the log.
+
+Alternatively debug by setting this expression as 'watch' in a
+debugger tool and open the output file:
 ```
 memory_graph.render( locals(), "my_debug_graph.pdf" )
 ```
