@@ -3,15 +3,13 @@
 Want to draw a graph of your data in Python to better understand its
 structure or the Python memory model in general?
 
-Just call `memory_graph.show(your_data)`, an example:
-
+Just call `memory_graph.show( your_data )`, an example:
 ```
 data = [ (1, 2), [3, 4], {5:'five', 6:'six'} ]
 
 import memory_graph
 memory_graph.show( data, block=True )
 ```
-
 This shows the graph with the starting point of your 'data' drawn
 using thick lines, the program blocks until the ENTER key is pressed.
 
@@ -28,16 +26,22 @@ memory_graph.render( data, "my_graph.png", block=True )
 ## Graph all Local Variables ##
 
 Often it is useful to graph all the local variables using:
-
 ```
 memory_graph.show( locals(), block=True )
 ```
-
 Also useful to set as 'watch' in a debugger tool:
-
 ```
 memory_graph.render( locals(), "my_debug_graph.pdf" )
 ```
+
+## Install ##
+
+Install using pip:
+```
+pip install memory-graph
+```
+Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
+
 
 ## Larger Example ##
 
@@ -45,7 +49,6 @@ This larger example shows objects that share a class (static) variable
 and also shows we can handle recursive references although the graph
 layout might be less pretty (trust me there are good reasons for
 this).
-
 ```
 my_list = [10, 20, 10]
 
@@ -198,17 +201,6 @@ When edges overlap it can be hard to distinguish them. Using an
 interactive graphviz viewer, such as
 [xdot](https://github.com/jrfonseca/xdot.py), on a '*.gv' output file
 will help.
-
-
-## Install ##
-
-Install using pip:
-
-```
-pip install memory-graph
-```
-
-Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 
 
 ## Author ##
