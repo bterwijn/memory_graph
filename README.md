@@ -23,6 +23,15 @@ in the format of your choosing and open it yourself.
 memory_graph.render( data, "my_graph.png", block=True )
 ```
 
+## Install ##
+
+Install using pip:
+```
+pip install memory-graph
+```
+Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
+
+
 ## Graph all Local Variables ##
 
 Often it is useful to graph all the local variables using:
@@ -30,9 +39,9 @@ Often it is useful to graph all the local variables using:
 memory_graph.show( locals(), block=True )
 ```
 
-So much so that function `d()` is available as alias for exactly this
-for easier debugging. Additionally it logs all locals by printing them
-which allows for comparing them over time. For example:
+So much so that function `d()` is available as alias for easier
+debugging. Additionally it logs all locals by printing them which
+allows for comparing them over time. For example:
 ```
 from memory_graph import d
 
@@ -49,23 +58,27 @@ import memory_graph
 memory_graph.log_file=open("log.txt","w")  # now log to file instead of screen (sys.stdout)
 d(graph=False)                             # debug without showing the graph
 ```
+
+Which in the end results in:
+
+![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example2.png)
+```
+my_squares: [0, 1, 4, 9, 16]
+my_squares_ref: [0, 1, 4, 9, 16]
+i: 4
+my_squares_copy: [0, 1, 4, 9, 16]
+```
+
 Notice that in the graph it is clear that 'my_squares' and
 'my_squares_ref' share their data while 'my_squares_copy' has its own
-copy. This can not be observed in the log.
+copy. This can not be observed in the log and shows the benefit
+of the graph.
 
 Alternatively debug by setting this expression as 'watch' in a
 debugger tool and open the output file:
 ```
 memory_graph.render( locals(), "my_debug_graph.pdf" )
 ```
-
-## Install ##
-
-Install using pip:
-```
-pip install memory-graph
-```
-Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 
 
 ## Larger Example ##
@@ -95,7 +108,7 @@ my_list.append(data) # recursive reference
 import memory_graph
 memory_graph.show( locals() )
 ```
-![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example2.png)
+![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example3.png)
 
 
 ## Config ##
@@ -190,7 +203,7 @@ memory_graph.rewrite_to_node.reduce_reference_children.remove("int") # draw refe
 
 the last example looks like:
 
-![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example3.png)
+![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example4.png)
 
 
 ### Custom Accessor Functions ###
@@ -218,7 +231,7 @@ memory_graph.show( locals() )
 
 which results in:
 
-![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example4.png)
+![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example5.png)
 
 ## Troubleshooting ##
 
