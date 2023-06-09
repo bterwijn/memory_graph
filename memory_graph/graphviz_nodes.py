@@ -28,12 +28,14 @@ edge_attr={}
 
 # ------- private ----------
 taken_children=set()
-all_references={}
+graphviz_nodes=[]
+graphviz_references={}
+
 
 def add_reference(src,dst):
-    if not dst in all_references:
-        all_references[dst]=[]
-    all_references[dst].append(src)
+    if not dst in graphviz_references:
+        graphviz_references[dst]=[]
+    graphviz_references[dst].append(src)
 
 def get_color(node):
     category=node.get_type_name()
@@ -135,11 +137,12 @@ def get_refs(node,all_nodes):
             for index,element in enumerate(node.get_elements())
             if not element.get_ref() is None)
 
-def create_node(node,all_nodes,graph):
-    name="node"+str(node.get_index())
-    border=2 if node.get_index()==0 else 1
-    node_label=get_node_label(node,border)
-    graph.node(name, node_label, xlabel=node.get_type_name())
+def traverse_node(node,all_nodes,graph):
+    #name="node"+str(node.get_index())
+    #border=2 if node.get_index()==0 else 1
+    #node_label=get_node_label(node,border)
+    #graph.node(name, node_label, xlabel=node.get_type_name())
+    graphviz_nodes.append(node)
     my_children=[]
     for node_src,node_dst in get_refs(node,all_nodes):
         add_reference(node_src,node_dst)
@@ -150,19 +153,27 @@ def create_node(node,all_nodes,graph):
         lineup=" -> ".join(my_children)
         graph.body.append('{ rank="same"  '+lineup+'  [weight=99,style=invis]; }\n')
         
-def create_graph_recursive(all_nodes,node_index,memo,graph):
+def traverse_graph_recursive(all_nodes,node_index,memo,graph):
     if not node_index in memo:
         memo.add(node_index)
         node=all_nodes[node_index]
         for e in node.get_elements():
             ref=e.get_ref()
             if ref:
-                create_graph_recursive(all_nodes,ref,memo,graph)
-        create_node(node,all_nodes,graph) # create while backtracking recursion 
+                traverse_graph_recursive(all_nodes,ref,memo,graph)
+        traverse_node(node,all_nodes,graph) # create while backtracking recursion
 
-def add_references(graph):
-    for dst in all_references:
-        src_list=all_references[dst]
+def add_graphviz_nodes(graph):
+    graphviz_nodes.sort(key=lambda n : n.get_index())
+    for node in graphviz_nodes:
+        name=get_node_name(node)
+        border=2 if node.get_index()==0 else 1
+        node_label=get_node_label(node,border)
+        graph.node(name, node_label, xlabel=node.get_type_name())
+        
+def add_graphviz_references(graph):
+    for dst in graphviz_references:
+        src_list=graphviz_references[dst]
         if len(src_list)<join_references_count:
             for src in src_list:
                 graph.edge(src, dst)
@@ -174,14 +185,15 @@ def add_references(graph):
                 graph.edge(src, join, dir="none", minlen=join_circle_minlen)
             
 def create_graph(all_nodes):
-    global taken_children
     taken_children.clear()
-    all_references.clear()
+    graphviz_nodes.clear()
+    graphviz_references.clear()
     #Node.print_all_nodes(all_nodes)
     graph=graphviz.Digraph('memory_graph',
                            graph_attr=graph_attr,
                            node_attr=node_attr,
                            edge_attr=edge_attr)
-    create_graph_recursive(all_nodes,0,set(),graph)
-    add_references(graph)
+    traverse_graph_recursive(all_nodes,0,set(),graph)
+    add_graphviz_nodes(graph)
+    add_graphviz_references(graph)
     return graph
