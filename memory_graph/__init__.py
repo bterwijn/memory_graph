@@ -7,7 +7,7 @@ import traceback
 import inspect
 import sys
 
-__version__ = "0.1.15"
+__version__ = "0.1.16"
 __author__ = 'Bas Terwijn'
 
 log_file=sys.stdout
