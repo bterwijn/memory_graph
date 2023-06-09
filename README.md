@@ -85,8 +85,7 @@ memory_graph.render( locals(), "my_debug_graph.pdf" )
 
 This larger example shows objects that share a class (static) variable
 and also shows we can handle recursive references although the graph
-layout might be less pretty (trust me there are good reasons for
-this).
+layout might suffer a bit.
 ```
 my_list = [10, 20, 10]
 
@@ -246,4 +245,4 @@ Bas Terwijn
 
 
 ## Inspiration ##
-Inspired by [PythonTutor](https://pythontutor.com/visualize.html).
+Inspired by [PythonTutor](https://pythontutor.com/).
