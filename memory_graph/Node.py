@@ -46,7 +46,7 @@ class Node:
         return self.elements
 
     def add_elements(self,child):
-        if child.get_category()!="category_singular":
+        if not (child.get_category()=="category_singular" or child.get_category()=="category_unkown"):
             if len(self.elements)==0:
                 self.key_value=child.key_value
             else:
