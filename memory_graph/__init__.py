@@ -3,11 +3,10 @@ from memory_graph import Node
 from memory_graph import rewrite_to_node
 from memory_graph import graphviz_nodes
 
-import traceback
 import inspect
 import sys
 
-__version__ = "0.1.18"
+__version__ = "0.1.19"
 __author__ = 'Bas Terwijn'
 
 log_file=sys.stdout
@@ -15,12 +14,15 @@ press_enter_text="press <ENTER> to continue..."
 
 def get_source_location():
     try:
-        iterable=traceback.walk_stack(None)
-        iterator=iter(iterable)
-        next(iterator) # skip frame 
-        frame,linenr=next(iterator) # read the frame that called show()/render()
-        tb=inspect.getframeinfo(frame)
-        return f'in file:"{tb.filename}" line:{tb.lineno} function:"{tb.function}"'
+        frameInfos = inspect.stack()
+        iterator = iter(frameInfos)
+        frameInfo = next(iterator) # skip the get_source_location() frame
+        frameInfo = next(iterator) # skip the frame calling get_source_location()
+        frameInfo = next(iterator) # get the frame calling that frame
+        filename= frameInfo.filename
+        line_nr= frameInfo.lineno
+        function = frameInfo.function
+        return f'in file:"{filename}" line:{line_nr} function:"{function}"'
     except Exception as e:
         #print("Exception:",e)
         pass
@@ -48,12 +50,13 @@ def render(data,output_filename=None,block=False):
             input(f"rendering '{graph.filename}', {get_source_location()}, {press_enter_text}")
 
 def get_locals_from_calling_frame():
-    iterable=traceback.walk_stack(None)
-    iterator=iter(iterable)
-    next(iterator) # skip frame
-    frame,linenr=next(iterator) # read the frame that called d()
-    return frame.f_locals # get locals() from the calling frame
-            
+    frameInfos = inspect.stack()
+    iterator = iter(frameInfos)
+    frameInfo = next(iterator) # skip the get_locals_from_calling_frame() frame
+    frameInfo = next(iterator) # skip the d() frame
+    frameInfo = next(iterator) # get the frame that called d()
+    return frameInfo.frame.f_locals # get locals() from this frame
+
 def d(data=None,log=True,graph=True,block=True):
     if data is None:
         data=get_locals_from_calling_frame()
