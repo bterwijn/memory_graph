@@ -1,7 +1,11 @@
 import types
 
 # the types of the values we rewrite
-ignore_types={types.FunctionType, types.ModuleType, types.GenericAlias}
+ignore_types={types.FunctionType, types.ModuleType}
+try:
+    ignore_types.add(types.GenericAlias) # only in python3.9 onwards
+except AttributeError as e:
+    pass
 singular_types={type(None), bool, int, float, complex, str, range, bytes}
 linear_types={tuple, list, set, frozenset, bytearray}
 dict_types={dict,types.MappingProxyType}
