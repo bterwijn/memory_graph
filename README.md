@@ -13,7 +13,7 @@ This shows a graph with the starting point of your 'data' drawn with thick lines
 
 Alternatively render the graph to an output file of your choosing using for example:
 ```python
-memory_graph.render( data, "my_graph.png")
+memory_graph.render( data, "my_graph.png" )
 ```
 
 ## Installation ##
@@ -32,7 +32,7 @@ The [Python Data Model](https://docs.python.org/3/reference/datamodel.html) make
 
 
 ### immutable type
-In the code below variable `a` and `b` both reference the same `int` value 10. An `int` is an immutable type and therefore when we change variable `a` its value can **not** be mutated, and thus a copy is made and `a` and `b` reference a different value afterwards.
+In the code below variable `a` and `b` both reference the same `int` value 10. An `int` is an immutable type and therefore when we change variable `a` its value can **not** be mutated in place, and thus a copy is made and `a` and `b` reference a different value afterwards.
 ```python
 import memory_graph
 memory_graph.rewrite_to_node.reduce_reference_children.remove("int") # shows references to 'int'
@@ -49,7 +49,7 @@ print(f'a: {a} b: {b}')
 
 
 ### mutable type
-With mutable types the result is different. In the code below variable `a` and `b` both reference the same `list` value [4, 3, 2]. A `list` is a mutable type and therefore when we change variable `a` its value can be mutated in place and `a` and `b` both reference the same new value afterwards.
+With mutable types the result is different. In the code below variable `a` and `b` both reference the same `list` value [4, 3, 2]. A `list` is a mutable type and therefore when we change variable `a` its value **can** be mutated in place and `a` and `b` both reference the same new value afterwards.
 ```python
 import memory_graph
 
