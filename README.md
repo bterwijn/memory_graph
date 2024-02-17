@@ -1,36 +1,109 @@
 # Graph your Memory #
 
-Want to draw a graph of your data in Python to better understand its
-structure or the Python memory model in general?
-
-Just call `memory_graph.show( your_data )`, an example:
+Does your Python code have a bug, or is it behaving differently from what you expect? The problem could be a misunderstanding of the Python data model, and the first step to the solution is drawing your data as a graph using `memory_graph.show( your_data )`, an example:
 ```
-data = [ (1, 2), [3, 4], {5:'five', 6:'six'} ]
-
 import memory_graph
+
+data = [ (1, 2), [3, 4], {5:'five', 6:'six'} ]
 memory_graph.show( data, block=True )
 ```
-This shows the graph with the starting point of your 'data' drawn
-using thick lines, the program blocks until the ENTER key is pressed.
+This shows the graph with the starting point of your 'data' drawn using thick lines, the program blocks until the ENTER key is pressed.
 
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example1.png)
 
-If `show()` doesn't work well on your system (the PDF viewer
-integration is platform specific) use `render()` to output the graph
-in the format of your choosing and open it yourself.
 
+Alternatively render the graph to an output file of your choosing using:
 ```
-memory_graph.render( data, "my_graph.png", block=True )
+memory_graph.render( data, "my_graph.png")
 ```
 
-## Install ##
 
-Install using pip:
+## Installation ##
+
+Install `memory_graph` using pip:
 ```
 pip install memory-graph
 ```
 Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 
+
+## Python Data Model
+
+The Python [data model](https://docs.python.org/3/reference/datamodel.html) makes a distiction between mutable and immutable types:
+
+* **mutable**: int, float, complex, bool, str, tuple, bytes, frozenset
+* **immutable**: list, dict, set, user-defined classes, all others
+
+### immutable
+
+```
+import memory_graph
+memory_graph.rewrite_to_node.reduce_reference_children.remove("int") # show references to ints
+
+a = 10
+b = a
+memory_graph.render(locals(), 'immutable1.png')
+a += 1
+memory_graph.render(locals(), 'immutable2.png')
+print(f'a: {a} b: {b}')
+```
+![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/immutable1.png)
+![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/immutable2.png)
+
+### mutable
+
+```
+import memory_graph
+
+a = [4, 3, 2]
+b = a
+memory_graph.render(locals(), 'mutable1.png')
+a.append(1)
+memory_graph.render(locals(), 'mutable2.png')
+```
+![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/mutable1.png)
+![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/mutable2.png)
+
+### copying
+
+```import memory_graph
+import copy
+
+a = [ [1, 2], ['a', 'b'] ]
+
+# three different ways to make a "copy" of a:
+c1 = a
+c2 = copy.copy(a) # equivalent:  a.copy() a[:]
+c3 = copy.deepcopy(a)
+
+memory_graph.render(locals(), 'copies.png')
+
+```
+![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copies.png)
+
+### custom copy method
+
+```import memory_graph
+import copy
+
+class My_Class:
+
+    def __init__(self):
+        self.numbers = [1, 2]
+        self.letters = ['a', 'b']
+
+    def copy(self): # custom copy method copies the numbers but shares the letters
+        c = copy.copy(self)
+        c.numbers = copy.copy(self.numbers)
+        return c
+
+a = My_Class()
+b = a.copy()
+
+memory_graph.render(locals(), 'copy_method.png')
+
+```
+![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_method.png)
 
 ## Graph all Local Variables ##
 
@@ -234,10 +307,12 @@ which results in:
 
 ## Troubleshooting ##
 
-When edges overlap it can be hard to distinguish them. Using an
+* When edges overlap it can be hard to distinguish them. Using an
 interactive graphviz viewer, such as
 [xdot](https://github.com/jrfonseca/xdot.py), on a '*.gv' output file
 will help.
+
+
 
 
 ## Author ##
