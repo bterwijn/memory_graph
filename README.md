@@ -42,7 +42,6 @@ b = a
 memory_graph.render(locals(), 'immutable1.png')
 a += 1
 memory_graph.render(locals(), 'immutable2.png')
-print(f'a: {a} b: {b}')
 ```
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/immutable1.png)
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/immutable2.png)
@@ -62,7 +61,7 @@ memory_graph.render(locals(), 'mutable2.png')
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/mutable1.png)
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/mutable2.png)
 
-Python makes this distiction between mutable and immutable types because a value of a mutable type generally could be large and therefore it would be slow to make a copy each time you change it. On the other hand, a value of an immutable type generally is small and therefore fast to copy.
+Python makes this distiction between mutable and immutable types because a value of a mutable type generally could be large and therefore it would be slow to make a copy each time you change it. On the other hand, a value of a changable immutable type generally is small and therefore fast to copy.
 
 
 ### copying
@@ -283,7 +282,7 @@ the last example looks like:
 
 ### Custom Accessor Functions ###
 For any type a custom accessor function can be introduced. For example
-Panda DataFrames and Series are not visualized correctly by
+Pandas DataFrames and Series are not visualized correctly by
 default. This can be fixed by adding custom accessor functions:
 ```python
 import pandas as pd

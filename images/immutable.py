@@ -6,4 +6,3 @@ b = a
 memory_graph.render(locals(), 'immutable1.png')
 a += 1
 memory_graph.render(locals(), 'immutable2.png')
-print(f'a: {a} b: {b}')
