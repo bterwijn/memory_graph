@@ -1,7 +1,7 @@
 # Graph your Memory #
 
-Does your Python code have a bug, or is it behaving differently from what you expect? The problem could be a misunderstanding of the Python data model, and the first step to the solution is drawing your data as a graph using `memory_graph.show( your_data )`, an example:
-```
+Does your Python code have a bug, or is it behaving differently from what you expect? The problem could be a misunderstanding of the Python data model, and the first step to the solution could be drawing your data as a graph using `memory_graph.show( your_data )`, an example:
+```python
 import memory_graph
 
 data = [ (1, 2), [3, 4], {5:'five', 6:'six'} ]
@@ -12,11 +12,10 @@ This shows the graph with the starting point of your 'data' drawn using thick li
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example1.png)
 
 
-Alternatively render the graph to an output file of your choosing using:
-```
+Alternatively render the graph to an output file of your choosing using for example:
+```python
 memory_graph.render( data, "my_graph.png")
 ```
-
 
 ## Installation ##
 
@@ -29,16 +28,16 @@ Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 
 ## Python Data Model
 
-The Python [data model](https://docs.python.org/3/reference/datamodel.html) makes a distiction between mutable and immutable types:
+The [Python Data Model](https://docs.python.org/3/reference/datamodel.html) makes a distiction between mutable and immutable types:
 
-* **mutable**: int, float, complex, bool, str, tuple, bytes, frozenset
-* **immutable**: list, dict, set, user-defined classes, all others
+* **mutable**: bool, int, float, complex, str, tuple, bytes, frozenset
+* **immutable**: list, dict, set, user-defined classes, all other types
 
-### immutable
-
-```
+### immutable type
+In the code below variable `a` and `b` both reference the same `int` value 10. An `int` is an immutable type and therefore when we change variable `a` its value can **not** be mutated, and thus a copy is made and `a` and `b` each reference a different value afterwards.
+```python
 import memory_graph
-memory_graph.rewrite_to_node.reduce_reference_children.remove("int") # show references to ints
+memory_graph.rewrite_to_node.reduce_reference_children.remove("int") # shows references to 'int'
 
 a = 10
 b = a
@@ -50,9 +49,10 @@ print(f'a: {a} b: {b}')
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/immutable1.png)
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/immutable2.png)
 
-### mutable
 
-```
+### mutable type
+With mutable types the result is different. In the code below variable `a` and `b` both reference the same `list` value [4, 3, 2]. A `list` is a mutable type and therefore when we change variable `a` its value can be mutated in place and `a` and `b` both reference the same new value afterwards.
+```python
 import memory_graph
 
 a = [4, 3, 2]
@@ -64,26 +64,35 @@ memory_graph.render(locals(), 'mutable2.png')
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/mutable1.png)
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/mutable2.png)
 
-### copying
+A value of a mutable type generally could be large and therefore it would be slow to make a copy each time you change it. On the other hand, a value of an immutable type generally is small and therefore fast to copy.
 
-```import memory_graph
+### copying
+Python offers three different "copy" options that we will demonstrate using a nested list (list of lists):
+
+```python
+import memory_graph
 import copy
 
-a = [ [1, 2], ['a', 'b'] ]
+a = [ [1, 2], ['a', 'b'] ] # a nested list
 
-# three different ways to make a "copy" of a:
+# three different ways to make a "copy" of 'a':
 c1 = a
 c2 = copy.copy(a) # equivalent:  a.copy() a[:]
 c3 = copy.deepcopy(a)
 
 memory_graph.render(locals(), 'copies.png')
-
 ```
+
+* `c1` is an *assignment*, all the data is shared.
+* `c2` is a *shallow copy*, only the data referenced by the first reference is copied and the underlying data is shared
+* `c3` is a *deep copy*, all the data is copied
+
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copies.png)
 
 ### custom copy method
-
-```import memory_graph
+For a class you can write your own custom copy() method in case neither of these three "copy" options does what you want. For example the copy() method of My_Class in the code below copies its `numbers` but shares it `letters` between different objects.
+```python
+import memory_graph
 import copy
 
 class My_Class:
@@ -101,21 +110,20 @@ a = My_Class()
 b = a.copy()
 
 memory_graph.render(locals(), 'copy_method.png')
-
 ```
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_method.png)
 
 ## Graph all Local Variables ##
 
 Often it is useful to graph all the local variables using:
-```
+```python
 memory_graph.show( locals(), block=True )
 ```
 
 So much so that function `d()` is available as alias for easier
 debugging. Additionally it logs all locals by printing them which
 allows for comparing them over time. For example:
-```
+```python
 from memory_graph import d
 
 my_squares = []
@@ -157,9 +165,8 @@ memory_graph.render( locals(), "my_debug_graph.pdf" )
 ## Larger Example ##
 
 This larger example shows objects that share a class (static) variable
-and also shows we can handle recursive references although the graph
-layout might suffer a bit.
-```
+and also shows we can handle recursive references.
+```python
 my_list = [10, 20, 10]
 
 class My_Class:
@@ -283,8 +290,7 @@ the last example looks like:
 For any type a custom accessor function can be introduced. For example
 Panda DataFrames and Series are not visualized correctly by
 default. This can be fixed by adding custom accessor functions:
-
-```
+```python
 import pandas as pd
 
 data = {'Name':['Tom', 'Anna', 'Steve', 'Lisa'],
@@ -307,12 +313,10 @@ which results in:
 
 ## Troubleshooting ##
 
-* When edges overlap it can be hard to distinguish them. Using an
+* When graph edges overlap it can be hard to distinguish them. Using an
 interactive graphviz viewer, such as
 [xdot](https://github.com/jrfonseca/xdot.py), on a '*.gv' output file
 will help.
-
-
 
 
 ## Author ##
