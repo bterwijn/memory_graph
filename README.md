@@ -48,7 +48,7 @@ memory_graph.render(locals(), 'immutable2.png')
 
 
 ### mutable type
-With mutable types the result is different. In the code below variable `a` and `b` both reference the same `list` value [4, 3, 2]. A `list` is a mutable type and therefore when we change variable `a` its value **can** be mutated in place and `a` and `b` both reference the same new value afterwards.
+With mutable types the result is different. In the code below variable `a` and `b` both reference the same `list` value [4, 3, 2]. A `list` is a mutable type and therefore when we change variable `a` its value **can** be mutated in place and `a` and `b` both reference the same new value afterwards. The result is that changing `a` also changes `b`. Sometimes you want this but other times you don't and then you will have to make a copy so that `b` is independent from `a`.
 ```python
 import memory_graph
 
@@ -75,7 +75,7 @@ a = [ [1, 2], ['a', 'b'] ] # a nested list
 
 # three different ways to make a "copy" of 'a':
 c1 = a
-c2 = copy.copy(a) # equivalent:  a.copy() a[:]
+c2 = copy.copy(a) # equivalent to:   a.copy() a[:]
 c3 = copy.deepcopy(a)
 
 memory_graph.render(locals(), 'copies.png')
@@ -89,7 +89,7 @@ memory_graph.render(locals(), 'copies.png')
 
 
 ### custom copy method
-For a class you can write your own custom copy() method in case neither of these three "copy" options does what you want. For example the copy() method of My_Class in the code below copies its `numbers` but shares it `letters` between different objects.
+For a class you can write your own custom copy() method in case neither of the three "copy" options does what you want. For example the copy() method of My_Class in the code below copies its `numbers` but shares it `letters` between different objects.
 ```python
 import memory_graph
 import copy
