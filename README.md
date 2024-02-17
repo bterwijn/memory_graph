@@ -48,7 +48,7 @@ memory_graph.render(locals(), 'immutable2.png')
 
 
 ### mutable type
-With mutable types the result is different. In the code below variable `a` and `b` both reference the same `list` value [4, 3, 2]. A `list` is a mutable type and therefore when we change variable `a` its value **can** be mutated in place and `a` and `b` both reference the same new value afterwards. The result is that changing `a` also changes `b`. Sometimes you want this but other times you don't and then you will have to make a copy so that `b` is independent from `a`.
+With mutable types the result is different. In the code below variable `a` and `b` both reference the same `list` value [4, 3, 2]. A `list` is a mutable type and therefore when we change variable `a` its value **can** be mutated in place and `a` and `b` both reference the same new value afterwards. The result is that changing `a` also changes `b` and vice versa. Sometimes you want this but other times you don't and then you will have to make a copy so that `b` is independent from `a`.
 ```python
 import memory_graph
 
@@ -65,13 +65,13 @@ Python makes this distiction between mutable and immutable types because a value
 
 
 ### copying
-Python offers three different "copy" options that we will demonstrate using a nested list (list of lists):
+Python offers three different "copy" options that we will demonstrate using a nested list:
 
 ```python
 import memory_graph
 import copy
 
-a = [ [1, 2], ['a', 'b'] ] # a nested list
+a = [ [1, 2], ['a', 'b'] ] # a nested list (a list containing other lists)
 
 # three different ways to make a "copy" of 'a':
 c1 = a
@@ -89,7 +89,7 @@ memory_graph.render(locals(), 'copies.png')
 
 
 ### custom copy method
-For a class you can write your own custom copy() method in case neither of the three "copy" options does what you want. For example the copy() method of My_Class in the code below copies its `numbers` but shares it `letters` between different objects.
+For a class you can write your own custom copy() method in case the three "copy" options don't do what you want. For example the copy() method of My_Class in the code below copies its `numbers` but shares it `letters` between different objects.
 ```python
 import memory_graph
 import copy
@@ -162,13 +162,12 @@ memory_graph.render( locals(), "my_debug_graph.pdf" )
 
 
 ## Larger Example ##
-This larger example shows objects that share a class (static) variable
-and also shows we can handle recursive references.
+This larger example shows a (static) class variable and recursive references.
 ```python
 my_list = [10, 20, 10]
 
 class My_Class:
-    my_class_var = 20 # class variable: shared by different objects
+    my_class_var = 20 # class variable
     
     def __init__(self):
         self.var1 = "foo"
