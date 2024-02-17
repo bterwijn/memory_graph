@@ -265,7 +265,7 @@ Configure what nodes are created based on reading the given data structure:
 - ***memory_graph.rewrite.dict_ignore_dunder_keys*** : bool
   - determines if we ignore dunder keys ('`__example`') in dict_types
 - ***memory_graph.rewrite.custom_accessor_functions*** : dict
-  - custom accessor functions to defined how to read various types
+  - custom accessor functions to define how to read various data types
 
 
 ### Config Examples ###
