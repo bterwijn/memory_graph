@@ -1,13 +1,12 @@
 # Graph your Memory #
-
-Does your Python code have a bug, or is it behaving differently from what you expect? The problem could be a misunderstanding of the Python data model, and the first step to the solution could be drawing your data as a graph using `memory_graph.show( your_data )`, an example:
+Does your Python code have a bug, is it behaving differently from what you expect? The problem could be a misunderstanding of the Python data model, and the first step to the solution could be drawing your data as a graph using `memory_graph.show( your_data )`, an example:
 ```python
 import memory_graph
 
 data = [ (1, 2), [3, 4], {5:'five', 6:'six'} ]
 memory_graph.show( data, block=True )
 ```
-This shows the graph with the starting point of your 'data' drawn using thick lines, the program blocks until the ENTER key is pressed.
+This shows a graph with the starting point of your 'data' drawn with thick lines, the program blocks until the ENTER key is pressed.
 
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example1.png)
 
@@ -18,7 +17,6 @@ memory_graph.render( data, "my_graph.png")
 ```
 
 ## Installation ##
-
 Install `memory_graph` using pip:
 ```
 pip install memory-graph
@@ -27,14 +25,14 @@ Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 
 
 ## Python Data Model
-
 The [Python Data Model](https://docs.python.org/3/reference/datamodel.html) makes a distiction between mutable and immutable types:
 
 * **mutable**: bool, int, float, complex, str, tuple, bytes, frozenset
 * **immutable**: list, dict, set, user-defined classes, all other types
 
+
 ### immutable type
-In the code below variable `a` and `b` both reference the same `int` value 10. An `int` is an immutable type and therefore when we change variable `a` its value can **not** be mutated, and thus a copy is made and `a` and `b` each reference a different value afterwards.
+In the code below variable `a` and `b` both reference the same `int` value 10. An `int` is an immutable type and therefore when we change variable `a` its value can **not** be mutated, and thus a copy is made and `a` and `b` reference a different value afterwards.
 ```python
 import memory_graph
 memory_graph.rewrite_to_node.reduce_reference_children.remove("int") # shows references to 'int'
@@ -64,7 +62,8 @@ memory_graph.render(locals(), 'mutable2.png')
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/mutable1.png)
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/mutable2.png)
 
-A value of a mutable type generally could be large and therefore it would be slow to make a copy each time you change it. On the other hand, a value of an immutable type generally is small and therefore fast to copy.
+Python makes this distiction between mutable and immutable types because a value of a mutable type generally could be large and therefore it would be slow to make a copy each time you change it. On the other hand, a value of an immutable type generally is small and therefore fast to copy.
+
 
 ### copying
 Python offers three different "copy" options that we will demonstrate using a nested list (list of lists):
@@ -88,6 +87,7 @@ memory_graph.render(locals(), 'copies.png')
 * `c3` is a *deep copy*, all the data is copied
 
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copies.png)
+
 
 ### custom copy method
 For a class you can write your own custom copy() method in case neither of these three "copy" options does what you want. For example the copy() method of My_Class in the code below copies its `numbers` but shares it `letters` between different objects.
@@ -113,8 +113,8 @@ memory_graph.render(locals(), 'copy_method.png')
 ```
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_method.png)
 
-## Graph all Local Variables ##
 
+## Graph all Local Variables ##
 Often it is useful to graph all the local variables using:
 ```python
 memory_graph.show( locals(), block=True )
@@ -150,12 +150,12 @@ i: 4
 my_squares_copy: [0, 1, 4, 9, 16]
 ```
 
-Notice that in the graph it is clear that 'my_squares' and
-'my_squares_ref' share their data while 'my_squares_copy' has its own
+Notice that in the graph it is clear that `my_squares` and
+`my_squares_ref` share their data while `my_squares_copy` has its own
 copy. This can not be observed in the log and shows the benefit
 of the graph.
 
-Alternatively debug by setting this expression as 'watch' in a
+Alternatively debug by setting this expression as a 'watch' in a
 debugger tool and open the output file:
 ```
 memory_graph.render( locals(), "my_debug_graph.pdf" )
@@ -163,7 +163,6 @@ memory_graph.render( locals(), "my_debug_graph.pdf" )
 
 
 ## Larger Example ##
-
 This larger example shows objects that share a class (static) variable
 and also shows we can handle recursive references.
 ```python
@@ -191,11 +190,9 @@ memory_graph.show( locals() )
 
 
 ## Config ##
-
 Different aspects of memory_graph can be configured.
 
 ### Config Visualization, graphviz_nodes ###
-
 Configure how the nodes of the graph are visualized with:
 
 - ***memory_graph.graphviz_nodes.linear_layout_vertical*** : bool
@@ -269,7 +266,6 @@ Configure what nodes are created based on reading the given data structure:
 
 
 ### Config Examples ###
-
 With configuration:
 ```
 memory_graph.graphviz_nodes.linear_layout_vertical = False           # draw lists,tuples,sets,... horizontally
@@ -286,7 +282,6 @@ the last example looks like:
 
 
 ### Custom Accessor Functions ###
-
 For any type a custom accessor function can be introduced. For example
 Panda DataFrames and Series are not visualized correctly by
 default. This can be fixed by adding custom accessor functions:
@@ -311,8 +306,8 @@ which results in:
 
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example5.png)
 
-## Troubleshooting ##
 
+## Troubleshooting ##
 * When graph edges overlap it can be hard to distinguish them. Using an
 interactive graphviz viewer, such as
 [xdot](https://github.com/jrfonseca/xdot.py), on a '*.gv' output file
