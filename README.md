@@ -89,7 +89,7 @@ memory_graph.render(locals(), 'copies.png')
 
 
 ### custom copy method ###
-For a class you can write your own custom copy() method in case the three "copy" options don't do what you want. For example the copy() method of My_Class in the code below copies its `numbers` but shares it `letters` between different objects.
+For a class you can write your own custom copy() method in case the three "copy" options don't do what you want. For example the copy() method of My_Class in the code below copies its `numbers` but shares its `letters` between different objects.
 ```python
 import memory_graph
 import copy
