@@ -6,7 +6,7 @@ from memory_graph import graphviz_nodes
 import inspect
 import sys
 
-__version__ = "0.1.21"
+__version__ = "0.1.22"
 __author__ = 'Bas Terwijn'
 
 log_file=sys.stdout

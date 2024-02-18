@@ -24,14 +24,14 @@ pip install memory-graph
 Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 
 
-## Python Data Model
+## Python Data Model ##
 The [Python Data Model](https://docs.python.org/3/reference/datamodel.html) makes a distiction between immutable and mutable types:
 
 * **immutable**: bool, int, float, complex, str, tuple, bytes, frozenset
 * **mutable**: list, dict, set, user-defined classes, all other types
 
 
-### immutable type
+### immutable type ###
 In the code below variable `a` and `b` both reference the same `int` value 10. An `int` is an immutable type and therefore when we change variable `a` its value can **not** be mutated in place, and thus a copy is made and `a` and `b` reference a different value afterwards.
 ```python
 import memory_graph
@@ -47,7 +47,7 @@ memory_graph.render(locals(), 'immutable2.png')
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/immutable2.png)
 
 
-### mutable type
+### mutable type ###
 With mutable types the result is different. In the code below variable `a` and `b` both reference the same `list` value [4, 3, 2]. A `list` is a mutable type and therefore when we change variable `a` its value **can** be mutated in place and `a` and `b` both reference the same new value afterwards. The result is that changing `a` also changes `b` and vice versa. Sometimes you want this but other times you don't and then you will have to make a copy so that `b` is independent from `a`.
 ```python
 import memory_graph
@@ -64,7 +64,7 @@ memory_graph.render(locals(), 'mutable2.png')
 Python makes this distiction between mutable and immutable types because a value of a mutable type generally could be large and therefore it would be slow to make a copy each time you change it. On the other hand, a value of a changable immutable type generally is small and therefore fast to copy.
 
 
-### copying
+### copying ###
 Python offers three different "copy" options that we will demonstrate using a nested list:
 
 ```python
@@ -88,7 +88,7 @@ memory_graph.render(locals(), 'copies.png')
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copies.png)
 
 
-### custom copy method
+### custom copy method ###
 For a class you can write your own custom copy() method in case the three "copy" options don't do what you want. For example the copy() method of My_Class in the code below copies its `numbers` but shares it `letters` between different objects.
 ```python
 import memory_graph
@@ -119,9 +119,7 @@ Often it is useful to graph all the local variables using:
 memory_graph.show( locals(), block=True )
 ```
 
-So much so that function `d()` is available as alias for easier
-debugging. Additionally it logs all locals by printing them which
-allows for comparing them over time. For example:
+So much so that function `d()` is available as alias for this for easier debugging. Additionally it logs all locals by printing them which allows for comparing them over time. For example:
 ```python
 from memory_graph import d
 
