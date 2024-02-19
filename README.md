@@ -1,3 +1,11 @@
+## Installation ##
+Install `memory_graph` using pip:
+```
+pip install memory-graph
+```
+Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
+
+
 # Graph your Memory #
 Does your Python code have a bug, is it behaving differently from what you expect? The problem could be a misunderstanding of the Python data model, and the first step to the solution could be drawing your data as a graph using `memory_graph.show( your_data )`, an example:
 ```python
@@ -15,13 +23,6 @@ Alternatively render the graph to an output file of your choosing using for exam
 ```python
 memory_graph.render( data, "my_graph.png" )
 ```
-
-## Installation ##
-Install `memory_graph` using pip:
-```
-pip install memory-graph
-```
-Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 
 
 ## Python Data Model ##
@@ -147,13 +148,9 @@ i: 4
 my_squares_copy: [0, 1, 4, 9, 16]
 ```
 
-Notice that in the graph it is clear that `my_squares` and
-`my_squares_ref` share their data while `my_squares_copy` has its own
-copy. This can not be observed in the log and shows the benefit
-of the graph.
+Notice that in the graph it is clear that `my_squares` and `my_squares_ref` share their data while `my_squares_copy` has its own copy. This can not be observed in the log and shows the benefit of the graph.
 
-Alternatively debug by setting this expression as a 'watch' in a
-debugger tool and open the output file:
+Alternatively debug by setting this expression as a 'watch' in a debugger tool and open the output file:
 ```
 memory_graph.render( locals(), "my_debug_graph.pdf" )
 ```
@@ -278,9 +275,7 @@ the last example looks like:
 
 
 ### Custom Accessor Functions ###
-For any type a custom accessor function can be introduced. For example
-Pandas DataFrames and Series are not visualized correctly by
-default. This can be fixed by adding custom accessor functions:
+For any type a custom accessor function can be introduced. For example Pandas DataFrames and Series are not visualized correctly by default. This can be fixed by adding custom accessor functions:
 ```python
 import pandas as pd
 
@@ -304,10 +299,7 @@ which results in:
 
 
 ## Troubleshooting ##
-* When graph edges overlap it can be hard to distinguish them. Using an
-interactive graphviz viewer, such as
-[xdot](https://github.com/jrfonseca/xdot.py), on a '*.gv' output file
-will help.
+* When graph edges overlap it can be hard to distinguish them. Using an interactive graphviz viewer, such as [xdot](https://github.com/jrfonseca/xdot.py), on a '*.gv' output file will help.
 
 
 ## Author ##
