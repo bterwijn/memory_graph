@@ -28,7 +28,7 @@ Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 The [Python Data Model](https://docs.python.org/3/reference/datamodel.html) makes a distiction between immutable and mutable types:
 
 * **immutable**: bool, int, float, complex, str, tuple, bytes, frozenset
-* **mutable**: list, dict, set, user-defined classes, all other types
+* **mutable**: list, dict, set, class, ... (all other types)
 
 
 ### immutable type ###
