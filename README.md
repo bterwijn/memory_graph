@@ -7,11 +7,11 @@ Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 
 
 # Graph your Memory #
-Does your Python code have a bug, is it behaving differently from what you expect? The problem could be a misunderstanding of the Python data model, and the first step to the solution could be drawing your data as a graph using `memory_graph.show( your_data )`, an example:
+Does your Python code have a bug, is it behaving differently from what you expect? The problem could be a misunderstanding of the Python Data Model, and the first step to the solution could be drawing your data as a graph using `memory_graph.show( your_data )`, an example:
 ```python
 import memory_graph
 
-data = [ (1, 2), [3, 4], {5:'five', 6:'six'} ]
+data = [ (1, 2), [3, 4], {5, 6}, {7:'seven', 8:'eight'} ]
 memory_graph.show( data, block=True )
 ```
 This shows a graph with the starting point of your 'data' drawn with thick lines, the program blocks until the ENTER key is pressed.
@@ -49,7 +49,7 @@ memory_graph.render(locals(), 'immutable2.png')
 
 
 ### mutable type ###
-With mutable types the result is different. In the code below variable `a` and `b` both reference the same `list` value [4, 3, 2]. A `list` is a mutable type and therefore when we change variable `a` its value **can** be mutated in place and `a` and `b` both reference the same new value afterwards. The result is that changing `a` also changes `b` and vice versa. Sometimes you want this but other times you don't and then you will have to make a copy so that `b` is independent from `a`.
+With mutable types the result is different. In the code below variable `a` and `b` both reference the same `list` value [4, 3, 2]. A `list` is a mutable type and therefore when we change variable `a` its value **can** be mutated in place and thus `a` and `b` both reference the same new value afterwards. The result is that changing `a` also changes `b` and vice versa. Sometimes we want this but other times we don't and then we will have to make a copy so that `b` is independent from `a`.
 ```python
 import memory_graph
 
@@ -62,7 +62,7 @@ memory_graph.render(locals(), 'mutable2.png')
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/mutable1.png)
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/mutable2.png)
 
-Python makes this distiction between mutable and immutable types because a value of a mutable type generally could be large and therefore it would be slow to make a copy each time you change it. On the other hand, a value of a changable immutable type generally is small and therefore fast to copy.
+Python makes this distiction between mutable and immutable types because a value of a mutable type generally could be large and therefore it would be slow to make a copy each time we change it. On the other hand, a value of a changable immutable type generally is small and therefore fast to copy.
 
 
 ### copying ###
