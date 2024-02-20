@@ -14,12 +14,12 @@ import memory_graph
 data = [ (1, 2), [3, 4], {5, 6}, {7:'seven', 8:'eight'} ]
 memory_graph.show( data, block=True )
 ```
-This shows a graph with the starting point of your 'data' drawn with thick lines, the program blocks until the ENTER key is pressed.
+This shows a graph with the starting point of our 'data' drawn with thick lines, the program blocks until the ENTER key is pressed.
 
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example1.png)
 
 
-Alternatively render the graph to an output file of your choosing using for example:
+Alternatively render the graph to an output file of our choosing using for example:
 ```python
 memory_graph.render( data, "my_graph.png" )
 ```
@@ -90,7 +90,7 @@ memory_graph.render(locals(), 'copies.png')
 
 
 ### custom copy method ###
-You can write your own custom copy function or method in case the three "copy" options don't do what you want. For example the copy() method of My_Class in the code below copies the `numbers` but shares the `letters` between the two objects.
+We can write our own custom copy function or method in case the three "copy" options don't do what we want. For example the copy() method of My_Class in the code below copies the `numbers` but shares the `letters` between the two objects.
 ```python
 import memory_graph
 import copy
