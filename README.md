@@ -89,7 +89,7 @@ memory_graph.render(locals(), 'copies.png')
 
 
 ### custom copy method ###
-For a class you can write your own custom copy() method in case the three "copy" options don't do what you want. For example the copy() method of My_Class in the code below copies its `numbers` but shares its `letters` between different objects.
+You can write your own custom copy function or method in case the three "copy" options don't do what you want. For example the copy() method of My_Class in the code below copies the `numbers` but shares the `letters` between the two objects.
 ```python
 import memory_graph
 import copy
@@ -119,7 +119,7 @@ Often it is useful to graph all the local variables using:
 memory_graph.show( locals(), block=True )
 ```
 
-So much so that function `d()` is available as alias for this for easier debugging. Additionally it logs all locals by printing them which allows for comparing them over time. For example:
+So much so that function `d()` is available as alias for this for easier debugging. Additionally it logs all locals by printing them which helps comparing them over time. For example:
 ```python
 from memory_graph import d
 
