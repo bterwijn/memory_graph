@@ -57,6 +57,12 @@ def get_locals_from_calling_frame():
     frameInfo = next(iterator) # get the frame that called d()
     return frameInfo.frame.f_locals # get locals() from this frame
 
+def to_str(data):
+    try:
+        return str(data)
+    except Exception as e:
+        return f"problem printing: {type(data)}"
+
 def d(data=None,log=True,graph=True,block=True):
     if data is None:
         data=get_locals_from_calling_frame()
@@ -64,9 +70,9 @@ def d(data=None,log=True,graph=True,block=True):
         print(f"debugging, {get_source_location()}",file=log_file)
         if rewrite.is_dict_type(data):
             for key,value in rewrite.filter_dict(data):
-                print(f"{key}: {value}",file=log_file)
+                print(f"{to_str(key)}: {to_str(value)}",file=log_file)
         else:
-            print(data,file=log_file)
+            print(to_str(data),file=log_file)
         print("",end='',file=log_file,flush=True)
     if graph:
         grph=create_graph(data)
