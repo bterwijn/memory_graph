@@ -184,7 +184,31 @@ memory_graph.show( locals() )
 
 ## Call Stack ##
 
-Function ```memory_graph.get_call_stack()``` returns the full call stack that holds for each called function and method all the local variables. This enables us to visualizing the local variables in different functions simultaneously. This is helpful to visualize if different called functions share the same data, and to visualize how recursion works. Here we show how recursively ```factorial(3)``` is computed:
+Function ```memory_graph.get_call_stack()``` returns the full call stack that holds for each called function all the local variables. This enables us to visualize the local variables of different called functions simultaneously. This helps to visualize if different called functions share the same data or not. Here we call function ```add_one()``` with arguments ```a, b, c``` and add one to them.
+
+```python
+import memory_graph
+
+def add_one(a, b, c):
+    a += 1
+    b.append(1)
+    c.append(1)
+    memory_graph.show(memory_graph.get_call_stack())
+
+a = 1
+b = [4, 3, 2]
+c = [4, 3, 2]
+
+add_one(a, b, c.copy())
+print(f"a:{a} b:{b} c:{c}")
+```
+![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/add_one.png)
+The visualization shows only ```b``` is shared so only ```b``` is changed in the calling stack frame and the printed output is:
+```
+a:1 b:[4, 3, 2, 1] c:[4, 3, 2]
+```
+### recursion ###
+The call stack also helps to visualize how recursion works. Here we show each step of how recursively ```factorial(3)``` is computed:
 
 ```python
 import memory_graph
@@ -192,7 +216,7 @@ import memory_graph
 def factorial(n):
     if n==0:
         return 1
-    memory_graph.show( memory_graph.get_call_stack(), block=True ) 
+    memory_graph.show( memory_graph.get_call_stack(), block=True )
     result = n*factorial(n-1)
     memory_graph.show( memory_graph.get_call_stack(), block=True )
     return result
@@ -205,7 +229,7 @@ factorial(3)
   <div><img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial4.png" /></div>
   <div><img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial5.png" /></div>
   <div><img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial6.png" /></div>
-and the result is: 3 x 2 x 1 = 6
+and the final result is: 3 x 2 x 1 = 6
 
 ## Config ##
 Different aspects of memory_graph can be configured.
