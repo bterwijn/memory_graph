@@ -203,7 +203,8 @@ add_one(a, b, c.copy())
 print(f"a:{a} b:{b} c:{c}")
 ```
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/add_one.png)
-The visualization shows only ```b``` is shared so only ```b``` is changed in the calling stack frame and the printed output is:
+
+The visualization shows only ```b``` is shared so only ```b``` is changed in the calling stack frame as reflected in the printed output:
 ```
 a:1 b:[4, 3, 2, 1] c:[4, 3, 2]
 ```
