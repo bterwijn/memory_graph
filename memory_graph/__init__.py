@@ -73,3 +73,7 @@ def d(data=None,log=True,graph=True,block=True):
         grph.view()
     if block:
         input(press_enter_text)
+
+def get_call_stack():
+    return {f"{level}_{frameInfo.function}" : frameInfo.frame.f_locals
+            for level, frameInfo in enumerate(reversed(inspect.stack()[1:]))}

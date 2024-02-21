@@ -182,6 +182,30 @@ memory_graph.show( locals() )
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example3.png)
 
 
+## Call Stack ##
+
+Function ```memory_graph.get_call_stack()``` returns the full call stack that holds for each called function and method all the local variables. This enables us to visualizing the local variables in different functions simultaneously. This is helpful to visualize if different called functions share the same data, and to visualize how recursion works. Here we show how recursively ```factorial(3)``` is computed:
+
+```python
+import memory_graph
+
+def factorial(n):
+    if n==0:
+        return 1
+    memory_graph.show( memory_graph.get_call_stack(), block=True ) 
+    result = n*factorial(n-1)
+    memory_graph.show( memory_graph.get_call_stack(), block=True )
+    return result
+
+factorial(3)
+```
+![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial1.png)
+![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial2.png)
+![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial3.png)
+![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial4.png)
+![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial5.png)
+![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial6.png)
+
 ## Config ##
 Different aspects of memory_graph can be configured.
 
