@@ -199,14 +199,12 @@ def factorial(n):
 
 factorial(3)
 ```
-<p float="left">
-  <img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial1.png" />
-  <img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial2.png" />
-  <img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial3.png" />
-  <img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial4.png" />
-  <img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial5.png" />
-  <img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial6.png" />
-</p>
+  <div><img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial1.png" /></div>
+  <div><img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial2.png" /></div>
+  <div><img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial3.png" /></div>
+  <div><img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial4.png" /></div>
+  <div><img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial5.png" /></div>
+  <div><img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial6.png" /></div>
 and the result is: 3 x 2 x 1 = 6
 
 ## Config ##
