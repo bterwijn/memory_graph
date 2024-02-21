@@ -199,12 +199,15 @@ def factorial(n):
 
 factorial(3)
 ```
-![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial1.png)
-![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial2.png)
-![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial3.png)
-![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial4.png)
-![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial5.png)
-![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial6.png)
+<p float="left">
+  <img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial1.png" />
+  <img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial2.png" />
+  <img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial3.png" />
+  <img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial4.png" />
+  <img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial5.png" />
+  <img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial6.png" />
+</p>
+and the result is: 3 x 2 x 1 = 6
 
 ## Config ##
 Different aspects of memory_graph can be configured.
