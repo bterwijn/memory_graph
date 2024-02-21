@@ -8,3 +8,6 @@ python immutable.py
 python mutable.py
 python copies.py
 python copy_method.py
+
+python add_one.py
+python factorial.py
