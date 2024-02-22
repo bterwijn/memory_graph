@@ -80,6 +80,35 @@ def d(data=None,log=True,graph=True,block=True):
     if block:
         input(press_enter_text)
 
-def get_call_stack():
+def take_until(iterable,condition):
+    for i in iterable:
+        yield i
+        if condition(i):
+            return
+
+def get_call_stack(down_to_function="<module>"):
+    frames = reversed(list(take_until(inspect.stack()[1:],lambda i: i.function==down_to_function)))
     return {f"{level}: {frameInfo.function}" : frameInfo.frame.f_locals
-            for level, frameInfo in enumerate(reversed(inspect.stack()[1:]))}
+            for level, frameInfo in enumerate(frames)}
+
+def take_in_between(iterable,condition_start,condition_stop):
+    taking = False
+    for i in iterable:
+        if condition_stop(i):
+            break
+        if taking:
+            yield i
+        if condition_start(i):
+            taking = True
+
+def get_call_stack_vscode(top_frame_func="do_wait_suspend",bottom_frame_func="_run_code"):
+    frames = reversed(list(take_in_between(inspect.stack(),
+                                           lambda i: i.function == top_frame_func,
+                                           lambda i: i.function == bottom_frame_func)))
+    return {f"{level}: {frameInfo.function}" : frameInfo.frame.f_locals
+            for level, frameInfo in enumerate(frames)}
+
+def save_call_stack(filename):
+    with open(filename,'w') as file:
+        for f in inspect.stack():
+            file.write(f"filename:{f.filename} lineno:{f.lineno} function:{f.function} code_context:{f.code_context} index:{f.index} positions:{f.positions}\n")

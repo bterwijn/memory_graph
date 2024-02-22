@@ -218,7 +218,7 @@ def factorial(n):
     if n==0:
         return 1
     memory_graph.show( memory_graph.get_call_stack(), block=True )
-    result = n*factorial(n-1)
+    result = n * factorial(n-1)
     memory_graph.show( memory_graph.get_call_stack(), block=True )
     return result
 
@@ -230,7 +230,7 @@ factorial(3)
   <div><img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial4.png" /></div>
   <div><img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial5.png" /></div>
   <div><img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial6.png" /></div>
-and the final result is: 3 x 2 x 1 = 6
+and the final result is: 1 x 2 x 3 = 6
 
 ## Config ##
 Different aspects of memory_graph can be configured.
@@ -357,4 +357,4 @@ Bas Terwijn
 
 
 ## Inspiration ##
-Inspired by [PythonTutor](https://pythontutor.com/).
+Inspired by [Python Tutor](https://pythontutor.com/).
