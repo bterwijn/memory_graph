@@ -184,7 +184,7 @@ memory_graph.show( locals() )
 
 ## Call Stack ##
 
-Function ```memory_graph.get_call_stack()``` returns the full call stack that holds for each called function all the local variables. This enables us to visualize the local variables of different called functions simultaneously. This helps to visualize if different called functions share the same data or not. Here we call function ```add_one()``` with arguments ```a, b, c``` and add one to them.
+Function ```memory_graph.get_call_stack()``` returns the full call stack that holds for each called function all the local variables. This enables us to visualize the local variables of each of the called functions on the stack simultaneously. This helps to visualize if variables of different called functions share the same data or not. Here for example we call function ```add_one()``` with arguments ```a, b, c``` and add one to change their value.
 
 ```python
 import memory_graph
