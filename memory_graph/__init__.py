@@ -80,35 +80,45 @@ def d(data=None,log=True,graph=True,block=True):
     if block:
         input(press_enter_text)
 
-def take_until(iterable,condition):
+def take_up_to(condition,iterable):
     for i in iterable:
         yield i
         if condition(i):
             return
 
-def get_call_stack(down_to_function="<module>"):
-    frames = reversed(list(take_until(inspect.stack()[1:],lambda i: i.function==down_to_function)))
-    return {f"{level}: {frameInfo.function}" : frameInfo.frame.f_locals
-            for level, frameInfo in enumerate(frames)}
+def take_before(condition,iterable):
+    for i in iterable:
+        if condition(i):
+            return
+        yield i
 
-def take_in_between(iterable,condition_start,condition_stop):
+def take_after(condition,iterable):
     taking = False
     for i in iterable:
-        if condition_stop(i):
-            break
         if taking:
             yield i
-        if condition_start(i):
+        if condition(i):
             taking = True
 
-def get_call_stack_vscode(top_frame_func="do_wait_suspend",bottom_frame_func="_run_code"):
-    frames = reversed(list(take_in_between(inspect.stack(),
-                                           lambda i: i.function == top_frame_func,
-                                           lambda i: i.function == bottom_frame_func)))
+def stack_frames_to_dict(frames):
     return {f"{level}: {frameInfo.function}" : frameInfo.frame.f_locals
             for level, frameInfo in enumerate(frames)}
+
+def get_call_stack(up_to_function="<module>"):
+    frames = reversed(list(
+        take_up_to(lambda i: i.function==up_to_function, inspect.stack()[1:])
+        ))
+    return stack_frames_to_dict(frames)
+
+def get_call_stack_vscode(after_function="do_wait_suspend",before_function="_run_code"):
+    frames = reversed(list(
+            take_before(lambda i: i.function == before_function,
+            take_after(lambda i: i.function == after_function, inspect.stack()))
+            ))
+    return stack_frames_to_dict(frames)
 
 def save_call_stack(filename):
     with open(filename,'w') as file:
         for f in inspect.stack():
-            file.write(f"filename:{f.filename} lineno:{f.lineno} function:{f.function} code_context:{f.code_context} index:{f.index} positions:{f.positions}\n")
+            file.write(f"filename:{f.filename} lineno:{f.lineno} function:{f.function} " +
+                       f"code_context:{f.code_context} index:{f.index} positions:{f.positions}\n")
