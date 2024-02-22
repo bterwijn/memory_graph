@@ -150,7 +150,7 @@ my_squares_copy: [0, 1, 4, 9, 16]
 
 Notice that in the graph it is clear that `my_squares` and `my_squares_ref` share their data while `my_squares_copy` has its own copy. This can not be observed in the log and shows the benefit of the graph.
 
-Alternatively debug by setting this expression as a 'watch' in a debugger tool and open the output file:
+Alternatively debug by setting this expression as a 'watchpoint' in a debugger tool and open the "my_debug_graph.pdf" output file for a continuous visualization of all the local variables while debugging.
 ```
 memory_graph.render( locals(), "my_debug_graph.pdf" )
 ```
@@ -208,6 +208,7 @@ As ```a``` is immutable and as we call the function with a copy of ```c``` the v
 ```
 a:1 b:[4, 3, 2, 1] c:[4, 3, 2]
 ```
+
 ### recursion ###
 The call stack also helps to visualize how recursion works. Here we show each step of how recursively ```factorial(3)``` is computed:
 
@@ -231,6 +232,11 @@ factorial(3)
   <div><img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial5.png" /></div>
   <div><img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial6.png" /></div>
 and the final result is: 1 x 2 x 3 = 6
+
+### Visual Studio Code watchpoint ###
+
+The ```memory_graph.get_call_stack()``` doesn't work well in a Visual Studio Code (VSCode) watchpoint context because its debugger introduces many stack frames that clutter the visualization. Therefore use the ```memory_graph.get_call_stack_vscode()``` function in a VSCode watchpoint context instead to remove these frames. For example set ```memory_graph.render(memory_graph.get_call_stack_vscode(), "call_stack_graph.pdf")``` as VSCode watchpoint and open the "call_stack_graph.pdf" file for a continuous visualization of the whole call stack while debugging.
+
 
 ## Config ##
 Different aspects of memory_graph can be configured.
