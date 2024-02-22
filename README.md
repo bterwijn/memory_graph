@@ -12,18 +12,19 @@ Does your Python code have a bug, is it behaving differently from what you expec
 import memory_graph
 
 data = [ (1, 2), [3, 4], {5, 6}, {7:'seven', 8:'eight'} ]
-memory_graph.show( data, block=True )
+memory_graph.show(data, block=True)
 ```
 This shows a graph with the starting point of our 'data' drawn with thick lines, the program blocks until the ENTER key is pressed.
 
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example1.png)
 
 
-Alternatively render the graph to an output file of our choosing using for example:
+Alternatively render the graph to an output file of our choosing (see [Graphviz Output Formats](https://graphviz.org/docs/outputs/)) using for example:
 ```python
-memory_graph.render( data, "my_graph.png" )
+memory_graph.render(data, "my_graph.pdf")
+memory_graph.render(data, "my_graph.png")
+memory_graph.render(data, "my_graph.gv") # Graphviz DOT file
 ```
-
 
 ## Python Data Model ##
 The [Python Data Model](https://docs.python.org/3/reference/datamodel.html) makes a distiction between immutable and mutable types:
@@ -159,6 +160,7 @@ memory_graph.render( locals(), "my_debug_graph.pdf" )
 ## Larger Example ##
 This larger example shows a (static) class variable and recursive references.
 ```python
+import memory_graph
 my_list = [10, 20, 10]
 
 class My_Class:
@@ -176,7 +178,6 @@ data=[my_list, my_list, obj1, obj2]
 
 my_list.append(data) # recursive reference
 
-import memory_graph
 memory_graph.show( locals() )
 ```
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example3.png)
@@ -235,7 +236,11 @@ and the final result is: 1 x 2 x 3 = 6
 
 ### Visual Studio Code watchpoint ###
 
-The ```memory_graph.get_call_stack()``` doesn't work well in a Visual Studio Code (VSCode) watchpoint context because its debugger introduces many stack frames that clutter the visualization. Therefore use the ```memory_graph.get_call_stack_vscode()``` function in a VSCode watchpoint context instead to remove these frames. For example set ```memory_graph.render(memory_graph.get_call_stack_vscode(), "call_stack_graph.pdf")``` as VSCode watchpoint and open the "call_stack_graph.pdf" file for a continuous visualization of the whole call stack while debugging.
+The ```memory_graph.get_call_stack()``` doesn't work well in a Visual Studio Code (VSCode) watchpoint context because its debugger introduces many stack frames that clutter the visualization. Therefore use the ```memory_graph.get_call_stack_vscode()``` function in a VSCode watchpoint context instead to remove these frames. For example set:
+ ```
+ memory_graph.render(memory_graph.get_call_stack_vscode(), "call_stack_graph.pdf")
+ ``` 
+ as VSCode watchpoint and open the "call_stack_graph.pdf" file for a continuous visualization of the whole call stack while debugging.
 
 
 ## Config ##
@@ -333,6 +338,7 @@ the last example looks like:
 ### Custom Accessor Functions ###
 For any type a custom accessor function can be introduced. For example Pandas DataFrames and Series are not visualized correctly by default. This can be fixed by adding custom accessor functions:
 ```python
+import memory_graph
 import pandas as pd
 
 data = {'Name':['Tom', 'Anna', 'Steve', 'Lisa'],
@@ -340,7 +346,6 @@ data = {'Name':['Tom', 'Anna', 'Steve', 'Lisa'],
         'Length':[1.70,1.66,1.82,1.73] }
 df = pd.DataFrame(data)
 
-import memory_graph
 memory_graph.rewrite.custom_accessor_functions[pd.DataFrame] = lambda d: list(d.items())
 memory_graph.rewrite.custom_accessor_functions[pd.Series] = lambda d: list(d.items())
 memory_graph.rewrite_to_node.reduce_reference_parents.add("DataFrame")
