@@ -80,7 +80,7 @@ c1 = a
 c2 = copy.copy(a) # equivalent to:   a.copy() a[:] list(a)
 c3 = copy.deepcopy(a)
 
-memory_graph.render(locals(), 'copies.png')
+memory_graph.show(locals())
 ```
 
 * `c1` is an *assignment*, all the data is shared.
@@ -110,7 +110,7 @@ class My_Class:
 a = My_Class()
 b = a.copy()
 
-memory_graph.render(locals(), 'copy_method.png')
+memory_graph.show(locals())
 ```
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_method.png)
 
@@ -178,7 +178,7 @@ data=[my_list, my_list, obj1, obj2]
 
 my_list.append(data) # recursive reference
 
-memory_graph.show( locals() )
+memory_graph.show(locals())
 ```
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example3.png)
 
@@ -324,9 +324,9 @@ With configuration:
 ```
 memory_graph.graphviz_nodes.linear_layout_vertical = False           # draw lists,tuples,sets,... horizontally
 memory_graph.graphviz_nodes.category_to_color_map['list'] = 'yellow' # change color of 'list' type
-memory_graph.graphviz_nodes.spacing=15                               # more spacing in each node
-memory_graph.graphviz_nodes.graph_attr['ranksep']='1.2'              # more vertical separation
-memory_graph.graphviz_nodes.graph_attr['nodesep']='1.2'              # more horizontal separation
+memory_graph.graphviz_nodes.spacing = 15                             # more spacing in each node
+memory_graph.graphviz_nodes.graph_attr['ranksep'] = '1.2'            # more vertical separation
+memory_graph.graphviz_nodes.graph_attr['nodesep'] = '1.2'            # more horizontal separation
 memory_graph.rewrite_to_node.reduce_reference_children.remove("int") # draw references to 'int' type
 ```
 
@@ -341,9 +341,9 @@ For any type a custom accessor function can be introduced. For example Pandas Da
 import memory_graph
 import pandas as pd
 
-data = {'Name':['Tom', 'Anna', 'Steve', 'Lisa'],
-        'Age':[28,34,29,42],
-        'Length':[1.70,1.66,1.82,1.73] }
+data = {'Name'   : [ 'Tom', 'Anna', 'Steve', 'Lisa'],
+        'Age'    : [    28,     34,      29,     42],
+        'Length' : [  1.70,   1.66,    1.82,   1.73] }
 df = pd.DataFrame(data)
 
 memory_graph.rewrite.custom_accessor_functions[pd.DataFrame] = lambda d: list(d.items())
@@ -360,7 +360,7 @@ which results in:
 
 
 ## Troubleshooting ##
-* When graph edges overlap it can be hard to distinguish them. Using an interactive graphviz viewer, such as [xdot](https://github.com/jrfonseca/xdot.py), on a '*.gv' output file will help.
+When graph edges overlap it can be hard to distinguish them. Using an interactive graphviz viewer, such as [xdot](https://github.com/jrfonseca/xdot.py), on a '*.gv' output file will help.
 
 
 ## Author ##
