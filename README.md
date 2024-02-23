@@ -115,13 +115,13 @@ memory_graph.show(locals())
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_method.png)
 
 
-## Graph all Local Variables ##
+## Debugging ##
 Often it is useful to graph all the local variables using:
 ```python
 memory_graph.show( locals(), block=True )
 ```
 
-So much so that function `d()` is available as alias for this for easier debugging. Additionally it logs all locals by printing them which helps comparing them over time. For example:
+So much so that function `d()` is available as alias for this for easier debugging. Additionally it logs all local variables by printing them which helps comparing them over time. For example:
 ```python
 from memory_graph import d
 
@@ -129,17 +129,11 @@ my_squares = []
 my_squares_ref = my_squares
 for i in range(5):
     my_squares.append(i**2)
-    d()                                    # 'd' for debug, logs and graphs all local variables and blocks
+    d()
 my_squares_copy = my_squares.copy()
-d(block=False)                             # debug without blocking
-d(log=False,block=False)                   # debug without logging and blocking
-
-import memory_graph
-memory_graph.log_file=open("log.txt","w")  # now log to file instead of screen (sys.stdout)
-d(graph=False)                             # debug without showing the graph
+d()
 ```
-
-Which in the end results in:
+in the end results in:
 
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example2.png)
 ```
@@ -149,43 +143,32 @@ i: 4
 my_squares_copy: [0, 1, 4, 9, 16]
 ```
 
-Notice that in the graph it is clear that `my_squares` and `my_squares_ref` share their data while `my_squares_copy` has its own copy. This can not be observed in the log and shows the benefit of the graph.
-
-Alternatively debug by setting this expression as a 'watchpoint' in a debugger tool and open the "my_debug_graph.pdf" output file for a continuous visualization of all the local variables while debugging:
-```
-memory_graph.render( locals(), "my_debug_graph.pdf" )
-```
-
-
-## Larger Example ##
-This larger example shows a (static) class variable and recursive references.
+Function `d()` has these default arguments:
 ```python
-import memory_graph
-my_list = [10, 20, 10]
-
-class My_Class:
-    my_class_var = 20 # class variable
-    
-    def __init__(self):
-        self.var1 = "foo"
-        self.var2 = "bar"
-        self.var3 = 20
-
-obj1 = My_Class()
-obj2 = My_Class()
-
-data=[my_list, my_list, obj1, obj2]
-
-my_list.append(data) # recursive reference
-
-memory_graph.show(locals())
+def d(data=None, log=True, graph=True, block=True):
 ```
-![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example3.png)
+- data: the data that is handled, defaults to `locals()`
+- log: if True the data is printed
+- graph: if True the data is visualized as a graph
+- block: if True the function blocks until the ENTER key is pressed
+
+To print to a log file instead of standard output us:
+```python
+memory_graph.log_file = open("log_file.txt","w")
+```
+
+### Watchpoint in Debugger ###
+
+Alternative you can also set for this expression as a 'watchpoint' in a debugger tool and open the "my_debug_graph.pdf" output file for a continuous visualization of all the local variables while debugging:
+```
+memory_graph.render(locals(), "my_debug_graph.pdf")
+```
+This avoids having to add any memory_graph `show()` or `d()` calls to your code.
 
 
 ## Call Stack ##
 
-Function ```memory_graph.get_call_stack()``` returns the full call stack that holds for each called function all the local variables. This enables us to visualize the local variables of each of the called functions on the stack simultaneously. This helps to visualize if variables of different called functions share the same data or not. Here for example we call function ```add_one()``` with arguments ```a, b, c``` and add one to change their value.
+Function ```memory_graph.get_call_stack()``` returns the full call stack that holds for each called function all the local variables. This enables us to visualize the local variables of each of the called functions on the stack simultaneously. This helps to visualize if variables of different called functions share ant data between them. Here for example we call function ```add_one()``` with arguments ```a, b, c``` and add one to change each of their value.
 
 ```python
 import memory_graph
@@ -236,7 +219,7 @@ and the final result is: 1 x 2 x 3 = 6
 
 ### Visual Studio Code watchpoint ###
 
-The ```memory_graph.get_call_stack()``` doesn't work well in a Visual Studio Code (VSCode) watchpoint context because its debugger introduces many stack frames that clutter the visualization. Therefore use the ```memory_graph.get_call_stack_vscode()``` function in a VSCode watchpoint context instead to remove these frames. For example set:
+The ```memory_graph.get_call_stack()``` doesn't work well in a Visual Studio Code (VSCode) watchpoint context because its debugger introduces many stack frames that clutter the visualization. Use the ```memory_graph.get_call_stack_vscode()``` function in a VSCode watchpoint context to remove these frames. For example set:
  ```
  memory_graph.render(memory_graph.get_call_stack_vscode(), "call_stack_graph.pdf")
  ``` 
@@ -280,7 +263,7 @@ n = 100
 for i in range(n):
     new_value = random.randrange(n)
     linked_list.add_front(new_value)
-    memory_graph.show(locals(), block=True) # <--- draw list
+    memory_graph.show(locals(), block=True) # <--- draw linked list
 ```
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/linked_list.png)
 
@@ -364,7 +347,7 @@ n = 100
 for i in range(n):
     new_value = random.randrange(n)
     hash_set.add(new_value)
-    memory_graph.show(locals(), block=True)
+    memory_graph.show(locals(), block=True) # <--- draw hash set
 ```
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/hash_set.png)
 
@@ -445,6 +428,30 @@ Configure what nodes are created based on reading the given data structure:
 
 
 ### Config Examples ###
+This example shows a class variable and some recursive references.
+```python
+import memory_graph
+my_list = [10, 20, 10]
+
+class My_Class:
+    my_class_var = 20 # class variable
+    
+    def __init__(self):
+        self.var1 = "foo"
+        self.var2 = "bar"
+        self.var3 = 20
+
+obj1 = My_Class()
+obj2 = My_Class()
+
+data=[my_list, my_list, obj1, obj2]
+
+my_list.append(data) # recursive reference
+
+memory_graph.show(locals())
+```
+![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example3.png)
+
 With configuration:
 ```
 memory_graph.graphviz_nodes.linear_layout_vertical = False           # draw lists,tuples,sets,... horizontally
@@ -455,7 +462,7 @@ memory_graph.graphviz_nodes.graph_attr['nodesep'] = '1.2'            # more hori
 memory_graph.rewrite_to_node.reduce_reference_children.remove("int") # draw references to 'int' type
 ```
 
-the last example looks like:
+this example looks like:
 
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example4.png)
 
@@ -485,7 +492,7 @@ which results in:
 
 
 ## Troubleshooting ##
-When graph edges overlap it can be hard to distinguish them. Using an interactive graphviz viewer, such as [xdot](https://github.com/jrfonseca/xdot.py), on a '*.gv' output file will help.
+When graph edges overlap it can be hard to distinguish them. Using an interactive graphviz viewer, such as [xdot](https://github.com/jrfonseca/xdot.py), on a '*.gv' DOT output file will help.
 
 
 ## Author ##
