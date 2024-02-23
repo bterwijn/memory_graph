@@ -1,4 +1,4 @@
-import memory_graph  # pip install memory_graph
+import memory_graph
 import random
 random.seed(0) # use same random numbers each run
 

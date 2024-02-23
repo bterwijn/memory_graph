@@ -1,4 +1,4 @@
-import memory_graph  # pip install memory_graph
+import memory_graph
 import random
 random.seed(0) # use same random numbers each run
 
@@ -39,6 +39,6 @@ class BinTree:
 tree = BinTree()
 n = 100
 for i in range(n):
-    new_value = random.randrange(100)
+    new_value = random.randrange(n)
     tree.add(new_value)
 
