@@ -242,6 +242,95 @@ The ```memory_graph.get_call_stack()``` doesn't work well in a Visual Studio Cod
  ``` 
  as VSCode watchpoint and open the "call_stack_graph.pdf" file for a continuous visualization of the whole call stack while debugging.
 
+## Datastructure Examples ##
+
+Module memory_graph can be very useful in a course about datastructures, some examples:
+
+### Doubly Linked List ###
+```python
+import memory_graph
+import random
+random.seed(0) # use same random numbers each run
+
+class Node:
+
+    def __init__(self, value):
+        self.prev = None
+        self.value = value
+        self.next = None
+
+class LinkedList:
+
+    def __init__(self):
+        self.head = None
+        self.tail = None
+
+    def add_front(self, value):
+        new_node = Node(value)
+        if self.head is None:
+            self.head = new_node
+            self.tail = new_node
+        else:
+            new_node.next = self.head
+            self.head.prev = new_node
+            self.head = new_node
+
+linked_list = LinkedList()
+n = 100
+for i in range(n):
+    new_value = random.randrange(n)
+    linked_list.add_front(new_value)
+    memory_graph.show(locals(), block=True) # <--- draw list
+```
+![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/linked_list.png)
+
+### Binary Tree ###
+```python
+import memory_graph
+import random
+random.seed(0) # use same random numbers each run
+
+class Node:
+
+    def __init__(self, value):
+        self.smaller = None
+        self.value = value
+        self.larger = None
+
+class BinTree:
+
+    def __init__(self):
+        self.root = None
+
+    def add_recursive(self, new_value, node):
+        memory_graph.show(locals(), block=True) # <--- draw tree when adding recursively
+        if new_value < node.value:
+            if node.smaller is None:
+                node.smaller = Node(new_value)
+            else:
+                self.add_recursive(new_value, node.smaller)
+        else:
+            if node.larger is None:
+                node.larger = Node(new_value)
+            else:
+                self.add_recursive(new_value, node.larger)
+
+    def add(self, value):
+        if self.root is None:
+            self.root = Node(value)
+        else:
+            self.add_recursive(value, self.root)
+
+tree = BinTree()
+n = 100
+for i in range(n):
+    new_value = random.randrange(100)
+    tree.add(new_value)
+    memory_graph.show(locals(), block=True)  # <--- draw tree after adding
+```
+![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_tree.png)
+
+
 
 ## Config ##
 Different aspects of memory_graph can be configured.
