@@ -151,7 +151,7 @@ my_squares_copy: [0, 1, 4, 9, 16]
 
 Notice that in the graph it is clear that `my_squares` and `my_squares_ref` share their data while `my_squares_copy` has its own copy. This can not be observed in the log and shows the benefit of the graph.
 
-Alternatively debug by setting this expression as a 'watchpoint' in a debugger tool and open the "my_debug_graph.pdf" output file for a continuous visualization of all the local variables while debugging.
+Alternatively debug by setting this expression as a 'watchpoint' in a debugger tool and open the "my_debug_graph.pdf" output file for a continuous visualization of all the local variables while debugging:
 ```
 memory_graph.render( locals(), "my_debug_graph.pdf" )
 ```
