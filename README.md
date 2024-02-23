@@ -168,7 +168,7 @@ This avoids having to add any memory_graph `show()` or `d()` calls to your code.
 
 ## Call Stack ##
 
-Function ```memory_graph.get_call_stack()``` returns the full call stack that holds for each called function all the local variables. This enables us to visualize the local variables of each of the called functions on the stack simultaneously. This helps to visualize if variables of different called functions share ant data between them. Here for example we call function ```add_one()``` with arguments ```a, b, c``` and add one to change each of their value.
+Function ```memory_graph.get_call_stack()``` returns the full call stack that holds for each called function all the local variables. This enables us to visualize the local variables of each of the called functions on the stack simultaneously. This helps to visualize if variables of different called functions share any data between them. Here for example we call function ```add_one()``` with arguments ```a, b, c``` and add one to change each of them.
 
 ```python
 import memory_graph
@@ -188,7 +188,7 @@ print(f"a:{a} b:{b} c:{c}")
 ```
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/add_one.png)
 
-As ```a``` is immutable and as we call the function with a copy of ```c``` the visualization shows only ```b``` is shared so only ```b``` is changed in the calling stack frame as reflected in the printed output:
+As ```a``` is of immutable type 'int' and as we call the function with a copy of ```c``` the visualization shows only ```b``` is shared so only ```b``` is changed in the calling stack frame as reflected in the printed output:
 ```
 a:1 b:[4, 3, 2, 1] c:[4, 3, 2]
 ```
