@@ -15,6 +15,7 @@ obj2 = My_Class()
 
 data=[my_list, my_list, obj1, obj2]
 
-my_list.append(data) # recursive reference
+my_list.append(data)
+my_list.append(my_list) # recursive reference
 
 memory_graph.render( locals(), 'example3.png' )

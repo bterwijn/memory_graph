@@ -154,7 +154,7 @@ def d(data=None, log=True, graph=True, block=True):
 
 To print to a log file instead of standard output us:
 ```python
-memory_graph.log_file = open("log_file.txt","w")
+memory_graph.log_file = open("log_file.txt", "w")
 ```
 
 ### Watchpoint in Debugger ###
@@ -428,7 +428,7 @@ Configure what nodes are created based on reading the given data structure:
 
 
 ### Config Examples ###
-This example shows a class variable and some recursive references.
+This example shows a class with a class variable and has some recursive references.
 ```python
 import memory_graph
 my_list = [10, 20, 10]
@@ -446,7 +446,8 @@ obj2 = My_Class()
 
 data=[my_list, my_list, obj1, obj2]
 
-my_list.append(data) # recursive reference
+my_list.append(data)
+my_list.append(my_list) # recursive reference
 
 memory_graph.show(locals())
 ```
