@@ -11,3 +11,8 @@ python copy_method.py
 
 python add_one.py
 python factorial.py
+
+python linked_list.py
+python bin_tree.py
+python hash_set.py
+

@@ -15,7 +15,6 @@ class BinTree:
         self.root = None
 
     def add_recursive(self, new_value, node):
-        print(new_value, node.value)
         if new_value == 62 and node.value == 53:
             memory_graph.render(locals(), "bintree.png")
             exit()

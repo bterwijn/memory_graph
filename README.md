@@ -339,21 +339,25 @@ random.seed(0) # use same random numbers each run
 class HashSet:
     
         def __init__(self, capacity=20):
-            self.capacity = capacity
             self.buckets = [None] * capacity
     
         def add(self, value):
-            index = hash(value) % self.capacity
+            index = hash(value) % len(self.buckets)
             if self.buckets[index] is None:
                 self.buckets[index] = [value]
             else:
                 self.buckets[index].append(value)
 
         def contains(self, value):
-            index = hash(value) % self.capacity
+            index = hash(value) % len(self.buckets)
             if self.buckets[index] is None:
                 return False
             return value in self.buckets[index]
+
+        def remove(self, value):
+            index = hash(value) % len(self.buckets)
+            if self.buckets[index] is not None:
+                self.buckets[index].remove(value)
         
 hash_set = HashSet()
 n = 100
