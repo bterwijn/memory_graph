@@ -50,7 +50,7 @@ memory_graph.render(locals(), 'immutable2.png')
 
 
 ### mutable type ###
-With mutable types the result is different. In the code below variable `a` and `b` both reference the same `list` value [4, 3, 2]. A `list` is a mutable type and therefore when we change variable `a` its value **can** be mutated in place and thus `a` and `b` both reference the same new value afterwards. The result is that changing `a` also changes `b` and vice versa. Sometimes we want this but other times we don't and then we will have to make a copy so that `b` is independent from `a`.
+With mutable types the result is different. In the code below variable `a` and `b` both reference the same `list` value [4, 3, 2]. A `list` is a mutable type and therefore when we change variable `a` its value **can** be mutated in place and thus `a` and `b` both reference the same new value afterwards. Thus changing `a` also changes `b` and vice versa. Sometimes we want this but other times we don't and then we will have to make a copy so that `b` is independent from `a`.
 ```python
 import memory_graph
 
@@ -83,9 +83,9 @@ c3 = copy.deepcopy(a)
 memory_graph.show(locals())
 ```
 
-* `c1` is an *assignment*, all the data is shared.
+* `c1` is an *assignment*, all the data is shared, nothing is copied
 * `c2` is a *shallow copy*, only the data referenced by the first reference is copied and the underlying data is shared
-* `c3` is a *deep copy*, all the data is copied
+* `c3` is a *deep copy*, all the data is copied, nothing is shared
 
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copies.png)
 
@@ -118,7 +118,7 @@ memory_graph.show(locals())
 ## Debugging ##
 Often it is useful to graph all the local variables using:
 ```python
-memory_graph.show( locals(), block=True )
+memory_graph.show(locals(), block=True)
 ```
 
 So much so that function `d()` is available as alias for this for easier debugging. Additionally it logs all local variables by printing them which helps comparing them over time. For example:
@@ -159,7 +159,7 @@ memory_graph.log_file = open("log_file.txt", "w")
 
 ### Watchpoint in Debugger ###
 
-Alternative you can also set for this expression as a 'watchpoint' in a debugger tool and open the "my_debug_graph.pdf" output file for a continuous visualization of all the local variables while debugging:
+Alternative you can also set this expression as a 'watchpoint' in a debugger tool and open the "my_debug_graph.pdf" output file for a continuous visualization of all the local variables while debugging:
 ```
 memory_graph.render(locals(), "my_debug_graph.pdf")
 ```
