@@ -86,12 +86,6 @@ def take_up_to(condition,iterable):
         if condition(i):
             return
 
-def take_before(condition,iterable):
-    for i in iterable:
-        if condition(i):
-            return
-        yield i
-
 def take_after(condition,iterable):
     taking = False
     for i in iterable:
@@ -110,18 +104,18 @@ def get_call_stack(up_to_function="<module>"):
         ))
     return stack_frames_to_dict(frames)
 
-def get_call_stack_vscode(after_function="do_wait_suspend",before_function="_run_code"):
+def get_call_stack_after(after_function,up_to_function):
     frames = reversed(list(
-            take_before(lambda i: i.function == before_function,
-            take_after(lambda i: i.function == after_function, inspect.stack()))
-            ))
-
-def get_call_stack_pdb(after_function="trace_dispatch",before_function="run"):
-    frames = reversed(list(
-            take_before(lambda i: i.function == before_function,
+            take_up_to(lambda i: i.function==up_to_function,
             take_after(lambda i: i.function == after_function, inspect.stack()))
             ))
     return stack_frames_to_dict(frames)
+
+def get_call_stack_pdb(after_function="trace_dispatch",up_to_function="<module>"):
+    return get_call_stack_after(after_function,up_to_function)
+
+def get_call_stack_vscode(after_function="do_wait_suspend",up_to_function="<module>"):
+    return get_call_stack_after(after_function,up_to_function)
 
 def save_call_stack(filename):
     with open(filename,'w') as file:
