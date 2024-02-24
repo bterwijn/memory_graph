@@ -133,7 +133,7 @@ for i in range(5):
 my_squares_copy = my_squares.copy()
 d()
 ```
-in the end results in:
+which after pressing ENTER a number of times results in:
 
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example2.png)
 ```
@@ -179,7 +179,7 @@ def add_one(a, b, c):
     c.append(1)
     memory_graph.show(memory_graph.get_call_stack())
 
-a = 1
+a = 0
 b = [4, 3, 2]
 c = [4, 3, 2]
 
@@ -190,7 +190,7 @@ print(f"a:{a} b:{b} c:{c}")
 
 As ```a``` is of immutable type 'int' and as we call the function with a copy of ```c``` the visualization shows only ```b``` is shared so only ```b``` is changed in the calling stack frame as reflected in the printed output:
 ```
-a:1 b:[4, 3, 2, 1] c:[4, 3, 2]
+a:0 b:[4, 3, 2, 1] c:[4, 3, 2]
 ```
 
 ### recursion ###
