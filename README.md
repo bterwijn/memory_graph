@@ -217,13 +217,20 @@ factorial(3)
   <div><img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial6.png" /></div>
 and the final result is: 1 x 2 x 3 = 6
 
-### Visual Studio Code watchpoint ###
+### Call Stack in Watchpoint ###
 
-The ```memory_graph.get_call_stack()``` doesn't work well in a Visual Studio Code (VSCode) watchpoint context because its debugger introduces many stack frames that clutter the visualization. Use the ```memory_graph.get_call_stack_vscode()``` function in a VSCode watchpoint context to remove these frames. For example set:
- ```
+The ```memory_graph.get_call_stack()``` doesn't work well in a watchpoint context in most debuggers because debuggers introduces many stack frames that cause problems. Use these alternative functions for various debuggers to ignore these stack frames and open "call_stack_graph.pdf":
+
+**gdb**, **gudb**: 
+```
+memory_graph.render(memory_graph.get_call_stack_pdb(), "call_stack_graph.pdf")
+```
+
+**Visual Studio Code**
+```
  memory_graph.render(memory_graph.get_call_stack_vscode(), "call_stack_graph.pdf")
  ``` 
- as VSCode watchpoint and open the "call_stack_graph.pdf" file for a continuous visualization of the whole call stack while debugging.
+
 
 ## Datastructure Examples ##
 

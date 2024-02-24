@@ -115,6 +115,12 @@ def get_call_stack_vscode(after_function="do_wait_suspend",before_function="_run
             take_before(lambda i: i.function == before_function,
             take_after(lambda i: i.function == after_function, inspect.stack()))
             ))
+
+def get_call_stack_pdb(after_function="trace_dispatch",before_function="run"):
+    frames = reversed(list(
+            take_before(lambda i: i.function == before_function,
+            take_after(lambda i: i.function == after_function, inspect.stack()))
+            ))
     return stack_frames_to_dict(frames)
 
 def save_call_stack(filename):
