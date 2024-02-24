@@ -1,7 +1,7 @@
 import memory_graph
 import copy
 
-a = [ [1, 2], ['a', 'b'] ] # a nested list (a list containing other lists)
+a = [ [1, 2], ['x', 'y'] ] # a nested list (a list containing other lists)
 
 # three different ways to make a "copy" of 'a':
 c1 = a

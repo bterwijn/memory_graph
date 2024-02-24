@@ -73,7 +73,7 @@ Python offers three different "copy" options that we will demonstrate using a ne
 import memory_graph
 import copy
 
-a = [ [1, 2], ['a', 'b'] ] # a nested list (a list containing other lists)
+a = [ [1, 2], ['x', 'y'] ] # a nested list (a list containing other lists)
 
 # three different ways to make a "copy" of 'a':
 c1 = a
@@ -100,7 +100,7 @@ class My_Class:
 
     def __init__(self):
         self.numbers = [1, 2]
-        self.letters = ['a', 'b']
+        self.letters = ['x', 'y']
 
     def copy(self): # custom copy method copies the numbers but shares the letters
         c = copy.copy(self)
@@ -179,7 +179,7 @@ def add_one(a, b, c):
     c.append(1)
     memory_graph.show(memory_graph.get_call_stack())
 
-a = 0
+a = 10
 b = [4, 3, 2]
 c = [4, 3, 2]
 

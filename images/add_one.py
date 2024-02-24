@@ -6,7 +6,7 @@ def add_one(a, b, c):
     c.append(1)
     memory_graph.render( memory_graph.get_call_stack(), "add_one.png")
 
-a = 0
+a = 10
 b = [4, 3, 2]
 c = [4, 3, 2]
 

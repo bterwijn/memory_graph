@@ -5,7 +5,7 @@ class My_Class:
 
     def __init__(self):
         self.numbers = [1, 2]
-        self.letters = ['a', 'b']
+        self.letters = ['x', 'y']
 
     def copy(self): # custom copy method copies the numbers but shares the letters
         c = copy.copy(self)
