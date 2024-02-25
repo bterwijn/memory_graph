@@ -229,6 +229,11 @@ memory_graph.render(memory_graph.get_call_stack_pdb(), "call_stack_graph.pdf")
 memory_graph.render(memory_graph.get_call_stack_vscode(), "call_stack_graph.pdf")
 ``` 
 
+#### Pycharm ###
+```
+memory_graph.render(memory_graph.get_call_stack_pycharm(), "call_stack_graph.pdf")
+``` 
+
 #### Other Debuggers ####
 For other debuggers, invoke this function within the watchpoint context. Then, in the "call_stack.txt" file, identify and select the names of the functions you wish to include in the call stack, specifically those 'after' and 'up_to' your point of interest.
 ```
