@@ -152,7 +152,7 @@ def d(data=None, log=True, graph=True, block=True):
 - graph: if True the data is visualized as a graph
 - block: if True the function blocks until the ENTER key is pressed
 
-To print to a log file instead of standard output us:
+To print to a log file instead of standard output use:
 ```python
 memory_graph.log_file = open("log_file.txt", "w")
 ```
@@ -228,8 +228,8 @@ memory_graph.render(memory_graph.get_call_stack_pdb(), "call_stack_graph.pdf")
 
 **Visual Studio Code**
 ```
- memory_graph.render(memory_graph.get_call_stack_vscode(), "call_stack_graph.pdf")
- ``` 
+memory_graph.render(memory_graph.get_call_stack_vscode(), "call_stack_graph.pdf")
+``` 
 
 
 ## Datastructure Examples ##
