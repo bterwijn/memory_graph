@@ -26,6 +26,7 @@ memory_graph.render(data, "my_graph.png")
 memory_graph.render(data, "my_graph.gv") # Graphviz DOT file
 ```
 
+
 ## Python Data Model ##
 The [Python Data Model](https://docs.python.org/3/reference/datamodel.html) makes a distiction between immutable and mutable types:
 
@@ -158,7 +159,6 @@ memory_graph.log_file = open("log_file.txt", "w")
 ```
 
 ### Watchpoint in Debugger ###
-
 Alternative you can also set this expression as a 'watchpoint' in a debugger tool and open the "my_debug_graph.pdf" output file for a continuous visualization of all the local variables while debugging:
 ```
 memory_graph.render(locals(), "my_debug_graph.pdf")
@@ -167,7 +167,6 @@ This avoids having to add any memory_graph `show()` or `d()` calls to your code.
 
 
 ## Call Stack ##
-
 Function ```memory_graph.get_call_stack()``` returns the full call stack that holds for each called function all the local variables. This enables us to visualize the local variables of each of the called functions on the stack simultaneously. This helps to visualize if variables of different called functions share any data between them. Here for example we call function ```add_one()``` with arguments ```a, b, c``` and add one to change each of them.
 
 ```python
@@ -218,15 +217,14 @@ factorial(3)
 and the final result is: 1 x 2 x 3 = 6
 
 ### Call Stack in Watchpoint ###
+The ```memory_graph.get_call_stack()``` doesn't work well in a watchpoint context in most debuggers because debuggers introduce additional stack frames that cause problems. Use these alternative functions for various debuggers to ignore these stack frames and open "call_stack_graph.pdf":
 
-The ```memory_graph.get_call_stack()``` doesn't work well in a watchpoint context in most debuggers because debuggers introduces many stack frames that cause problems. Use these alternative functions for various debuggers to ignore these stack frames and open "call_stack_graph.pdf":
-
-**pdb**, **pudb**: 
+#### pdb, pudb ####
 ```
 memory_graph.render(memory_graph.get_call_stack_pdb(), "call_stack_graph.pdf")
 ```
 
-**Visual Studio Code**
+#### Visual Studio Code ###
 ```
 memory_graph.render(memory_graph.get_call_stack_vscode(), "call_stack_graph.pdf")
 ``` 
@@ -241,8 +239,8 @@ and then call this function to get the desired call stack to render:
 memory_graph.get_call_stack_after_up_to(after_function, up_to_function="<module>")
 ```
 
-## Datastructure Examples ##
 
+## Datastructure Examples ##
 Module memory_graph can be very useful in a course about datastructures, some examples:
 
 ### Doubly Linked List ###
@@ -336,27 +334,27 @@ import random
 random.seed(0) # use same random numbers each run
 
 class HashSet:
-    
-        def __init__(self, capacity=20):
-            self.buckets = [None] * capacity
-    
-        def add(self, value):
-            index = hash(value) % len(self.buckets)
-            if self.buckets[index] is None:
-                self.buckets[index] = [value]
-            else:
-                self.buckets[index].append(value)
 
-        def contains(self, value):
-            index = hash(value) % len(self.buckets)
-            if self.buckets[index] is None:
-                return False
-            return value in self.buckets[index]
+    def __init__(self, capacity=20):
+        self.buckets = [None] * capacity
 
-        def remove(self, value):
-            index = hash(value) % len(self.buckets)
-            if self.buckets[index] is not None:
-                self.buckets[index].remove(value)
+    def add(self, value):
+        index = hash(value) % len(self.buckets)
+        if self.buckets[index] is None:
+            self.buckets[index] = [value]
+        else:
+            self.buckets[index].append(value)
+
+    def contains(self, value):
+        index = hash(value) % len(self.buckets)
+        if self.buckets[index] is None:
+            return False
+        return value in self.buckets[index]
+
+    def remove(self, value):
+        index = hash(value) % len(self.buckets)
+        if self.buckets[index] is not None:
+            self.buckets[index].remove(value)
         
 hash_set = HashSet()
 n = 100
@@ -366,6 +364,7 @@ for i in range(n):
     memory_graph.show(locals(), block=True) # <--- draw hash set
 ```
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/hash_set.png)
+
 
 ## Config ##
 Different aspects of memory_graph can be configured.
@@ -417,7 +416,6 @@ digraph = memory_graph.create_graph( locals() )
 and see the [graphviz api](https://graphviz.readthedocs.io/en/stable/api.html) to render it in many different ways.
 
 ### Config Graph Structure, rewrite_to_node ###
-
 Configure the structure of the nodes in the graph with:
 
 - ***memory_graph.rewrite_to_node.reduce_reference_parents*** : set
@@ -426,7 +424,6 @@ Configure the structure of the nodes in the graph with:
   - the node types/categories for which we remove the reference from parents
   
 ### Config Node Creation, rewrite ###
-
 Configure what nodes are created based on reading the given data structure:
 
 - ***memory_graph.rewrite.ignore_types*** : dict
