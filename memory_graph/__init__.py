@@ -104,21 +104,20 @@ def get_call_stack(up_to_function="<module>"):
         ))
     return stack_frames_to_dict(frames)
 
-def get_call_stack_after(after_function,up_to_function):
+def get_call_stack_after_up_to(after_function, up_to_function="<module>"):
     frames = reversed(list(
-            take_up_to(lambda i: i.function==up_to_function,
+            take_up_to(lambda i: i.function == up_to_function,
             take_after(lambda i: i.function == after_function, inspect.stack()))
             ))
     return stack_frames_to_dict(frames)
 
 def get_call_stack_pdb(after_function="trace_dispatch",up_to_function="<module>"):
-    return get_call_stack_after(after_function,up_to_function)
+    return get_call_stack_after_up_to(after_function,up_to_function)
 
 def get_call_stack_vscode(after_function="do_wait_suspend",up_to_function="<module>"):
-    return get_call_stack_after(after_function,up_to_function)
+    return get_call_stack_after_up_to(after_function,up_to_function)
 
 def save_call_stack(filename):
     with open(filename,'w') as file:
         for f in inspect.stack():
-            file.write(f"filename:{f.filename} lineno:{f.lineno} function:{f.function} " +
-                       f"code_context:{f.code_context} index:{f.index} positions:{f.positions}\n")
+            file.write(f"function:{f.function} filename:{f.filename}\n")
