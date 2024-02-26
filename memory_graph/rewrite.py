@@ -1,7 +1,7 @@
 import types
 
 # the types of the values we rewrite
-ignore_types={types.FunctionType, types.ModuleType}
+ignore_types={types.FunctionType, types.MethodType, types.ModuleType}
 try:
     ignore_types.add(types.GenericAlias) # only in python3.9 onwards
 except AttributeError as e:

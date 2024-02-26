@@ -98,9 +98,9 @@ def stack_frames_to_dict(frames):
     return {f"{level}: {frameInfo.function}" : frameInfo.frame.f_locals
             for level, frameInfo in enumerate(frames)}
 
-def get_call_stack(up_to_function="<module>"):
+def get_call_stack(up_to_function="<module>",pop=1):
     frames = reversed(list(
-        take_up_to(lambda i: i.function==up_to_function, inspect.stack()[1:])
+        take_up_to(lambda i: i.function==up_to_function, inspect.stack()[pop:])
         ))
     return stack_frames_to_dict(frames)
 
@@ -119,6 +119,20 @@ def get_call_stack_vscode(after_function="do_wait_suspend",up_to_function="<modu
 
 def get_call_stack_pycharm(after_function="trace_dispatch",up_to_function="<module>"):
     return get_call_stack_after_up_to(after_function,up_to_function)
+
+jupyter_filter_keys = {'exit','quit','v','In','Out','jupyter_filter_keys'}
+def jupyter_locals_filter(jupyter_locals):
+    return {k:v for k,v in jupyter_locals.items()
+           if k not in jupyter_filter_keys and k[0] != '_'}
+
+def locals_jupyter():
+    return jupyter_locals_filter(get_locals_from_calling_frame())
+
+def get_call_stack_jupyter(up_to_function="<module>",pop=2):
+    call_stack = get_call_stack(up_to_function,pop)
+    globals_frame = next(iter(call_stack))
+    call_stack[globals_frame] = jupyter_locals_filter(call_stack[globals_frame])
+    return call_stack
 
 def save_call_stack(filename):
     with open(filename,'w') as file:
