@@ -92,7 +92,7 @@ memory_graph.show(locals())
 
 
 ### custom copy method ###
-We can write our own custom copy function or method in case the three "copy" options don't do what we want. For example the copy() method of My_Class in the code below copies the `numbers` but shares the `letters` between the two objects.
+We can write our own custom copy function or method in case the three "copy" options don't do what we want. For example the copy() method of My_Class in the code below copies the `digits` but shares the `letters` between the two objects.
 ```python
 import memory_graph
 import copy
@@ -100,12 +100,12 @@ import copy
 class My_Class:
 
     def __init__(self):
-        self.numbers = [1, 2]
+        self.digits = [1, 2]
         self.letters = ['x', 'y']
 
-    def copy(self): # custom copy method copies the numbers but shares the letters
+    def copy(self): # custom copy method copies the digits but shares the letters
         c = copy.copy(self)
-        c.numbers = copy.copy(self.numbers)
+        c.digits = copy.copy(self.digits)
         return c
 
 a = My_Class()
@@ -502,7 +502,7 @@ which results in:
 
 
 ## Troubleshooting ##
-- In Jupyter Notebooks `locals()` has additional variables that cause problems, use `memory_graph.locals_jupyter()` to filter these out. Use `memory_graph.get_call_stack_jupyter()` to filter these out of the whole calls stack.
+- In Jupyter Notebooks `locals()` has additional variables that cause problems, use `memory_graph.locals_jupyter()` to get the local variables with these additional variables filtered out. Use `memory_graph.get_call_stack_jupyter()` to get the whole call stack with these variables filtered out.
 
 - When graph edges overlap it can be hard to distinguish them. Using an interactive graphviz viewer, such as [xdot](https://github.com/jrfonseca/xdot.py), on a '*.gv' DOT output file will help.
 
