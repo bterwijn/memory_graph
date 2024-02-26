@@ -98,7 +98,7 @@ def get_call_stack(up_to_function="<module>",stack_index=1):
         ))
     return stack_frames_to_dict(frames)
 
-def get_call_stack_after_up_to(after_function, up_to_function="<module>"):
+def get_call_stack_after_up_to(after_function,up_to_function="<module>"):
     frames = reversed(list(
             take_up_to(lambda i: i.function == up_to_function,
             take_after(lambda i: i.function == after_function, inspect.stack()))

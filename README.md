@@ -219,14 +219,14 @@ and the final result is: 1 x 2 x 3 = 6
 ### Call Stack in Watchpoint ###
 The ```memory_graph.get_call_stack()``` doesn't work well in a watchpoint context in most debuggers because debuggers introduce additional stack frames that cause problems. Use these alternative functions for various debuggers to ignore the problematic stack frames:
 
-| debugger | function |
+| debugger | function to get the call stack |
 |:---|:---|
 | **pdb, pudb** | `memory_graph.get_call_stack_pdb()` |
 | **Visual Studio Code** | `memory_graph.get_call_stack_vscode()` |
 | **Pycharm** | `memory_graph.get_call_stack_pycharm()` |
 
 #### Other Debuggers ####
-For other debuggers, invoke this function within the watchpoint context. Then, in the "call_stack.txt" file, identify and select the names of the functions you wish to include in the call stack, specifically those 'after' and 'up_to' your point of interest.
+For other debuggers, invoke this function within the watchpoint context. Then, in the "call_stack.txt" file, identify the slice of functions you wish to include in the call stack, more specifically choise 'after' and 'up_to' what function you want to slice.
 ```
 memory_graph.save_call_stack("call_stack.txt")
 ```
