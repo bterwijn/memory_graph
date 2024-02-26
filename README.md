@@ -217,22 +217,13 @@ factorial(3)
 and the final result is: 1 x 2 x 3 = 6
 
 ### Call Stack in Watchpoint ###
-The ```memory_graph.get_call_stack()``` doesn't work well in a watchpoint context in most debuggers because debuggers introduce additional stack frames that cause problems. Use these alternative functions for various debuggers to ignore these stack frames and open "call_stack_graph.pdf":
+The ```memory_graph.get_call_stack()``` doesn't work well in a watchpoint context in most debuggers because debuggers introduce additional stack frames that cause problems. Use these alternative functions for various debuggers to ignore the problematic stack frames:
 
-#### pdb, pudb ####
-```
-memory_graph.render(memory_graph.get_call_stack_pdb(), "call_stack_graph.pdf")
-```
-
-#### Visual Studio Code ###
-```
-memory_graph.render(memory_graph.get_call_stack_vscode(), "call_stack_graph.pdf")
-``` 
-
-#### Pycharm ###
-```
-memory_graph.render(memory_graph.get_call_stack_pycharm(), "call_stack_graph.pdf")
-``` 
+| debugger | function |
+|:---|:---|
+| **pdb, pudb** | `memory_graph.get_call_stack_pdb()` |
+| **Visual Studio Code** | `memory_graph.get_call_stack_vscode()` |
+| **Pycharm** | `memory_graph.get_call_stack_pycharm()` |
 
 #### Other Debuggers ####
 For other debuggers, invoke this function within the watchpoint context. Then, in the "call_stack.txt" file, identify and select the names of the functions you wish to include in the call stack, specifically those 'after' and 'up_to' your point of interest.
@@ -511,7 +502,9 @@ which results in:
 
 
 ## Troubleshooting ##
-When graph edges overlap it can be hard to distinguish them. Using an interactive graphviz viewer, such as [xdot](https://github.com/jrfonseca/xdot.py), on a '*.gv' DOT output file will help.
+- In Jupyter Notebooks `locals()` has additional variables that cause problems, use `memory_graph.locals_jupyter()` to filter these out. Use `memory_graph.get_call_stack_jupyter()` to filter these out of the whole calls stack.
+
+- When graph edges overlap it can be hard to distinguish them. Using an interactive graphviz viewer, such as [xdot](https://github.com/jrfonseca/xdot.py), on a '*.gv' DOT output file will help.
 
 
 ## Author ##
