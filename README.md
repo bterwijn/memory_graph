@@ -46,9 +46,9 @@ memory_graph.render(locals(), 'immutable1.png')
 a += 1
 memory_graph.render(locals(), 'immutable2.png')
 ```
-![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/immutable1.png)
-![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/immutable2.png)
-
+| ![mutable1.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/immutable1.png) | ![mutable2.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/immutable2.png) |
+|:-----------------------------------------------------------:|:-------------------------------------------------------------:|
+| immutable1.png | immutable2.png |
 
 ### mutable type ###
 With mutable types the result is different. In the code below variable `a` and `b` both reference the same `list` value [4, 3, 2]. A `list` is a mutable type and therefore when we change variable `a` its value **can** be mutated in place and thus `a` and `b` both reference the same new value afterwards. Thus changing `a` also changes `b` and vice versa. Sometimes we want this but other times we don't and then we will have to make a copy so that `b` is independent from `a`.
@@ -61,8 +61,10 @@ memory_graph.render(locals(), 'mutable1.png')
 a.append(1)
 memory_graph.render(locals(), 'mutable2.png')
 ```
-![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/mutable1.png)
-![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/mutable2.png)
+| ![mutable1.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/mutable1.png) | ![mutable2.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/mutable2.png) |
+|:-----------------------------------------------------------:|:-------------------------------------------------------------:|
+| mutable1.png | mutable2.png |
+
 
 Python makes this distiction between mutable and immutable types because a value of a mutable type generally could be large and therefore it would be slow to make a copy each time we change it. On the other hand, a value of a changable immutable type generally is small and therefore fast to copy.
 
@@ -74,11 +76,11 @@ Python offers three different "copy" options that we will demonstrate using a ne
 import memory_graph
 import copy
 
-a = [ [1, 2], ['x', 'y'] ] # a nested list (a list containing other lists)
+a = [ [1, 2], ['x', 'y'] ] # a nested list (a list containing lists)
 
 # three different ways to make a "copy" of 'a':
 c1 = a
-c2 = copy.copy(a) # equivalent to:   a.copy() a[:] list(a)
+c2 = copy.copy(a) # equivalent to:  a.copy() a[:] list(a)
 c3 = copy.deepcopy(a)
 
 memory_graph.show(locals())
