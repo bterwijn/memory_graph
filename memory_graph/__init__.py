@@ -30,10 +30,12 @@ def get_locals_from_calling_frame(stack_index=3):
 
 def create_graph(data):
     all_nodes=rewrite_to_node.rewrite_data(data)
+    Node.print_all_nodes(all_nodes)
     return graphviz_nodes.create_graph(all_nodes)
 
 def show(data,block=False):
     graph=create_graph(data)
+    print('graph:',graph)
     graph.view()
     if block:
         input(f"showing '{graph.filename}', {get_source_location()}, {press_enter_text}")
