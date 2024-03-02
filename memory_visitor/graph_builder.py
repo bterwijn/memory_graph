@@ -1,68 +1,59 @@
 import graphviz
-new_graph=None
-graph_attr={}
-node_attr={'shape':'plaintext'}
-edge_attr={}
-
 import memory_visitor
-visit_count = 0
-id_to_name = {}
-references = []
+import node_layout
 
-def give_name(data):
-    global visit_count
-    id_to_name[id(data)] = 'node'+str(visit_count)
-    visit_count += 1
+class Graph_Builder:
 
-def get_name(data):
-    return id_to_name[id(data)]
+    def __init__(self, data, 
+                 graph_attr={}, 
+                 node_attr={'shape':'plaintext'}, 
+                 edge_attr={}):
+        self.new_graph=graphviz.Digraph('memory_graph',
+                                    graph_attr=graph_attr,
+                                    node_attr=node_attr,
+                                    edge_attr=edge_attr)
+        self.is_subgraphed = set()
+        self.references = []
+        memory_visitor.visit_callback = self.visit_callback
+        memory_visitor.visit_backtrack_callback = self.backtrack_callback
+        memory_visitor.visit(data)
 
-def visit_callback(data,parent):
-    give_name(data)
+    def get_name(self,data):
+        return "node"+str(memory_visitor.get_id(data))
 
-def backtrack_callback(data,children):
-    global new_graph
-    print('backtrack data:',data,'name:',get_name(data),'children:',children)
-    data_name = f'{get_name(data)}:X'
-    named_children = [f'{get_name(c)}:X' for c in children]
-    for index,child_name in enumerate(named_children):
-        data_index_name = f'{get_name(data)}:{index}'
-        references.append( (data_index_name, child_name))
-    if len(named_children) > 1:
-        lineup = " -> ".join(named_children)
-        new_graph.body.append('{ rank="same"  '+lineup+'  [weight=99,style=invis]; }\n')
-    new_graph.node(data_name, data_name, xlabel='xlabel')
+    def set_subgraphed(self,data):
+        self.is_subgraphed.add(data)
+        return data
 
-memory_visitor.visit_callback = visit_callback
-memory_visitor.visit_backtrack_callback = backtrack_callback
+    def visit_callback(self,data,parent):
+        #print("visit data:",data,"testparent:",parent)
+        pass
 
-def print_nodes():
-    for k,v in id_to_name.items():
-        print('id:',k,'name:',v)
+    def backtrack_callback(self,data,children):
+        print("backtrack data:",data,"children:",children)
+        # subgraph
+        subgraph_chidren = [self.get_name(self.set_subgraphed(c)) 
+                    for c in children if c not in self.is_subgraphed]
+        if len(subgraph_chidren) > 1:
+            subgraph = node_layout.make_subgraph(subgraph_chidren)
+            print('subgraph:',subgraph)
+            self.new_graph.body.append(subgraph)
+        # node
+        name = self.get_name(data)
+        body = node_layout.make_node_body(data,children)
+        type = node_layout.get_type_name(data)
+        print('name:',name,'type:',type)
+        self.new_graph.node(self.get_name(data), 
+                            body, 
+                            xlabel=node_layout.get_type_name(data))
 
-def print_references():
-    for k,v in references:
-        print('reference:',k,'->',v)
-
-def graph(data):
-    global visit_count, new_graph
-    visit_count = 0
-    id_to_name.clear()
-    references.clear()
-    new_graph=graphviz.Digraph('memory_graph',
-                           graph_attr=graph_attr,
-                           node_attr=node_attr,
-                           edge_attr=edge_attr)
-    memory_visitor.visit(data)
-    print_nodes()
-    print_references()
-    return new_graph
+    def get_graph(self):
+        return self.new_graph
 
 if __name__ == '__main__':
-    data = [[1,2], [3,4]]
-    data.append(data[0])
-    data.append(data)
-    new_graph = graph(data)
-    #new_graph.view()
-    new_graph.render(outfile='what.gv')
+    data = [1,2]
+    graph_builder = Graph_Builder(data)
+    graph = graph_builder.get_graph()
+    graph.view()
+    #new_graph.render(outfile='what.gv')
 

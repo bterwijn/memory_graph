@@ -1,6 +1,6 @@
 import types
 
-visited_ids = set()
+visited_ids = {}
 ignore_types={types.FunctionType, types.MethodType, types.ModuleType}
 try:
     ignore_types.add(types.GenericAlias) # only in python3.9 onwards
@@ -12,10 +12,12 @@ get_children_for_types = {
     }
 
 def default_visit_callback(data,parent):
-    print('default_visit data:',data,'parent:',parent)
+    #print('default_visit data:',data,'parent:',parent)
+    pass
 
 def default_backtrack_callback(data,children):
-    print('default_backtrack data:',data,'children:',children)
+    #print('default_backtrack data:',data,'children:',children)
+    pass
 
 visit_callback = default_visit_callback
 visit_backtrack_callback = default_backtrack_callback
@@ -40,7 +42,7 @@ def get_children(data):
 def visit_recursive(data,parent):
     if id(data) in visited_ids or type(data) in ignore_types:
         return
-    visited_ids.add(id(data))
+    visited_ids[id(data)] = len(visited_ids)
     visit_callback(data,parent)
     children = get_children(data)
     for i in children:
@@ -50,6 +52,9 @@ def visit_recursive(data,parent):
 def visit(data):
     visited_ids.clear()
     visit_recursive(data,None)
+
+def get_id(data):
+    return visited_ids[id(data)]
 
 if __name__ == '__main__':
     data = [ [1], [2] ]
