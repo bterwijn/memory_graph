@@ -15,7 +15,7 @@ def has_dict_attribute(value):
     return hasattr(value,"__dict__")
 
 def get_dict_attribute(value):
-    return getattr(value,"__dict__")
+    return [getattr(value,"__dict__")]
 
 def is_iterable(data):
     try:
@@ -39,13 +39,12 @@ visit_callback = default_visit_callback
 visit_backtrack_callback = default_backtrack_callback
 
 
-
 def get_children(data):
     children = ()
     if type(data) in get_children_for_types:
         children = get_children_for_types[type(data)](data)
     elif has_dict_attribute(data):
-        children = [get_dict_attribute(data)]
+        children = get_dict_attribute(data)
     elif is_iterable(data):
         children = data
     return children
@@ -77,5 +76,5 @@ class My_Class:
 if __name__ == '__main__':
     data = [ [1], [2] ]
     data = { 1:10, 2:20 }
-    data = My_Class()
+    data = (My_Class(),My_Class())
     visit(data)

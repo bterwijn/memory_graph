@@ -67,7 +67,7 @@ class My_Class:
 if __name__ == '__main__':
     #data = [[1,2],[3,4]]
     data = {1:10, 2:20, 3:30}
-    data = My_Class()
+    data = (My_Class(),My_Class())
     graph_builder = Graph_Builder(data)
     graph = graph_builder.get_graph()
     graph.view()
