@@ -1,4 +1,4 @@
-## Installation ##
+### Installation ###
 Install `memory_graph` using pip:
 ```
 pip install memory-graph
@@ -33,7 +33,7 @@ The [Python Data Model](https://docs.python.org/3/reference/datamodel.html) make
 * **mutable**: list, dict, set, class, ... (all other types)
 
 
-### immutable type ###
+### Immutable Type ###
 In the code below variable `a` and `b` both reference the same `int` value 10. An `int` is an immutable type and therefore when we change variable `a` its value can **not** be mutated in place, and thus a copy is made and `a` and `b` reference a different value afterwards.
 ```python
 import memory_graph
@@ -49,7 +49,7 @@ memory_graph.render(locals(), 'immutable2.png')
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/immutable2.png)
 
 
-### mutable type ###
+### Mutable Type ###
 With mutable types the result is different. In the code below variable `a` and `b` both reference the same `list` value [4, 3, 2]. A `list` is a mutable type and therefore when we change variable `a` its value **can** be mutated in place and thus `a` and `b` both reference the same new value afterwards. The result is that changing `a` also changes `b` and vice versa. Sometimes we want this but other times we don't and then we will have to make a copy so that `b` is independent from `a`.
 ```python
 import memory_graph
@@ -66,7 +66,7 @@ memory_graph.render(locals(), 'mutable2.png')
 Python makes this distiction between mutable and immutable types because a value of a mutable type generally could be large and therefore it would be slow to make a copy each time we change it. On the other hand, a value of a changable immutable type generally is small and therefore fast to copy.
 
 
-### copying ###
+### Copying ###
 Python offers three different "copy" options that we will demonstrate using a nested list:
 
 ```python
@@ -90,7 +90,7 @@ memory_graph.show(locals())
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copies.png)
 
 
-### custom copy method ###
+### Custom Copy Method ###
 We can write our own custom copy function or method in case the three "copy" options don't do what we want. For example the copy() method of My_Class in the code below copies the `numbers` but shares the `letters` between the two objects.
 ```python
 import memory_graph
@@ -166,7 +166,7 @@ memory_graph.render(locals(), "my_debug_graph.pdf")
 This avoids having to add any memory_graph `show()` or `d()` calls to your code.
 
 
-## Call Stack ##
+## Function Call Stack ##
 
 Function ```memory_graph.get_call_stack()``` returns the full call stack that holds for each called function all the local variables. This enables us to visualize the local variables of each of the called functions on the stack simultaneously. This helps to visualize if variables of different called functions share any data between them. Here for example we call function ```add_one()``` with arguments ```a, b, c``` and add one to change each of them.
 
@@ -193,7 +193,7 @@ As ```a``` is of immutable type 'int' and as we call the function with a copy of
 a:1 b:[4, 3, 2, 1] c:[4, 3, 2]
 ```
 
-### recursion ###
+### Recursion ###
 The call stack also helps to visualize how recursion works. Here we show each step of how recursively ```factorial(3)``` is computed:
 
 ```python
