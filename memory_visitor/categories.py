@@ -1,5 +1,6 @@
 import utils
 import memory_visitor
+import node_layout
 
 class Category:
 
@@ -25,26 +26,15 @@ class Category:
     def get_body(self):
         pass
 
-def begin_table():
-    return '<\n<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="0" BGCOLOR="blue"><TR><TD PORT="X">\n'
-def end_table():
-    return '</TD></TR></TABLE>>\n'
-
 class Category_Singular(Category):
 
     def __init__(self, data):
         super().__init__(data)
 
     def get_body(self):
-        body  = begin_table()
-        body += str(self.get_data())
-        body += end_table()
-        return body
-
-def begin_subtable():
-    return '  <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="4" CELLPADDING="0"><TR>\n'
-def end_subtable():
-    return '\n  </TR></TABLE>\n'
+        return node_layout.outer_table( 
+                str(self.get_data()) 
+                )
 
 class Category_Linear(Category):
 
@@ -52,14 +42,13 @@ class Category_Linear(Category):
         super().__init__(data, childeren)
 
     def get_body(self):
-        body  = begin_table()
-        if len(self.get_children())>0:
-            body += begin_subtable()
-            for i,c in enumerate(self.get_children()):
-                body += f'<TD PORT="f{i}"> </TD>'
-            body += end_subtable()
-        body += end_table()
-        return body
+        s = '    '
+        for i,c in enumerate(self.get_children()):
+            s += f'<TD PORT="f{i}"> </TD>'
+        return node_layout.outer_table(
+                node_layout.inner_table( 
+                    s
+                ))
 
 class Category_Key_Value(Category):
 
