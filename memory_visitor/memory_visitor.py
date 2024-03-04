@@ -1,11 +1,10 @@
 import types
+import utils
+import categories
 
 visited_ids = {}
 ignore_types={types.FunctionType, types.MethodType, types.ModuleType, types.GeneratorType}
-try:
-    ignore_types.add(types.GenericAlias) # only in python3.9 onwards
-except AttributeError as e:
-    pass
+utils.ignore_exception( lambda: ignore_types.add(types.CoroutineType) )
 
 get_children_for_types = {
     dict: lambda d: tuple(d.items())
@@ -23,58 +22,51 @@ def is_iterable(data):
         return True
     except TypeError:
         return False
-    
 
-def default_visit_callback(data,parent):
-    print('default_visit data:',data,' type:',type(data))
-    print('            parent:',parent,' type:',type(parent))
+def default_visit_callback(category,parent_category):
+    print('default_visit category:',category)
+    print('                parent:',parent_category)
     pass
 
-def default_backtrack_callback(data,children):
-    print('default_backtrack data:',data,' type:',type(data))
-    print('              children:',children, ' types:',[type(c) for c in children])
+def default_backtrack_callback(category):
+    print('default_backtrack category:',category)
     pass
 
 visit_callback = default_visit_callback
 visit_backtrack_callback = default_backtrack_callback
 
+def categorize(data):
+    if is_iterable(data):
+        return categories.Category_Linear(data,data)
+    return categories.Category_Singular(data)
 
-def get_children(data):
-    children = ()
-    if type(data) in get_children_for_types:
-        children = get_children_for_types[type(data)](data)
-    elif has_dict_attribute(data):
-        children = get_dict_attribute(data)
-    elif is_iterable(data):
-        children = data
-    return children
-
-def visit_recursive(data,parent):
+def visit_recursive(data, parent_category):
     if id(data) in visited_ids or type(data) in ignore_types:
         return
     visited_ids[id(data)] = len(visited_ids)
-    visit_callback(data,parent)
-    children = get_children(data)
-    for c in children:
-        visit_recursive(c,data)
-    visit_backtrack_callback(data,children)
+    category = categorize(data)
+    visit_callback(category, parent_category)
+    for c in category.get_children():
+        visit_recursive(c, category)
+    visit_backtrack_callback(category)
 
 def visit(data):
     visited_ids.clear()
     visit_recursive(data,None)
 
-def get_id(data):
-    return visited_ids[id(data)]
+def get_node_name(data):
+    return 'node'+str(visited_ids[id(data)])
 
-class My_Class:
+# class My_Class:
 
-    def __init__(self):
-        self.a=10
-        self.b=20
-        self.c=30
+#     def __init__(self):
+#         self.a=10
+#         self.b=20
+#         self.c=30
 
 if __name__ == '__main__':
-    data = [ [1], [2] ]
-    data = { 1:10, 2:20 }
-    data = (My_Class(),My_Class())
+    data = 100
+    data = [ 1, 2 ]
+    #data = { 1:10, 2:20 }
+    #data = (My_Class(),My_Class())
     visit(data)

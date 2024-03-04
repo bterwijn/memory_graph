@@ -1,6 +1,7 @@
 import graphviz
 import memory_visitor
 import node_layout
+import utils
 
 class Graph_Builder:
 
@@ -17,9 +18,6 @@ class Graph_Builder:
         memory_visitor.visit_backtrack_callback = self.backtrack_callback
         memory_visitor.visit(data)
 
-    def get_name(self,data):
-        return "node"+str(memory_visitor.get_id(data))
-
     def set_subgraphed(self,data):
         self.subgraphed_ids.add(id(data))
         return data
@@ -27,47 +25,43 @@ class Graph_Builder:
     def is_subgraphed(self,data):
         return id(data) in self.subgraphed_ids
     
-    def visit_callback(self,data,parent):
+    def visit_callback(self,category,parent):
         #print("visit data:",data,"testparent:",parent)
         pass
 
-    def backtrack_callback(self,data,children):
-        print("backtrack data:",data,"children:",children)
+    def backtrack_callback(self,category):
+        print("backtrack category:",category)
+        node_name = category.get_node_name()
         # subgraph
-        subgraph_chidren = [self.get_name(self.set_subgraphed(c)) 
-                    for c in children if self.is_subgraphed(c)]
-        if len(subgraph_chidren) > 1:
-            subgraph = node_layout.make_subgraph(subgraph_chidren)
-            print('subgraph:',subgraph)
-            self.new_graph.body.append(subgraph)
+        subgraph_children = [self.get_name(self.set_subgraphed(c)) 
+                            for c in category.get_children() if self.is_subgraphed(c)]
+        if len(subgraph_children) > 1:
+            self.new_graph.body.append(node_layout.make_subgraph(subgraph_children))
         # node
-        name = self.get_name(data)
-        body = node_layout.make_node_body(data,children)
-        type = node_layout.get_type_name(data)
-        print('name:',name,'type:',type)
-        self.new_graph.node(self.get_name(data), 
-                            body, 
-                            xlabel=node_layout.get_type_name(data))
+        self.new_graph.node(node_name, 
+                            node_layout.make_node_body(category), 
+                            xlabel=category.get_type_name())
         # edges
-        for i,c in enumerate(children):
-            self.new_graph.edge(f'{self.get_name(data)}:f{i}',
-                                f'{self.get_name(c)}:X')
+        for i,c in enumerate(category.get_children()):
+            self.new_graph.edge(f'{node_name}:f{i}',
+                                f'{memory_visitor.get_node_name(c)}:X')
 
     def get_graph(self):
-        #self.new_graph.edge("node0:f0", "node1:X")
         return self.new_graph
 
-class My_Class:
+# class My_Class:
 
-    def __init__(self):
-        self.a=10
-        self.b=20
-        self.c=30
+#     def __init__(self):
+#         self.a=10
+#         self.b=20
+#         self.c=30
 
 if __name__ == '__main__':
+    data = 100
+    data = [ 1, 2 ]
     #data = [[1,2],[3,4]]
-    data = {1:10, 2:20, 3:30}
-    data = (My_Class(),My_Class())
+    #data = {1:10, 2:20, 3:30}
+    #data = (My_Class(),My_Class())
     graph_builder = Graph_Builder(data)
     graph = graph_builder.get_graph()
     graph.view()
