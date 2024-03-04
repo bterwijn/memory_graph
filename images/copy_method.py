@@ -4,12 +4,12 @@ import copy
 class My_Class:
 
     def __init__(self):
-        self.numbers = [1, 2]
-        self.letters = ['a', 'b']
+        self.digits = [1, 2]
+        self.letters = ['x', 'y']
 
-    def copy(self): # custom copy method copies the numbers but shares the letters
+    def copy(self): # custom copy method copies the digits but shares the letters
         c = copy.copy(self)
-        c.numbers = copy.copy(self.numbers)
+        c.digits = copy.copy(self.digits)
         return c
 
 a = My_Class()
