@@ -508,6 +508,9 @@ which results in:
 
 
 ## Troubleshooting ##
+
+- Adobe Acrobat Reader doesn't refresh a PDF when it changes on disk and blocks updates which results in an `Could not open 'somefile.pdf' for writing : Permission denied` error on Windows. Install a PDF reader that does refresh (Evince for example) and set as it as default PDF reader.
+
 - In Jupyter Notebooks `locals()` has additional variables that cause problems, use `memory_graph.locals_jupyter()` to get the local variables with these additional variables filtered out. Use `memory_graph.get_call_stack_jupyter()` to get the whole call stack with these variables filtered out.
 
 - When graph edges overlap it can be hard to distinguish them. Using an interactive graphviz viewer, such as [xdot](https://github.com/jrfonseca/xdot.py), on a '*.gv' DOT output file will help.
