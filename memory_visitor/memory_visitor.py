@@ -14,7 +14,7 @@ def has_dict_attribute(value):
     return hasattr(value,"__dict__")
 
 def get_dict_attribute(value):
-    return (getattr(value,"__dict__"),)
+    return tuple(getattr(value,"__dict__").items())
 
 def is_iterable(data):
     try:
@@ -38,10 +38,8 @@ visit_backtrack_callback = default_backtrack_callback
 def categorize(data):
     if type(data) in get_children_for_types:
         return get_children_for_types[type(data)](data)
-    elif has_dict_attribute(data):
-        childeren = get_dict_attribute(data)
-        print("childeren:",childeren)
-        return categories.Category_Key_Value(data,childeren)
+    elif has_dict_attribute(data): # classes
+        return categories.Category_Key_Value(data, get_dict_attribute(data))
     elif is_iterable(data):
         return categories.Category_Linear(data,data)
     return categories.Category_Singular(data)
