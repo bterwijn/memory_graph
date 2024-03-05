@@ -7,14 +7,14 @@ ignore_types={types.FunctionType, types.MethodType, types.ModuleType, types.Gene
 utils.ignore_exception( lambda: ignore_types.add(types.CoroutineType) )
 
 get_children_for_types = {
-    dict: lambda d: tuple(d.items())
+    dict: lambda data: categories.Category_Key_Value(data,tuple(data.items())) 
     }
 
 def has_dict_attribute(value):
     return hasattr(value,"__dict__")
 
 def get_dict_attribute(value):
-    return [getattr(value,"__dict__")]
+    return (getattr(value,"__dict__"),)
 
 def is_iterable(data):
     try:
@@ -36,7 +36,13 @@ visit_callback = default_visit_callback
 visit_backtrack_callback = default_backtrack_callback
 
 def categorize(data):
-    if is_iterable(data):
+    if type(data) in get_children_for_types:
+        return get_children_for_types[type(data)](data)
+    elif has_dict_attribute(data):
+        childeren = get_dict_attribute(data)
+        print("childeren:",childeren)
+        return categories.Category_Key_Value(data,childeren)
+    elif is_iterable(data):
         return categories.Category_Linear(data,data)
     return categories.Category_Singular(data)
 

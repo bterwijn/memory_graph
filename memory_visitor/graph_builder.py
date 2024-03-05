@@ -49,19 +49,20 @@ class Graph_Builder:
     def get_graph(self):
         return self.new_graph
 
-# class My_Class:
+class My_Class:
 
-#     def __init__(self):
-#         self.a=10
-#         self.b=20
-#         self.c=30
+    def __init__(self):
+        self.a=10
+        self.b=20
+        self.c=30
+
 
 if __name__ == '__main__':
     data = 100
     data = [ 1, 2, 3, 4 ]
-    #data = [[1,2],[3,4]]
+    data = [[1,2],[3,4]]
     #data = {1:10, 2:20, 3:30}
-    #data = (My_Class(),My_Class())
+    data = (My_Class())
     graph_builder = Graph_Builder(data)
     graph = graph_builder.get_graph()
     graph.view()

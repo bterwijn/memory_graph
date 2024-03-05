@@ -27,3 +27,12 @@ def make_linear_body(categorized):
             inner_table( 
                 s
             ))
+
+def make_key_value_body(categorized):
+    s = ''
+    for i,c in enumerate(categorized.get_children()):
+        s += f'<TD PORT="f{i}"> </TD>'
+    return outer_table(
+            inner_table( 
+                s
+            ))

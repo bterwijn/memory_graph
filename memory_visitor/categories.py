@@ -47,3 +47,5 @@ class Category_Key_Value(Category):
     def __init__(self, data, childeren):
         super().__init__(data, childeren)
         
+    def get_body(self):
+        return node_layout.make_key_value_body(self)
