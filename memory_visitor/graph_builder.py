@@ -14,17 +14,9 @@ class Graph_Builder:
                                     graph_attr=graph_attr,
                                     node_attr=node_attr,
                                     edge_attr=edge_attr)
-        self.subgraphed_ids = set()
         memory_visitor.visit_callback = self.visit_callback
         memory_visitor.visit_backtrack_callback = self.backtrack_callback
         memory_visitor.visit(data)
-
-    def set_subgraphed(self,categorized):
-        self.subgraphed_ids.add(id(categorized.get_data()))
-        return categorized
-    
-    def is_subgraphed(self,categorized):
-        return id(categorized.get_data()) in self.subgraphed_ids
     
     def visit_callback(self,categorized,parent):
         #print("visit data:",data,"testparent:",parent)
@@ -34,11 +26,9 @@ class Graph_Builder:
         print("backtrack categorized:",categorized)
         node_name = categorized.get_node_name()
         # === subgraph
-        subgraph_child_names = [(self.set_subgraphed(c)).get_node_name()
-                            for c in categorized.get_children() 
-                            if not self.is_subgraphed(c)]
-        if len(subgraph_child_names) > 1:
-            self.new_graph.body.append(node_layout.make_subgraph(subgraph_child_names))
+        subgraph = node_layout.make_subgraph(categorized.get_children())
+        if subgraph:
+            self.new_graph.body.append(subgraph)
         # === node
         self.new_graph.node(node_name, 
                             categorized.get_body(),
@@ -51,7 +41,6 @@ class Graph_Builder:
     def get_graph(self):
         return self.new_graph
 
-
 if __name__ == '__main__':
     test_fun_count=0
     def test_fun(data):
@@ -60,5 +49,4 @@ if __name__ == '__main__':
         new_graph = graph_builder.get_graph()
         new_graph.render(outfile=f'test_graph{test_fun_count}.png')
         test_fun_count += 1
-
     test.test_all( test_fun )

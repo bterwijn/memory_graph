@@ -18,11 +18,12 @@ class Category:
         self.data = data
         self.candidate_children = candidate_children
         self.children = []
+        self.is_subgraphed_flag = False
         self.name = f'node{len(Category.visited_ids)}'
         Category.visited_ids[id(data)] = self
 
     def __repr__(self):
-        return f'{type(self).__name__} data:{self.data} type:{self.get_type_name()} childeren:{self.children}'
+        return f'{type(self).__name__} data:{self.data} type:{self.get_type_name()} children:{self.children}'
 
     def get_data(self):
         return self.data
@@ -42,6 +43,13 @@ class Category:
     def get_node_name(self):
         return self.name
     
+    def set_subgraphed(self):
+        self.is_subgraphed_flag = True
+        return self
+
+    def is_subgraphed(self):
+        return self.is_subgraphed_flag
+    
     def get_body(self):
         pass
 
@@ -55,16 +63,16 @@ class Category_Singular(Category):
 
 class Category_Linear(Category):
 
-    def __init__(self, data, childeren):
-        super().__init__(data, childeren)
+    def __init__(self, data, children):
+        super().__init__(data, children)
 
     def get_body(self):
         return node_layout.make_linear_body(self)
 
 class Category_Key_Value(Category):
 
-    def __init__(self, data, childeren):
-        super().__init__(data, childeren)
+    def __init__(self, data, children):
+        super().__init__(data, children)
         
     def get_body(self):
         return node_layout.make_key_value_body(self)
