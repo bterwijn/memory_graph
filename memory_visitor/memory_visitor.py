@@ -10,8 +10,6 @@ type_to_category = {
 ignore_types={types.FunctionType, types.MethodType, types.ModuleType, types.GeneratorType}
 utils.ignore_exception( lambda: ignore_types.add(types.CoroutineType) )
 
-visited_ids = {}
-
 def default_visit_callback(categorized,parent_categorized):
     print('default_visit categorized:',categorized)
     print('                   parent:',parent_categorized)
@@ -33,23 +31,22 @@ def categorize(data):
 
 def visit_recursive(data, parent_categorized):
     if type(data) in ignore_types:
-        return False
-    if id(data) not in visited_ids:
-        visited_ids[id(data)] = len(visited_ids)
+        return None
+    if categories.Category.is_already_categorized(data):
+        categorized = categories.Category.get_categorized(data)
+    else:
         categorized = categorize(data)
         visit_callback(categorized, parent_categorized)
         for c in categorized.get_candidate_children():
-            if visit_recursive(c, categorized):
-                categorized.add_child(c)
+            categorized_child = visit_recursive(c, categorized)
+            if categorized_child:
+                categorized.add_child(categorized_child)
         visit_backtrack_callback(categorized)
-    return True
+    return categorized
 
 def visit(data):
-    visited_ids.clear()
+    categories.Category.clear_visited_ids()
     visit_recursive(data,None)
-
-def get_node_name(data):
-    return 'node'+str(visited_ids[id(data)])
 
 if __name__ == '__main__':
     test.test_all( visit )

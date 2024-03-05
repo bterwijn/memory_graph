@@ -1,8 +1,8 @@
 from functools import singledispatch
 import utils
 
-def make_subgraph(children):
-    return '{ rank="same"  '+(" -> ".join(children))+'  [weight=99,style=invis]; }\n'
+def make_subgraph(child_names):
+    return '{ rank="same"  '+(" -> ".join(child_names))+'  [weight=99,style=invis]; }\n'
 
 def outer_table(s):
     return ('<\n<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="0" BGCOLOR="blue"><TR><TD PORT="X">\n' +
@@ -21,7 +21,7 @@ def make_singular_body(categorized):
 
 def make_linear_body(categorized):
     s = ''
-    for i,c in enumerate(categorized.get_children()):
+    for i in range(len(categorized.get_children())):
         s += f'<TD PORT="f{i}"> </TD>'
     return outer_table(
             inner_table( 
@@ -30,7 +30,7 @@ def make_linear_body(categorized):
 
 def make_key_value_body(categorized):
     s = ''
-    for i,c in enumerate(categorized.get_children()):
+    for i in range(len(categorized.get_children())):
         s += f'<TD PORT="f{i}"> </TD>'
     return outer_table(
             inner_table( 

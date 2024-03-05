@@ -19,12 +19,12 @@ class Graph_Builder:
         memory_visitor.visit_backtrack_callback = self.backtrack_callback
         memory_visitor.visit(data)
 
-    def set_subgraphed(self,data):
-        self.subgraphed_ids.add(id(data))
-        return data
+    def set_subgraphed(self,categorized):
+        self.subgraphed_ids.add(id(categorized.get_data()))
+        return categorized
     
-    def is_subgraphed(self,data):
-        return id(data) in self.subgraphed_ids
+    def is_subgraphed(self,categorized):
+        return id(categorized.get_data()) in self.subgraphed_ids
     
     def visit_callback(self,categorized,parent):
         #print("visit data:",data,"testparent:",parent)
@@ -33,19 +33,20 @@ class Graph_Builder:
     def backtrack_callback(self,categorized):
         print("backtrack categorized:",categorized)
         node_name = categorized.get_node_name()
-        # subgraph
-        subgraph_children = [memory_visitor.get_node_name(self.set_subgraphed(c)) 
-                            for c in categorized.get_children() if not self.is_subgraphed(c)]
-        if len(subgraph_children) > 1:
-            self.new_graph.body.append(node_layout.make_subgraph(subgraph_children))
-        # node
+        # === subgraph
+        subgraph_child_names = [(self.set_subgraphed(c)).get_node_name()
+                            for c in categorized.get_children() 
+                            if not self.is_subgraphed(c)]
+        if len(subgraph_child_names) > 1:
+            self.new_graph.body.append(node_layout.make_subgraph(subgraph_child_names))
+        # === node
         self.new_graph.node(node_name, 
                             categorized.get_body(),
                             xlabel=categorized.get_type_name())
-        # edges
+        # === edges
         for i,c in enumerate(categorized.get_children()):
             self.new_graph.edge(f'{node_name}:f{i}',
-                                f'{memory_visitor.get_node_name(c)}:X')
+                                f'{c.get_node_name()}:X')
 
     def get_graph(self):
         return self.new_graph
