@@ -17,21 +17,25 @@ def inner_table(s):
             s +
             '\n</TR></TABLE>')
 
-def make_singular_body(categorized):
-    return outer_table( 
-            str(categorized.get_data()) 
-            )
+def get_node_and_edges_singular(categorized):
+    return outer_table(str(categorized.get_data())), []
 
-def make_linear_body(categorized):
+def get_node_and_edges_linear(categorized):
+    edges = []
     if len(categorized.get_children()) == 0:
-        return outer_table(' ')
-    s = ''
-    for i in range(len(categorized.get_children())):
-        s += f'<TD PORT="f{i}"> </TD>'
-    return outer_table(
-            inner_table( 
-                s
-            ))
+        node= outer_table(' ')
+    else:
+        node_name = categorized.get_node_name()
+        s = ''
+        for i,c in enumerate(categorized.get_children()):
+            field=f'f{i}'
+            if True:
+                s += f'<TD PORT="{field}"> </TD>'
+                edges.append( (node_name+':'+field, c.get_node_name()+':X') )
+            else:
+                s += f'<TD>{str(c.get_data())}</TD>'
+        node = outer_table(inner_table( s ))
+    return node, edges
 
-def make_key_value_body(categorized):
-    return make_linear_body(categorized)
+def get_node_and_edges_key_value(categorized):
+    return get_node_and_edges_linear(categorized)

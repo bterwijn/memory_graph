@@ -50,7 +50,7 @@ class Category:
     def is_subgraphed(self):
         return self.is_subgraphed_flag
     
-    def get_body(self):
+    def get_node_and_edges(self):
         pass
 
 class Category_Singular(Category):
@@ -58,21 +58,21 @@ class Category_Singular(Category):
     def __init__(self, data):
         super().__init__(data)
 
-    def get_body(self):
-        return node_layout.make_singular_body(self)
+    def get_node_and_edges(self):
+        return node_layout.get_node_and_edges_singular(self)
 
 class Category_Linear(Category):
 
     def __init__(self, data, children):
         super().__init__(data, children)
 
-    def get_body(self):
-        return node_layout.make_linear_body(self)
+    def get_node_and_edges(self):
+        return node_layout.get_node_and_edges_linear(self)
 
 class Category_Key_Value(Category):
 
     def __init__(self, data, children):
         super().__init__(data, children)
         
-    def get_body(self):
-        return node_layout.make_key_value_body(self)
+    def get_node_and_edges(self):
+        return node_layout.get_node_and_edges_key_value(self)

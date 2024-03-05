@@ -29,14 +29,14 @@ class Graph_Builder:
         subgraph = node_layout.make_subgraph(categorized.get_children())
         if subgraph:
             self.new_graph.body.append(subgraph)
-        # === node
-        self.new_graph.node(node_name, 
-                            categorized.get_body(),
-                            xlabel=categorized.get_type_name())
-        # === edges
-        for i,c in enumerate(categorized.get_children()):
-            self.new_graph.edge(f'{node_name}:f{i}',
-                                f'{c.get_node_name()}:X')
+
+        # === node and edges
+        node, edges = categorized.get_node_and_edges()
+        print('node:',node)
+        print('edges:',edges)
+        self.new_graph.node(node_name, node, xlabel=categorized.get_type_name())
+        for n,c in edges:
+            self.new_graph.edge(n,c)
 
     def get_graph(self):
         return self.new_graph
@@ -49,4 +49,5 @@ if __name__ == '__main__':
         new_graph = graph_builder.get_graph()
         new_graph.render(outfile=f'test_graph{test_fun_count}.png')
         test_fun_count += 1
+    #test.test_linear( test_fun )   
     test.test_all( test_fun )

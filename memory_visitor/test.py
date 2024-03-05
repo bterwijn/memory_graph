@@ -8,7 +8,7 @@ def test_string(fun):
     fun(data)
 
 def test_linear(fun):
-    data = [ 1, 2, 3, 4]
+    data = [ 1, 2, 3]
     fun(data)  
 
 def test_empty_linear(fun):
