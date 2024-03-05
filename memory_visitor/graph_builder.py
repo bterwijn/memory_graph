@@ -57,8 +57,7 @@ if __name__ == '__main__':
         global test_fun_count
         graph_builder = Graph_Builder(data)
         new_graph = graph_builder.get_graph()
-        new_graph.render(f'test_graph{test_fun_count}.pdf')
+        new_graph.render(outfile=f'test_graph{test_fun_count}.png')
         test_fun_count += 1
 
     test.test_all( test_fun )
-

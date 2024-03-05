@@ -16,6 +16,8 @@ def test_class(fun):
         def __init__(self):
             self.a=10
             self.b=20
+        def __repr__(self):
+            return f'My_Class a:{self.a} b:{self.b}'
     data = [My_Class(), My_Class()]
     fun(data)
 
