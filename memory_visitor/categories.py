@@ -32,9 +32,7 @@ class Category_Singular(Category):
         super().__init__(data)
 
     def get_body(self):
-        return node_layout.outer_table( 
-                str(self.get_data()) 
-                )
+        return node_layout.make_singular_body(self)
 
 class Category_Linear(Category):
 
@@ -42,13 +40,7 @@ class Category_Linear(Category):
         super().__init__(data, childeren)
 
     def get_body(self):
-        s = '    '
-        for i,c in enumerate(self.get_children()):
-            s += f'<TD PORT="f{i}"> </TD>'
-        return node_layout.outer_table(
-                node_layout.inner_table( 
-                    s
-                ))
+        return node_layout.make_linear_body(self)
 
 class Category_Key_Value(Category):
 

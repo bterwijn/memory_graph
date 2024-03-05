@@ -23,13 +23,13 @@ def is_iterable(data):
     except TypeError:
         return False
 
-def default_visit_callback(category,parent_category):
-    print('default_visit category:',category)
-    print('                parent:',parent_category)
+def default_visit_callback(categorized,parent_categorized):
+    print('default_visit categorized:',categorized)
+    print('                parent:',parent_categorized)
     pass
 
-def default_backtrack_callback(category):
-    print('default_backtrack category:',category)
+def default_backtrack_callback(categorized):
+    print('default_backtrack categorized:',categorized)
     pass
 
 visit_callback = default_visit_callback
@@ -40,15 +40,15 @@ def categorize(data):
         return categories.Category_Linear(data,data)
     return categories.Category_Singular(data)
 
-def visit_recursive(data, parent_category):
+def visit_recursive(data, parent_categorized):
     if id(data) in visited_ids or type(data) in ignore_types:
         return
     visited_ids[id(data)] = len(visited_ids)
-    category = categorize(data)
-    visit_callback(category, parent_category)
-    for c in category.get_children():
-        visit_recursive(c, category)
-    visit_backtrack_callback(category)
+    categorized = categorize(data)
+    visit_callback(categorized, parent_categorized)
+    for c in categorized.get_children():
+        visit_recursive(c, categorized)
+    visit_backtrack_callback(categorized)
 
 def visit(data):
     visited_ids.clear()

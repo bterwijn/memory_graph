@@ -25,24 +25,24 @@ class Graph_Builder:
     def is_subgraphed(self,data):
         return id(data) in self.subgraphed_ids
     
-    def visit_callback(self,category,parent):
+    def visit_callback(self,categorized,parent):
         #print("visit data:",data,"testparent:",parent)
         pass
 
-    def backtrack_callback(self,category):
-        print("backtrack category:",category)
-        node_name = category.get_node_name()
+    def backtrack_callback(self,categorized):
+        print("backtrack categorized:",categorized)
+        node_name = categorized.get_node_name()
         # subgraph
-        subgraph_children = [self.get_name(self.set_subgraphed(c)) 
-                            for c in category.get_children() if self.is_subgraphed(c)]
+        subgraph_children = [memory_visitor.get_node_name(self.set_subgraphed(c)) 
+                            for c in categorized.get_children() if not self.is_subgraphed(c)]
         if len(subgraph_children) > 1:
             self.new_graph.body.append(node_layout.make_subgraph(subgraph_children))
         # node
         self.new_graph.node(node_name, 
-                            node_layout.make_node_body(category), 
-                            xlabel=category.get_type_name())
+                            categorized.get_body(),
+                            xlabel=categorized.get_type_name())
         # edges
-        for i,c in enumerate(category.get_children()):
+        for i,c in enumerate(categorized.get_children()):
             self.new_graph.edge(f'{node_name}:f{i}',
                                 f'{memory_visitor.get_node_name(c)}:X')
 
@@ -58,7 +58,7 @@ class Graph_Builder:
 
 if __name__ == '__main__':
     data = 100
-    data = [ 1, 2 ]
+    data = [ 1, 2, 3, 4 ]
     #data = [[1,2],[3,4]]
     #data = {1:10, 2:20, 3:30}
     #data = (My_Class(),My_Class())
