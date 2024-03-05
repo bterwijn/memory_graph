@@ -17,6 +17,9 @@ def is_iterable(data):
         return True
     except TypeError:
         return False
+    
+def is_self_iterating(data):
+    return len(data)==1 and data == next(iter(data))
 
 def get_type_name(data):
     return type(data).__name__

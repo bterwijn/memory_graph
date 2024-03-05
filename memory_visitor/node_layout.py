@@ -3,7 +3,7 @@ import utils
 
 def make_subgraph(children):
     child_names = [(c.set_subgraphed()).get_node_name()+':X' for c in children if not c.is_subgraphed()]
-    if len(child_names) > 0:
+    if len(child_names) > 1:
         return '{ rank="same"  '+(" -> ".join(child_names))+'  [weight=99,style=invis]; }\n'
     return None
 
@@ -23,6 +23,8 @@ def make_singular_body(categorized):
             )
 
 def make_linear_body(categorized):
+    if len(categorized.get_children()) == 0:
+        return outer_table(' ')
     s = ''
     for i in range(len(categorized.get_children())):
         s += f'<TD PORT="f{i}"> </TD>'
@@ -32,10 +34,4 @@ def make_linear_body(categorized):
             ))
 
 def make_key_value_body(categorized):
-    s = ''
-    for i in range(len(categorized.get_children())):
-        s += f'<TD PORT="f{i}"> </TD>'
-    return outer_table(
-            inner_table( 
-                s
-            ))
+    return make_linear_body(categorized)

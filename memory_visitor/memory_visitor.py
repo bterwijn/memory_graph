@@ -4,6 +4,9 @@ import categories
 import test
 
 type_to_category = {
+    str: lambda data: (categories.Category_Singular(data) if utils.is_self_iterating(data) else 
+                       categories.Category_Linear(data,data)), # visit each character separately
+    str: lambda data: categories.Category_Singular(data), # visit as whole string
     dict: lambda data: categories.Category_Key_Value(data, data.items())
     }
 
