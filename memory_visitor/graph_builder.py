@@ -2,6 +2,7 @@ import graphviz
 import memory_visitor
 import node_layout
 import utils
+import test
 
 class Graph_Builder:
 
@@ -49,22 +50,15 @@ class Graph_Builder:
     def get_graph(self):
         return self.new_graph
 
-class My_Class:
-
-    def __init__(self):
-        self.a=10
-        self.b=20
-        self.c=30
-
 
 if __name__ == '__main__':
-    data = 100
-    data = [ 1, 2, 3, 4 ]
-    data = [[1,2],[3,4]]
-    #data = {1:10, 2:20, 3:30}
-    data = (My_Class())
-    graph_builder = Graph_Builder(data)
-    graph = graph_builder.get_graph()
-    graph.view()
-    #new_graph.render(outfile='what.gv')
+    test_fun_count=0
+    def test_fun(data):
+        global test_fun_count
+        graph_builder = Graph_Builder(data)
+        new_graph = graph_builder.get_graph()
+        new_graph.render(f'test_graph{test_fun_count}.pdf')
+        test_fun_count += 1
+
+    test.test_all( test_fun )
 

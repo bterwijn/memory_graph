@@ -4,9 +4,10 @@ import node_layout
 
 class Category:
 
-    def __init__(self, data, children=tuple()):
+    def __init__(self, data, candidate_children=tuple()):
         self.data = data
-        self.children = children
+        self.candidate_children = candidate_children
+        self.children = []
 
     def __repr__(self):
         return f'{type(self).__name__} data:{self.data} type:{self.get_type_name()} childeren:{self.children}'
@@ -14,6 +15,12 @@ class Category:
     def get_data(self):
         return self.data
     
+    def get_candidate_children(self):
+        return self.candidate_children
+    
+    def add_child(self, child):
+        self.children.append(child)
+
     def get_children(self):
         return self.children
     

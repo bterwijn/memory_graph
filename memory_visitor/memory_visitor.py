@@ -1,58 +1,48 @@
 import types
 import utils
 import categories
+import test
 
-visited_ids = {}
+type_to_category = {
+    dict: lambda data: categories.Category_Key_Value(data, data.items())
+    }
+
 ignore_types={types.FunctionType, types.MethodType, types.ModuleType, types.GeneratorType}
 utils.ignore_exception( lambda: ignore_types.add(types.CoroutineType) )
 
-get_children_for_types = {
-    dict: lambda data: categories.Category_Key_Value(data,tuple(data.items())) 
-    }
-
-def has_dict_attribute(value):
-    return hasattr(value,"__dict__")
-
-def get_dict_attribute(value):
-    return tuple(getattr(value,"__dict__").items())
-
-def is_iterable(data):
-    try:
-        iter(data)
-        return True
-    except TypeError:
-        return False
+visited_ids = {}
 
 def default_visit_callback(categorized,parent_categorized):
     print('default_visit categorized:',categorized)
-    print('                parent:',parent_categorized)
-    pass
+    print('                   parent:',parent_categorized)
 
 def default_backtrack_callback(categorized):
     print('default_backtrack categorized:',categorized)
-    pass
 
 visit_callback = default_visit_callback
 visit_backtrack_callback = default_backtrack_callback
 
 def categorize(data):
-    if type(data) in get_children_for_types:
-        return get_children_for_types[type(data)](data)
-    elif has_dict_attribute(data): # classes
-        return categories.Category_Key_Value(data, get_dict_attribute(data))
-    elif is_iterable(data):
+    if type(data) in type_to_category: # for predefined types
+        return type_to_category[type(data)](data)
+    elif utils.has_dict_attribute(data): # for classes
+        return categories.Category_Key_Value(data, utils.get_dict_attribute(data))
+    elif utils.is_iterable(data): # for lists, tuples, sets, ...
         return categories.Category_Linear(data,data)
-    return categories.Category_Singular(data)
+    return categories.Category_Singular(data) # for int, float, str, ...
 
 def visit_recursive(data, parent_categorized):
-    if id(data) in visited_ids or type(data) in ignore_types:
-        return
-    visited_ids[id(data)] = len(visited_ids)
-    categorized = categorize(data)
-    visit_callback(categorized, parent_categorized)
-    for c in categorized.get_children():
-        visit_recursive(c, categorized)
-    visit_backtrack_callback(categorized)
+    if type(data) in ignore_types:
+        return False
+    if id(data) not in visited_ids:
+        visited_ids[id(data)] = len(visited_ids)
+        categorized = categorize(data)
+        visit_callback(categorized, parent_categorized)
+        for c in categorized.get_candidate_children():
+            if visit_recursive(c, categorized):
+                categorized.add_child(c)
+        visit_backtrack_callback(categorized)
+    return True
 
 def visit(data):
     visited_ids.clear()
@@ -61,16 +51,5 @@ def visit(data):
 def get_node_name(data):
     return 'node'+str(visited_ids[id(data)])
 
-# class My_Class:
-
-#     def __init__(self):
-#         self.a=10
-#         self.b=20
-#         self.c=30
-
 if __name__ == '__main__':
-    data = 100
-    data = [ 1, 2 ]
-    #data = { 1:10, 2:20 }
-    #data = (My_Class(),My_Class())
-    visit(data)
+    test.test_all( visit )
