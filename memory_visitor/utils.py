@@ -9,7 +9,7 @@ def has_dict_attribute(value):
     return hasattr(value,"__dict__")
 
 def get_dict_attribute(value):
-    return getattr(value,"__dict__").items()
+    return getattr(value,"__dict__")
 
 def is_iterable(data):
     try:

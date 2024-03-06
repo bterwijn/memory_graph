@@ -14,9 +14,10 @@ class Category:
     def get_categorized(data):
         return Category.visited_ids[id(data)]
 
-    def __init__(self, data, candidate_children=tuple()):
+    def __init__(self, data, candidate_children, alternative_type):
         self.data = data
         self.candidate_children = candidate_children
+        self.alternative_type = alternative_type
         self.children = []
         self.is_subgraphed_flag = False
         self.name = f'node{len(Category.visited_ids)}'
@@ -55,24 +56,24 @@ class Category:
 
 class Category_Singular(Category):
 
-    def __init__(self, data):
-        super().__init__(data)
+    def __init__(self, data, alternative_type=None ):
+        super().__init__(data, tuple(), alternative_type=alternative_type)
 
     def get_node_and_edges(self):
         return node_layout.get_node_and_edges_singular(self)
 
 class Category_Linear(Category):
 
-    def __init__(self, data, children):
-        super().__init__(data, children)
+    def __init__(self, data, children, alternative_type=None):
+        super().__init__(data, children, alternative_type)
 
     def get_node_and_edges(self):
         return node_layout.get_node_and_edges_linear(self)
 
 class Category_Key_Value(Category):
 
-    def __init__(self, data, children):
-        super().__init__(data, children)
+    def __init__(self, data, children, alternative_type=None):
+        super().__init__(data, children, alternative_type)
         
     def get_node_and_edges(self):
         return node_layout.get_node_and_edges_key_value(self)
