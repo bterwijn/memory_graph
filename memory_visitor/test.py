@@ -1,3 +1,5 @@
+import memory_visitor
+import node_layout
 
 def test_singular(fun):
     data = 100
@@ -16,17 +18,21 @@ def test_empty_linear(fun):
     fun(data)
 
 def test_key_value(fun):
-    data = { 1:10, 2:20 }
+    data = { 1:'a', 2:'b' }
     fun(data)
 
 def test_class(fun):
-    class My_Class:
+    class My_Class1:
         def __init__(self):
             self.foo=10
             self.bar=20
-        def __repr__(self):
-            return f'My_Class foo:{self.foo} bar:{self.bar}'
-    data = [My_Class(), My_Class()]
+    class My_Class2:
+        def __init__(self):
+            self.foo=10
+            self.bar=20
+    data = [My_Class1(), My_Class2()]
+    node_layout.no_drop_child_references_types.add(My_Class1)
+    memory_visitor.no_reference_types.remove(str)
     fun(data)
 
 def test_share_tuple(fun):

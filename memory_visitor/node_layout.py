@@ -2,8 +2,14 @@ import memory_visitor
 import categories
 import utils
 
-no_child_references_types = {utils.class_type, dict, }
-no_child_references_types = {}
+drop_child_references_types = {utils.class_type, dict, }
+no_drop_child_references_types = set()
+
+def drop_child_references(categorized):
+    type1 = type(categorized.get_data())
+    type2 = categorized.get_alternative_type()
+    return ((type1 in drop_child_references_types or type2 in drop_child_references_types) and not 
+            (type1 in no_drop_child_references_types or type2 in no_drop_child_references_types))
 
 def make_subgraph(children):
     child_names = [(c.set_subgraphed()).get_node_name()+':X' for c in children if not type(c) == str and not c.is_subgraphed()]
@@ -41,8 +47,7 @@ def make_linear_body(categorized, graph):
 
 def add_to_graph_linear(categorized, graph):
     parent = categorized.get_parent()
-    if parent and (type(parent.get_data()) in no_child_references_types or 
-        parent.get_alternative_type() in no_child_references_types):
+    if parent and drop_child_references(parent):
         return
     node_name = categorized.get_node_name()
     node_body = ''
@@ -64,7 +69,7 @@ def make_key_value_body(categorized, graph):
             else:
                 field=f'f{field_count}'
                 body += f'<TD PORT="f{field_count}"> </TD>'
-                graph.edge(f'{categorized.get_node_name()}:{field}', f'{c.get_node_name()}:X')
+                graph.edge(f'{categorized.get_node_name()}:{field}', f'{c2.get_node_name()}:X')
         field_count += 1
     return inner_table(body)
 
@@ -74,8 +79,7 @@ def add_to_graph_key_value(categorized, graph):
     if len(categorized.get_children()) == 0:
         node_body = str(categorized.get_data())
     else:
-        if (type(categorized.get_data()) in no_child_references_types or
-             categorized.get_alternative_type() in no_child_references_types):
+        if drop_child_references(categorized):
             node_body = make_key_value_body(categorized, graph)
         else:
             node_body = make_linear_body(categorized, graph)
