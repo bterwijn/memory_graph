@@ -14,13 +14,8 @@ class Graph_Builder:
                                     graph_attr=graph_attr,
                                     node_attr=node_attr,
                                     edge_attr=edge_attr)
-        memory_visitor.visit_callback = self.visit_callback
         memory_visitor.visit_backtrack_callback = self.backtrack_callback
         memory_visitor.visit(data)
-    
-    def visit_callback(self,categorized,parent):
-        #print("visit data:",data,"testparent:",parent)
-        pass
 
     def backtrack_callback(self,categorized):
         print("backtrack categorized:",categorized)

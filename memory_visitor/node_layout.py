@@ -1,8 +1,7 @@
-from functools import singledispatch
 import utils
 
 def make_subgraph(children):
-    child_names = [(c.set_subgraphed()).get_node_name()+':X' for c in children if not c.is_subgraphed()]
+    child_names = [(c.set_subgraphed()).get_node_name()+':X' for c in children if not type(c) == str and not c.is_subgraphed()]
     if len(child_names) > 1:
         return '{ rank="same"  '+(" -> ".join(child_names))+'  [weight=99,style=invis]; }\n'
     return None
@@ -29,11 +28,11 @@ def get_node_and_edges_linear(categorized):
         s = ''
         for i,c in enumerate(categorized.get_children()):
             field=f'f{i}'
-            if True:
+            if type(c) == str:
+                 s += f'<TD>{c}</TD>'
+            else:
                 s += f'<TD PORT="{field}"> </TD>'
                 edges.append( (node_name+':'+field, c.get_node_name()+':X') )
-            else:
-                s += f'<TD>{str(c.get_data())}</TD>'
         node = outer_table(inner_table( s ))
     return node, edges
 
