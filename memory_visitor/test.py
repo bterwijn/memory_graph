@@ -32,7 +32,7 @@ def test_class(fun):
             self.foo=10
             self.bar=20
     data = [My_Class1(), My_Class2()]
-    #node_layout.no_drop_child_references_types.add(My_Class1)  # TODO
+    node_layout.no_drop_child_references_types.add(My_Class1)  # TODO
     memory_visitor.no_reference_types.remove(str)
     fun(data)
     memory_visitor.no_reference_types.add(str)
@@ -62,10 +62,13 @@ def test_table(fun):
     data.data[5] = (5,)
     data.data[6] = (6,)
     data.data[8] = (8,)
-    memory_visitor.type_to_category[My_Table] = lambda data: categories.Category_Table(data, data.data,
-                                                                                       size=data.size,
-                                                                                       row_names= [f'row{i}' for i in range(data.size[0])],
-                                                                                       column_names= [f'col{i}' for i in range(data.size[1])] )
+    memory_visitor.type_to_category[My_Table] = lambda data: (
+        categories.Category_Table(  data,
+                                    data.data,
+                                    size = data.size,
+                                    row_names = [f'row{i}' for i in range(data.size[0])],
+                                    column_names = [f'col{i}' for i in range(data.size[1])])
+    )
     fun(data)
 
 def test_all(fun):

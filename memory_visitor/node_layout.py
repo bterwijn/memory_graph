@@ -90,23 +90,30 @@ def make_key_value_body(categorized, graph):
     subgraph = Subgraph()
     field_count = 0
     for c1 in categorized.get_children():
+        child_count = 0
         for c in c1.get_children():
             if type(c) == str:
-                body += table_entry_str(c)
+                body += table_entry_str(c) if child_count%2 == 1 else table_entry_str_rounded(c)
             else:
                 field=f'f{field_count}'
-                body += table_entry_ref(field)
+                body += table_entry_ref(field) if child_count%2 == 1 else table_entry_ref_rounded(field)
                 cname = f'{c.get_node_name()}:X'
                 graph.edge(f'{categorized.get_node_name()}:{field}', cname)
                 subgraph.add_child(c)
+            child_count += 1
         field_count += 1
     subgraph.add_subgraph(graph)
     return inner_table(body)
 
 def add_to_graph_key_value(categorized, graph):
-    graph.node(categorized.get_node_name(),
-               outer_table(make_body(categorized, graph, make_key_value_body)),
-               xlabel=categorized.get_type_name())
+    if drop_child_references(categorized):
+        graph.node(categorized.get_node_name(),
+                   outer_table(make_body(categorized, graph, make_key_value_body)),
+                   xlabel=categorized.get_type_name())
+    else:
+        graph.node(categorized.get_node_name(),
+                   outer_table(make_body(categorized, graph, make_linear_body)),
+                   xlabel=categorized.get_type_name())
 
 def make_table_body(categorized, graph):
     nr_columns = categorized.get_size()[1]
