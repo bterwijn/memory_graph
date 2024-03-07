@@ -17,7 +17,7 @@ def outer_table(s):
             '\n</TD></TR></TABLE>\n>')
 
 def inner_table(s):
-    return ('<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="4" CELLPADDING="0"><TR>\n' +
+    return ('<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0"><TR>\n' +
             s +
             '\n</TR></TABLE>')
 
@@ -28,10 +28,10 @@ def table_entry_ref_rounded(field):
     return f'<TD PORT="{field}" STYLE="ROUNDED"> </TD>'
 
 def table_entry_str(s):
-    return f'<TD>{s}</TD>'
+    return f'<TD> {s} </TD>'
 
 def table_entry_str_rounded(s):
-    return f'<TD STYLE="ROUNDED">{s}</TD>'
+    return f'<TD STYLE="ROUNDED"> {s} </TD>'
 
 def table_new_line():
     return '</TR>\n<TR>'
@@ -57,7 +57,7 @@ def add_to_graph_singular(categorized, graph):
 
 def make_body(categorized, graph, fun):
     if len(categorized.get_children()) == 0:
-        return str(categorized.get_data())
+        return f' {categorized.get_data()} '
     return fun(categorized, graph)
 
 def make_linear_body(categorized, graph):
