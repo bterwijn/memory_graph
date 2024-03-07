@@ -29,9 +29,10 @@ class Graph_Builder:
         node, edges = categorized.get_node_and_edges()
         print('node:',node)
         print('edges:',edges)
-        self.new_graph.node(node_name, node, xlabel=categorized.get_type_name())
-        for n,c in edges:
-            self.new_graph.edge(n,c)
+        if node:
+            self.new_graph.node(node_name, node, xlabel=categorized.get_type_name())
+            for n,c in edges:
+                self.new_graph.edge(n,c)
 
     def get_graph(self):
         return self.new_graph

@@ -13,8 +13,7 @@ type_to_category = {
 ignore_types={types.FunctionType, types.MethodType, types.ModuleType, types.GeneratorType}
 utils.ignore_exception( lambda: ignore_types.add(types.CoroutineType) )
 
-class class_type:
-    pass
+
 
 def default_backtrack_callback(categorized):
     print('default_backtrack categorized:',categorized)
@@ -25,7 +24,7 @@ def categorize(data):
     if type(data) in type_to_category: # for predefined types
         return type_to_category[type(data)](data)
     elif utils.has_dict_attribute(data): # for user defined classes
-        return categories.Category_Key_Value(data, utils.get_dict_attribute(data).items(), class_type)
+        return categories.Category_Key_Value(data, utils.get_dict_attribute(data).items(), utils.class_type)
     elif utils.is_iterable(data): # for lists, tuples, sets, ...
         return categories.Category_Linear(data,data)
     return categories.Category_Singular(data) # for int, float, str, ...

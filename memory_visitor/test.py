@@ -29,6 +29,13 @@ def test_class(fun):
     data = [My_Class(), My_Class()]
     fun(data)
 
+def test_share_tuple(fun):
+    class My_Class:
+        def __init__(self):
+            self.a=1
+    data = [('a',1), ('a',1), {'a':1}, {'a':1}, My_Class(),My_Class()]
+    fun(data)
+
 def test_all(fun):
     test_singular(fun)
     test_string(fun)
@@ -36,3 +43,4 @@ def test_all(fun):
     test_empty_linear(fun)
     test_key_value(fun)
     test_class(fun)
+    test_share_tuple(fun)

@@ -33,7 +33,7 @@ class Category:
     def set_parent(self, parent):
         self.parent = parent
 
-    def get_parent(self, parent):
+    def get_parent(self):
         return self.parent
     
     def get_alternative_type(self):

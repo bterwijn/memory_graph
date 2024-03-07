@@ -1,4 +1,7 @@
 
+class class_type:
+    pass
+
 def ignore_exception(func):
     try:
         return func()
