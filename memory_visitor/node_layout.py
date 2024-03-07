@@ -108,7 +108,7 @@ def make_key_value_body(categorized, graph):
                                               table_entry_str_rounded, table_entry_ref_rounded)
         entries_key.append(entry)
         entry_count, entry = make_table_entry(categorized, child.get_children()[1], graph, subgraph, entry_count, 
-                                              table_entry_str_rounded, table_entry_ref_rounded)
+                                              table_entry_str, table_entry_ref)
         entries_value.append(entry)
     subgraph.add_subgraph(graph)
     body = ''.join(entries_key) + table_new_line() + ''.join(entries_value)
@@ -125,37 +125,31 @@ def add_to_graph_key_value(categorized, graph):
                    xlabel=categorized.get_type_name())
 
 def make_table_body(categorized, graph):
-    nr_columns = categorized.get_size()[1]
-    body = ''
-    subgraph = Subgraph()
+    entries = []
+    entry_count = 0
     row_names = categorized.get_row_names()
     column_names = categorized.get_column_names()
-    if row_names and column_names:
-        body += table_entry_str_rounded('')
-    if column_names:
-        body += ''.join([table_entry_str_rounded(n) for n in column_names]) + table_new_line()
-    field_count = 0
-    row_count = 0
-    first_row = True
-    for c in categorized.get_children():
-        if field_count%nr_columns == 0:
-            if not first_row:
-                body += table_new_line()
-            first_row = False
-            if row_names:
-                row_name = row_names[row_count] if row_count < len(row_names) else ''
-                body += table_entry_str_rounded(row_name)
-            row_count += 1
-        if type(c) == str:
-            body += table_entry_str(c)
-        else:
-            field=f'f{field_count}'
-            body += table_entry_ref(field)
-            cname = f'{c.get_node_name()}:X'
-            graph.edge(f'{categorized.get_node_name()}:{field}', cname)
-            subgraph.add_child(c)
-        field_count += 1
+    entries_row_names = [table_entry_str_rounded(n) for n in row_names]
+    entries_column_names = [table_entry_str_rounded('')] if row_names and column_names else []
+    entries_column_names += [table_entry_str_rounded(n) for n in column_names]
+    subgraph = Subgraph()
+    for child in categorized.get_children():
+        entry_count, entry = make_table_entry(categorized, child, graph, subgraph, entry_count, 
+                                              table_entry_str, table_entry_ref)
+        entries.append(entry)
     subgraph.add_subgraph(graph)
+    body = ''
+    if entries_column_names:
+       body += ''.join(entries_column_names) + table_new_line()
+    nr_columns = categorized.get_size()[1]
+    row_count = 0
+    for i in range(0,len(entries),nr_columns):
+        if row_count > 0:
+            body += table_new_line()
+        if row_count<len(entries_row_names):
+            body += entries_row_names[row_count]
+        row_count += 1
+        body += ''.join(entries[i:i+nr_columns])
     return inner_table(body)
 
 def add_to_graph_table(categorized, graph):
