@@ -99,34 +99,19 @@ def add_to_graph_linear(categorized, graph):
                xlabel=categorized.get_type_name())
 
 def make_key_value_body(categorized, graph):
-    body = ''
+    entries_key = []
+    entries_value = []
+    entry_count = 0
     subgraph = Subgraph()
-    field_count = 0
-    keys_body = ''
-    values_body = ''
-    for c in categorized.get_children():
-        key = c.get_children()[0]
-        if type(key) == str:
-            keys_body += table_entry_str_rounded(key)
-        else:
-            field = f'f{field_count}'
-            keys_body += table_entry_ref_rounded(field)
-            cname = f'{key.get_node_name()}:X'
-            graph.edge(f'{categorized.get_node_name()}:{field}', cname)
-            subgraph.add_child(key)
-        field_count += 1
-        value = c.get_children()[1]
-        if type(value) == str:
-            values_body += table_entry_str(value)
-        else:
-            field = f'f{field_count}'
-            values_body += table_entry_ref(field)
-            cname = f'{value.get_node_name()}:X'
-            graph.edge(f'{categorized.get_node_name()}:{field}', cname)
-            subgraph.add_child(value)
-        field_count += 1
-    body += keys_body + table_new_line() + values_body
+    for child in categorized.get_children():
+        entry_count, entry = make_table_entry(categorized, child.get_children()[0], graph, subgraph, entry_count, 
+                                              table_entry_str_rounded, table_entry_ref_rounded)
+        entries_key.append(entry)
+        entry_count, entry = make_table_entry(categorized, child.get_children()[1], graph, subgraph, entry_count, 
+                                              table_entry_str_rounded, table_entry_ref_rounded)
+        entries_value.append(entry)
     subgraph.add_subgraph(graph)
+    body = ''.join(entries_key) + table_new_line() + ''.join(entries_value)
     return inner_table(body)
 
 def add_to_graph_key_value(categorized, graph):
