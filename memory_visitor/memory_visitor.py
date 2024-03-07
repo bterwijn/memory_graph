@@ -3,7 +3,7 @@ import utils
 import categories
 import test
 
-no_reference_types = {bool, int, float, complex, str} # bytes, bytearray, type(None)}
+no_reference_types = {bool, int, float, complex,}# str} # bytes, bytearray, type(None)}
 
 type_to_category = {
     str: lambda data: categories.Category_Singular(data), # visit as whole string

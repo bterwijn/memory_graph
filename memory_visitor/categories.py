@@ -1,5 +1,4 @@
 import utils
-import memory_visitor
 import node_layout
 
 class Category:
@@ -69,21 +68,21 @@ class Category_Singular(Category):
     def __init__(self, data, alternative_type=None ):
         super().__init__(data, tuple(), alternative_type=alternative_type)
 
-    def get_node_and_edges(self):
-        return node_layout.get_node_and_edges_singular(self)
+    def add_to_graph(self, graph):
+        return node_layout.add_to_graph_singular(self,graph)
 
 class Category_Linear(Category):
 
     def __init__(self, data, children, alternative_type=None):
         super().__init__(data, children, alternative_type)
 
-    def get_node_and_edges(self):
-        return node_layout.get_node_and_edges_linear(self)
+    def add_to_graph(self, graph):
+        return node_layout.add_to_graph_linear(self,graph)
 
 class Category_Key_Value(Category):
 
     def __init__(self, data, children, alternative_type=None):
         super().__init__(data, children, alternative_type)
         
-    def get_node_and_edges(self):
-        return node_layout.get_node_and_edges_key_value(self)
+    def add_to_graph(self, graph):
+        return node_layout.add_to_graph_key_value(self,graph)

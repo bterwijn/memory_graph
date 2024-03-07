@@ -36,6 +36,14 @@ def test_share_tuple(fun):
     data = [('a',1), ('a',1), {'a':1}, {'a':1}, My_Class(),My_Class()]
     fun(data)
 
+def test_share_children(fun):
+    a=['a']
+    b=['b']
+    c=['c']
+    d=['d']
+    data = [ [a,b,c,], [a,c,d] ]
+    fun(data)
+
 def test_all(fun):
     test_singular(fun)
     test_string(fun)
@@ -44,3 +52,4 @@ def test_all(fun):
     test_key_value(fun)
     test_class(fun)
     test_share_tuple(fun)
+    test_share_children(fun)

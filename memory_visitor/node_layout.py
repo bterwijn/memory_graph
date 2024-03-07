@@ -3,6 +3,7 @@ import categories
 import utils
 
 no_child_references_types = {utils.class_type, dict, }
+no_child_references_types = {}
 
 def make_subgraph(children):
     child_names = [(c.set_subgraphed()).get_node_name()+':X' for c in children if not type(c) == str and not c.is_subgraphed()]
@@ -20,56 +21,64 @@ def inner_table(s):
             s +
             '\n</TR></TABLE>')
 
-def get_node_and_edges_singular(categorized):
-    return outer_table(str(categorized.get_data())), []
+def add_to_graph_singular(categorized, graph):
+        graph.node(categorized.get_node_name(),
+                   outer_table(str(categorized.get_data())), 
+                   xlabel=categorized.get_type_name())
 
-def get_node_and_edges_linear(categorized):
+def make_linear_body(categorized, graph):
+    body = ''
+    field_count = 0
+    for c in categorized.get_children():
+        if type(c) == str:
+            body += f'<TD>{c}</TD>'
+        else:
+            field=f'f{field_count}'
+            body += f'<TD PORT="{field}"> </TD>'
+            graph.edge(f'{categorized.get_node_name()}:{field}', f'{c.get_node_name()}:X')
+        field_count += 1
+    return inner_table(body)
+
+def add_to_graph_linear(categorized, graph):
     parent = categorized.get_parent()
     if parent and (type(parent.get_data()) in no_child_references_types or 
         parent.get_alternative_type() in no_child_references_types):
-        return None, None
-    edges = []
+        return
+    node_name = categorized.get_node_name()
+    node_body = ''
     if len(categorized.get_children()) == 0:
-        node= outer_table(' ')
+        node_body = str(categorized.get_data())
     else:
-        node_name = categorized.get_node_name()
-        s = ''
-        for i,c in enumerate(categorized.get_children()):
-            field=f'f{i}'
-            if type(c) == str:
-                 s += f'<TD>{c}</TD>'
+        node_body = make_linear_body(categorized, graph)
+    graph.node(node_name, 
+               outer_table(node_body), 
+               xlabel=categorized.get_type_name())
+
+def make_key_value_body(categorized, graph):
+    body = ''
+    field_count = 0
+    for c in categorized.get_children():
+        for c2 in c.get_children():
+            if type(c2) == str:
+                body += f'<TD>{c2}</TD>'
             else:
-                s += f'<TD PORT="{field}"> </TD>'
-                edges.append( (node_name+':'+field, c.get_node_name()+':X') )
-        node = outer_table(inner_table( s ))
-    return node, edges
+                field=f'f{field_count}'
+                body += f'<TD PORT="f{field_count}"> </TD>'
+                graph.edge(f'{categorized.get_node_name()}:{field}', f'{c.get_node_name()}:X')
+        field_count += 1
+    return inner_table(body)
 
-def get_node_and_edges_key_value(categorized):
-    edges = []
+def add_to_graph_key_value(categorized, graph):
+    node_name = categorized.get_node_name()
+    node_body = ''
     if len(categorized.get_children()) == 0:
-        node= outer_table(' ')
+        node_body = str(categorized.get_data())
     else:
-        node_name = categorized.get_node_name()
-        s = ''
-        field_count = 0
-
         if (type(categorized.get_data()) in no_child_references_types or
-            categorized.get_alternative_type() in no_child_references_types):
-            for c in categorized.get_children():
-                for c2 in c.get_children():
-                    if type(c2) == str:
-                        s += f'<TD>{c2}</TD>'
-                    else:
-                        s += f'<TD PORT="f{field_count}"> </TD>'
-                        edges.append( (f"node_name:f{field_count}", f"{c.get_node_name()}:X") )
-                    field_count += 1
+             categorized.get_alternative_type() in no_child_references_types):
+            node_body = make_key_value_body(categorized, graph)
         else:
-            for i,c in enumerate(categorized.get_children()):
-                field=f'f{i}'
-                if type(c) == str:
-                    s += f'<TD>{c}</TD>'
-                else:
-                    s += f'<TD PORT="{field}"> </TD>'
-                    edges.append( (node_name+':'+field, c.get_node_name()+':X') )
-        node = outer_table(inner_table( s ))
-    return node, edges
+            node_body = make_linear_body(categorized, graph)
+    graph.node(node_name, 
+               outer_table(node_body), 
+               xlabel=categorized.get_type_name())

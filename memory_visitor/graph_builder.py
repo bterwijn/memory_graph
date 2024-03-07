@@ -19,20 +19,7 @@ class Graph_Builder:
 
     def backtrack_callback(self,categorized):
         print("backtrack categorized:",categorized)
-        node_name = categorized.get_node_name()
-        # === subgraph
-        subgraph = node_layout.make_subgraph(categorized.get_children())
-        if subgraph:
-            self.new_graph.body.append(subgraph)
-
-        # === node and edges
-        node, edges = categorized.get_node_and_edges()
-        print('node:',node)
-        print('edges:',edges)
-        if node:
-            self.new_graph.node(node_name, node, xlabel=categorized.get_type_name())
-            for n,c in edges:
-                self.new_graph.edge(n,c)
+        categorized.add_to_graph(self.new_graph)
 
     def get_graph(self):
         return self.new_graph
