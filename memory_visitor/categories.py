@@ -16,6 +16,7 @@ class Category:
 
     def __init__(self, data, candidate_children, alternative_type):
         self.data = data
+        self.parent = None
         self.candidate_children = candidate_children
         self.alternative_type = alternative_type
         self.children = []
@@ -28,6 +29,15 @@ class Category:
 
     def get_data(self):
         return self.data
+    
+    def set_parent(self, parent):
+        self.parent = parent
+
+    def get_parent(self, parent):
+        return self.parent
+    
+    def get_alternative_type(self):
+        return self.alternative_type
     
     def get_candidate_children(self):
         return self.candidate_children
