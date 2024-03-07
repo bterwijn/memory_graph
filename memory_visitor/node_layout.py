@@ -5,6 +5,9 @@ import utils
 drop_child_references_types = {utils.class_type, dict, }
 no_drop_child_references_types = set()
 
+linear_orientation = 'h'
+key_value_orientation = 'h'
+
 def drop_child_references(categorized):
     type1 = type(categorized.get_data())
     type2 = categorized.get_alternative_type()
@@ -62,9 +65,14 @@ def make_body(categorized, graph, fun):
 
 def make_linear_body(categorized, graph):
     body = ''
+    vertical = True
     subgraph = Subgraph()
     field_count = 0
+    first_row = True
     for c in categorized.get_children():
+        if not first_row and vertical:
+            body += table_new_line()
+        first_row = False
         if type(c) == str:
             body += table_entry_str(c)
         else:
