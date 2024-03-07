@@ -58,31 +58,36 @@ def add_to_graph_singular(categorized, graph):
                    outer_table(str(categorized.get_data())),
                    xlabel=categorized.get_type_name())
 
+def make_table_entry(categorized, child, graph, subgraph, entry_count, fun_str, fun_ref):
+    if type(child) == str:
+        entry = fun_str(child)
+    else:
+        field = f'f{entry_count}'
+        entry = fun_ref(field)
+        cname = f'{child.get_node_name()}:X'
+        graph.edge(f'{categorized.get_node_name()}:{field}', cname)
+        subgraph.add_child(child)
+    return entry_count+1, entry
+
 def make_body(categorized, graph, fun):
     if len(categorized.get_children()) == 0:
         return f' {categorized.get_data()} '
     return fun(categorized, graph)
 
 def make_linear_body(categorized, graph):
-    body = ''
+    entries = []
+    entry_count = 0
     vertical = True
     subgraph = Subgraph()
-    field_count = 0
-    first_row = True
-    for c in categorized.get_children():
-        if not first_row and vertical:
-            body += table_new_line()
-        first_row = False
-        if type(c) == str:
-            body += table_entry_str(c)
-        else:
-            field = f'f{field_count}'
-            body += table_entry_ref(field)
-            cname = f'{c.get_node_name()}:X'
-            graph.edge(f'{categorized.get_node_name()}:{field}', cname)
-            subgraph.add_child(c)
-        field_count += 1
+    for child in categorized.get_children():
+        entry_count, entry = make_table_entry(categorized, child, graph, subgraph, entry_count, 
+                                              table_entry_str, table_entry_ref)
+        entries.append(entry)
     subgraph.add_subgraph(graph)
+    if vertical:
+        body = table_new_line().join(entries)
+    else:
+        body = ''.join(entries)
     return inner_table(body)
 
 def add_to_graph_linear(categorized, graph):
