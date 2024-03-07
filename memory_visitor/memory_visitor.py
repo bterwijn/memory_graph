@@ -42,6 +42,7 @@ def visit_recursive(data, parent_categorized):
         categorized = categories.Category.get_categorized(data)
     else:
         categorized = categorize(data)
+        categorized.set_parent(parent_categorized)
         visit_callback(categorized, parent_categorized)
         for c in categorized.get_candidate_children():
             categorized_child = visit_recursive(c, categorized)
