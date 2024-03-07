@@ -1,4 +1,5 @@
 import memory_visitor
+import categories
 import node_layout
 
 def test_singular(fun):
@@ -31,9 +32,11 @@ def test_class(fun):
             self.foo=10
             self.bar=20
     data = [My_Class1(), My_Class2()]
+    data = [My_Class2()]
     node_layout.no_drop_child_references_types.add(My_Class1)
     memory_visitor.no_reference_types.remove(str)
     fun(data)
+    memory_visitor.no_reference_types.add(str)
 
 def test_share_tuple(fun):
     class My_Class:
@@ -50,6 +53,15 @@ def test_share_children(fun):
     data = [ [a,b,c,], [a,c,d] ]
     fun(data)
 
+def test_table(fun):
+    class My_Table:
+        def __init__(self,size):
+            self.size=size
+            self.data = [i for i in range(size[0]*size[1])]
+    data = My_Table((3,4))
+    memory_visitor.type_to_category[My_Table] = lambda data: categories.Category_Table(data, data.data, data.size)
+    fun(data)
+
 def test_all(fun):
     test_singular(fun)
     test_string(fun)
@@ -59,3 +71,4 @@ def test_all(fun):
     test_class(fun)
     test_share_tuple(fun)
     test_share_children(fun)
+    test_table(fun)

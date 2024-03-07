@@ -86,3 +86,15 @@ class Category_Key_Value(Category):
         
     def add_to_graph(self, graph):
         return node_layout.add_to_graph_key_value(self,graph)
+
+class Category_Table(Category):
+
+    def __init__(self, data, children, size, alternative_type=None):
+        super().__init__(data, children, alternative_type)
+        self.size=size
+
+    def get_size(self):
+        return self.size
+        
+    def add_to_graph(self, graph):
+        return node_layout.add_to_graph_table(self,graph)

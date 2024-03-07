@@ -18,7 +18,7 @@ class Graph_Builder:
         memory_visitor.visit(data)
 
     def backtrack_callback(self,categorized):
-        print("backtrack categorized:",categorized)
+        #print("backtrack categorized:",categorized)
         categorized.add_to_graph(self.new_graph)
 
     def get_graph(self):
