@@ -89,12 +89,22 @@ class Category_Key_Value(Category):
 
 class Category_Table(Category):
 
-    def __init__(self, data, children, size, alternative_type=None):
+    def __init__(self, data, children, alternative_type=None, size=None, row_names=None, column_names=None):
         super().__init__(data, children, alternative_type)
+        if size is None and row_names is not None and column_names is not None:
+            size=(len(row_names),len(column_names))
         self.size=size
+        self.row_names=row_names
+        self.column_names=column_names
 
     def get_size(self):
         return self.size
+    
+    def get_row_names(self):
+        return self.row_names
+    
+    def get_column_names(self):
+        return self.column_names
         
     def add_to_graph(self, graph):
         return node_layout.add_to_graph_table(self,graph)

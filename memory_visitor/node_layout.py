@@ -21,6 +21,21 @@ def inner_table(s):
             s +
             '\n</TR></TABLE>')
 
+def table_entry_ref(field):
+    return f'<TD PORT="{field}"> </TD>'
+
+def table_entry_ref_rounded(field):
+    return f'<TD PORT="{field}" STYLE="ROUNDED"> </TD>'
+
+def table_entry_str(s):
+    return f'<TD>{s}</TD>'
+
+def table_entry_str_rounded(s):
+    return f'<TD STYLE="ROUNDED">{s}</TD>'
+
+def table_new_line():
+    return '</TR>\n<TR>'
+
 class Subgraph:
 
     def __init__(self):
@@ -51,10 +66,10 @@ def make_linear_body(categorized, graph):
     field_count = 0
     for c in categorized.get_children():
         if type(c) == str:
-            body += f'<TD>{c}</TD>'
+            body += table_entry_str(c)
         else:
-            field=f'f{field_count}'
-            body += f'<TD PORT="{field}"> </TD>'
+            field = f'f{field_count}'
+            body += table_entry_ref(field)
             cname = f'{c.get_node_name()}:X'
             graph.edge(f'{categorized.get_node_name()}:{field}', cname)
             subgraph.add_child(c)
@@ -77,10 +92,10 @@ def make_key_value_body(categorized, graph):
     for c1 in categorized.get_children():
         for c in c1.get_children():
             if type(c) == str:
-                body += f'<TD>{c}</TD>'
+                body += table_entry_str(c)
             else:
                 field=f'f{field_count}'
-                body += f'<TD PORT="{field}"> </TD>'
+                body += table_entry_ref(field)
                 cname = f'{c.get_node_name()}:X'
                 graph.edge(f'{categorized.get_node_name()}:{field}', cname)
                 subgraph.add_child(c)
@@ -95,30 +110,39 @@ def add_to_graph_key_value(categorized, graph):
 
 def make_table_body(categorized, graph):
     nr_columns = categorized.get_size()[1]
-    print('nr_columns:',nr_columns)
     body = ''
     subgraph = Subgraph()
+    row_names = categorized.get_row_names()
+    column_names = categorized.get_column_names()
+    if row_names and column_names:
+        body += table_entry_str_rounded('')
+    if column_names:
+        body += ''.join([table_entry_str_rounded(n) for n in column_names]) + table_new_line()
     field_count = 0
-    new_row = ''
+    row_count = 0
+    first_row = True
     for c in categorized.get_children():
-        body += new_row
-        new_row = ''
+        if field_count%nr_columns == 0:
+            if not first_row:
+                body += table_new_line()
+            first_row = False
+            if row_names:
+                row_name = row_names[row_count] if row_count < len(row_names) else ''
+                body += table_entry_str_rounded(row_name)
+            row_count += 1
         if type(c) == str:
-            body += f'<TD>{c}</TD>'
+            body += table_entry_str(c)
         else:
             field=f'f{field_count}'
-            body += f'<TD PORT="{field}"> </TD>'
+            body += table_entry_ref(field)
             cname = f'{c.get_node_name()}:X'
             graph.edge(f'{categorized.get_node_name()}:{field}', cname)
             subgraph.add_child(c)
-        if field_count%nr_columns == nr_columns-1:
-            new_row = '</TR>\n<TR>'
         field_count += 1
     subgraph.add_subgraph(graph)
     return inner_table(body)
 
 def add_to_graph_table(categorized, graph):
-    print('add_to_graph_table')
     graph.node(categorized.get_node_name(),
                outer_table(make_body(categorized, graph, make_table_body)),
                xlabel=categorized.get_type_name())
