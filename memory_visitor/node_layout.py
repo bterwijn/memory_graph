@@ -97,19 +97,30 @@ def make_key_value_body(categorized, graph):
     body = ''
     subgraph = Subgraph()
     field_count = 0
-    for c1 in categorized.get_children():
-        child_count = 0
-        for c in c1.get_children():
-            if type(c) == str:
-                body += table_entry_str(c) if child_count%2 == 1 else table_entry_str_rounded(c)
-            else:
-                field=f'f{field_count}'
-                body += table_entry_ref(field) if child_count%2 == 1 else table_entry_ref_rounded(field)
-                cname = f'{c.get_node_name()}:X'
-                graph.edge(f'{categorized.get_node_name()}:{field}', cname)
-                subgraph.add_child(c)
-            child_count += 1
+    keys_body = ''
+    values_body = ''
+    for c in categorized.get_children():
+        key = c.get_children()[0]
+        if type(key) == str:
+            keys_body += table_entry_str_rounded(key)
+        else:
+            field = f'f{field_count}'
+            keys_body += table_entry_ref_rounded(field)
+            cname = f'{key.get_node_name()}:X'
+            graph.edge(f'{categorized.get_node_name()}:{field}', cname)
+            subgraph.add_child(key)
         field_count += 1
+        value = c.get_children()[1]
+        if type(value) == str:
+            values_body += table_entry_str(value)
+        else:
+            field = f'f{field_count}'
+            values_body += table_entry_ref(field)
+            cname = f'{value.get_node_name()}:X'
+            graph.edge(f'{categorized.get_node_name()}:{field}', cname)
+            subgraph.add_child(value)
+        field_count += 1
+    body += keys_body + table_new_line() + values_body
     subgraph.add_subgraph(graph)
     return inner_table(body)
 
