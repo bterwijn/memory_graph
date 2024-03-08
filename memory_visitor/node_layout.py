@@ -14,19 +14,19 @@ type_to_color = {
     type(None) : "gray",
     bool : "pink",
     int : "green",
-    float : "mediumorchid1",
+    float : "violetred1",
     complex : "yellow",
     str : "cyan",
     # ================= linear
     tuple : "orange",
     list : "lightcoral",
-    set : "darkolivegreen1",
-    frozenset : "darkolivegreen2",
-    bytes : "cyan",
-    bytearray : "cyan",
+    set : "orchid1",
+    frozenset : "orchid2",
+    bytes : "khaki1",
+    bytearray : "khaki2",
     # ================= key_value
-    dict : "royalblue1",
-    types.MappingProxyType : "royalblue2",
+    dict : "dodgerblue1",
+    types.MappingProxyType : "dodgerblue2",
     utils.class_type : "seagreen1",
     type: "seagreen2", # where class variable are stored
 }
@@ -51,8 +51,10 @@ def get_color(categorized, default_color='white'):
         return type_to_color[alternative_type]
     return default_color
 
-def outer_table(s, color='white'):
-    return (f'<\n<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="0" BGCOLOR="{color}"><TR><TD PORT="X">\n' +
+def outer_table(categorized, s, color='white'):
+    color = get_color(categorized, color)
+    border = 1 if categorized.get_parent() else 3
+    return (f'<\n<TABLE BORDER="0" CELLBORDER="{border}" CELLSPACING="0" CELLPADDING="0" BGCOLOR="{color}"><TR><TD PORT="X">\n' +
             s + '\n</TD></TR></TABLE>\n>')
 
 def inner_table(s):
@@ -97,7 +99,7 @@ class Subgraph:
 
 def add_to_graph_singular(categorized, graph):
         graph.node(categorized.get_node_name(),
-                   outer_table(str(categorized.get_data()),get_color(categorized, default_color_singular)),
+                   outer_table(categorized, str(categorized.get_data()), default_color_singular),
                    xlabel=categorized.get_type_name())
 
 def make_table_entry(categorized, child, graph, subgraph, entry_count, ref_count, fun_str, fun_ref):
@@ -139,7 +141,7 @@ def add_to_graph_linear(categorized, graph):
     if parent and drop_child_references(parent):
         return
     graph.node(categorized.get_node_name(),
-               outer_table(make_body(categorized, graph, make_linear_body), get_color(categorized, default_color_linear)),
+               outer_table(categorized, make_body(categorized, graph, make_linear_body), default_color_linear),
                xlabel=get_xlabel_1d(categorized))
 
 def make_key_value_body(categorized, graph):
@@ -166,11 +168,11 @@ def make_key_value_body(categorized, graph):
 def add_to_graph_key_value(categorized, graph):
     if drop_child_references(categorized):
         graph.node(categorized.get_node_name(),
-                   outer_table(make_body(categorized, graph, make_key_value_body), get_color(categorized, default_color_key_value)),
+                   outer_table(categorized, make_body(categorized, graph, make_key_value_body), default_color_key_value),
                    xlabel=get_xlabel_1d(categorized))
     else:
         graph.node(categorized.get_node_name(),
-                   outer_table(make_body(categorized, graph, make_linear_body), get_color(categorized, default_color_key_value)),
+                   outer_table(categorized, make_body(categorized, graph, make_linear_body), default_color_key_value),
                    xlabel=get_xlabel_1d(categorized))
 
 def make_table_body(categorized, graph):
@@ -204,5 +206,5 @@ def make_table_body(categorized, graph):
 
 def add_to_graph_table(categorized, graph):
     graph.node(categorized.get_node_name(),
-               outer_table(make_body(categorized, graph, make_table_body), get_color(categorized, default_color_table)),
+               outer_table(categorized, make_body(categorized, graph, make_table_body), default_color_table),
                xlabel=get_xlabel_2d(categorized))
