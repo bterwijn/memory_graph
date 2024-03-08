@@ -58,7 +58,7 @@ def add_to_graph_singular(categorized, graph):
                    outer_table(str(categorized.get_data())),
                    xlabel=categorized.get_type_name())
 
-def make_table_entry(categorized, child, graph, subgraph, entry_count, fun_str, fun_ref):
+def make_table_entry(categorized, child, graph, subgraph, entry_count, ref_count, fun_str, fun_ref):
     if type(child) == str:
         entry = fun_str(child)
     else:
@@ -67,7 +67,8 @@ def make_table_entry(categorized, child, graph, subgraph, entry_count, fun_str, 
         cname = f'{child.get_node_name()}:X'
         graph.edge(f'{categorized.get_node_name()}:{field}', cname)
         subgraph.add_child(child)
-    return entry_count+1, entry
+        ref_count += 1
+    return entry_count+1, ref_count, entry
 
 def make_body(categorized, graph, fun):
     if len(categorized.get_children()) == 0:
@@ -77,13 +78,14 @@ def make_body(categorized, graph, fun):
 def make_linear_body(categorized, graph):
     entries = []
     entry_count = 0
-    vertical = True
+    ref_count = 0
     subgraph = Subgraph()
     for child in categorized.get_children():
-        entry_count, entry = make_table_entry(categorized, child, graph, subgraph, entry_count, 
-                                              table_entry_str, table_entry_ref)
+        entry_count, ref_count, entry = make_table_entry(categorized, child, graph, subgraph, entry_count, ref_count,
+                                                        table_entry_str, table_entry_ref)
         entries.append(entry)
     subgraph.add_subgraph(graph)
+    vertical = (ref_count == 0)
     if vertical:
         body = table_new_line().join(entries)
     else:
@@ -102,16 +104,21 @@ def make_key_value_body(categorized, graph):
     entries_key = []
     entries_value = []
     entry_count = 0
+    ref_count = 0
     subgraph = Subgraph()
     for child in categorized.get_children():
-        entry_count, entry = make_table_entry(categorized, child.get_children()[0], graph, subgraph, entry_count, 
-                                              table_entry_str_rounded, table_entry_ref_rounded)
+        entry_count, ref_count, entry = make_table_entry(categorized, child.get_children()[0], graph, subgraph, entry_count, ref_count,
+                                                        table_entry_str_rounded, table_entry_ref_rounded)
         entries_key.append(entry)
-        entry_count, entry = make_table_entry(categorized, child.get_children()[1], graph, subgraph, entry_count, 
-                                              table_entry_str, table_entry_ref)
+        entry_count, ref_count, entry = make_table_entry(categorized, child.get_children()[1], graph, subgraph, entry_count, ref_count,
+                                                        table_entry_str, table_entry_ref)
         entries_value.append(entry)
     subgraph.add_subgraph(graph)
-    body = ''.join(entries_key) + table_new_line() + ''.join(entries_value)
+    vertical = (ref_count == 0)
+    if vertical:
+        body = table_new_line().join([ entries_key[i] + entries_value[i] for i in range(len(entries_key))]) 
+    else:
+        body = ''.join(entries_key) + table_new_line() + ''.join(entries_value)
     return inner_table(body)
 
 def add_to_graph_key_value(categorized, graph):
@@ -127,6 +134,7 @@ def add_to_graph_key_value(categorized, graph):
 def make_table_body(categorized, graph):
     entries = []
     entry_count = 0
+    ref_count = 0
     row_names = categorized.get_row_names()
     column_names = categorized.get_column_names()
     entries_row_names = [table_entry_str_rounded(n) for n in row_names]
@@ -134,8 +142,8 @@ def make_table_body(categorized, graph):
     entries_column_names += [table_entry_str_rounded(n) for n in column_names]
     subgraph = Subgraph()
     for child in categorized.get_children():
-        entry_count, entry = make_table_entry(categorized, child, graph, subgraph, entry_count, 
-                                              table_entry_str, table_entry_ref)
+        entry_count, ref_count, entry = make_table_entry(categorized, child, graph, subgraph, entry_count, ref_count,
+                                                        table_entry_str, table_entry_ref)
         entries.append(entry)
     subgraph.add_subgraph(graph)
     body = ''
