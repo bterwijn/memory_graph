@@ -29,7 +29,7 @@ type_to_color = {
     bytearray : "khaki2",
     # ================= key_value
     dict : "dodgerblue1",
-    types.MappingProxyType : "dodgerblue2",
+    types.MappingProxyType : "red", #"dodgerblue2", # not used
     utils.class_type : "seagreen1",
     type: "seagreen2", # where class variable are stored
 }

@@ -2,7 +2,6 @@ import types
 import utils
 import categories
 import node_layout
-import test
 
 no_reference_types = {type(None), bool, int, float, complex, str}
 
@@ -32,6 +31,7 @@ def categorize(data):
     return categories.Category_Singular(data) # for int, float, str, ...
 
 def visit_recursive(data, parent_categorized):
+    #print('visit_recursive: ',data, parent_categorized)
     if (parent_categorized != None and type(data) in no_reference_types):
         return node_layout.format_string(data)
     if type(data) in ignore_types:
@@ -41,11 +41,11 @@ def visit_recursive(data, parent_categorized):
     else:
         categorized = categorize(data)
         categorized.set_parent(parent_categorized)
-        for c in categorized.get_candidate_children():
-            categorized_child = visit_recursive(c, categorized)
-            if categorized_child:
-                categorized.add_child(categorized_child)
-        visit_backtrack_callback(categorized)
+        children = categorized.get_candidate_children()
+        categorized_children = utils.transform_children(children, 
+                                                        lambda child : visit_recursive(child, categorized) )
+        #print('categorized_children:',categorized_children)
+        visit_backtrack_callback(categorized_children)
     return categorized
 
 def visit(data):
@@ -53,4 +53,5 @@ def visit(data):
     visit_recursive(data,None)
 
 if __name__ == '__main__':
+    import test
     test.test_all( visit )

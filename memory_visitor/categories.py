@@ -72,9 +72,10 @@ class Category_Singular(Category):
         return node_layout.add_to_graph_singular(self,graph)
 
 class Category_Linear(Category):
+    size = (3,0)
 
     def __init__(self, data, children, alternative_type=None):
-        super().__init__(data, children, alternative_type)
+        super().__init__(data, utils.front_back_split(children, Category_Linear.size), alternative_type)
 
     def add_to_graph(self, graph):
         return node_layout.add_to_graph_linear(self,graph)
