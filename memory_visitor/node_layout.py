@@ -6,8 +6,8 @@ import types
 drop_child_references_types = {utils.class_type, dict, }
 no_drop_child_references_types = set()
 
-linear_orientation = 'h'
-key_value_orientation = 'h'
+orientation_linear    = None # 'v' (vertical), 'h' (horizontal), None (based on ref_count)
+orientation_key_value = None # 'v' (vertical), 'h' (horizontal), None (based on ref_count)
 
 type_to_color = {
     # ================= singular
@@ -41,6 +41,13 @@ def drop_child_references(categorized):
     type2 = categorized.get_alternative_type()
     return ((type1 in drop_child_references_types or type2 in drop_child_references_types) and not
             (type1 in no_drop_child_references_types or type2 in no_drop_child_references_types))
+
+def is_vertical(orientation, ref_count):
+    if orientation == 'h':
+        return False
+    if orientation == 'v':
+        return True
+    return ref_count == 0
 
 def get_color(categorized, default_color='white'):
     datatype = type(categorized.get_data())
@@ -129,7 +136,7 @@ def make_linear_body(categorized, graph):
                                                         table_entry_str, table_entry_ref)
         entries.append(entry)
     subgraph.add_subgraph(graph)
-    vertical = (ref_count == 0)
+    vertical = is_vertical(orientation_linear, ref_count)
     if vertical:
         body = table_new_line().join(entries)
     else:
@@ -158,7 +165,7 @@ def make_key_value_body(categorized, graph):
                                                         table_entry_str, table_entry_ref)
         entries_value.append(entry)
     subgraph.add_subgraph(graph)
-    vertical = (ref_count == 0)
+    vertical = is_vertical(orientation_key_value, ref_count)
     if vertical:
         body = table_new_line().join([ entries_key[i] + entries_value[i] for i in range(len(entries_key))]) 
     else:
