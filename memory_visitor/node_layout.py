@@ -1,6 +1,7 @@
 import memory_visitor
 import categories
 import utils
+import types
 
 drop_child_references_types = {utils.class_type, dict, }
 no_drop_child_references_types = set()
@@ -8,14 +9,50 @@ no_drop_child_references_types = set()
 linear_orientation = 'h'
 key_value_orientation = 'h'
 
+type_to_color = {
+    # ================= singular
+    type(None) : "gray",
+    bool : "pink",
+    int : "green",
+    float : "mediumorchid1",
+    complex : "yellow",
+    str : "cyan",
+    # ================= linear
+    tuple : "orange",
+    list : "lightcoral",
+    set : "darkolivegreen1",
+    frozenset : "darkolivegreen2",
+    bytes : "cyan",
+    bytearray : "cyan",
+    # ================= key_value
+    dict : "royalblue1",
+    types.MappingProxyType : "royalblue2",
+    utils.class_type : "seagreen1",
+    type: "seagreen2", # where class variable are stored
+}
+default_color_singular = "white"
+default_color_linear = "white"
+default_color_key_value = "white"
+default_color_table = "bisque2"
+
+
 def drop_child_references(categorized):
     type1 = type(categorized.get_data())
     type2 = categorized.get_alternative_type()
     return ((type1 in drop_child_references_types or type2 in drop_child_references_types) and not
             (type1 in no_drop_child_references_types or type2 in no_drop_child_references_types))
 
-def outer_table(s):
-    return ('<\n<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="0" BGCOLOR="blue"><TR><TD PORT="X">\n' +
+def get_color(categorized, default_color='white'):
+    datatype = type(categorized.get_data())
+    if datatype in type_to_color:
+        return type_to_color[datatype]
+    alternative_type = categorized.get_alternative_type()
+    if alternative_type in type_to_color:
+        return type_to_color[alternative_type]
+    return default_color
+
+def outer_table(s, color='white'):
+    return (f'<\n<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="0" BGCOLOR="{color}"><TR><TD PORT="X">\n' +
             s + '\n</TD></TR></TABLE>\n>')
 
 def inner_table(s):
@@ -60,7 +97,7 @@ class Subgraph:
 
 def add_to_graph_singular(categorized, graph):
         graph.node(categorized.get_node_name(),
-                   outer_table(str(categorized.get_data())),
+                   outer_table(str(categorized.get_data()),get_color(categorized, default_color_singular)),
                    xlabel=categorized.get_type_name())
 
 def make_table_entry(categorized, child, graph, subgraph, entry_count, ref_count, fun_str, fun_ref):
@@ -102,7 +139,7 @@ def add_to_graph_linear(categorized, graph):
     if parent and drop_child_references(parent):
         return
     graph.node(categorized.get_node_name(),
-               outer_table(make_body(categorized, graph, make_linear_body)),
+               outer_table(make_body(categorized, graph, make_linear_body), get_color(categorized, default_color_linear)),
                xlabel=get_xlabel_1d(categorized))
 
 def make_key_value_body(categorized, graph):
@@ -129,11 +166,11 @@ def make_key_value_body(categorized, graph):
 def add_to_graph_key_value(categorized, graph):
     if drop_child_references(categorized):
         graph.node(categorized.get_node_name(),
-                   outer_table(make_body(categorized, graph, make_key_value_body)),
+                   outer_table(make_body(categorized, graph, make_key_value_body), get_color(categorized, default_color_key_value)),
                    xlabel=get_xlabel_1d(categorized))
     else:
         graph.node(categorized.get_node_name(),
-                   outer_table(make_body(categorized, graph, make_linear_body)),
+                   outer_table(make_body(categorized, graph, make_linear_body), get_color(categorized, default_color_key_value)),
                    xlabel=get_xlabel_1d(categorized))
 
 def make_table_body(categorized, graph):
@@ -167,5 +204,5 @@ def make_table_body(categorized, graph):
 
 def add_to_graph_table(categorized, graph):
     graph.node(categorized.get_node_name(),
-               outer_table(make_body(categorized, graph, make_table_body)),
+               outer_table(make_body(categorized, graph, make_table_body), get_color(categorized, default_color_table)),
                xlabel=get_xlabel_2d(categorized))

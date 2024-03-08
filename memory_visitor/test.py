@@ -14,6 +14,18 @@ def test_linears(fun):
     data = [(1,2), [3,4], {5,6}, frozenset((7,8)), {9:'9', 10:'10'} , bytes('11', 'utf-8'), bytearray('12', 'utf-8')]
     fun(data)
 
+def test_colors(fun):
+    data1 = [None, True, 1, 2.2, complex(3,4), 'hello']
+    class My_Class:
+        class_var = 1
+        def __init__(self):
+            self.var=2
+    data2 = [(1,2), [3,4], {5,6}, frozenset((7,8)), {9:'9', 10:'10'} , bytes('11', 'utf-8'), bytearray('12', 'utf-8'), My_Class(), My_Class]
+    restore = memory_visitor.no_reference_types.copy()
+    memory_visitor.no_reference_types.clear()
+    fun([data1, data2])
+    memory_visitor.no_reference_types = restore
+
 def test_empty_linear(fun):
     data = [tuple(), list(), set(), frozenset(), dict() , bytes(), bytearray()]
     fun(data)
@@ -75,6 +87,7 @@ def test_table(fun):
     data.data[5] = (5,)
     data.data[6] = (6,)
     data.data[8] = (8,)
+    node_layout.type_to_color[My_Table] = 'plum1'
     memory_visitor.type_to_category[My_Table] = lambda data: (
         categories.Category_Table(  data,
                                     data.data,
@@ -88,6 +101,7 @@ def test_all(fun):
     test_singular(fun)
     test_linear(fun)
     test_linears(fun)
+    test_colors(fun)
     test_empty_linear(fun)
     test_key_value(fun)
     test_class(fun)
