@@ -14,6 +14,10 @@ def has_dict_attribute(value):
 def get_dict_attribute(value):
     return getattr(value,"__dict__")
 
+def get_filtered_dict_attribute(value):
+    return [(k,v) for k, v in get_dict_attribute(value).items() 
+            if not k.startswith('__')]
+
 def is_iterable(data):
     try:
         iter(data)

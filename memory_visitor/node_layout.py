@@ -16,13 +16,11 @@ def drop_child_references(categorized):
 
 def outer_table(s):
     return ('<\n<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="0" BGCOLOR="blue"><TR><TD PORT="X">\n' +
-            s +
-            '\n</TD></TR></TABLE>\n>')
+            s + '\n</TD></TR></TABLE>\n>')
 
 def inner_table(s):
     return ('<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0"><TR>\n' +
-            s +
-            '\n</TR></TABLE>')
+            s + '\n</TR></TABLE>')
 
 def table_entry_ref(field):
     return f'<TD PORT="{field}"> </TD>'

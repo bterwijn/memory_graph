@@ -40,6 +40,16 @@ def test_class(fun):
     fun(data)
     memory_visitor.no_reference_types.add(str)
 
+def test_class_vars(fun):
+    class My_Class1:
+        class_var1 = 'a'
+        class_var2 = 'b'
+        def __init__(self):
+            self.var1=10
+            self.var2=20
+    data = [My_Class1, My_Class1()]
+    fun(data)
+
 def test_share_tuple(fun):
     class My_Class:
         def __init__(self):
@@ -81,6 +91,8 @@ def test_all(fun):
     test_empty_linear(fun)
     test_key_value(fun)
     test_class(fun)
+    test_class_vars(fun)
     test_share_tuple(fun)
     test_share_children(fun)
     test_table(fun)
+    
