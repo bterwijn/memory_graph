@@ -7,7 +7,7 @@ def test_singular(fun):
     fun(data)
 
 def test_linear(fun):
-    data = [None, True, 1, 2.2, complex(3,4), 'hello']
+    data = [None, True, 1, 2.2, complex(3,4), 'hello this is a very long string that should be cut off at some point.']
     fun(data)
 
 def test_linears(fun):

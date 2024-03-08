@@ -2,7 +2,6 @@ import graphviz
 import memory_visitor
 import node_layout
 import utils
-import test
 
 class Graph_Builder:
 
@@ -25,6 +24,7 @@ class Graph_Builder:
         return self.new_graph
 
 if __name__ == '__main__':
+    import test
     test_fun_count=0
     def test_fun(data):
         global test_fun_count

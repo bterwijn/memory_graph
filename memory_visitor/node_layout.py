@@ -2,12 +2,15 @@ import memory_visitor
 import categories
 import utils
 import types
+import html
 
 drop_child_references_types = {utils.class_type, dict, }
 no_drop_child_references_types = set()
 
 orientation_linear    = None # 'v' (vertical), 'h' (horizontal), None (based on ref_count)
 orientation_key_value = None # 'v' (vertical), 'h' (horizontal), None (based on ref_count)
+
+max_string_length = 42
 
 type_to_color = {
     # ================= singular
@@ -49,6 +52,11 @@ def is_vertical(orientation, ref_count):
         return True
     return ref_count == 0
 
+def format_string(data):
+    s = str(data)
+    s = (s[:max_string_length] + '..') if len(s) > max_string_length else s
+    return html.escape(s)
+
 def get_color(categorized, default_color='white'):
     datatype = type(categorized.get_data())
     if datatype in type_to_color:
@@ -75,10 +83,10 @@ def table_entry_ref_rounded(field):
     return f'<TD PORT="{field}" STYLE="ROUNDED"> </TD>'
 
 def table_entry_str(s):
-    return f'<TD> {utils.to_string(s)} </TD>'
+    return f'<TD> {format_string(s)} </TD>'
 
 def table_entry_str_rounded(s):
-    return f'<TD STYLE="ROUNDED"> {utils.to_string(s)} </TD>'
+    return f'<TD STYLE="ROUNDED"> {format_string(s)} </TD>'
 
 def table_new_line():
     return '</TR>\n<TR>'
@@ -123,7 +131,7 @@ def make_table_entry(categorized, child, graph, subgraph, entry_count, ref_count
 
 def make_body(categorized, graph, fun):
     if len(categorized.get_children()) == 0:
-        return f' {utils.to_string(categorized.get_data())} '
+        return f' {format_string(categorized.get_data())} '
     return fun(categorized, graph)
 
 def make_linear_body(categorized, graph):

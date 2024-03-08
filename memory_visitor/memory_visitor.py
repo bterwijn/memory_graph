@@ -1,6 +1,7 @@
 import types
 import utils
 import categories
+import node_layout
 import test
 
 no_reference_types = {type(None), bool, int, float, complex, str}
@@ -32,7 +33,7 @@ def categorize(data):
 
 def visit_recursive(data, parent_categorized):
     if (parent_categorized != None and type(data) in no_reference_types):
-        return utils.to_string(data)
+        return node_layout.format_string(data)
     if type(data) in ignore_types:
         return None
     if categories.Category.is_already_categorized(data):
