@@ -29,10 +29,10 @@ def table_entry_ref_rounded(field):
     return f'<TD PORT="{field}" STYLE="ROUNDED"> </TD>'
 
 def table_entry_str(s):
-    return f'<TD> {s} </TD>'
+    return f'<TD> {utils.to_string(s)} </TD>'
 
 def table_entry_str_rounded(s):
-    return f'<TD STYLE="ROUNDED"> {s} </TD>'
+    return f'<TD STYLE="ROUNDED"> {utils.to_string(s)} </TD>'
 
 def table_new_line():
     return '</TR>\n<TR>'
@@ -77,7 +77,7 @@ def make_table_entry(categorized, child, graph, subgraph, entry_count, ref_count
 
 def make_body(categorized, graph, fun):
     if len(categorized.get_children()) == 0:
-        return f' {categorized.get_data()} '
+        return f' {utils.to_string(categorized.get_data())} '
     return fun(categorized, graph)
 
 def make_linear_body(categorized, graph):

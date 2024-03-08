@@ -31,6 +31,19 @@ def is_self_iterating(data):
 def get_type_name(data):
     return type(data).__name__
 
+def avoid_html_injection(label):
+    label=label.translate(str.maketrans({"<" : r"&lt;",
+                                         ">" : r"&gt;",
+                                         "&" : r"&amp;",
+                                         "\"": r"&quot;",
+                                         "\'": r"&apos;",
+                                         }))
+    return label
+
+def to_string(data):
+    return avoid_html_injection(str(data))
+
+
 if __name__ == '__main__':
     ignore_exception(lambda x: 1/0)
 

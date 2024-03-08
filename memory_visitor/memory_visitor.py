@@ -33,7 +33,7 @@ def categorize(data):
 
 def visit_recursive(data, parent_categorized):
     if (parent_categorized != None and type(data) in no_reference_types):
-        return str(data)
+        return utils.to_string(data)
     if type(data) in ignore_types:
         return None
     if categories.Category.is_already_categorized(data):

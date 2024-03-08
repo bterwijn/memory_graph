@@ -11,7 +11,7 @@ def test_string(fun):
     fun(data)
 
 def test_linear(fun):
-    data = [ 1, 2, 3]
+    data = [True, 1, 2.2, complex(3,4), 'hello']
     fun(data)  
 
 def test_empty_linear(fun):
@@ -95,4 +95,3 @@ def test_all(fun):
     test_share_tuple(fun)
     test_share_children(fun)
     test_table(fun)
-    
