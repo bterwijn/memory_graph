@@ -6,23 +6,23 @@ def test_singular(fun):
     data = 100
     fun(data)
 
-def test_string(fun):
-    data = "hello world!"
+def test_linear(fun):
+    data = [None, True, 1, 2.2, complex(3,4), 'hello']
     fun(data)
 
-def test_linear(fun):
-    data = [True, 1, 2.2, complex(3,4), 'hello']
-    fun(data)  
+def test_linears(fun):
+    data = [(1,2), [3,4], {5,6}, frozenset((7,8)), {9:'9', 10:'10'} , bytes('11', 'utf-8'), bytearray('12', 'utf-8')]
+    fun(data)
 
 def test_empty_linear(fun):
-    data = [ [], [], []]
+    data = [tuple(), list(), set(), frozenset(), dict() , bytes(), bytearray()]
     fun(data)
 
 def test_key_value(fun):
-    data1 = { 1:'a', 2:'b', 3:'c', 4:'d' }
+    data1 = {1:'a', 2:'b', 3:'c', 4:'d'}
     data2 = data1.copy()
     data2[3] = ('c','c')
-    data = { 'first':data1, 'second':data2 }
+    data = {'first':data1, 'second':data2}
     fun(data)
 
 def test_class(fun):
@@ -86,8 +86,8 @@ def test_table(fun):
 
 def test_all(fun):
     test_singular(fun)
-    test_string(fun)
     test_linear(fun)
+    test_linears(fun)
     test_empty_linear(fun)
     test_key_value(fun)
     test_class(fun)

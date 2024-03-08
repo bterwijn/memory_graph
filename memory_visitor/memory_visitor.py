@@ -3,16 +3,15 @@ import utils
 import categories
 import test
 
-no_reference_types = {bool, int, float, complex, str} # bytes, bytearray, type(None)}
+no_reference_types = {type(None), bool, int, float, complex, str}
 
 type_to_category = {
-    str: lambda data: categories.Category_Singular(data), # visit as whole string
+    str: lambda data: categories.Category_Singular(data), # visit as whole string, don't iterate over characters
     dict: lambda data: categories.Category_Key_Value(data, data.items())
     }
 
 ignore_types={types.FunctionType, types.MethodType, types.ModuleType, types.GeneratorType}
-utils.ignore_exception( lambda: ignore_types.add(types.CoroutineType) )
-
+utils.ignore_exception( lambda: ignore_types.add(types.CoroutineType) ) # python 3.5 onwards
 
 
 def default_backtrack_callback(categorized):
