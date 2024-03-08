@@ -1,8 +1,10 @@
 import memory_visitor
 import categories
+import node_builder
 import utils
 import types
 import html
+
 
 drop_child_references_types = {utils.class_type, dict, }
 no_drop_child_references_types = set()
@@ -98,37 +100,6 @@ def get_xlabel_2d(categorized):
     x,y = categorized.get_size()
     return f'{categorized.get_type_name()} ({x}x{y})'
 
-class Subgraph:
-
-    def __init__(self):
-        self.children = []
-
-    def add_child(self, child):
-        if not child.is_subgraphed():
-            child.set_subgraphed()
-            self.children.append(f'{child.get_node_name()}:X')
-
-    def add_subgraph(self, graph):
-        if len(self.children) > 1:
-            graph.body.append('{ rank="same"  '+(" -> ".join(self.children))+'  [weight=99,style=invis]; }\n')
-
-def add_to_graph_singular(categorized, graph):
-        graph.node(categorized.get_node_name(),
-                   outer_table(categorized, str(categorized.get_data()), default_color_singular),
-                   xlabel=categorized.get_type_name())
-
-def make_table_entry(categorized, child, graph, subgraph, entry_count, ref_count, fun_str, fun_ref):
-    if type(child) == str:
-        entry = fun_str(child)
-    else:
-        field = f'f{entry_count}'
-        entry = fun_ref(field)
-        cname = f'{child.get_node_name()}:X'
-        graph.edge(f'{categorized.get_node_name()}:{field}', cname)
-        subgraph.add_child(child)
-        ref_count += 1
-    return entry_count+1, ref_count, entry
-
 def make_body(categorized, graph, fun):
     if len(categorized.get_children()) == 0:
         return f' {format_string(categorized.get_data())} '
@@ -136,15 +107,11 @@ def make_body(categorized, graph, fun):
 
 def make_linear_body(categorized, graph):
     entries = []
-    entry_count = 0
-    ref_count = 0
-    subgraph = Subgraph()
+    nbuilder = node_builder.Node_Builder(graph)
     for child in categorized.get_children():
-        entry_count, ref_count, entry = make_table_entry(categorized, child, graph, subgraph, entry_count, ref_count,
-                                                        table_entry_str, table_entry_ref)
-        entries.append(entry)
-    subgraph.add_subgraph(graph)
-    vertical = is_vertical(orientation_linear, ref_count)
+        entries.append( nbuilder.make_table_entry(categorized, child, table_entry_str, table_entry_ref) )
+    nbuilder.write_subgraph()
+    vertical = is_vertical(orientation_linear, nbuilder.get_ref_count())
     if vertical:
         body = table_new_line().join(entries)
     else:
@@ -162,18 +129,12 @@ def add_to_graph_linear(categorized, graph):
 def make_key_value_body(categorized, graph):
     entries_key = []
     entries_value = []
-    entry_count = 0
-    ref_count = 0
-    subgraph = Subgraph()
+    nbuilder = node_builder.Node_Builder(graph)
     for child in categorized.get_children():
-        entry_count, ref_count, entry = make_table_entry(categorized, child.get_children()[0], graph, subgraph, entry_count, ref_count,
-                                                        table_entry_str_rounded, table_entry_ref_rounded)
-        entries_key.append(entry)
-        entry_count, ref_count, entry = make_table_entry(categorized, child.get_children()[1], graph, subgraph, entry_count, ref_count,
-                                                        table_entry_str, table_entry_ref)
-        entries_value.append(entry)
-    subgraph.add_subgraph(graph)
-    vertical = is_vertical(orientation_key_value, ref_count)
+        entries_key.append( nbuilder.make_table_entry(categorized, child.get_children()[0], table_entry_str_rounded, table_entry_ref_rounded))
+        entries_value.append( nbuilder.make_table_entry(categorized, child.get_children()[1], table_entry_str, table_entry_ref))
+    nbuilder.write_subgraph()
+    vertical = is_vertical(orientation_key_value, nbuilder.get_ref_count())
     if vertical:
         body = table_new_line().join([ entries_key[i] + entries_value[i] for i in range(len(entries_key))]) 
     else:
@@ -190,21 +151,18 @@ def add_to_graph_key_value(categorized, graph):
                    outer_table(categorized, make_body(categorized, graph, make_linear_body), default_color_key_value),
                    xlabel=get_xlabel_1d(categorized))
 
+
 def make_table_body(categorized, graph):
-    entries = []
-    entry_count = 0
-    ref_count = 0
     row_names = categorized.get_row_names()
     column_names = categorized.get_column_names()
     entries_row_names = [table_entry_str_rounded(n) for n in row_names]
     entries_column_names = [table_entry_str_rounded('')] if row_names and column_names else []
     entries_column_names += [table_entry_str_rounded(n) for n in column_names]
-    subgraph = Subgraph()
+    entries = []
+    nbuilder = node_builder.Node_Builder(graph)
     for child in categorized.get_children():
-        entry_count, ref_count, entry = make_table_entry(categorized, child, graph, subgraph, entry_count, ref_count,
-                                                        table_entry_str, table_entry_ref)
-        entries.append(entry)
-    subgraph.add_subgraph(graph)
+        entries.append( nbuilder.make_table_entry(categorized, child, table_entry_str, table_entry_ref) )
+    nbuilder.write_subgraph()
     body = ''
     if entries_column_names:
        body += ''.join(entries_column_names) + table_new_line()
