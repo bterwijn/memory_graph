@@ -39,6 +39,13 @@ def table_entry_str_rounded(s):
 def table_new_line():
     return '</TR>\n<TR>'
 
+def get_xlabel_1d(categorized):
+    return f'{categorized.get_type_name()} ({len(categorized.get_children())})'
+
+def get_xlabel_2d(categorized):
+    x,y = categorized.get_size()
+    return f'{categorized.get_type_name()} ({x}x{y})'
+
 class Subgraph:
 
     def __init__(self):
@@ -98,7 +105,7 @@ def add_to_graph_linear(categorized, graph):
         return
     graph.node(categorized.get_node_name(),
                outer_table(make_body(categorized, graph, make_linear_body)),
-               xlabel=categorized.get_type_name())
+               xlabel=get_xlabel_1d(categorized))
 
 def make_key_value_body(categorized, graph):
     entries_key = []
@@ -125,11 +132,11 @@ def add_to_graph_key_value(categorized, graph):
     if drop_child_references(categorized):
         graph.node(categorized.get_node_name(),
                    outer_table(make_body(categorized, graph, make_key_value_body)),
-                   xlabel=categorized.get_type_name())
+                   xlabel=get_xlabel_1d(categorized))
     else:
         graph.node(categorized.get_node_name(),
                    outer_table(make_body(categorized, graph, make_linear_body)),
-                   xlabel=categorized.get_type_name())
+                   xlabel=get_xlabel_1d(categorized))
 
 def make_table_body(categorized, graph):
     entries = []
@@ -163,4 +170,4 @@ def make_table_body(categorized, graph):
 def add_to_graph_table(categorized, graph):
     graph.node(categorized.get_node_name(),
                outer_table(make_body(categorized, graph, make_table_body)),
-               xlabel=categorized.get_type_name())
+               xlabel=get_xlabel_2d(categorized))
