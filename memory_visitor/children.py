@@ -51,6 +51,7 @@ class Child_Iterator:
     def __init__(self, nested_list):
         self.stack = [iter(nested_list)]
         self.level = 0
+        self.empty = False
 
     def __iter__(self):
         return self
@@ -58,21 +59,53 @@ class Child_Iterator:
     def __next__(self):
         while self.stack:
             try:
-                #print('len(stack):',len(self.stack))
                 current_iterator = self.stack[-1]
                 value = next(current_iterator)
                 if isinstance(value, list):
+                    if (len(value) == 0):
+                        self.empty = True
                     self.stack.append(iter(value))
                 else:
                     diff_level = len(self.stack) - self.level
                     self.level = len(self.stack)
                     return (diff_level, value)
             except StopIteration:
+                if self.empty: # special case for iterating over empty list
+                    self.empty = False
+                    diff_level = len(self.stack) - self.level
+                    self.level = len(self.stack)
+                    return (-diff_level, None)
                 self.stack.pop()
                 self.level = len(self.stack)
         raise StopIteration
 
-
+# general map does not work for nested lists, as list may contain lists of the structure and lists of data
+# def map(data, fun):
+#     child_iterator = Child_Iterator(data)
+#     result = []
+#     stack = [ result ]
+#     stack_level = 0
+#     append = True
+#     for level,child in child_iterator:
+#         #print('level,child:',level,child)
+#         if level<0:
+#             level = -level
+#             append = False
+#         else:
+#             append = True
+#         if level>0:
+#             stack_level = max(stack_level-level,0)
+#             for _ in range(level):
+#                 new_list = []
+#                 stack[stack_level].append(new_list)
+#                 stack_level += 1
+#                 if stack_level == len(stack):
+#                     stack.append(new_list)
+#                 else:
+#                     stack[stack_level] = new_list
+#         if append:
+#             stack[stack_level].append( fun(child) )
+#     return result[0]
 
 class Children():
     def __init__(self, children=None):
@@ -89,26 +122,8 @@ class Children():
     
     def __iter__(self):
         return Child_Iterator(self.children)
-    
-    def map(self, fun):
-        child_iterator = Child_Iterator(self.children)
-        result = []
-        stack = [ result ]
-        stack_level = 0
-        for level,child in child_iterator:
-            if level>0:
-                stack_level = max(stack_level-level,0)
-                for _ in range(level):
-                    new_list = []
-                    stack[stack_level].append(new_list)
-                    stack_level += 1
-                    if stack_level == len(stack):
-                        stack.append(new_list)
-                    else:
-                        stack[stack_level] = new_list
-            stack[stack_level].append(fun(child))
-        return result[0]
 
+    
 class Children_Linear(Children):
     
     def __init__(self, children=None):
@@ -120,7 +135,7 @@ class Children_Linear(Children):
     def __repr__(self):
         return f'Children_Linear:{self.children}'
     
-    def map_OLD(self, fun):
+    def map(self, fun):
         return Children_Linear([ [fun(c) for c in front_back] for front_back in self.children])
 
 class Children_Key_Value(Children):
@@ -134,7 +149,7 @@ class Children_Key_Value(Children):
     def __repr__(self):
         return f'Children_Key_Value:{self.children}'
     
-    def map_OLD(self, fun):
+    def map(self, fun):
         return Children_Key_Value([ [fun(c) for c in front_back] for front_back in self.children])
 
 class Children_Table(Children):
@@ -152,7 +167,7 @@ class Children_Table(Children):
     def __repr__(self):
         return f'Children_Table:{self.children}'
     
-    def map_OLD(self, fun):
+    def map(self, fun):
         return Children_Table([[ [fun(c) for c in front_back] for front_back in row] for row in self.children])
 
 test_size=(3,2)
@@ -205,6 +220,14 @@ def test_table_2d(n):
     children_table.set_children(children, test_size)
     print( children_table.map(lambda x: x*10) )
 
+def test_child_iterator():
+    print("====== test_child_iterator")
+    data = [[ [], [1,2], [], [3,4], []]]
+    print(data)
+    for i in Child_Iterator(data):
+        print(i)
+    print('mapped:',map(data, lambda x: x) )
+
 def test_iterator(n):
     print("====== test_iterator")
     children = [ [i*n+j for j in range(n)] for i in range(n)]
@@ -212,9 +235,9 @@ def test_iterator(n):
     children_table = Children_Table()
     children_table.set_children(children, test_size)
     print("children_table:", children_table)
-    for child in children_table:
-        print("child:", child)
-    print( children_table.map(lambda x: x*10) )
+    for i in children_table:
+        print(i)
+    print( children_table.map(lambda x: x) )
 
 # def speed_test_key_value(n,k, split_fun):
 #     start_time = time.perf_counter()
@@ -230,7 +253,7 @@ def test_iterator(n):
 #     print(f"Function executed in {elapsed_time} seconds.")
 
 if __name__ == '__main__':
-    n = 6
+    n = 5
     test_iterable_front_back_split(n)
     test_iterable_front_back_repeat_split(n)
 
@@ -238,6 +261,8 @@ if __name__ == '__main__':
     test_key_value(n)
     test_table_1d(n)
     test_table_2d(n)
+
+    test_child_iterator()
     test_iterator(n)
     # for fun in [lambda data,size : sliceable_front_back_split(list(data),size), 
     #             iterable_front_back_split]: # sliceable slightly faster

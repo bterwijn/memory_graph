@@ -119,7 +119,6 @@ def add_to_graph_singular(categorized, graph):
 def make_linear_body(categorized, graph):
     nbuilder = node_builder.Node_Builder(graph)
     #entries = categorized.get_children().map(lambda child : print('lin child:',child) )
-    print('categorized.get_children():',type(categorized.get_children()),categorized.get_children())
     entries = categorized.get_children().map(lambda child : 
                                              nbuilder.make_table_entry(categorized, child, table_entry_str, table_entry_ref)
                                              )
