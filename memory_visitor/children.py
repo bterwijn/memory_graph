@@ -47,6 +47,33 @@ def front_back_split(iterable, size):
 def front_back_repeat_split(iterable, size, line_size):
     return iterable_front_back_repeat_split(iterable, size, line_size)
 
+class Child_Iterator:
+    def __init__(self, nested_list):
+        self.stack = [iter(nested_list)]
+        self.level = 0
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        while self.stack:
+            try:
+                #print('len(stack):',len(self.stack))
+                current_iterator = self.stack[-1]
+                value = next(current_iterator)
+                if isinstance(value, list):
+                    self.stack.append(iter(value))
+                else:
+                    diff_level = len(self.stack) - self.level
+                    self.level = len(self.stack)
+                    return (diff_level, value)
+            except StopIteration:
+                self.stack.pop()
+                self.level = len(self.stack)
+        raise StopIteration
+
+
+
 class Children():
     def __init__(self, children=None):
         self.children = children
@@ -59,6 +86,28 @@ class Children():
 
     def get_children(self):
         return self.children
+    
+    def __iter__(self):
+        return Child_Iterator(self.children)
+    
+    def map(self, fun):
+        child_iterator = Child_Iterator(self.children)
+        result = []
+        stack = [ result ]
+        stack_level = 0
+        for level,child in child_iterator:
+            if level>0:
+                stack_level = max(stack_level-level,0)
+                for _ in range(level):
+                    new_list = []
+                    stack[stack_level].append(new_list)
+                    stack_level += 1
+                    if stack_level == len(stack):
+                        stack.append(new_list)
+                    else:
+                        stack[stack_level] = new_list
+            stack[stack_level].append(fun(child))
+        return result[0]
 
 class Children_Linear(Children):
     
@@ -71,7 +120,7 @@ class Children_Linear(Children):
     def __repr__(self):
         return f'Children_Linear:{self.children}'
     
-    def map(self, fun):
+    def map_OLD(self, fun):
         return Children_Linear([ [fun(c) for c in front_back] for front_back in self.children])
 
 class Children_Key_Value(Children):
@@ -85,7 +134,7 @@ class Children_Key_Value(Children):
     def __repr__(self):
         return f'Children_Key_Value:{self.children}'
     
-    def map(self, fun):
+    def map_OLD(self, fun):
         return Children_Key_Value([ [fun(c) for c in front_back] for front_back in self.children])
 
 class Children_Table(Children):
@@ -103,7 +152,7 @@ class Children_Table(Children):
     def __repr__(self):
         return f'Children_Table:{self.children}'
     
-    def map(self, fun):
+    def map_OLD(self, fun):
         return Children_Table([[ [fun(c) for c in front_back] for front_back in row] for row in self.children])
 
 test_size=(3,2)
@@ -156,6 +205,17 @@ def test_table_2d(n):
     children_table.set_children(children, test_size)
     print( children_table.map(lambda x: x*10) )
 
+def test_iterator(n):
+    print("====== test_iterator")
+    children = [ [i*n+j for j in range(n)] for i in range(n)]
+    print("children:", children)
+    children_table = Children_Table()
+    children_table.set_children(children, test_size)
+    print("children_table:", children_table)
+    for child in children_table:
+        print("child:", child)
+    print( children_table.map(lambda x: x*10) )
+
 # def speed_test_key_value(n,k, split_fun):
 #     start_time = time.perf_counter()
 #     children = {i:i*2 for i in range(n)}.items()
@@ -178,6 +238,7 @@ if __name__ == '__main__':
     test_key_value(n)
     test_table_1d(n)
     test_table_2d(n)
+    test_iterator(n)
     # for fun in [lambda data,size : sliceable_front_back_split(list(data),size), 
     #             iterable_front_back_split]: # sliceable slightly faster
     #     speed_test_key_value(20, 500000, fun)
