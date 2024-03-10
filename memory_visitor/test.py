@@ -76,12 +76,20 @@ def test_share_children(fun):
     data = [ [a,b,c,], [a,c,d] ]
     fun(data)
 
+def test_list_split(fun):
+    data = [ list(range(i+1)) for i in range(20)]
+    fun(data)
+
+def test_key_value_split(fun):
+    data = { i:i*10 for i in range(1,7)}
+    fun(data)
+
 def test_table(fun):
     class My_Table:
         def __init__(self,size):
             self.size=size
             self.data = [i for i in range(size[0]*size[1])]
-    data = My_Table((3,4))
+    data = My_Table((12,12))
     data.data[1] = (1,)
     data.data[5] = (5,)
     data.data[6] = (6,)
@@ -94,14 +102,6 @@ def test_table(fun):
                                     row_names = [f'row{i}' for i in range(data.size[0])],
                                     column_names = [f'col{i}' for i in range(data.size[1])])
     )
-    fun(data)
-
-def test_list_split(fun):
-    data = [ list(range(i+1)) for i in range(20)]
-    fun(data)
-
-def test_key_value_split(fun):
-    data = { i:i*10 for i in range(1,7)}
     fun(data)
 
 def test_all(fun):
@@ -118,6 +118,4 @@ def test_all(fun):
     test_share_children(fun)
     test_list_split(fun)
     test_key_value_split(fun)
-
-
-    # test_table(fun)
+    test_table(fun)

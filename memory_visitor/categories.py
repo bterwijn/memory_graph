@@ -98,9 +98,12 @@ class Category_Key_Value(Category):
         return node_layout.add_to_graph_key_value(self,graph)
 
 class Category_Table(Category):
+    size = (3,2)
 
     def __init__(self, data, candidate_children, alternative_type=None, size=None, row_names=None, column_names=None):
-        super().__init__(data, candidate_children, alternative_type)
+        children_table = children.Children_Table()
+        children_table.set_children(candidate_children, Category_Table.size, size[0])
+        super().__init__(data, children_table, alternative_type)
         if size is None and row_names is not None and column_names is not None:
             size=(len(row_names),len(column_names))
         self.size=size
