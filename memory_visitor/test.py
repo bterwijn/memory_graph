@@ -47,7 +47,6 @@ def test_class(fun):
             self.foo=10
             self.bar=20
     data = [My_Class1(), My_Class2()]
-    node_layout.no_drop_child_references_types.add(My_Class1)  # TODO
     memory_visitor.no_reference_types.remove(str)
     fun(data)
     memory_visitor.no_reference_types.add(str)
@@ -98,19 +97,27 @@ def test_table(fun):
     fun(data)
 
 def test_list_split(fun):
-    data = [i for i in range(3)]
+    data = [ list(range(i+1)) for i in range(20)]
+    fun(data)
+
+def test_key_value_split(fun):
+    data = { i:i*10 for i in range(1,7)}
     fun(data)
 
 def test_all(fun):
-    # test_singular(fun)
-    # test_linear(fun)
-    # test_linears(fun)
-    # test_colors(fun)
-    # test_empty_linear(fun)
-    # test_key_value(fun)
-    # test_class(fun)
-    # test_class_vars(fun)
-    # test_share_tuple(fun)
-    # test_share_children(fun)
-    # test_table(fun)
+    pass
+    test_singular(fun)
+    test_linear(fun)
+    test_linears(fun)
+    test_colors(fun)
+    test_empty_linear(fun)
+    test_key_value(fun)
+    test_class(fun)
+    test_class_vars(fun)
+    test_share_tuple(fun)
+    test_share_children(fun)
     test_list_split(fun)
+    test_key_value_split(fun)
+
+
+    # test_table(fun)

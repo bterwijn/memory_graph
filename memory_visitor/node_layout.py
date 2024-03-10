@@ -6,8 +6,7 @@ import types
 import html
 
 
-drop_child_references_types = {utils.class_type, dict, }
-no_drop_child_references_types = set()
+drop_child_references_types = {}#utils.class_type, dict, }
 
 orientation_linear    = None # 'v' (vertical), 'h' (horizontal), None (based on ref_count)
 orientation_key_value = None # 'v' (vertical), 'h' (horizontal), None (based on ref_count)
@@ -41,11 +40,12 @@ default_color_key_value = "white"
 default_color_table = "bisque2"
 
 
+def drop_child_references_of_types(type1, type2):
+    return type1 in drop_child_references_types or type2 in drop_child_references_types
+
 def drop_child_references(categorized):
-    type1 = type(categorized.get_data())
-    type2 = categorized.get_alternative_type()
-    return ((type1 in drop_child_references_types or type2 in drop_child_references_types) and not
-            (type1 in no_drop_child_references_types or type2 in no_drop_child_references_types))
+    return drop_child_references_of_types(type(categorized.get_data()), 
+                                          categorized.get_alternative_type())
 
 def is_vertical(orientation, ref_count):
     if orientation == 'h':
@@ -90,8 +90,14 @@ def table_entry_str(s):
 def table_entry_str_rounded(s):
     return f'<TD STYLE="ROUNDED"> {format_string(s)} </TD>'
 
+def table_empty():
+    return '<TD> </TD>'
+
 def table_new_line():
     return '</TR>\n<TR>'
+
+def table_dots():
+    return '<TD>...</TD>'
 
 def get_xlabel_1d(categorized):
     return f'{categorized.get_type_name()} ({len(categorized.get_children())})'
@@ -105,17 +111,27 @@ def make_body(categorized, graph, fun):
         return f' {format_string(categorized.get_data())} '
     return fun(categorized, graph)
 
+def add_to_graph_singular(categorized, graph):
+    graph.node(categorized.get_node_name(),
+                outer_table(categorized, str(categorized.get_data()), default_color_singular),
+                xlabel=categorized.get_type_name())
+
 def make_linear_body(categorized, graph):
-    entries = []
     nbuilder = node_builder.Node_Builder(graph)
-    for child in categorized.get_children():
-        entries.append( nbuilder.make_table_entry(categorized, child, table_entry_str, table_entry_ref) )
+    #entries = categorized.get_children().map(lambda child : print('lin child:',child) )
+    entries = categorized.get_children().map(lambda child : 
+                                             nbuilder.make_table_entry(categorized, child, table_entry_str, table_entry_ref)
+                                             )
+    entries = entries.get_children()
     nbuilder.write_subgraph()
     vertical = is_vertical(orientation_linear, nbuilder.get_ref_count())
+    body = entries[0] if len(entries[0]) > 0 else [table_empty()]
+    if len(entries[1]) > 0:
+        body += [table_dots()] + entries[1]
     if vertical:
-        body = table_new_line().join(entries)
+        body = table_new_line().join(body)
     else:
-        body = ''.join(entries)
+        body = ''.join(body)
     return inner_table(body)
 
 def add_to_graph_linear(categorized, graph):
@@ -127,18 +143,36 @@ def add_to_graph_linear(categorized, graph):
                xlabel=get_xlabel_1d(categorized))
 
 def make_key_value_body(categorized, graph):
-    entries_key = []
-    entries_value = []
     nbuilder = node_builder.Node_Builder(graph)
-    for child in categorized.get_children():
-        entries_key.append( nbuilder.make_table_entry(categorized, child.get_children()[0], table_entry_str_rounded, table_entry_ref_rounded))
-        entries_value.append( nbuilder.make_table_entry(categorized, child.get_children()[1], table_entry_str, table_entry_ref))
+    #entries = categorized.get_children().map(lambda child : print('key child:',child) )
+    entries = categorized.get_children().map(lambda child : 
+                                             nbuilder.make_table_entry(categorized, child, table_entry_str, table_entry_ref)
+                                             )
+    entries = entries.get_children()
     nbuilder.write_subgraph()
-    vertical = is_vertical(orientation_key_value, nbuilder.get_ref_count())
+    vertical = is_vertical(orientation_linear, nbuilder.get_ref_count())
+    body = entries[0] if len(entries[0]) > 0 else [table_empty()]
+    if len(entries[1]) > 0:
+        body += [table_dots()] + entries[1]
     if vertical:
-        body = table_new_line().join([ entries_key[i] + entries_value[i] for i in range(len(entries_key))]) 
+        body = table_new_line().join(body)
     else:
-        body = ''.join(entries_key) + table_new_line() + ''.join(entries_value)
+        body = ''.join(body)
+    return inner_table(body)
+
+
+    vertical = is_vertical(orientation_key_value, nbuilder.get_ref_count())
+    body = entries[0]
+    if len(entries[1]) > 0:
+        body += [table_dots()] + entries[1]
+    if vertical:
+        body = table_new_line().join(body)
+    else:
+        body = ''.join(body)
+    # if vertical:
+    #     body = table_new_line().join([ entries_key[i] + entries_value[i] for i in range(len(entries_key))]) 
+    # else:
+    #     body = ''.join(entries_key) + table_new_line() + ''.join(entries_value)
     return inner_table(body)
 
 def add_to_graph_key_value(categorized, graph):

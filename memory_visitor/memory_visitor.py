@@ -7,7 +7,8 @@ no_reference_types = {type(None), bool, int, float, complex, str}
 
 type_to_category = {
     str: lambda data: categories.Category_Singular(data), # visit as whole string, don't iterate over characters
-    dict: lambda data: categories.Category_Key_Value(data, data.items())
+    dict: lambda data: categories.Category_Key_Value(data, list(data.items())),
+    set: lambda data: categories.Category_Linear(data, list(data)), #TODO, iterate!
     }
 
 ignore_types={types.FunctionType, types.MethodType, types.ModuleType, types.GeneratorType}
@@ -24,7 +25,7 @@ def categorize(data):
         return type_to_category[type(data)](data)
     elif utils.has_dict_attribute(data): # for user defined classes
         return categories.Category_Key_Value(data, 
-                                            utils.get_filtered_dict_attribute(data), 
+                                            list(utils.get_filtered_dict_attribute(data)), 
                                             utils.class_type)
     elif utils.is_iterable(data): # for lists, tuples, sets, ...
         return categories.Category_Linear(data,data)
@@ -41,11 +42,11 @@ def visit_recursive(data, parent_categorized):
     else:
         categorized = categorize(data)
         categorized.set_parent(parent_categorized)
-        children = categorized.get_candidate_children()
-        categorized_children = utils.transform_children(children, 
-                                                        lambda child : visit_recursive(child, categorized) )
-        #print('categorized_children:',categorized_children)
-        visit_backtrack_callback(categorized_children)
+        candidate_children = categorized.get_candidate_children()
+        if candidate_children:
+            categorized_children = candidate_children.map( lambda child : visit_recursive(child, categorized) )
+            categorized.add_children(categorized_children)
+        visit_backtrack_callback(categorized)
     return categorized
 
 def visit(data):

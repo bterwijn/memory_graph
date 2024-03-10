@@ -1,5 +1,6 @@
 import utils
 import node_layout
+import children
 
 class Category:
     visited_ids = {}
@@ -41,8 +42,11 @@ class Category:
     def get_candidate_children(self):
         return self.candidate_children
     
-    def add_child(self, child):
+    def add_child(self, child): # TODO, remove this method
         self.children.append(child)
+
+    def add_children(self, children):
+        self.children = children
 
     def get_children(self):
         return self.children
@@ -66,32 +70,37 @@ class Category:
 class Category_Singular(Category):
 
     def __init__(self, data, alternative_type=None ):
-        super().__init__(data, tuple(), alternative_type=alternative_type)
+        super().__init__(data, None, alternative_type=alternative_type)
 
     def add_to_graph(self, graph):
         return node_layout.add_to_graph_singular(self,graph)
 
 class Category_Linear(Category):
-    size = (3,0)
+    size = (3,2)
 
-    def __init__(self, data, children, alternative_type=None):
-        super().__init__(data, utils.front_back_split(children, Category_Linear.size), alternative_type)
+    def __init__(self, data, candidate_children, alternative_type=None):
+        children_linear = children.Children_Linear()
+        children_linear.set_children(candidate_children, Category_Linear.size)
+        super().__init__(data, children_linear, alternative_type)
 
     def add_to_graph(self, graph):
         return node_layout.add_to_graph_linear(self,graph)
 
 class Category_Key_Value(Category):
+    size = (3,2)
 
-    def __init__(self, data, children, alternative_type=None):
-        super().__init__(data, children, alternative_type)
+    def __init__(self, data, candidate_children, alternative_type=None):
+        children_key_value = children.Children_Key_Value()
+        children_key_value.set_children(candidate_children, Category_Key_Value.size)
+        super().__init__(data, children_key_value, alternative_type)
         
     def add_to_graph(self, graph):
         return node_layout.add_to_graph_key_value(self,graph)
 
 class Category_Table(Category):
 
-    def __init__(self, data, children, alternative_type=None, size=None, row_names=None, column_names=None):
-        super().__init__(data, children, alternative_type)
+    def __init__(self, data, candidate_children, alternative_type=None, size=None, row_names=None, column_names=None):
+        super().__init__(data, candidate_children, alternative_type)
         if size is None and row_names is not None and column_names is not None:
             size=(len(row_names),len(column_names))
         self.size=size
