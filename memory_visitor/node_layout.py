@@ -119,6 +119,7 @@ def add_to_graph_singular(categorized, graph):
 def make_linear_body(categorized, graph):
     nbuilder = node_builder.Node_Builder(graph)
     #entries = categorized.get_children().map(lambda child : print('lin child:',child) )
+    print('children linear:',type(categorized.get_children()))
     entries = categorized.get_children().map(lambda child : 
                                              nbuilder.make_table_entry(categorized, child, table_entry_str, table_entry_ref)
                                              )
@@ -145,6 +146,7 @@ def add_to_graph_linear(categorized, graph):
 def make_key_value_body(categorized, graph):
     nbuilder = node_builder.Node_Builder(graph)
     #entries = categorized.get_children().map(lambda child : print('key child:',child) )
+    print('children key_value:',type(categorized.get_children()))
     entries = categorized.get_children().map(lambda child : 
                                              nbuilder.make_table_entry(categorized, child, table_entry_str, table_entry_ref)
                                              )
@@ -188,6 +190,7 @@ def add_to_graph_key_value(categorized, graph):
 def make_table_body(categorized, graph):
     nbuilder = node_builder.Node_Builder(graph)
     #entries = categorized.get_children().map(lambda child : print('table child:',child) )
+    print('children table:',type(categorized.get_children()))
     entries = categorized.get_children().map(lambda child : 
                                              nbuilder.make_table_entry(categorized, child, table_entry_str, table_entry_ref)
                                              )
