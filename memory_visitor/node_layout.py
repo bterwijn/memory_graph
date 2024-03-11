@@ -118,12 +118,34 @@ def add_to_graph_singular(categorized, graph):
 
 def make_linear_body(categorized, graph):
     nbuilder = node_builder.Node_Builder(graph)
-    #entries = categorized.get_children().map(lambda child : print('lin child:',child) )
+    #categorized.get_children().map(lambda child : print('lin child:',child) )
     entries = categorized.get_children().map(lambda child : 
                                              nbuilder.make_table_entry(categorized, child, table_entry_str, table_entry_ref)
                                              )
-    entries = entries.get_children()
     nbuilder.write_subgraph()
+    #print('entries:',entries.get_children())
+
+    if True:
+        body = ''
+        for level,child in children.Child_Iterator(entries.get_children()): #TODO not working with '[]' as child
+            #print("level:", level, "child:", child)
+            if level == 1:
+                body += table_dots()
+            # elif level == 2:
+            #     body += table_new_line()
+            #     row[1] += 1
+            #     body += table_entry_str(row_names[row[0]][row[1]])
+            # elif level == 3:
+            #     body += table_new_line() + table_dots()*nr_columns + table_new_line()
+            #     row = [1,0]
+            #     body += table_entry_str(row_names[row[0]][row[1]])
+            if child:
+                body += child
+        #print("body0:", body)
+        #return inner_table(body)
+
+    body = ''
+    entries = entries.get_children()
     vertical = is_vertical(orientation_linear, nbuilder.get_ref_count())
     body = entries[0] if len(entries[0]) > 0 else [table_empty()]
     if len(entries[1]) > 0:
@@ -132,6 +154,7 @@ def make_linear_body(categorized, graph):
         body = table_new_line().join(body)
     else:
         body = ''.join(body)
+    #print("body :", body)
     return inner_table(body)
 
 def add_to_graph_linear(categorized, graph):
@@ -194,9 +217,9 @@ def make_table_body(categorized, graph):
     nbuilder.write_subgraph()
 
     row_names = children.front_back_split(categorized.get_row_names(),categorized.max_height)
-    print("row_names:", row_names)
+    #print("row_names:", row_names)
     column_names = children.front_back_split(categorized.get_column_names(), categorized.max_width)
-    print("column_names:", column_names)
+    #print("column_names:", column_names)
 
     nr_columns = len(column_names[0])
     if len(column_names[1]) > 0:
@@ -230,49 +253,8 @@ def make_table_body(categorized, graph):
             body += table_entry_str(row_names[row[0]][row[1]])
         if child:
             body += child
-    print("body:", body)
+    #print("body:", body)
     return inner_table(body)
-
-    print("entries:", entries)
-    body = ''
-    first_line = True
-    for entries_line in entries:
-        #print("entries_lines:", entries_line)
-        body_line = entries_line[0] if len(entries_line[0]) > 0 else [table_empty()]
-        if len(entries_line[1]) > 0:
-            body_line += [table_dots()] + entries_line[1]
-        body_line = ''.join(body_line)
-        print("body_line:", body_line)
-        if first_line:
-            first_line = False
-        else:
-            body += table_new_line()
-        body +=  body_line
-    print("body:", body)
-    return inner_table(body)
-    
-    # row_names = categorized.get_row_names()
-    # column_names = categorized.get_column_names()
-    # entries_row_names = [table_entry_str_rounded(n) for n in row_names]
-    # entries_column_names = [table_entry_str_rounded('')] if row_names and column_names else []
-    # entries_column_names += [table_entry_str_rounded(n) for n in column_names]
-        
-    # for child in categorized.get_children():
-    #     entries.append( nbuilder.make_table_entry(categorized, child, table_entry_str, table_entry_ref) )
-
-    # body = ''
-    # if entries_column_names:
-    #    body += ''.join(entries_column_names) + table_new_line()
-    # nr_columns = categorized.get_size()[1]
-    # row_count = 0
-    # for i in range(0,len(entries),nr_columns):
-    #     if row_count > 0:
-    #         body += table_new_line()
-    #     if row_count<len(entries_row_names):
-    #         body += entries_row_names[row_count]
-    #     row_count += 1
-    #     body += ''.join(entries[i:i+nr_columns])
-    # return inner_table(body)
 
 def add_to_graph_table(categorized, graph):
     graph.node(categorized.get_node_name(),

@@ -123,6 +123,9 @@ class Children():
         return Child_Iterator(self.children)
 
 
+def map_linear(data, fun):
+    return [ [fun(c) for c in front_back] for front_back in data]
+
 class Children_Linear(Children):
 
     def __init__(self, children=None):
@@ -135,7 +138,10 @@ class Children_Linear(Children):
         return f'Children_Linear:{self.children}'
 
     def map(self, fun):
-        return Children_Linear([ [fun(c) for c in front_back] for front_back in self.children])
+        return Children_Linear(map_linear(self.children, fun))
+
+def map_key_value(data, fun):
+    return [ [fun(c) for c in front_back] for front_back in data]
 
 class Children_Key_Value(Children):
 
@@ -149,7 +155,10 @@ class Children_Key_Value(Children):
         return f'Children_Key_Value:{self.children}'
 
     def map(self, fun):
-        return Children_Key_Value([ [fun(c) for c in front_back] for front_back in self.children])
+        return Children_Key_Value(map_key_value(self.children, fun))
+
+def map_table(data, fun):
+    return [ [ [ [fun(c) for c in front_back] for front_back in row] for row in height] for height in data]
 
 class Children_Table(Children):
 
@@ -161,14 +170,13 @@ class Children_Table(Children):
             self.children = [front_back_split(line, max_width) for line in children]
         else:
             self.children = front_back_repeat_split(children, max_width, line_size)
-        print("self.children width:", self.children)
         self.children = front_back_split(self.children, max_height)
 
     def __repr__(self):
         return f'Children_Table:{self.children}'
 
     def map(self, fun):
-        return Children_Table([ [ [ [fun(c) for c in front_back] for front_back in row] for row in height] for height in self.children])
+        return Children_Table(map_table(self.children,fun))
 
 test_length=(3,2) # also test_width
 test_height=(2,1)
