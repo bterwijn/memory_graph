@@ -209,7 +209,8 @@ def make_table_body(categorized, graph):
         #print("level:", level, "child:", child)
         if level == 1:
             body += table_dots()
-        body += table_entry_str(child)
+        if child:
+            body += table_entry_str(child)
         #print("body col:", body)
     body += table_new_line()
     row = [0,0]
