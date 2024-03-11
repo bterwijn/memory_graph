@@ -76,33 +76,37 @@ class Category_Singular(Category):
         return node_layout.add_to_graph_singular(self,graph)
 
 class Category_Linear(Category):
-    size = (3,2)
+    max_length = (3,2)
 
     def __init__(self, data, candidate_children, alternative_type=None):
         children_linear = children.Children_Linear()
-        children_linear.set_children(candidate_children, Category_Linear.size)
+        children_linear.set_children(candidate_children, Category_Linear.max_length)
         super().__init__(data, children_linear, alternative_type)
 
     def add_to_graph(self, graph):
         return node_layout.add_to_graph_linear(self,graph)
 
 class Category_Key_Value(Category):
-    size = (3,2)
+    max_length = (3,2)
 
     def __init__(self, data, candidate_children, alternative_type=None):
         children_key_value = children.Children_Key_Value()
-        children_key_value.set_children(candidate_children, Category_Key_Value.size)
+        children_key_value.set_children(candidate_children, Category_Key_Value.max_length)
         super().__init__(data, children_key_value, alternative_type)
         
     def add_to_graph(self, graph):
         return node_layout.add_to_graph_key_value(self,graph)
 
 class Category_Table(Category):
-    size = (3,2)
+    max_width = (3,2)
+    max_height = (4,3)
 
     def __init__(self, data, candidate_children, alternative_type=None, size=None, row_names=None, column_names=None):
         children_table = children.Children_Table()
-        children_table.set_children(candidate_children, Category_Table.size, size[0])
+        children_table.set_children(candidate_children, 
+                                    Category_Table.max_width, 
+                                    Category_Table.max_height, 
+                                    size[0])
         super().__init__(data, children_table, alternative_type)
         if size is None and row_names is not None and column_names is not None:
             size=(len(row_names),len(column_names))

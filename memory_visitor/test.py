@@ -89,11 +89,7 @@ def test_table(fun):
         def __init__(self,size):
             self.size=size
             self.data = [i for i in range(size[0]*size[1])]
-    data = My_Table((12,12))
-    data.data[1] = (1,)
-    data.data[5] = (5,)
-    data.data[6] = (6,)
-    data.data[8] = (8,)
+    data = My_Table((8,8))
     node_layout.type_to_color[My_Table] = 'plum1'
     memory_visitor.type_to_category[My_Table] = lambda data: (
         categories.Category_Table(  data,

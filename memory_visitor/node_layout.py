@@ -4,7 +4,7 @@ import node_builder
 import utils
 import types
 import html
-
+import children
 
 drop_child_references_types = {}#utils.class_type, dict, }
 
@@ -191,9 +191,47 @@ def make_table_body(categorized, graph):
     entries = categorized.get_children().map(lambda child : 
                                              nbuilder.make_table_entry(categorized, child, table_entry_str, table_entry_ref)
                                              )
-    entries = entries.get_children()
     nbuilder.write_subgraph()
-    
+
+    row_names = children.front_back_split(categorized.get_row_names(),categorized.max_height)
+    print("row_names:", row_names)
+    column_names = children.front_back_split(categorized.get_column_names(), categorized.max_width)
+    print("column_names:", column_names)
+
+    nr_columns = len(column_names[0])
+    if len(column_names[1]) > 0:
+        nr_columns += len(column_names[1]) + 1
+    body = ''
+    if row_names:
+        nr_columns += 1
+        body += table_empty()
+    for level,child in children.Child_Iterator(column_names):
+        #print("level:", level, "child:", child)
+        if level == 1:
+            body += table_dots()
+        body += table_entry_str(child)
+        #print("body col:", body)
+    body += table_new_line()
+    row = [0,0]
+    if row_names:
+        body += table_entry_str(row_names[row[0]][row[1]])
+    for level,child in children.Child_Iterator(entries.get_children()):
+        #print("level:", level, "child:", child)
+        if level == 1:
+            body += table_dots()
+        elif level == 2:
+            body += table_new_line()
+            row[1] += 1
+            body += table_entry_str(row_names[row[0]][row[1]])
+        elif level == 3:
+            body += table_new_line() + table_dots()*nr_columns + table_new_line()
+            row = [1,0]
+            body += table_entry_str(row_names[row[0]][row[1]])
+        if child:
+            body += child
+    print("body:", body)
+    return inner_table(body)
+
     print("entries:", entries)
     body = ''
     first_line = True
