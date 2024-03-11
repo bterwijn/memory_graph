@@ -124,38 +124,15 @@ def make_linear_body(categorized, graph):
                                              )
     nbuilder.write_subgraph()
     #print('entries:',entries.get_children())
-
-    if True:
-        body = ''
-        for level,child in children.Child_Iterator(entries.get_children()): #TODO not working with '[]' as child
-            #print("level:", level, "child:", child)
-            if level == 1:
-                body += table_dots()
-            # elif level == 2:
-            #     body += table_new_line()
-            #     row[1] += 1
-            #     body += table_entry_str(row_names[row[0]][row[1]])
-            # elif level == 3:
-            #     body += table_new_line() + table_dots()*nr_columns + table_new_line()
-            #     row = [1,0]
-            #     body += table_entry_str(row_names[row[0]][row[1]])
-            if child:
-                body += child
-        #print("body0:", body)
-        #return inner_table(body)
-
-    body = ''
-    entries = entries.get_children()
-    vertical = is_vertical(orientation_linear, nbuilder.get_ref_count())
-    body = entries[0] if len(entries[0]) > 0 else [table_empty()]
-    if len(entries[1]) > 0:
-        body += [table_dots()] + entries[1]
-    if vertical:
-        body = table_new_line().join(body)
-    else:
-        body = ''.join(body)
-    #print("body :", body)
-    return inner_table(body)
+    body0 = ''
+    for level,child in children.Child_Iterator_Linear(entries.get_children()):
+        #print("level:", level, "child:", child)
+        if abs(level) == 1: # or level < -1:
+            body0 += table_dots()
+        if child:
+            body0 += child
+    #print("body0:", body0)
+    return inner_table(body0)
 
 def add_to_graph_linear(categorized, graph):
     parent = categorized.get_parent()
@@ -211,49 +188,52 @@ def add_to_graph_key_value(categorized, graph):
 def make_table_body(categorized, graph):
     nbuilder = node_builder.Node_Builder(graph)
     #entries = categorized.get_children().map(lambda child : print('table child:',child) )
+
+    print('table children:',categorized.get_children())
     entries = categorized.get_children().map(lambda child : 
                                              nbuilder.make_table_entry(categorized, child, table_entry_str, table_entry_ref)
                                              )
     nbuilder.write_subgraph()
+    print('entries children:',entries.get_children())
 
-    row_names = children.front_back_split(categorized.get_row_names(),categorized.max_height)
+    #row_names = children.front_back_split(categorized.get_row_names(),categorized.max_height)
     #print("row_names:", row_names)
-    column_names = children.front_back_split(categorized.get_column_names(), categorized.max_width)
+    #column_names = children.front_back_split(categorized.get_column_names(), categorized.max_width)
     #print("column_names:", column_names)
 
-    nr_columns = len(column_names[0])
-    if len(column_names[1]) > 0:
-        nr_columns += len(column_names[1]) + 1
+    # nr_columns = len(column_names[0])
+    # if len(column_names[1]) > 0:
+    #     nr_columns += len(column_names[1]) + 1
     body = ''
-    if row_names:
-        nr_columns += 1
-        body += table_empty()
-    for level,child in children.Child_Iterator(column_names):
-        #print("level:", level, "child:", child)
-        if level == 1:
+    # if row_names:
+    #     nr_columns += 1
+    #     body += table_empty()
+    # for level,child in children.Child_Iterator_Linear(column_names):
+    #     #print("level:", level, "child:", child)
+    #     if level == 1:
+    #         body += table_dots()
+    #     if child:
+    #         body += table_entry_str(child)
+    #     #print("body col:", body)
+    # body += table_new_line()
+    #row = [0,0]
+    #if row_names:
+    #    body += table_entry_str(row_names[row[0]][row[1]])
+    for level,child in children.Child_Iterator_Table(entries.get_children()):
+        print("level:", level, "child:", child)
+        if abs(level) == 1:
             body += table_dots()
-        if child:
-            body += table_entry_str(child)
-        #print("body col:", body)
-    body += table_new_line()
-    row = [0,0]
-    if row_names:
-        body += table_entry_str(row_names[row[0]][row[1]])
-    for level,child in children.Child_Iterator(entries.get_children()):
-        #print("level:", level, "child:", child)
-        if level == 1:
-            body += table_dots()
-        elif level == 2:
+        if abs(level) == 2:
             body += table_new_line()
-            row[1] += 1
-            body += table_entry_str(row_names[row[0]][row[1]])
-        elif level == 3:
-            body += table_new_line() + table_dots()*nr_columns + table_new_line()
-            row = [1,0]
-            body += table_entry_str(row_names[row[0]][row[1]])
+            #row[1] += 1
+            #body += table_entry_str(row_names[row[0]][row[1]])
+        elif abs(level) == 3:
+            body += table_new_line() + table_dots() + table_new_line()
+            #row = [1,0]
+            #body += table_entry_str(row_names[row[0]][row[1]])
         if child:
             body += child
-    #print("body:", body)
+    print("body:", body)
     return inner_table(body)
 
 def add_to_graph_table(categorized, graph):

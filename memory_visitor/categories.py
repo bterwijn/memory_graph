@@ -98,8 +98,8 @@ class Category_Key_Value(Category):
         return node_layout.add_to_graph_key_value(self,graph)
 
 class Category_Table(Category):
-    max_width = (2,5)
-    max_height = (4,3)
+    max_width = (10,0)
+    max_height = (2,0)
 
     def __init__(self, data, candidate_children, alternative_type=None, size=None, row_names=None, column_names=None):
         children_table = children.Children_Table()

@@ -21,13 +21,21 @@ def iterable_front_back_split(iterable, max_length):
     front_length, back_length = max_length
     total_length = front_length + back_length
     iterator = iter(iterable)
-    total = list(itertools.islice(iterator, total_length+1))
-    if len(total) <= total_length:
-        return [total, []]
-    front = total[:front_length]
-    deque = collections.deque(total[front_length:], maxlen=back_length)
+    if front_length > 0:
+        total = list(itertools.islice(iterator, total_length))
+        peek = list(itertools.islice(iterator, 1))
+        if len(peek) == 0:
+            return [total]
+        if back_length == 0:
+            return [total, []]
+        front = total[:front_length]
+        deque = collections.deque(total[front_length:]+peek, maxlen=back_length)
+    else:
+        front = []
+        deque = collections.deque([], maxlen=back_length)
     deque.extend(iterable)
-    return [front, list(deque)]
+    back = list(deque)
+    return [front, back]
 
 def iterable_front_back_repeat_split_gen(iterable, size, line_size):
     iterator = iter(iterable)
@@ -35,7 +43,7 @@ def iterable_front_back_repeat_split_gen(iterable, size, line_size):
         sliceable = list(itertools.islice(iterator, line_size))
         if len(sliceable) == 0:
             break
-        yield sliceable_front_back_split(sliceable, size)
+        yield front_back_split(sliceable, size)
 
 def iterable_front_back_repeat_split(iterable, size, line_size):
     return list(iterable_front_back_repeat_split_gen(iterable, size, line_size))
@@ -47,7 +55,8 @@ def front_back_repeat_split(iterable, max_length, line_size):
     return iterable_front_back_repeat_split(iterable, max_length, line_size)
 
 class Child_Iterator: # not safe for nested lists, as list may contain lists of the structure and lists of data
-    def __init__(self, nested_list):
+    def __init__(self, stack_height, nested_list):
+        self.stack_height = stack_height
         self.stack = [iter(nested_list)]
         self.level = 0
         self.empty_list = False
@@ -60,8 +69,8 @@ class Child_Iterator: # not safe for nested lists, as list may contain lists of 
             try:
                 current_iterator = self.stack[-1]
                 value = next(current_iterator)
-                if isinstance(value, list):
-                    if (len(value) == 0):
+                if len(self.stack) < self.stack_height:
+                    if isinstance(value, list) and len(value) == 0:
                         self.empty_list = True
                     self.stack.append(iter(value))
                 else:
@@ -69,7 +78,7 @@ class Child_Iterator: # not safe for nested lists, as list may contain lists of 
                     self.level = len(self.stack)
                     return (diff_level, value)
             except StopIteration:
-                if self.empty_list: # special case for iterating over empty list
+                if self.empty_list:
                     self.empty_list = False
                     diff_level = len(self.stack) - self.level
                     self.level = len(self.stack)
@@ -77,6 +86,21 @@ class Child_Iterator: # not safe for nested lists, as list may contain lists of 
                 self.stack.pop()
                 self.level = len(self.stack)
         raise StopIteration
+
+class Child_Iterator_Linear(Child_Iterator):
+
+    def __init__(self, children):
+        super().__init__(2, children)
+
+class Child_Iterator_Key_Value(Child_Iterator):
+
+    def __init__(self, children):
+        super().__init__(2, children)
+
+class Child_Iterator_Table(Child_Iterator):
+
+    def __init__(self, children):
+        super().__init__(4, children)
 
 # general map does not work for nested lists, as list may contain lists of the structure and lists of data
 # def map(data, fun):
@@ -126,6 +150,7 @@ class Children():
 def map_linear(data, fun):
     return [ [fun(c) for c in front_back] for front_back in data]
 
+
 class Children_Linear(Children):
 
     def __init__(self, children=None):
@@ -139,6 +164,7 @@ class Children_Linear(Children):
 
     def map(self, fun):
         return Children_Linear(map_linear(self.children, fun))
+
 
 def map_key_value(data, fun):
     return [ [fun(c) for c in front_back] for front_back in data]
@@ -181,20 +207,28 @@ class Children_Table(Children):
 test_length=(3,2) # also test_width
 test_height=(2,1)
 
-def test_iterable_front_back_split(n):
-    print("====== test_iterable_front_back_split")
-    children = [i for i in range(n)]
-    print("children:", children)
-    front_back = iterable_front_back_split(iter(children), (3,2))
-    print("front_back:", list(front_back))
+def test_front_back_split(n):
+    print("====== test_front_back_split")
+    assert iterable_front_back_split([i for i in range(6)], (3,0)) == [[0,1,2], []]
+    assert iterable_front_back_split([i for i in range(3)], (3,0)) == [[0,1,2]]
+    assert iterable_front_back_split([i for i in range(6)], (3,2)) == [[0,1,2], [4,5]]
+    assert iterable_front_back_split([i for i in range(5)], (3,2)) == [[0,1,2,3,4]]
+    assert iterable_front_back_split([i for i in range(4)], (3,2)) == [[0,1,2,3]]
+    assert iterable_front_back_split([i for i in range(6)], (0,3)) == [[], [3,4,5]]
+    assert iterable_front_back_split([i for i in range(6)], (0,0)) == [[], []]
 
-def test_iterable_front_back_repeat_split(n):
-    print("====== test_iterable_front_back_repeat_split")
-    children = [i for i in range(n*n)]
-    print("children:", children)
-    front_back = iterable_front_back_repeat_split(iter(children), (3,2), n)
-    print("front_back:", list(front_back))
-
+def test_front_back_repeat_split(n):
+    print("====== test_front_back_repeat_split")
+    assert iterable_front_back_repeat_split([i for i in range(6)], (3,2), 3) == [[[0,1,2]], [[3,4,5]]]
+    assert iterable_front_back_repeat_split([i for i in range(20)], (3,2), 10) == [[[0,1,2],[8,9]], [[10,11,12],[18,19]]]
+    assert iterable_front_back_repeat_split([i for i in range(22)], (3,2), 10) == [[[0,1,2],[8,9]], [[10,11,12],[18,19]], [[20,21]]]
+    assert iterable_front_back_repeat_split([i for i in range(26)], (3,2), 10) == [[[0,1,2],[8,9]], [[10,11,12],[18,19]], [[20,21,22],[24,25]]]
+    assert iterable_front_back_repeat_split([i for i in range(20)], (0,2), 10) == [[[],[8,9]], [[],[18,19]]]
+    assert iterable_front_back_repeat_split([i for i in range(20)], (3,0), 10) == [[[0,1,2],[]], [[10,11,12],[]]]
+    assert iterable_front_back_repeat_split([i for i in range(20)], (0,0), 10) == [[[],[]], [[],[]]]
+    assert iterable_front_back_repeat_split([i for i in range(20)], (3,7), 10) == [[ list(range(0,10)) ],[ list(range(10,20)) ]]
+    
+    
 
 
 def test_linear(n):
@@ -222,8 +256,6 @@ def test_table_1d(n):
     print(children_table)
     children_table = children_table.map(lambda x: x*10)
     print(children_table)
-    for i in Child_Iterator(children_table.get_children()):
-        print(i)
 
 def test_table_2d(n):
     print("====== test_table_2d")
@@ -234,8 +266,16 @@ def test_table_2d(n):
     print(children_table)
     children_table = children_table.map(lambda x: x*10)
     print(children_table)
-    for i in Child_Iterator(children_table.get_children()):
+    for i in Child_Iterator_Table(children_table.get_children()):
         print(i)
+
+def test_child_iterator():
+    print("====== test_child_iterator")
+    children = [[ [],  [1,2,3], [], [3,4,5] , [], []], [ [10,20], [] , [30,40]] ]
+    print("children:", children)
+    child_iterator = Child_Iterator(3, children)
+    for level,child in child_iterator:
+        print('level,child:',level,child)
 
 # def speed_test_key_value(n,k, split_fun):
 #     start_time = time.perf_counter()
@@ -251,16 +291,16 @@ def test_table_2d(n):
 #     print(f"Function executed in {elapsed_time} seconds.")
 
 if __name__ == '__main__':
-    n = 5
-    test_iterable_front_back_split(n)
-    test_iterable_front_back_repeat_split(n)
+    n = 6
+    test_front_back_split(n)
+    test_front_back_repeat_split(n)
 
     test_linear(n)
     test_key_value(n)
     test_table_1d(n)
     test_table_2d(n)
+    test_child_iterator()
 
-    #test_child_iterator()
     #test_iterator(n)
     # for fun in [lambda data,size : sliceable_front_back_split(list(data),size),
     #             iterable_front_back_split]: # sliceable slightly faster

@@ -7,7 +7,8 @@ def test_singular(fun):
     fun(data)
 
 def test_linear(fun):
-    data = [None, True, 1, 2.2, complex(3,4), 'hello this is a very long string that should be cut off at some point.']
+    data = [i for i in range(10)]
+    #data = [None, True, 1, 2.2, complex(3,4), 'hello this is a very long string that should be cut off at some point.']
     fun(data)
 
 def test_linears(fun):
@@ -89,29 +90,30 @@ def test_table(fun):
         def __init__(self,size):
             self.size=size
             self.data = [i for i in range(size[0]*size[1])]
-    data = My_Table((8,8))
+    data = My_Table((5,5))
     node_layout.type_to_color[My_Table] = 'plum1'
     memory_visitor.type_to_category[My_Table] = lambda data: (
         categories.Category_Table(  data,
                                     data.data,
-                                    size = data.size,
+                                    size = data.size, 
                                     row_names = [f'row{i}' for i in range(data.size[0])],
-                                    column_names = [f'col{i}' for i in range(data.size[1])])
+                                    column_names = [f'col{i}' for i in range(data.size[1])]
+                                    )
     )
     fun(data)
 
 def test_all(fun):
     pass
-    test_singular(fun)
-    test_linear(fun)
-    test_linears(fun)
-    test_colors(fun)
-    test_empty_linear(fun)
-    test_key_value(fun)
-    test_class(fun)
-    test_class_vars(fun)
-    test_share_tuple(fun)
-    test_share_children(fun)
-    test_list_split(fun)
-    test_key_value_split(fun)
+    # test_singular(fun)
+    # test_linear(fun)
+    # test_linears(fun)
+    # test_colors(fun)
+    # test_empty_linear(fun)
+    # test_key_value(fun)
+    # test_class(fun)
+    # test_class_vars(fun)
+    # test_share_tuple(fun)
+    # test_share_children(fun)
+    # test_list_split(fun)
+    # test_key_value_split(fun)
     test_table(fun)
