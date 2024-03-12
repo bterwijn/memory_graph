@@ -201,39 +201,31 @@ def make_table_body(categorized, graph):
     #column_names = children.front_back_split(categorized.get_column_names(), categorized.max_width)
     #print("column_names:", column_names)
 
-    # nr_columns = len(column_names[0])
-    # if len(column_names[1]) > 0:
-    #     nr_columns += len(column_names[1]) + 1
     body = ''
-    # if row_names:
-    #     nr_columns += 1
-    #     body += table_empty()
-    # for level,child in children.Child_Iterator_Linear(column_names):
-    #     #print("level:", level, "child:", child)
-    #     if level == 1:
-    #         body += table_dots()
-    #     if child:
-    #         body += table_entry_str(child)
-    #     #print("body col:", body)
-    # body += table_new_line()
-    #row = [0,0]
-    #if row_names:
-    #    body += table_entry_str(row_names[row[0]][row[1]])
+    first_line = True
+    add_new_line = False
     for level,child in children.Child_Iterator_Table(entries.get_children()):
         print("level:", level, "child:", child)
+        if add_new_line:
+            body += table_new_line()
+            add_new_line = False
         if abs(level) == 1:
             body += table_dots()
+            first_line = False
         if abs(level) == 2:
             body += table_new_line()
-            #row[1] += 1
-            #body += table_entry_str(row_names[row[0]][row[1]])
         elif abs(level) == 3:
-            body += table_new_line() + table_dots() + table_new_line()
-            #row = [1,0]
-            #body += table_entry_str(row_names[row[0]][row[1]])
+            if not first_line:
+                body += table_new_line()
+            body += table_dots()
+            if level<0:
+                add_new_line = True
+            else:
+                body += table_new_line()
         if child:
             body += child
-    print("body:", body)
+            first_line = False
+    print("body:\n", body)
     return inner_table(body)
 
 def add_to_graph_table(categorized, graph):

@@ -17,7 +17,13 @@ def sliceable_front_back_repeat_split(sliceable, size, line_size):
         yield sliceable_front_back_split(sliceable[index:index+line_size],size)
         index += line_size
 
-def iterable_front_back_split(iterable, max_length):
+def empty_list(depth):
+    empty = []
+    for _ in range(depth-1):
+        empty = [empty]
+    return empty
+
+def iterable_front_back_split(iterable, max_length, empty_list_depth):
     front_length, back_length = max_length
     total_length = front_length + back_length
     iterator = iter(iterable)
@@ -27,11 +33,11 @@ def iterable_front_back_split(iterable, max_length):
         if len(peek) == 0:
             return [total]
         if back_length == 0:
-            return [total, []]
+            return [total, empty_list(empty_list_depth)]
         front = total[:front_length]
         deque = collections.deque(total[front_length:]+peek, maxlen=back_length)
     else:
-        front = []
+        front = empty_list(empty_list_depth)
         deque = collections.deque([], maxlen=back_length)
     deque.extend(iterable)
     back = list(deque)
@@ -44,12 +50,11 @@ def iterable_front_back_repeat_split_gen(iterable, size, line_size):
         if len(sliceable) == 0:
             break
         yield front_back_split(sliceable, size)
-
 def iterable_front_back_repeat_split(iterable, size, line_size):
     return list(iterable_front_back_repeat_split_gen(iterable, size, line_size))
 
-def front_back_split(iterable, max_length):
-    return iterable_front_back_split(iterable, max_length)
+def front_back_split(iterable, max_length, empty_list_depth=1):
+    return iterable_front_back_split(iterable, max_length, empty_list_depth)
 
 def front_back_repeat_split(iterable, max_length, line_size):
     return iterable_front_back_repeat_split(iterable, max_length, line_size)
@@ -196,7 +201,7 @@ class Children_Table(Children):
             self.children = [front_back_split(line, max_width) for line in children]
         else:
             self.children = front_back_repeat_split(children, max_width, line_size)
-        self.children = front_back_split(self.children, max_height)
+        self.children = front_back_split(self.children, max_height, 3)
 
     def __repr__(self):
         return f'Children_Table:{self.children}'
