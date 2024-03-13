@@ -2,6 +2,7 @@ import graphviz
 import utils
 
 from Memory_Visitor import Memory_Visitor
+from Node import Node
 
 class Graph:
 
@@ -18,13 +19,12 @@ class Graph:
 
     def backtrack_callback(self, node):
         print("backtrack categorized:",node)
-        node.add_to_graph(self)
-        
-    def add_node(self, node_name, node_html, node_label):
-        print('add_node:', node_name, node_html, node_label)
-        self.new_graph.node(node_name,
-                            node_html,
-                            xlabel=node_label)
+        self.new_graph.node(node.get_name(),
+                            node.get_html(),
+                            xlabel=node.get_label())
+        for node,child in node.get_edges():
+            self.new_graph.edge(node.get_name(), child.get_name())
+        #node.add_to_graph(self)   
 
     def get_graph(self):
         return self.new_graph

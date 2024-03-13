@@ -5,9 +5,9 @@
     <id>UMLClass</id>
     <coordinates>
       <x>510</x>
-      <y>60</y>
+      <y>30</y>
       <w>320</w>
-      <h>110</h>
+      <h>120</h>
     </coordinates>
     <panel_attributes>Memory_Visitor
 -
@@ -21,8 +21,8 @@ data_to_node(data)</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>140</x>
-      <y>50</y>
+      <x>130</x>
+      <y>30</y>
       <w>210</w>
       <h>130</h>
     </coordinates>
@@ -32,7 +32,6 @@ memory_visitor
 -
 Graph(data)
 backtrack_callback(node)
-get_graph()
 add_node(node)</panel_attributes>
     <additional_attributes/>
   </element>
@@ -40,9 +39,9 @@ add_node(node)</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>90</x>
-      <y>230</y>
+      <y>200</y>
       <w>430</w>
-      <h>190</h>
+      <h>230</h>
     </coordinates>
     <panel_attributes>Node
 -
@@ -55,7 +54,9 @@ set_parent(parent)
 get_name()
 get_parent()
 get_type()
-add_to_graph(graph)</panel_attributes>
+get_label()
+get_html()
+get_edges()</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -193,13 +194,13 @@ get_slices(data)
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>340</x>
-      <y>120</y>
-      <w>190</w>
+      <x>330</x>
+      <y>100</y>
+      <w>200</w>
       <h>30</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;170.0;10.0</additional_attributes>
+    <additional_attributes>10.0;10.0;180.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -238,22 +239,22 @@ get_slices(data)
     <id>Relation</id>
     <coordinates>
       <x>420</x>
-      <y>410</y>
+      <y>420</y>
       <w>30</w>
-      <h>100</h>
+      <h>90</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>720</x>
-      <y>560</y>
+      <y>600</y>
       <w>190</w>
-      <h>70</h>
+      <h>30</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;170.0;50.0</additional_attributes>
+    <additional_attributes>10.0;10.0;170.0;10.0</additional_attributes>
   </element>
 </diagram>
