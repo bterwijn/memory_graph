@@ -11,18 +11,18 @@ def to_number(s):
 def limit_value(value,size):
     return max(min(value,size-1),-size)
 
-def list_depth(data):
-    depth = 0
-    while isinstance(data,list):
-        depth += 1
-        if len(data) == 0:
-            break
-        data = data[0]
-    return depth
+# def list_list_depth(data):
+#     list_depth = 0
+#     while isinstance(data,list):
+#         list_depth += 1
+#         if len(data) == 0:
+#             break
+#         data = data[0]
+#     return list_depth
 
-def empty_list(depth):
+def empty_list(list_depth):
     data = []
-    for _ in range(depth-1):
+    for _ in range(list_depth-1):
         data = [data]
     return data
 
@@ -54,28 +54,28 @@ class Slicer:
                 values[2] = 1
             yield slice(*values)
 
-    def slice_generator(self,data):
+    def slice_generator(self,data,list_depth=1):
         if len(data) == 0:
             return data
-        depth = list_depth(data)
+        #list_depth = list_depth(data)
         first = True
         last_slice = None
         for slice in self.get_slices(len(data)):
             if first:
                 first=False
                 if not (slice.start is None or slice.start==0):
-                    yield empty_list(depth)
+                    yield empty_list(list_depth)
             yield data[slice]
             last_slice = slice
         if not last_slice is None and not (last_slice.stop is None):
-            yield empty_list(depth)
+            yield empty_list(list_depth)
 
-    def slice(self,data):
-        return list(self.slice_generator(data))
+    def slice(self,data,list_depth=1):
+        return list(self.slice_generator(data,list_depth))
 
 if __name__ == '__main__':
-    data = [[[[]]]]
-    print(empty_list(list_depth(data)))
+    #data = [[[[]]]]
+    #print(empty_list(list_depth(data)))
     slicer = Slicer(["1:0.5:2", "-0.7:-1:"])
     n = 8
     m = 3
