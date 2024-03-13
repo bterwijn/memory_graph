@@ -24,7 +24,7 @@ data_to_node(data)</panel_attributes>
       <x>140</x>
       <y>50</y>
       <w>210</w>
-      <h>110</h>
+      <h>130</h>
     </coordinates>
     <panel_attributes>Graph
 -
@@ -32,7 +32,8 @@ memory_visitor
 -
 Graph(data)
 backtrack_callback(node)
-get_graph()</panel_attributes>
+get_graph()
+add_node(node)</panel_attributes>
     <additional_attributes/>
   </element>
   <element>

@@ -17,6 +17,9 @@ def is_iterable(data):
     except TypeError:
         return False
     
+def get_type_name(data):
+    return type(data).__name__
+    
 def nested_list(sizes, i=0, value=[0]):
     if i == len(sizes)-1:
         data = []
