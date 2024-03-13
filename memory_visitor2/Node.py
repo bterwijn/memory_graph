@@ -1,10 +1,6 @@
 import utils
 
-def outer_html_table(node, s, color='white'):
-    #color = get_color(categorized, color)
-    border = 1 #if categorized.get_parent() else 3
-    return (f'<\n<TABLE BORDER="0" CELLBORDER="{border}" CELLSPACING="0" CELLPADDING="0" BGCOLOR="{color}"><TR><TD PORT="X">\n' +
-            s + '\n</TD></TR></TABLE>\n>')
+from HTML_Table import HTML_Table
 
 class Node:
     
@@ -12,6 +8,9 @@ class Node:
         self.data = data
         self.parent = None
         self.children = children
+
+    def get_data(self):
+        return self.data
 
     def set_parent(self, parent):
         self.parent = parent
@@ -25,8 +24,14 @@ class Node:
     def get_name(self):
         return f'node{id(self.data)}'
     
-    def get_html(self):
-        return outer_html_table(self, f'{self.data}')
+    def get_html_table(self):
+        html_table = HTML_Table()
+        if self.children:
+            html_table.add_inner_table()
+            self.children.fill_html_table(self,html_table)
+        else:
+            html_table.add_string(f'{self.data}')
+        return html_table
     
     def get_label(self):
         return utils.get_type_name(self.data)

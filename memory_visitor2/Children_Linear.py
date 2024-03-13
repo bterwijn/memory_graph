@@ -4,6 +4,12 @@ from Slicer import Slicer
 def new(children):
     return Children_Linear(children) if children else None
 
+def fill_html_table_helper(html_table, depth, child):
+    if depth == 1:
+        html_table.add_dots()
+    if child:
+        html_table.add_column(f'{child.get_data()}')
+    
 class Children_Linear(Children.Children):
     slicer = Slicer(["1:-1:"])
 
@@ -17,3 +23,6 @@ class Children_Linear(Children.Children):
     def visit(self, fun):
         Children.visit(self.children, fun)
         
+    def fill_html_table(self, node, html_table):
+        Children.visit_with_depth(self.children, lambda depth_child : fill_html_table_helper(html_table,depth_child[0],depth_child[1]) )
+    

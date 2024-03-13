@@ -19,8 +19,9 @@ class Graph:
 
     def backtrack_callback(self, node):
         print("backtrack categorized:",node)
+
         self.new_graph.node(node.get_name(),
-                            node.get_html(),
+                            str(node.get_html_table()),
                             xlabel=node.get_label())
         for node,child in node.get_edges():
             self.new_graph.edge(node.get_name(), child.get_name())
@@ -31,16 +32,8 @@ class Graph:
     
 
 if __name__ == '__main__':
-    data = utils.nested_list([4,4,4])
+    data = utils.nested_list([5,4])
     print(data)
     graph = Graph(data)
     graph.get_graph().render(outfile='graph.png')
-    # import test
-    # test_fun_count=0
-    # def test_fun(data):
-    #     global test_fun_count
-    #     graph_builder = Graph_Builder(data)
-    #     new_graph = graph_builder.get_graph()
-    #     new_graph.render(outfile=f'test_graph{test_fun_count}.png')
-    #     test_fun_count += 1
-    # test.test_all( test_fun )
+   

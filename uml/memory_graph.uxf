@@ -55,7 +55,7 @@ get_name()
 get_parent()
 get_type()
 get_label()
-get_html()
+get_html_table()
 get_edges()</panel_attributes>
     <additional_attributes/>
   </element>
@@ -123,9 +123,11 @@ children
 original_size
 -
 Children(children)
-transform_children(fun)
-visit_children(fun)
-slice(data, slicer)
+transform(fun)
+visit(fun)
+visit_with_depth(fun)
+
+
 front_back_split_table(data, front_back, data_width)</panel_attributes>
     <additional_attributes/>
   </element>
@@ -164,16 +166,21 @@ get_slices(data)
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>990</x>
-      <y>80</y>
-      <w>210</w>
-      <h>100</h>
+      <x>680</x>
+      <y>210</y>
+      <w>230</w>
+      <h>180</h>
     </coordinates>
-    <panel_attributes>config
+    <panel_attributes>HTML_Table
 -
 
 -
-</panel_attributes>
+add_new_line()
+add_inner_table()
+add_string(s)
+add_column(s)
+add_dots()
+get_table(border, color)</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -256,5 +263,20 @@ get_slices(data)
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;170.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>990</x>
+      <y>80</y>
+      <w>210</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>config
+-
+
+-
+</panel_attributes>
+    <additional_attributes/>
   </element>
 </diagram>
