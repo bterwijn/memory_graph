@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.1">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>510</x>
+      <y>60</y>
+      <w>320</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>Memory_Visitor
+-
+node_ids
+-
+Memory_Visitor(data)
+visit_recursive(data, parent)
+data_to_node(data)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>140</x>
+      <y>50</y>
+      <w>210</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>Graph
+-
+memory_visitor
+-
+Graph(data)
+backtrack_callback(node)
+get_graph()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>90</x>
+      <y>220</y>
+      <w>430</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>Node
+-
+node_id
+data
+parent
+childeren
+alternative_type
+-
+Node(data, children, alternative_type)
+set_parent(parent)
+get_name()
+get_parent()
+get_type()
+add_to_graph(graph)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>700</x>
+      <y>730</y>
+      <w>340</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>Children_Table
+-
+column_slicer
+row_slicer
+-
+Children_Table(data, data_width,
+                         column_slicer, row_slicer,
+                         column_names, row_names)
+add_to_graph(graph, node)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>40</x>
+      <y>730</y>
+      <w>280</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>Children_Linear
+-
+slicer
+-
+Children_Linear(data, slicer)
+add_to_graph(graph, node)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>370</x>
+      <y>730</y>
+      <w>280</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>Children_Key_Value
+-
+slicer
+-
+Children_Key_Value(data, slicer)
+add_to_graph(graph, node)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>300</x>
+      <y>530</y>
+      <w>430</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>Children
+-
+children
+original_size
+-
+transform_children(fun)
+visit_children(fun)
+front_back_split(data, front_back)
+front_back_split_table(data, front_back, data_width)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>890</x>
+      <y>510</y>
+      <w>270</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>Slicer
+-
+slices
+-
+Slicer(slices)
+get_slices(data)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>990</x>
+      <y>200</y>
+      <w>210</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>utils
+-
+
+-
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>990</x>
+      <y>80</y>
+      <w>210</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>config
+-
+
+-
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>990</x>
+      <y>330</y>
+      <w>210</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>test
+-
+
+-
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>340</x>
+      <y>120</y>
+      <w>190</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;170.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>170</x>
+      <y>660</y>
+      <w>170</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>150.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>490</x>
+      <y>660</y>
+      <w>30</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>680</x>
+      <y>660</y>
+      <w>120</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;100.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>420</x>
+      <y>450</y>
+      <w>30</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>720</x>
+      <y>600</y>
+      <w>190</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;170.0;10.0</additional_attributes>
+  </element>
+</diagram>
