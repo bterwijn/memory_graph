@@ -6,7 +6,11 @@ import Children_Linear
 import Children_Key_Value
 
 def default_backtrack_callback(node):
-    print("default callback:", node)
+    print('backtrack_callback:', node)
+    children = node.get_children()
+    if children:
+        print('- children:', children)
+        children.visit(lambda child: print('--   child:', child))
 
 class Memory_Visitor:
     
@@ -45,6 +49,6 @@ class Memory_Visitor:
 
 if __name__ == '__main__':
     visitor = Memory_Visitor()
-    data = utils.nested_list([4,4])
+    data = utils.nested_list([4,4,4])
     print(data)
     visitor.visit(data)
