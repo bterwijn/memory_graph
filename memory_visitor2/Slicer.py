@@ -28,7 +28,9 @@ def empty_list(depth):
 
 class Slicer:
 
-    def __init__(self, slices):
+    def __init__(self, slices=None):
+        if slices is None:
+            slices = ["::"]
         self.slices = []
         for slice in slices:
             s = slice.split(':')
@@ -52,14 +54,13 @@ class Slicer:
                 values[2] = 1
             yield slice(*values)
 
-    def get_values(self,data):
+    def slice_generator(self,data):
         if len(data) == 0:
             return data
         depth = list_depth(data)
         first = True
         last_slice = None
         for slice in self.get_slices(len(data)):
-            print(slice)
             if first:
                 first=False
                 if not (slice.start is None or slice.start==0):
@@ -69,17 +70,18 @@ class Slicer:
         if not last_slice is None and not (last_slice.stop is None):
             yield empty_list(depth)
 
-if __name__ == '__main__':
+    def slice(self,data):
+        return list(self.slice_generator(data))
 
+if __name__ == '__main__':
     data = [[[[]]]]
     print(empty_list(list_depth(data)))
-
     slicer = Slicer(["1:0.5:2", "-0.7:-1:"])
     n = 8
     m = 3
     data = [[i*10+j for j in range(m)] for i in range(n)]        
     #data = [list(range(0,5)), list(range(5,10)), list(range(10,15))]
     print('data:',data)
-    print(list(slicer.get_values(data)))
+    print(list(slicer.slice(data)))
     #for values in slicer.get_values(data):
     #    print(values)

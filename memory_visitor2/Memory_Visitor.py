@@ -1,3 +1,9 @@
+import config
+import utils
+
+from Node import Node
+import Children_Linear
+import Children_Key_Value
 
 def default_backtrack_callback(node):
     print("default callback:", node)
@@ -6,20 +12,39 @@ class Memory_Visitor:
     
     def __init__(self, backtrack_callback=None):
         self.backtrack_callback = default_backtrack_callback if backtrack_callback is None else backtrack_callback 
-        self.data_ids = set()
+        self.data_ids = {}
 
     def visit(self, data):
         self.visit_recursive(data, None)
 
     def visit_recursive(self, data, parent_node):
+        #print('visit_recursive:', data, parent_node)
         #if (parent_node != None and type(data) in no_reference_types):
         #    return node_layout.format_string(data)
-        id = id(data)
-        if id in self.data_ids:
-            return
+        data_id = id(data)
+        if data_id in self.data_ids:
+            return self.data_ids[data_id]
         else:
-            self.data_ids.add(id)
+            node = self.data_to_node(data)
+            self.data_ids[data_id] = node
+            children = node.get_children()
+            #print('children:', children)
+            if children:
+                children.transform(lambda child: self.visit_recursive(child, node))
+            self.backtrack_callback(node)
         return node
 
     def data_to_node(self, data):
-        pass
+        if type(data) in config.type_to_node: # for predefined types
+            return config.type_to_node[type(data)](data)
+        elif utils.has_dict_attribute(data): # for user defined classes
+            return Node(data, Children_Key_Value.new( utils.get_filtered_dict_attribute(data) ))
+        elif utils.is_iterable(data): # for lists, tuples, sets, ...
+            return Node(data, Children_Linear.new(data))
+        return Node(data) # for int, float, str, ...
+
+if __name__ == '__main__':
+    visitor = Memory_Visitor()
+    data = utils.nested_list([4,4])
+    print(data)
+    visitor.visit(data)

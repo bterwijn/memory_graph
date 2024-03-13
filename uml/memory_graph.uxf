@@ -39,19 +39,17 @@ get_graph()</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>90</x>
-      <y>220</y>
+      <y>230</y>
       <w>430</w>
-      <h>240</h>
+      <h>190</h>
     </coordinates>
     <panel_attributes>Node
 -
-node_id
 data
 parent
 childeren
-alternative_type
 -
-Node(data, children, alternative_type)
+Node(data, children)
 set_parent(parent)
 get_name()
 get_parent()
@@ -72,8 +70,7 @@ add_to_graph(graph)</panel_attributes>
 column_slicer
 row_slicer
 -
-Children_Table(data, data_width,
-                         column_slicer, row_slicer,
+Children_Table(children, children_width,
                          column_names, row_names)
 add_to_graph(graph, node)</panel_attributes>
     <additional_attributes/>
@@ -90,7 +87,7 @@ add_to_graph(graph, node)</panel_attributes>
 -
 slicer
 -
-Children_Linear(data, slicer)
+Children_Linear(children)
 add_to_graph(graph, node)</panel_attributes>
     <additional_attributes/>
   </element>
@@ -106,7 +103,7 @@ add_to_graph(graph, node)</panel_attributes>
 -
 slicer
 -
-Children_Key_Value(data, slicer)
+Children_Key_Value(children)
 add_to_graph(graph, node)</panel_attributes>
     <additional_attributes/>
   </element>
@@ -114,18 +111,19 @@ add_to_graph(graph, node)</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>300</x>
-      <y>530</y>
+      <y>490</y>
       <w>430</w>
-      <h>140</h>
+      <h>160</h>
     </coordinates>
     <panel_attributes>Children
 -
 children
 original_size
 -
+Children(children)
 transform_children(fun)
 visit_children(fun)
-front_back_split(data, front_back)
+slice(data, slicer)
 front_back_split_table(data, front_back, data_width)</panel_attributes>
     <additional_attributes/>
   </element>
@@ -206,40 +204,40 @@ get_slices(data)
     <id>Relation</id>
     <coordinates>
       <x>170</x>
-      <y>660</y>
+      <y>640</y>
       <w>170</w>
-      <h>90</h>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>150.0;10.0;10.0;70.0</additional_attributes>
+    <additional_attributes>150.0;10.0;10.0;90.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>490</x>
-      <y>660</y>
+      <y>640</y>
       <w>30</w>
-      <h>90</h>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>680</x>
-      <y>660</y>
+      <y>640</y>
       <w>120</w>
-      <h>90</h>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;100.0;70.0</additional_attributes>
+    <additional_attributes>10.0;10.0;100.0;90.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>420</x>
-      <y>450</y>
+      <y>410</y>
       <w>30</w>
       <h>100</h>
     </coordinates>
@@ -250,11 +248,11 @@ get_slices(data)
     <id>Relation</id>
     <coordinates>
       <x>720</x>
-      <y>600</y>
+      <y>560</y>
       <w>190</w>
-      <h>30</h>
+      <h>70</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;170.0;10.0</additional_attributes>
+    <additional_attributes>10.0;10.0;170.0;50.0</additional_attributes>
   </element>
 </diagram>

@@ -1,3 +1,10 @@
+from Children import Children
 
-class Children_Key_Value:
-    pass
+def new(children):
+    return Children_Key_Value(children) if children else []
+
+class Children_Key_Value(Children):
+    
+    def __init__(self, data, slicer=None):
+        super().__init__(data, slicer)
+
