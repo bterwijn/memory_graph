@@ -14,6 +14,8 @@ class HTML_Table:
         self.html = ''
         self.has_inner_table_flag = False
         self.add_new_line_flag = False
+        self.ref_count=0
+        self.edges = []
 
     def add_new_line(self):
         self.add_new_line_flag = True
@@ -33,6 +35,13 @@ class HTML_Table:
         self.check_add_new_line()
         self.html += f'<TD> {html.escape(s)} </TD>'
 
+    def add_reference(self,node,child):
+        self.check_add_new_line()
+        self.html += f'<TD PORT="f{self.ref_count}"> </TD>'
+        self.edges.append( (f'{node.get_name()}:f{self.ref_count}',
+                            f'{child.get_name()}:X') )
+        self.ref_count+=1
+
     def add_dots(self):
         self.check_add_new_line()
         self.html += '<TD>...</TD>'
@@ -41,6 +50,9 @@ class HTML_Table:
         if self.has_inner_table_flag:
             self.html = inner_html_table(self.html)
         return outer_html_table(self.html, border, color)
+    
+    def get_edges(self):
+        return self.edges
 
 if __name__ == '__main__':
     table = HTML_Table()

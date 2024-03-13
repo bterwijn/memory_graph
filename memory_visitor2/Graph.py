@@ -19,12 +19,12 @@ class Graph:
 
     def backtrack_callback(self, node):
         print("backtrack categorized:",node)
-
+        html_table = node.get_html_table()
         self.new_graph.node(node.get_name(),
-                            str(node.get_html_table()),
+                            str(html_table),
                             xlabel=node.get_label())
-        for node,child in node.get_edges():
-            self.new_graph.edge(node.get_name(), child.get_name())
+        for node,child in html_table.get_edges():
+            self.new_graph.edge(node, child)
         #node.add_to_graph(self)   
 
     def get_graph(self):
@@ -32,7 +32,7 @@ class Graph:
     
 
 if __name__ == '__main__':
-    data = utils.nested_list([5,4])
+    data = utils.nested_list([3,3,3])
     print(data)
     graph = Graph(data)
     graph.get_graph().render(outfile='graph.png')
