@@ -179,8 +179,9 @@ add_new_line()
 add_inner_table()
 add_string(s)
 add_column(s)
+add_reference(node, child)
 add_dots()
-get_table(border, color)</panel_attributes>
+get_edges()</panel_attributes>
     <additional_attributes/>
   </element>
   <element>

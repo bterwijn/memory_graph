@@ -1,4 +1,5 @@
 import html
+import config 
 
 def outer_html_table(s, border, color):
     return (f'<\n<TABLE BORDER="0" CELLBORDER="{border}" CELLSPACING="0" CELLPADDING="0" BGCOLOR="{color}"><TR><TD PORT="X">\n' +
@@ -7,6 +8,10 @@ def outer_html_table(s, border, color):
 def inner_html_table(s):
     return ('  <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0">\n    <TR>' +
             s + '</TR>\n  </TABLE>')
+
+def format_string(s):
+    s = (s[:config.max_string_length] + '..') if len(s) > config.max_string_length else s
+    return html.escape(s)
 
 class HTML_Table:
 
@@ -29,11 +34,11 @@ class HTML_Table:
         self.has_inner_table_flag = True
 
     def add_string(self, s):
-        self.html += html.escape(s)
+        self.html += format_string(s)
 
     def add_column(self, s):
         self.check_add_new_line()
-        self.html += f'<TD> {html.escape(s)} </TD>'
+        self.html += f'<TD> {format_string(s)} </TD>'
 
     def add_reference(self,node,child):
         self.check_add_new_line()
@@ -46,7 +51,7 @@ class HTML_Table:
         self.check_add_new_line()
         self.html += '<TD>...</TD>'
 
-    def __repr__(self, border=1, color='white'):
+    def to_string(self, border=1, color='white'):
         if self.has_inner_table_flag:
             self.html = inner_html_table(self.html)
         return outer_html_table(self.html, border, color)

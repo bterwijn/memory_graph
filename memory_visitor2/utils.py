@@ -16,6 +16,7 @@ def is_iterable(data):
         return True
     except TypeError:
         return False
+
     
 def get_type_name(data):
     return type(data).__name__

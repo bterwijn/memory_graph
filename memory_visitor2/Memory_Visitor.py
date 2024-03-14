@@ -1,5 +1,6 @@
 import config
 import utils
+import test
 
 from Node import Node
 import Children_Linear
@@ -10,7 +11,7 @@ def default_backtrack_callback(node):
     children = node.get_children()
     if children:
         print('- children:', children)
-        children.visit(lambda child: print('--   child:', child))
+        children.visit_with_depth(lambda child: print('--   child:', child))
 
 class Memory_Visitor:
     
@@ -23,8 +24,8 @@ class Memory_Visitor:
 
     def visit_recursive(self, data, parent_node):
         #print('visit_recursive:', data, parent_node)
-        #if (parent_node != None and type(data) in no_reference_types):
-        #    return node_layout.format_string(data)
+        if (parent_node != None and type(data) in config.no_reference_types):
+            return str(data)
         data_id = id(data)
         if data_id in self.data_ids:
             return self.data_ids[data_id]
@@ -47,8 +48,9 @@ class Memory_Visitor:
             return Node(data, Children_Linear.new(data))
         return Node(data) # for int, float, str, ...
 
+
 if __name__ == '__main__':
-    visitor = Memory_Visitor()
-    data = utils.nested_list([4,4,4])
-    print(data)
-    visitor.visit(data)
+    def test_fun(data):
+        visitor = Memory_Visitor()
+        visitor.visit(data)
+    test.test_all(test_fun)

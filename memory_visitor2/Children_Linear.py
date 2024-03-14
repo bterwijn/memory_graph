@@ -1,29 +1,46 @@
-import Children
+from Children import Children
 from Slicer import Slicer
 
 def new(children):
     return Children_Linear(children) if children else None
 
 def fill_html_table_helper(node, html_table, depth, child):
-    print('depth:', depth, 'child:', child)
+    #print('depth:', depth, 'child:', child)
     if depth == 1:
         html_table.add_dots()
     if child:
-        html_table.add_reference(node,child)
+        if isinstance(child, str):
+            html_table.add_column(child)
+        else:
+            html_table.add_reference(node,child)
     
-class Children_Linear(Children.Children):
-    slicer = Slicer([":1:","-1::"])
+class Children_Linear(Children):
+    slicer = Slicer(["::",])
 
     def __init__(self, children):
         sliced_children = Children_Linear.slicer.slice(children) if children else []
         super().__init__(sliced_children)
 
-    def transform(self, fun):
-        Children.transform(self.children, fun)
+    def __repr__(self):
+        return f'Children_Linear({self.children})'
 
-    def visit(self, fun):
-        Children.visit(self.children, fun)
+    def transform(self, fun):
+        for block in self.children:
+            for i in range(len(block)):
+                block[i] = fun(block[i])
+
+    def visit_with_depth(self, fun):
+        depth = 2
+        for block in self.children:
+            if len(block) == 0:
+                fun( (depth, None) )
+                depth = 1
+            for c in block:
+                fun( (depth, c) )
+                depth = 0
+            depth = 1
         
     def fill_html_table(self, node, html_table):
-        Children.visit_with_depth(self.children, lambda depth_child : fill_html_table_helper(node, html_table,depth_child[0],depth_child[1]) )
+        self.visit_with_depth(lambda depth_child : 
+                              fill_html_table_helper(node, html_table,depth_child[0],depth_child[1]) )
     

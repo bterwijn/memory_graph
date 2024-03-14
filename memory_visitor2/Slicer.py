@@ -26,6 +26,11 @@ def empty_list(list_depth):
         data = [data]
     return data
 
+def convert_to_list(data):
+    if not isinstance(data,list):
+        data = list(data)
+    return data
+
 class Slicer:
 
     def __init__(self, slices=None):
@@ -57,7 +62,7 @@ class Slicer:
     def slice_generator(self,data,list_depth=1):
         if len(data) == 0:
             return data
-        #list_depth = list_depth(data)
+        data = convert_to_list(data)
         first = True
         last_slice = None
         for slice in self.get_slices(len(data)):
