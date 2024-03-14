@@ -1,4 +1,11 @@
 import utils
+import config 
+
+from Node import Node
+import Children_Linear
+import Children_Key_Value
+import Children_Table
+
 
 def test_nested_list(fun):
     data = utils.nested_list([4,4,4])
@@ -88,31 +95,43 @@ def test_key_value_split(fun):
     data = { i:i*10 for i in range(1,7)}
     fun(data)
 
+# def test_table(fun):
+#     class My_Table:
+#         def __init__(self,size):
+#             self.size=size
+#             self.data = [i for i in range(size[0]*size[1])]
+#     data = My_Table((5,5))
+#     node_layout.type_to_color[My_Table] = 'plum1'
+#     memory_visitor.type_to_category[My_Table] = lambda data: (
+#         categories.Category_Table(  data,
+#                                     data.data,
+#                                     size = data.size, 
+#                                     row_names = [f'row{i}' for i in range(data.size[0])],
+#                                     column_names = [f'col{i}' for i in range(data.size[1])]
+#                                     )
+#     )
+#     fun(data)
+
 def test_table(fun):
     class My_Table:
         def __init__(self,size):
             self.size=size
             self.data = [i for i in range(size[0]*size[1])]
-    data = My_Table((5,5))
-    # node_layout.type_to_color[My_Table] = 'plum1'
-    # memory_visitor.type_to_category[My_Table] = lambda data: (
-    #     categories.Category_Table(  data,
-    #                                 data.data,
-    #                                 size = data.size, 
-    #                                 row_names = [f'row{i}' for i in range(data.size[0])],
-    #                                 column_names = [f'col{i}' for i in range(data.size[1])]
-    #                                 )
-    #)
+    data = My_Table((5,6))
+    config.type_to_color[My_Table] = 'plum1'
+    config.type_to_node[My_Table] = lambda data: (
+            Node( data, Children_Table.new( data.data , data.size[0] ) )
+    )
     fun(data)
 
 
 
 def test_all(fun):
     pass
-    test_nested_list(fun)
-    test_key_value(fun)
-    
-    # test_table(fun)
+    # test_nested_list(fun)
+    # test_key_value(fun)
+    test_table(fun)
+    # -------------------------
     # test_singular(fun)
     # test_linear(fun)
     # test_linears(fun)

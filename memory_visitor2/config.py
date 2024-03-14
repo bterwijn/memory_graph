@@ -11,7 +11,7 @@ max_string_length = 42
 
 type_to_node = {
     str: lambda data: Node(data), # visit as whole string, don't iterate over characters
-    dict: lambda data: Node(data, Children_Key_Value(data.items())),
+    dict: lambda data: Node(data, Children_Key_Value.new(data.items())),
     }
 
 type_to_color = {
