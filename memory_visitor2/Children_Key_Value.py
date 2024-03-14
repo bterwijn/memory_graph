@@ -15,7 +15,7 @@ def fill_html_table_helper(node, html_table, depth, child):
             html_table.add_reference(node,child)
 
 class Children_Key_Value(Children):
-    slicer = Slicer(["::",])
+    slicer = Slicer(3,2,3)
 
     def __init__(self, children):
         sliced_children = Children_Key_Value.slicer.slice(children) if children else []

@@ -1,24 +1,4 @@
-
-def to_number(s):
-    try:
-        return int(s)
-    except Exception:
-        try:
-            return float(s)
-        except Exception:
-            return None
-
-def limit_value(value,size):
-    return max(min(value,size-1),-size)
-
-# def list_list_depth(data):
-#     list_depth = 0
-#     while isinstance(data,list):
-#         list_depth += 1
-#         if len(data) == 0:
-#             break
-#         data = data[0]
-#     return list_depth
+import math
 
 def empty_list(list_depth):
     data = []
@@ -26,67 +6,72 @@ def empty_list(list_depth):
         data = [data]
     return data
 
-def convert_to_list(data):
-    if not isinstance(data,list):
-        data = list(data)
-    return data
-
 class Slicer:
 
-    def __init__(self, slices=None):
-        if slices is None:
-            slices = ["::"]
-        self.slices = []
-        for slice in slices:
-            s = slice.split(':')
-            start = stop = step = None
-            if len(s) >= 1:
-                start = s[0]
-            if len(s) >= 2:
-                stop = s[1]
-            if len(s) >= 3:
-                step = s[2]
-            if len(s) > 3:
-                raise ValueError(f"Invalid slice: {slice}")
-            self.slices.append((to_number(start),to_number(stop),to_number(step)))
+    def __init__(self, begin=None, end=None, middle=None, *, _placeholder=None):
+        self.begin = begin
+        self.end = end
+        self.middle = middle
+        if not self.middle is None:
+            self.end, self.middle = self.middle, self.end
 
-    def get_slices(self, size):
-        for s in self.slices:
-            values = [None if v is None else 
-                      limit_value(int(v*size) if isinstance(v,float) else v, size)
-                      for v in s]
-            if values[2] == 0:
-                values[2] = 1
-            yield slice(*values)
+    def __repr__(self):
+        return f"Slicer({self.begin},{self.middle},{self.end})"
 
-    def slice_generator(self,data,list_depth=1):
-        if len(data) == 0:
-            return data
-        data = convert_to_list(data)
-        first = True
-        last_slice = None
-        for slice in self.get_slices(len(data)):
-            if first:
-                first=False
-                if not (slice.start is None or slice.start==0):
-                    yield empty_list(list_depth)
-            yield data[slice]
-            last_slice = slice
-        if not last_slice is None and not (last_slice.stop is None):
-            yield empty_list(list_depth)
+    def get_begin_index(self, length):
+        if type(self.begin) is float:
+            return math.ceil(self.begin*length)
+        return self.begin
+    
+    def get_middle_low_index(self, length):
+        if type(self.middle) is float:
+            return math.floor(length/2 - self.middle*length)
+        return math.floor(length/2 - self.middle/2)
 
-    def slice(self,data,list_depth=1):
-        return list(self.slice_generator(data,list_depth))
+    def get_middle_high_index(self, length):
+        if type(self.middle) is float:
+            return math.floor(length/2 + self.middle*length)
+        return math.floor(length/2 + self.middle/2)
 
+    def get_end_index(self, length):
+        if type(self.end) is float:
+            return math.floor(length-self.end*length)
+        return length-self.end
+
+    def slice(self, data, list_depth=1):
+        if self.begin is None:
+            return [data]
+        length = len(data)
+        b = self.get_begin_index(length)
+        slices = [ [0,b] ]
+        if self.middle is not None:
+            m_low = self.get_middle_low_index(length)
+            m_high = self.get_middle_high_index(length)
+            if b>=m_low:
+                slices[-1] = [0,m_high]
+            else:
+                slices.append([m_low,m_high])
+        if self.end is not None:
+            e = self.get_end_index(length)
+            if e <= slices[-1][1]:
+                slices[-1][1] = None
+            else:
+                slices.append([e,None])
+        sliced_data = []
+        for index, slice in enumerate(slices):
+            sliced = data[slice[0]:slice[1]]
+            if len(sliced) == 0:
+                if index==0 or index==len(slices)-1:
+                    sliced_data.append(empty_list(list_depth))
+            else:
+                sliced_data.append(sliced)
+        return sliced_data
+        
 if __name__ == '__main__':
-    #data = [[[[]]]]
-    #print(empty_list(list_depth(data)))
-    slicer = Slicer(["1:0.5:2", "-0.7:-1:"])
-    n = 8
-    m = 3
-    data = [[i*10+j for j in range(m)] for i in range(n)]        
-    #data = [list(range(0,5)), list(range(5,10)), list(range(10,15))]
+    n = 10
+    data = [i for i in range(n)]
     print('data:',data)
-    print(list(slicer.slice(data)))
-    #for values in slicer.get_values(data):
-    #    print(values)
+    slicer = Slicer(1,1,0)
+    print('slicer:',slicer)
+    print( slicer.slice(data,3) )
+   

@@ -117,10 +117,13 @@ def test_table(fun):
         def __init__(self,size):
             self.size=size
             self.data = [i for i in range(size[0]*size[1])]
-    data = My_Table((5,6))
+    data = My_Table((10,10))
     config.type_to_color[My_Table] = 'plum1'
     config.type_to_node[My_Table] = lambda data: (
-            Node( data, Children_Table.new( data.data , data.size[0] ) )
+            Node( data, Children_Table.new( data.data , data.size[0], 
+                                            column_names = [f'col{i}' for i in range(data.size[1])],
+                                            row_names = [f'row{i}' for i in range(data.size[0])] )
+            )
     )
     fun(data)
 
