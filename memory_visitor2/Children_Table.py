@@ -35,46 +35,52 @@ class Children_Table(Children):
     slicer_width = Slicer(3,4)
     slicer_height = Slicer(4,3)
 
-    def __init__(self, children, line_width=None, column_names=None, row_names=None):
+    def __init__(self, children, data_width=None, column_names=None, row_names=None):
         self.column_name = column_names
         self.row_name = row_names
-        print('children:', children)
-        if line_width:
-            children_sliced = [Children_Table.slicer_width.slice(children[i:i+line_width]) for i in range(0, len(children), line_width)]
+        if data_width:
+            children_sliced = [Children_Table.slicer_width.slice(children[i:i+data_width]) for i in range(0, len(children), data_width)]
         else:
             children_sliced = [Children_Table.slicer_width.slice(child) for child in children]
             if len(children_sliced) > 0:
-                self.line_width = len(children_sliced[0])
-        print('children_sliced:', children_sliced)
+                data_width = len(children_sliced[0])
+        self.data_width = data_width
+        self.data_height = len(children_sliced)
         children_sliced = Children_Table.slicer_height.slice(children_sliced,3)
-        print('children_sliced:', children_sliced)
+        
+        if column_names:
+            self.column_names = (column_names + [' ']*(self.data_width-len(column_names)))[:self.data_width]
+            self.column_names = Children_Table.slicer_width.slice(self.column_names)
+        if row_names:
+            self.row_names = (row_names + [' ']*(self.data_height-len(row_names)))[:self.data_height]
+            self.row_names = Children_Table.slicer_height.slice(self.row_names)
         super().__init__(children_sliced)
 
     def __repr__(self):
         return f'Children_Table({self.children})'
 
     def transform(self, fun):
-        for rows in self.children:
-            for row_sliced in rows:
-                for column in row_sliced:
-                    for i in range(len(column)):
-                        column[i] = fun(column[i])
+        for row_blocks in self.children:
+            for row in row_blocks:
+                for column_blocks in row:
+                    for i in range(len(column_blocks)):
+                        column_blocks[i] = fun(column_blocks[i])
 
     def visit_with_depth(self, fun):
         depth = 4
-        for rows in self.children:
-            for row_slice in rows:
-                for column in row_slice:
-                    if len(column) == 0:
+        for row_blocks in self.children:
+            for row in row_blocks:
+                for column_blocks in row:
+                    if len(column_blocks) == 0:
                         fun( (depth, None) )
                         depth = 1
-                    for column_slice in column:
-                        fun( (depth,column_slice) )
+                    for column in column_blocks:
+                        fun( (depth,column) )
                         depth = 0
                     depth = 1
                 depth = 2
             depth = 3
-        
+
     def fill_html_table(self, node, html_table):
         table = HTML_Table_Helper(html_table, self.column_name, self.row_name)
         self.visit_with_depth(lambda depth_child : table.fill(node, depth_child[0], depth_child[1]))
