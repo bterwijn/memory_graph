@@ -47,10 +47,12 @@ class Children_Table(Children):
         self.data_width = data_width
         self.data_height = len(children_sliced)
         children_sliced = Children_Table.slicer_height.slice(children_sliced,3)
-        
+
+        self.column_names = None
         if column_names:
             self.column_names = (column_names + [' ']*(self.data_width-len(column_names)))[:self.data_width]
             self.column_names = Children_Table.slicer_width.slice(self.column_names)
+        self.row_names = None
         if row_names:
             self.row_names = (row_names + [' ']*(self.data_height-len(row_names)))[:self.data_height]
             self.row_names = Children_Table.slicer_height.slice(self.row_names)
@@ -81,7 +83,38 @@ class Children_Table(Children):
                 depth = 2
             depth = 3
 
+    def visit_with_depth_cols_rows(self, fun):
+        depth = 4
+        if self.column_names and self.row_names:
+            fun( (depth, ' ') )
+            depth=0
+        if self.column_names:
+            for column_blocks in self.column_names:
+                if len(column_blocks) == 0:
+                    fun( (depth, None) )
+                    depth = 1
+                for column in column_blocks:
+                    fun( (depth,column) )
+                    depth = 0
+                depth = 1
+            depth = 2
+        for block_index in range(len(self.children)):
+            for row_index in range(len(self.children[block_index])):
+                if self.row_names:
+                    fun( (depth, self.row_names[block_index][row_index]) )
+                    depth=0
+                for column_blocks in self.children[block_index][row_index]:
+                    if len(column_blocks) == 0:
+                        fun( (depth, None) )
+                        depth = 1
+                    for column in column_blocks:
+                        fun( (depth,column) )
+                        depth = 0
+                    depth = 1
+                depth = 2
+            depth = 3
+
     def fill_html_table(self, node, html_table):
         table = HTML_Table_Helper(html_table, self.column_name, self.row_name)
-        self.visit_with_depth(lambda depth_child : table.fill(node, depth_child[0], depth_child[1]))
+        self.visit_with_depth_cols_rows(lambda depth_child : table.fill(node, depth_child[0], depth_child[1]))
     

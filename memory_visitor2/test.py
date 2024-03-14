@@ -128,7 +128,6 @@ def test_table(fun):
     fun(data)
 
 
-
 def test_all(fun):
     pass
     # test_nested_list(fun)
