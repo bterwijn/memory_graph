@@ -38,24 +38,21 @@ class HTML_Table:
 
     def add_column(self, s, rounded=False):
         self.check_add_new_line()
-        r = ''
-        if rounded:
-            r = 'STYLE="ROUNDED"'
+        r = 'STYLE="ROUNDED"' if rounded else ''
         self.html += f'<TD {r}> {format_string(s)} </TD>'
 
     def add_reference(self, node, child, rounded=False):
         self.check_add_new_line()
-        r = ''
-        if rounded:
-            r = 'STYLE="ROUNDED"'
+        r = 'STYLE="ROUNDED"' if rounded else ''
         self.html += f'<TD PORT="f{self.ref_count}" {r}> </TD>'
         self.edges.append( (f'{node.get_name()}:f{self.ref_count}',
                             f'{child.get_name()}:X') )
         self.ref_count+=1
 
-    def add_dots(self):
+    def add_dots(self, rounded=False):
         self.check_add_new_line()
-        self.html += '<TD>...</TD>'
+        r = 'STYLE="ROUNDED"' if rounded else ''
+        self.html += f'<TD {r}>...</TD>'
 
     def to_string(self, border=1, color='white'):
         if self.has_inner_table_flag:

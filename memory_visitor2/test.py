@@ -127,9 +127,9 @@ def test_table(fun):
 def test_all(fun):
     pass
     # test_singular(fun)
-    #test_nested_list(fun)
-    test_key_value(fun)
-    # test_table(fun)
+    # test_nested_list(fun)
+    # test_key_value(fun)
+    test_table(fun)
     # -------------------------
     # test_linear(fun)
     # test_linears(fun)

@@ -3,39 +3,52 @@ from Slicer import Slicer
 
 class HTML_Table_Helper:
 
-    def __init__(self, html_table, node, column_name=None, row_name=None):
+    def __init__(self, html_table, node, column_names=None, row_names=None):
         self.html_table = html_table
         self.node = node
-        self.column_name = column_name
-        self.row_name = row_name
+        self.column_names = column_names
+        self.row_names = row_names
         self.row_count = 0
-        self.entry_count = 0
+        self.col_count = 0
+
+    def is_rounded(self):
+        return ((not self.column_names is None and self.row_count == 0) or
+                (not self.row_names is None and self.col_count == 0))
 
     def fill(self, depth, child):
         #print('depth:', depth, 'child:', child)
         if depth == 1:
-            self.html_table.add_dots()
+            self.html_table.add_dots(rounded=self.is_rounded())
+            self.col_count += 1
         if depth == 2:
             self.html_table.add_new_line()
+            self.row_count += 1
+            self.col_count = 0
         if depth == 3:
-            if self.entry_count >0:
+            if self.col_count >0:
                 self.html_table.add_new_line()
-            self.html_table.add_dots()
+                self.row_count += 1
+                self.col_count = 0
+            self.html_table.add_dots(rounded=self.is_rounded())
+            self.col_count += 1
             self.html_table.add_new_line()
+            self.row_count += 1
+            self.col_count = 0
         if child:
             if isinstance(child, str):
-                self.html_table.add_column(child)
+                self.html_table.add_column(child, rounded=self.is_rounded())
+                self.col_count += 1
             else:
-                self.html_table.add_reference(self.node, child)
-            self.entry_count += 1
+                self.html_table.add_reference(self.node, child, rounded=self.is_rounded())
+                self.col_count += 1
     
 class Node_Table(Node):
     slicer_width = Slicer(3,4)
     slicer_height = Slicer(4,3)
 
     def __init__(self, data, children, data_width=None, column_names=None, row_names=None):
-        self.column_name = column_names
-        self.row_name = row_names
+        self.column_names = column_names
+        self.row_names = row_names
         if data_width:
             children_sliced = [Node_Table.slicer_width.slice(children[i:i+data_width]) for i in range(0, len(children), data_width)]
         else:
@@ -109,6 +122,6 @@ class Node_Table(Node):
             depth = 3
 
     def fill_html_table(self, html_table):
-        table = HTML_Table_Helper(html_table, self.column_name, self.row_name)
+        table = HTML_Table_Helper(html_table, self, self.column_names, self.row_names)
         self.visit_with_depth_cols_rows(lambda depth_child : table.fill(depth_child[0], depth_child[1]))
     
