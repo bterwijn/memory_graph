@@ -3,14 +3,15 @@ from Slicer import Slicer
 
 class HTML_Table_Helper:
 
-    def __init__(self, html_table, column_name=None, row_name=None):
+    def __init__(self, html_table, node, column_name=None, row_name=None):
         self.html_table = html_table
+        self.node = node
         self.column_name = column_name
         self.row_name = row_name
         self.row_count = 0
         self.entry_count = 0
 
-    def fill(self, node, depth, child):
+    def fill(self, depth, child):
         #print('depth:', depth, 'child:', child)
         if depth == 1:
             self.html_table.add_dots()
@@ -25,7 +26,7 @@ class HTML_Table_Helper:
             if isinstance(child, str):
                 self.html_table.add_column(child)
             else:
-                self.html_table.add_reference(node,child)
+                self.html_table.add_reference(self.node, child)
             self.entry_count += 1
     
 class Node_Table(Node):
@@ -109,5 +110,5 @@ class Node_Table(Node):
 
     def fill_html_table(self, html_table):
         table = HTML_Table_Helper(html_table, self.column_name, self.row_name)
-        self.visit_with_depth_cols_rows(lambda depth_child : table.fill(self, depth_child[0], depth_child[1]))
+        self.visit_with_depth_cols_rows(lambda depth_child : table.fill(depth_child[0], depth_child[1]))
     

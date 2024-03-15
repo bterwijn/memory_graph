@@ -36,13 +36,19 @@ class HTML_Table:
     def add_string(self, s):
         self.html += format_string(s)
 
-    def add_column(self, s):
+    def add_column(self, s, rounded=False):
         self.check_add_new_line()
-        self.html += f'<TD> {format_string(s)} </TD>'
+        r = ''
+        if rounded:
+            r = 'STYLE="ROUNDED"'
+        self.html += f'<TD {r}> {format_string(s)} </TD>'
 
-    def add_reference(self,node,child):
+    def add_reference(self, node, child, rounded=False):
         self.check_add_new_line()
-        self.html += f'<TD PORT="f{self.ref_count}"> </TD>'
+        r = ''
+        if rounded:
+            r = 'STYLE="ROUNDED"'
+        self.html += f'<TD PORT="f{self.ref_count}" {r}> </TD>'
         self.edges.append( (f'{node.get_name()}:f{self.ref_count}',
                             f'{child.get_name()}:X') )
         self.ref_count+=1
