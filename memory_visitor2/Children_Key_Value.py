@@ -1,4 +1,3 @@
-from Children import Children
 from Slicer import Slicer
 
 def new(children):
@@ -22,12 +21,11 @@ def fill_html_table_helper(node, html_table, depth, child):
             else:
                 html_table.add_reference(node,value)
 
-class Children_Key_Value(Children):
+class Children_Key_Value():
     slicer = Slicer(3,2,3)
 
     def __init__(self, children):
-        sliced_children = Children_Key_Value.slicer.slice(children) if children else []
-        super().__init__(sliced_children)
+        self.children = children = Children_Key_Value.slicer.slice(children) if children else []
 
     def __repr__(self):
         return f'Children_Key_Value({self.children})'

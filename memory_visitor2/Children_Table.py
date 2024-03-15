@@ -1,4 +1,3 @@
-from Children import Children
 from Slicer import Slicer
 
 def new(children, line_width=None, column_names=None, row_names=None):
@@ -31,7 +30,7 @@ class HTML_Table_Helper:
                 self.html_table.add_reference(node,child)
             self.entry_count += 1
     
-class Children_Table(Children):
+class Children_Table():
     slicer_width = Slicer(3,4)
     slicer_height = Slicer(4,3)
 
@@ -56,7 +55,7 @@ class Children_Table(Children):
         if row_names:
             self.row_names = (row_names + [' ']*(self.data_height-len(row_names)))[:self.data_height]
             self.row_names = Children_Table.slicer_height.slice(self.row_names)
-        super().__init__(children_sliced)
+        self.children = children_sliced
 
     def __repr__(self):
         return f'Children_Table({self.children})'

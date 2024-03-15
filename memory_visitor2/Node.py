@@ -2,7 +2,6 @@ import utils
 
 from HTML_Table import HTML_Table
 
-
 class Node:
     
     def __init__(self, data, children=None):
