@@ -2,12 +2,16 @@ import utils
 
 from HTML_Table import HTML_Table
 
+
 class Node:
     
     def __init__(self, data, children=None):
         self.data = data
         self.parent = None
         self.children = children
+
+    def do_backtrack_callback(self):
+        return True
 
     def get_data(self):
         return self.data

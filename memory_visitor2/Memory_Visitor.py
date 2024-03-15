@@ -5,6 +5,7 @@ import test
 from Node import Node
 import Children_Linear
 import Children_Key_Value
+import Key_Value
 
 def default_backtrack_callback(node):
     print('backtrack_callback:', node)
@@ -36,7 +37,8 @@ class Memory_Visitor:
             #print('children:', children)
             if children:
                 children.transform(lambda child: self.visit_recursive(child, node))
-            self.backtrack_callback(node)
+            if node.do_backtrack_callback():
+                self.backtrack_callback(node)
         return node
 
     def data_to_node(self, data):

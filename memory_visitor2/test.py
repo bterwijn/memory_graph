@@ -41,12 +41,12 @@ def test_empty_linear(fun):
     fun(data)
 
 def test_key_value(fun):
-    data = {1:'a', 2:'b', 3:'c', 4:'d'}
+    data1 = {1:'a', 2:'b', 3:'c', 4:'d'}
+    data2 = {10:100, 20:200, 30:300, 40:400}
+    data2[50] = ('c','c')
+    data2[60] = data1
+    data = {'first':data1, 'second':data2}
     fun(data)
-    # data2 = data1.copy()
-    # data2[3] = ('c','c')
-    # data = {'first':data1, 'second':data2}
-    # fun(data)
 
 # def test_class(fun):
 #     class My_Class1:
