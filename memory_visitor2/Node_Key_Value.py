@@ -6,8 +6,7 @@ def fill_html_table_helper(node, html_table, depth, child):
     if depth == 1:
         html_table.add_dots()
     if child:
-        key, value = child.get_tuple()
-        # key,value = child.get_children().get_children()[0]
+        key, value = child.get_children()
         if key:
             if isinstance(key, str):
                 html_table.add_column(key)

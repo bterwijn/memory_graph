@@ -53,5 +53,4 @@ class Node:
         pass
         
     def fill_html_table(self, html_table):
-        print('BASE fill_html_table:')
         pass

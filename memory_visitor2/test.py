@@ -38,12 +38,11 @@ def test_empty_linear(fun):
 
 def test_key_value(fun):
     data1 = {1:'a', 2:'b', 3:'c', 4:'d'}
-    fun(data1)
-    # data2 = {10:100, 20:200, 30:300, 40:400}
-    # data2[50] = ('c','c')
-    # data2[60] = data1
-    # data = {'first':data1, 'second':data2}
-    # fun(data)
+    data2 = {10:100, 20:200, 30:300, 40:400}
+    data2[50] = ('c','c')
+    data2[60] = data1
+    data = {'first':data1, 'second':data2}
+    fun(data)
 
 # def test_class(fun):
 #     class My_Class1:
@@ -129,8 +128,8 @@ def test_all(fun):
     pass
     # test_singular(fun)
     # test_nested_list(fun)
-    # test_key_value(fun)
-    test_table(fun)
+    test_key_value(fun)
+    # test_table(fun)
     # -------------------------
     # test_linear(fun)
     # test_linears(fun)

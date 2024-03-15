@@ -3,7 +3,7 @@ import types
 from Node import Node
 from Node_Linear import Node_Linear
 from Node_Key_Value import Node_Key_Value
-import Key_Value
+from Node_Hidden import Node_Hidden
 
 no_reference_types = {type(None), bool, int, float, complex, str}
 no_child_references_types = {dict, types.MappingProxyType}
@@ -13,10 +13,11 @@ max_string_length = 42
 type_to_node = {
     str: lambda data: Node(data), # visit as whole string, don't iterate over characters
     dict: lambda data: (
-        Node_Key_Value(data, Key_Value.get_key_values(data)) 
-        #if dict in no_child_references_types else Node_Linear(data, data.items()) 
+        Node_Key_Value(data, [Node_Hidden(i,list(i)) for i in data.items()] )
+            if dict in no_child_references_types else 
+        Node_Linear(data, data.items()) 
         ),
-    Key_Value.Key_Value: lambda data: data,
+    Node_Hidden: lambda data: data,
     }
 
 type_to_color = {
