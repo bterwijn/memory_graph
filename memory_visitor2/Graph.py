@@ -19,7 +19,7 @@ class Graph:
         memory_visitor.visit(data)
 
     def backtrack_callback(self, node):
-        print("backtrack node:",node)
+        #print("backtrack node:",node)
         html_table = node.get_html_table()
         self.new_graph.node(node.get_name(),
                             html_table.to_string(),

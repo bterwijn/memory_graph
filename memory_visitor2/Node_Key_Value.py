@@ -22,10 +22,7 @@ class Node_Key_Value(Node):
     slicer = Slicer(3,2,3)
 
     def __init__(self, data, children):
-        super().__init__(data, Node_Key_Value.slicer.slice(children) if children else [])
-
-    def __repr__(self):
-        return super().__repr__() + f'Node_Key_Value({self.children})'
+        super().__init__(data, Node_Key_Value.slicer.slice(children))
         
     def transform(self, fun):
         for block in self.children:

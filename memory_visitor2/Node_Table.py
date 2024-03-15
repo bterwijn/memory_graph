@@ -54,9 +54,6 @@ class Node_Table(Node):
         self.children = children_sliced
         super().__init__(data, children_sliced)
 
-    def __repr__(self):
-        return super().__repr__() + f'Node_Table({self.children})'
-
     def transform(self, fun):
         for row_blocks in self.children:
             for row in row_blocks:

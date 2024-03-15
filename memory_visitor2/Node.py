@@ -28,9 +28,7 @@ class Node:
         return f'node{id(self.data)}'
     
     def get_html_table(self):
-        print('get_html_table:')
         html_table = HTML_Table()
-        print('children:', self.children)
         if self.children is None:
             html_table.add_string(f'{self.data}')
         else:

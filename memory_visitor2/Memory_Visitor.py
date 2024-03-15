@@ -21,7 +21,7 @@ class Memory_Visitor:
         self.visit_recursive(data, None)
 
     def visit_recursive(self, data, parent_node):
-        print('visit_recursive:', data, parent_node)
+        #print('visit_recursive:', data, parent_node)
         if (parent_node != None and type(data) in config.no_reference_types):
             return str(data)
         data_id = id(data)
@@ -29,7 +29,6 @@ class Memory_Visitor:
             return self.data_ids[data_id]
         else:
             node = self.data_to_node(data)
-            print('node:', node)
             self.data_ids[data_id] = node
             node.transform(lambda child: self.visit_recursive(child, node))
             if node.do_backtrack_callback():
