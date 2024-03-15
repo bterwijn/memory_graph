@@ -13,6 +13,17 @@ def fill_html_table_helper(node, html_table, depth, child):
             html_table.add_column(child)
         else:
             html_table.add_reference(node,child)
+        # key,value = child.get_children().get_children()[0]
+        # if key:
+        #     if isinstance(key, str):
+        #         html_table.add_column(key)
+        #     else:
+        #         html_table.add_reference(node,key)
+        # if value:
+        #     if isinstance(value, str):
+        #         html_table.add_column(value)
+        #     else:
+        #         html_table.add_reference(node,value)
 
 class Children_Key_Value(Children):
     slicer = Slicer(3,2,3)

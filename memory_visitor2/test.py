@@ -131,8 +131,8 @@ def test_table(fun):
 def test_all(fun):
     pass
     # test_nested_list(fun)
-    # test_key_value(fun)
-    test_table(fun)
+    test_key_value(fun)
+    # test_table(fun)
     # -------------------------
     # test_singular(fun)
     # test_linear(fun)

@@ -1,9 +1,9 @@
 import types
 
 from Node import Node
-#from Children_Linear import Children_Linear
-from Children_Key_Value import Children_Key_Value
-#from Children_Table import Children_Table
+import Children_Linear
+import Children_Key_Value
+import Children_Table
 
 no_reference_types = {type(None), bool, int, float, complex, str}
 

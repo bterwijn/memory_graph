@@ -1,5 +1,10 @@
 import math
 
+def convert_to_list(data):
+    if type(data) is list:
+        return data
+    return list(data)
+
 def empty_list(list_depth):
     data = []
     for _ in range(list_depth-1):
@@ -39,6 +44,7 @@ class Slicer:
         return length-self.end
 
     def slice(self, data, list_depth=1):
+        data = convert_to_list(data)
         if self.begin is None:
             return [data]
         length = len(data)
