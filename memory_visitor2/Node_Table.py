@@ -1,7 +1,5 @@
+from Node import Node
 from Slicer import Slicer
-
-def new(children, line_width=None, column_names=None, row_names=None):
-    return Children_Table(children, line_width, column_names, row_names) if children else None
 
 class HTML_Table_Helper:
 
@@ -30,35 +28,34 @@ class HTML_Table_Helper:
                 self.html_table.add_reference(node,child)
             self.entry_count += 1
     
-class Children_Table():
+class Node_Table(Node):
     slicer_width = Slicer(3,4)
     slicer_height = Slicer(4,3)
 
-    def __init__(self, children, data_width=None, column_names=None, row_names=None):
+    def __init__(self, data, children, data_width=None, column_names=None, row_names=None):
         self.column_name = column_names
         self.row_name = row_names
         if data_width:
-            children_sliced = [Children_Table.slicer_width.slice(children[i:i+data_width]) for i in range(0, len(children), data_width)]
+            children_sliced = [Node_Table.slicer_width.slice(children[i:i+data_width]) for i in range(0, len(children), data_width)]
         else:
-            children_sliced = [Children_Table.slicer_width.slice(child) for child in children]
+            children_sliced = [Node_Table.slicer_width.slice(child) for child in children]
             if len(children_sliced) > 0:
                 data_width = len(children_sliced[0])
         self.data_width = data_width
         self.data_height = len(children_sliced)
-        children_sliced = Children_Table.slicer_height.slice(children_sliced,3)
+        children_sliced = Node_Table.slicer_height.slice(children_sliced,3)
 
-        self.column_names = None
         if column_names:
             self.column_names = (column_names + [' ']*(self.data_width-len(column_names)))[:self.data_width]
-            self.column_names = Children_Table.slicer_width.slice(self.column_names)
-        self.row_names = None
+            self.column_names = Node_Table.slicer_width.slice(self.column_names)
         if row_names:
             self.row_names = (row_names + [' ']*(self.data_height-len(row_names)))[:self.data_height]
-            self.row_names = Children_Table.slicer_height.slice(self.row_names)
+            self.row_names = Node_Table.slicer_height.slice(self.row_names)
         self.children = children_sliced
+        super().__init__(data, children_sliced)
 
     def __repr__(self):
-        return f'Children_Table({self.children})'
+        return super().__repr__() + f'Node_Table({self.children})'
 
     def transform(self, fun):
         for row_blocks in self.children:
@@ -113,7 +110,7 @@ class Children_Table():
                 depth = 2
             depth = 3
 
-    def fill_html_table(self, node, html_table):
+    def fill_html_table(self, html_table):
         table = HTML_Table_Helper(html_table, self.column_name, self.row_name)
-        self.visit_with_depth_cols_rows(lambda depth_child : table.fill(node, depth_child[0], depth_child[1]))
+        self.visit_with_depth_cols_rows(lambda depth_child : table.fill(self, depth_child[0], depth_child[1]))
     

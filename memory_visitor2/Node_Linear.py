@@ -1,10 +1,8 @@
+from Node import Node
 from Slicer import Slicer
 
-def new(children):
-    return Children_Linear(children) if children else None
-
 def fill_html_table_helper(node, html_table, depth, child):
-    #print('depth:', depth, 'child:', child)
+    print('depth:', depth, 'child:', child)
     if depth == 1:
         html_table.add_dots()
     if child:
@@ -13,14 +11,14 @@ def fill_html_table_helper(node, html_table, depth, child):
         else:
             html_table.add_reference(node,child)
     
-class Children_Linear():
+class Node_Linear(Node):
     slicer = Slicer(3,2,3)
 
-    def __init__(self, children):
-        self.children = Children_Linear.slicer.slice(children) if children else []
+    def __init__(self, data, children=None):
+        super().__init__(data, Node_Linear.slicer.slice(children) if children else []) # TODO 'if'?
 
     def __repr__(self):
-        return f'Children_Linear({self.children})'
+        return super().__repr__() + f'Node_Linear({self.children})'
 
     def transform(self, fun):
         for block in self.children:
@@ -38,7 +36,8 @@ class Children_Linear():
                 depth = 0
             depth = 1
         
-    def fill_html_table(self, node, html_table):
+    def fill_html_table(self, html_table):
+        print("Node_Linear fill_html_table:")
         self.visit_with_depth(lambda depth_child : 
-                              fill_html_table_helper(node, html_table,depth_child[0],depth_child[1]) )
+                              fill_html_table_helper(self, html_table,depth_child[0],depth_child[1]) )
     

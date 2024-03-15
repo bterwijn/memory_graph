@@ -9,8 +9,8 @@ class Node:
         self.parent = None
         self.children = children
 
-    def do_backtrack_callback(self):
-        return True
+    def __repr__(self):
+        return f'Node({self.data})'#, children={self.children})'
 
     def get_data(self):
         return self.data
@@ -28,16 +28,30 @@ class Node:
         return f'node{id(self.data)}'
     
     def get_html_table(self):
+        print('get_html_table:')
         html_table = HTML_Table()
-        if self.children:
-            html_table.add_inner_table()
-            self.children.fill_html_table(self,html_table)
-        else:
+        print('children:', self.children)
+        if self.children is None:
             html_table.add_string(f'{self.data}')
+        else:
+            html_table.add_inner_table()
+            self.fill_html_table(html_table)
         return html_table
     
     def get_label(self):
         return utils.get_type_name(self.data)
     
-    def __repr__(self):
-        return f'Node({self.data})'#, children={self.children})'
+    # -------------------- Node interface --------------------
+
+    def do_backtrack_callback(self):
+        return True
+    
+    def transform(self, fun):
+        pass
+
+    def visit_with_depth(self, fun):
+        pass
+        
+    def fill_html_table(self, html_table):
+        print('BASE fill_html_table:')
+        pass

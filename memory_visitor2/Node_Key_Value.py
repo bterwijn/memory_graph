@@ -1,7 +1,5 @@
+from Node import Node
 from Slicer import Slicer
-
-def new(children):
-    return Children_Key_Value(children) if children else []
 
 def fill_html_table_helper(node, html_table, depth, child):
     #print('depth:', depth, 'child:', child)
@@ -21,15 +19,15 @@ def fill_html_table_helper(node, html_table, depth, child):
             else:
                 html_table.add_reference(node,value)
 
-class Children_Key_Value():
+class Node_Key_Value(Node):
     slicer = Slicer(3,2,3)
 
-    def __init__(self, children):
-        self.children = Children_Key_Value.slicer.slice(children) if children else []
+    def __init__(self, data, children):
+        super().__init__(data, Node_Key_Value.slicer.slice(children) if children else [])
 
     def __repr__(self):
-        return f'Children_Key_Value({self.children})'
-
+        return super().__repr__() + f'Node_Key_Value({self.children})'
+        
     def transform(self, fun):
         for block in self.children:
             for i in range(len(block)):
@@ -46,6 +44,6 @@ class Children_Key_Value():
                 depth = 0
             depth = 1
         
-    def fill_html_table(self, node, html_table):
+    def fill_html_table(self, html_table):
         self.visit_with_depth(lambda depth_child : 
-                              fill_html_table_helper(node, html_table,depth_child[0],depth_child[1]) )
+                              fill_html_table_helper(self, html_table,depth_child[0],depth_child[1]) )

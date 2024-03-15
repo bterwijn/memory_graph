@@ -1,18 +1,14 @@
 import utils
 import config 
 
-from Node import Node
-import Children_Linear
-import Children_Key_Value
-import Children_Table
-
-
-def test_nested_list(fun):
-    data = utils.nested_list([4,4,4])
-    fun(data)
+from Node_Table import Node_Table
 
 def test_singular(fun):
     data = 100
+    fun(data)
+
+def test_nested_list(fun):
+    data = utils.nested_list([3])
     fun(data)
 
 def test_linear(fun):
@@ -42,11 +38,12 @@ def test_empty_linear(fun):
 
 def test_key_value(fun):
     data1 = {1:'a', 2:'b', 3:'c', 4:'d'}
-    data2 = {10:100, 20:200, 30:300, 40:400}
-    data2[50] = ('c','c')
-    data2[60] = data1
-    data = {'first':data1, 'second':data2}
-    fun(data)
+    fun(data1)
+    # data2 = {10:100, 20:200, 30:300, 40:400}
+    # data2[50] = ('c','c')
+    # data2[60] = data1
+    # data = {'first':data1, 'second':data2}
+    # fun(data)
 
 # def test_class(fun):
 #     class My_Class1:
@@ -120,9 +117,9 @@ def test_table(fun):
     data = My_Table((10,10))
     config.type_to_color[My_Table] = 'plum1'
     config.type_to_node[My_Table] = lambda data: (
-            Node( data, Children_Table.new( data.data , data.size[0], 
-                                            column_names = [f'col{i}' for i in range(data.size[1])],
-                                            row_names = [f'row{i}' for i in range(data.size[0])] )
+            Node_Table(data, data.data , data.size[0], 
+                        column_names = [f'col{i}' for i in range(data.size[1])],
+                        row_names = [f'row{i}' for i in range(data.size[0])] 
             )
     )
     fun(data)
@@ -130,11 +127,11 @@ def test_table(fun):
 
 def test_all(fun):
     pass
-    # test_nested_list(fun)
-    test_key_value(fun)
-    # test_table(fun)
-    # -------------------------
     # test_singular(fun)
+    # test_nested_list(fun)
+    # test_key_value(fun)
+    test_table(fun)
+    # -------------------------
     # test_linear(fun)
     # test_linears(fun)
     # test_colors(fun)

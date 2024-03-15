@@ -1,9 +1,8 @@
 import types
 
 from Node import Node
-import Children_Linear
-import Children_Key_Value
-import Children_Table
+from Node_Linear import Node_Linear
+from Node_Key_Value import Node_Key_Value
 import Key_Value
 
 no_reference_types = {type(None), bool, int, float, complex, str}
@@ -14,11 +13,9 @@ max_string_length = 42
 type_to_node = {
     str: lambda data: Node(data), # visit as whole string, don't iterate over characters
     dict: lambda data: (
-        Node(data,
-             Children_Key_Value.new(Key_Value.get_key_values(data))
-                if dict in no_child_references_types else
-             Children_Linear.new(data.items()) )
-    ),
+        Node_Key_Value(data, Key_Value.get_key_values(data)) 
+        #if dict in no_child_references_types else Node_Linear(data, data.items()) 
+        ),
     Key_Value.Key_Value: lambda data: data,
     }
 

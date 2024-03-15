@@ -3,16 +3,13 @@ import utils
 import test
 
 from Node import Node
-import Children_Linear
-import Children_Key_Value
+from Node_Linear import Node_Linear
+from Node_Key_Value import Node_Key_Value
 import Key_Value
 
 def default_backtrack_callback(node):
     print('backtrack_callback:', node)
-    children = node.get_children()
-    if children:
-        print('- children:', children)
-        children.visit_with_depth(lambda child: print('--   child:', child))
+    node.visit_with_depth(lambda child: print('-- child:', child))
 
 class Memory_Visitor:
     
@@ -24,7 +21,7 @@ class Memory_Visitor:
         self.visit_recursive(data, None)
 
     def visit_recursive(self, data, parent_node):
-        #print('visit_recursive:', data, parent_node)
+        print('visit_recursive:', data, parent_node)
         if (parent_node != None and type(data) in config.no_reference_types):
             return str(data)
         data_id = id(data)
@@ -32,11 +29,9 @@ class Memory_Visitor:
             return self.data_ids[data_id]
         else:
             node = self.data_to_node(data)
+            print('node:', node)
             self.data_ids[data_id] = node
-            children = node.get_children()
-            #print('children:', children)
-            if children:
-                children.transform(lambda child: self.visit_recursive(child, node))
+            node.transform(lambda child: self.visit_recursive(child, node))
             if node.do_backtrack_callback():
                 self.backtrack_callback(node)
         return node
@@ -45,9 +40,9 @@ class Memory_Visitor:
         if type(data) in config.type_to_node: # for predefined types
             return config.type_to_node[type(data)](data)
         elif utils.has_dict_attribute(data): # for user defined classes
-            return Node(data, Children_Key_Value.new( utils.get_filtered_dict_attribute(data) ))
+            return Node_Key_Value(data, utils.get_filtered_dict_attribute(data))
         elif utils.is_iterable(data): # for lists, tuples, sets, ...
-            return Node(data, Children_Linear.new(data))
+            return Node_Linear(data, data)
         return Node(data) # for int, float, str, ...
 
 
