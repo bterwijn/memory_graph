@@ -7,13 +7,18 @@ import Children_Table
 import Key_Value
 
 no_reference_types = {type(None), bool, int, float, complex, str}
+no_child_references_types = {dict, types.MappingProxyType}
 
 max_string_length = 42
 
 type_to_node = {
     str: lambda data: Node(data), # visit as whole string, don't iterate over characters
-    #dict: lambda data: Node(data, Children_Key_Value.new(data.items())),
-    dict: lambda data: Node(data, Children_Key_Value.new(Key_Value.get_key_values(data))),
+    dict: lambda data: (
+        Node(data,
+             Children_Key_Value.new(Key_Value.get_key_values(data))
+                if dict in no_child_references_types else
+             Children_Linear.new(data.items()) )
+    ),
     Key_Value.Key_Value: lambda data: data,
     }
 

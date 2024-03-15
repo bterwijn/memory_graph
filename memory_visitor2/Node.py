@@ -38,14 +38,6 @@ class Node:
     
     def get_label(self):
         return utils.get_type_name(self.data)
-
-    def get_edges(self):
-        edges = []
-        if self.children:
-            print('children:', self.children)
-            self.children.visit( lambda child: edges.append( (self,child) ))
-        return edges
     
     def __repr__(self):
         return f'Node({self.data})'#, children={self.children})'
-

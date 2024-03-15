@@ -25,7 +25,7 @@ class Children_Key_Value():
     slicer = Slicer(3,2,3)
 
     def __init__(self, children):
-        self.children = children = Children_Key_Value.slicer.slice(children) if children else []
+        self.children = Children_Key_Value.slicer.slice(children) if children else []
 
     def __repr__(self):
         return f'Children_Key_Value({self.children})'
