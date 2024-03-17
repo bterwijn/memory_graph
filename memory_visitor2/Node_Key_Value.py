@@ -23,7 +23,6 @@ class HTML_Table_Helper:
 
     def fill_elements(self):
         vertical = (self.ref_count == 0)
-        print('vertical:', vertical)
         if vertical:
             for e in self.elements:
                 if e == 'dots':

@@ -8,39 +8,28 @@ class HTML_Table_Helper:
         self.node = node
         self.column_names = column_names
         self.row_names = row_names
-        self.row_count = 0
-        self.col_count = 0
 
     def is_rounded(self):
-        return ((not self.column_names is None and self.row_count == 0) or
-                (not self.row_names is None and self.col_count == 0))
+        return ((not self.column_names is None and self.html_table.get_row() == 0) or
+                (not self.row_names is None and self.html_table.get_column() == 0))
 
     def fill(self, depth, child):
         #print('depth:', depth, 'child:', child)
         if depth == 1:
             self.html_table.add_dots(rounded=self.is_rounded())
-            self.col_count += 1
         if depth == 2:
             self.html_table.add_new_line()
-            self.row_count += 1
-            self.col_count = 0
         if depth == 3:
-            if self.col_count >0:
+            if self.html_table.get_column() >0:
                 self.html_table.add_new_line()
-                self.row_count += 1
-                self.col_count = 0
-            self.html_table.add_dots(rounded=self.is_rounded())
-            self.col_count += 1
+            for _ in range(self.html_table.get_max_column()):
+                self.html_table.add_dots(rounded=self.is_rounded())
             self.html_table.add_new_line()
-            self.row_count += 1
-            self.col_count = 0
         if child:
             if isinstance(child, str):
                 self.html_table.add_column(child, rounded=self.is_rounded())
-                self.col_count += 1
             else:
                 self.html_table.add_reference(self.node, child, rounded=self.is_rounded())
-                self.col_count += 1
     
 class Node_Table(Node):
     slicer_width = Slicer(3,4)

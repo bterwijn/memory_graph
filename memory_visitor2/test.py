@@ -8,7 +8,7 @@ def test_singular(fun):
     fun(data)
 
 def test_nested_list(fun):
-    data = utils.nested_list([3,3])
+    data = utils.nested_list([3,3,3])
     fun(data)
 
 def test_linear(fun):
@@ -127,8 +127,8 @@ def test_table(fun):
 def test_all(fun):
     pass
     # test_singular(fun)
-    # test_nested_list(fun)
-    # test_key_value(fun)
+    test_nested_list(fun)
+    test_key_value(fun)
     test_table(fun)
     # -------------------------
     # test_linear(fun)

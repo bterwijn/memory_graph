@@ -2,7 +2,7 @@ import html
 import config 
 
 def outer_html_table(s, border, color):
-    return (f'<\n<TABLE BORDER="0" CELLBORDER="{border}" CELLSPACING="0" CELLPADDING="0" BGCOLOR="{color}"><TR><TD PORT="X">\n' +
+    return (f'<\n<TABLE BORDER="0" CELLBORDER="{border}" CELLSPACING="0" CELLPADDING="0" BGCOLOR="{color}"><TR><TD PORT="table">\n' +
             s + '\n</TD></TR></TABLE>\n>')
 
 def inner_html_table(s):
@@ -19,11 +19,21 @@ class HTML_Table:
         self.html = ''
         self.has_inner_table_flag = False
         self.add_new_line_flag = False
+        self.col_count = 0
+        self.row_count = 0
         self.ref_count=0
+        self.max_col_count = 0
         self.edges = []
+
+    def __repr__(self):
+        return self.html
 
     def add_new_line(self):
         self.add_new_line_flag = True
+        self.row_count += 1
+        if self.col_count > self.max_col_count:
+            self.max_col_count = self.col_count
+        self.col_count = 0
 
     def check_add_new_line(self):
         if self.add_new_line_flag:
@@ -35,30 +45,43 @@ class HTML_Table:
 
     def add_string(self, s):
         self.html += format_string(s)
+        self.col_count += 1
 
     def add_column(self, s, rounded=False):
         self.check_add_new_line()
         r = 'STYLE="ROUNDED"' if rounded else ''
         self.html += f'<TD {r}> {format_string(s)} </TD>'
+        self.col_count += 1
 
     def add_reference(self, node, child, rounded=False):
         self.check_add_new_line()
         r = 'STYLE="ROUNDED"' if rounded else ''
-        self.html += f'<TD PORT="f{self.ref_count}" {r}> </TD>'
-        self.edges.append( (f'{node.get_name()}:f{self.ref_count}',
-                            f'{child.get_name()}:X') )
+        self.html += f'<TD PORT="ref{self.ref_count}" {r}> </TD>'
+        self.edges.append( (f'{node.get_name()}:ref{self.ref_count}',
+                            f'{child.get_name()}:table') )
         self.ref_count+=1
+        self.col_count += 1
 
     def add_dots(self, rounded=False):
         self.check_add_new_line()
         r = 'STYLE="ROUNDED"' if rounded else ''
         self.html += f'<TD {r}>...</TD>'
+        self.col_count += 1
 
     def to_string(self, border=1, color='white'):
         if self.has_inner_table_flag:
             self.html = inner_html_table(self.html)
         return outer_html_table(self.html, border, color)
     
+    def get_column(self):
+        return self.col_count
+    
+    def get_max_column(self):
+        return self.max_col_count
+    
+    def get_row(self):
+        return self.row_count
+
     def get_edges(self):
         return self.edges
 
