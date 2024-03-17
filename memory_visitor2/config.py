@@ -13,7 +13,7 @@ max_string_length = 42
 type_to_node = {
     str: lambda data: Node(data), # visit as whole string, don't iterate over characters
     dict: lambda data: (
-        Node_Key_Value(data, [Node_Hidden(i,list(i)) for i in data.items()] )
+        Node_Key_Value(data, data.items())
             if dict in no_child_references_types else 
         Node_Linear(data, data.items()) 
         ),
@@ -36,10 +36,10 @@ type_to_color = {
     bytes : "khaki1",
     bytearray : "khaki2",
     # ================= key_value
+    Node_Key_Value : "seagreen1", # for classes
+    type: "seagreen2",            # where class variables are stored
     dict : "dodgerblue1",
-    types.MappingProxyType : "red", #"dodgerblue2", # not used
-    #utils.class_type : "seagreen1",
-    type: "seagreen2", # where class variable are stored
+    types.MappingProxyType : "dodgerblue2", # not used
 }
 
 type_to_orientation = {

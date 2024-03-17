@@ -44,19 +44,18 @@ def test_key_value(fun):
     data = {'first':data1, 'second':data2}
     fun(data)
 
-# def test_class(fun):
-#     class My_Class1:
-#         def __init__(self):
-#             self.foo=10
-#             self.bar=20
-#     class My_Class2:
-#         def __init__(self):
-#             self.foo=10
-#             self.bar=20
-#     data = [My_Class1(), My_Class2()]
-#     memory_visitor.no_reference_types.remove(str)
-#     fun(data)
-#     memory_visitor.no_reference_types.add(str)
+def test_class(fun):
+    class My_Class1:
+        def __init__(self):
+            self.foo1=10
+            self.bar1=20
+    class My_Class2:
+        def __init__(self):
+            self.foo2=10
+            self.bar2=20
+    #data = [My_Class1(), My_Class2()]
+    data = My_Class1()
+    fun(data)
 
 def test_class_vars(fun):
     class My_Class1:
@@ -127,19 +126,20 @@ def test_table(fun):
 def test_all(fun):
     pass
     # test_singular(fun)
-    test_nested_list(fun)
+    # test_nested_list(fun)
     test_key_value(fun)
-    test_table(fun)
+    
     # -------------------------
     # test_linear(fun)
     # test_linears(fun)
     # test_colors(fun)
     # test_empty_linear(fun)
     # test_key_value(fun)
-    # test_class(fun)
+    test_class(fun)
     # test_class_vars(fun)
     # test_share_tuple(fun)
     # test_share_children(fun)
     # test_list_split(fun)
     # test_key_value_split(fun)
     
+    #test_table(fun)

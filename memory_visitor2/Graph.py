@@ -9,14 +9,19 @@ from Node import Node
 class Graph:
 
     def __init__(self, data, 
-                 graph_attr={}, 
-                 node_attr={'shape':'plaintext'}, 
-                 edge_attr={}):
-        self.new_graph=graphviz.Digraph('memory_graph',
-                                    graph_attr=graph_attr,
-                                    node_attr=node_attr,
-                                    edge_attr=edge_attr)
+                 colors = None,
+                 orientations = None,
+                 slicers = None,
+                 graphviz_graph_attr = {}, 
+                 graphviz_node_attr = {'shape':'plaintext'}, 
+                 graphviz_edge_attr = {}
+                 ):
         self.subgraphed_nodes = set()
+        self.new_graph=graphviz.Digraph('memory_graph',
+                                    graph_attr=graphviz_graph_attr,
+                                    node_attr=graphviz_node_attr,
+                                    edge_attr=graphviz_edge_attr)
+        config_helpers.set_config(colors, orientations, slicers)
         memory_visitor = Memory_Visitor(self.backtrack_callback)
         memory_visitor.visit(data)
 
@@ -47,7 +52,7 @@ if __name__ == '__main__':
     test_fun_count = 0
     def test_fun(data):
         global test_fun_count
-        graph = Graph(data)
+        graph = Graph(data, colors={list:'red'})
         graph.get_graph().render(outfile=f'test_graph{test_fun_count}.png')
         test_fun_count += 1
     test.test_all(test_fun)

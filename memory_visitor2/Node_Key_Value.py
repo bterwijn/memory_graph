@@ -1,4 +1,5 @@
 from Node import Node
+from Node_Hidden import Node_Hidden
 from Slicer import Slicer
 
 class HTML_Table_Helper:
@@ -14,6 +15,7 @@ class HTML_Table_Helper:
         if depth == 1:
             self.elements.append('dots')
         if child:
+            print('children:', child.get_children())
             key, value = child.get_children()
             if not type(key) is str:
                 self.ref_count += 1
@@ -68,7 +70,9 @@ class Node_Key_Value(Node):
     slicer = Slicer(3,2,3)
 
     def __init__(self, data, children):
-        super().__init__(data, Node_Key_Value.slicer.slice(children))
+        #print('Node_Key_Value children:', children)
+        hidden_children = [Node_Hidden(i,list(i)) for i in children]
+        super().__init__(data, Node_Key_Value.slicer.slice(hidden_children))
         
     def transform(self, fun):
         for block in self.children:

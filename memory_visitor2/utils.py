@@ -1,5 +1,4 @@
 
-
 def has_dict_attribute(value):
     return hasattr(value,"__dict__")
 
