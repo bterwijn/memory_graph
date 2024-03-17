@@ -7,6 +7,8 @@ def fill_html_table_helper(node, html_table, depth, child):
     vertical = config_helpers.get_vertical_orientation(node, node.ref_count == 0)
     if depth == 1:
         html_table.add_dots()
+        if vertical:
+                html_table.add_new_line()
     if child:
         if isinstance(child, str):
             html_table.add_column(child)
