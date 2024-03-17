@@ -1,3 +1,4 @@
+import math 
 
 def has_dict_attribute(value):
     return hasattr(value,"__dict__")
@@ -15,7 +16,6 @@ def is_iterable(data):
         return True
     except TypeError:
         return False
-
     
 def get_type_name(data):
     return type(data).__name__
@@ -31,6 +31,9 @@ def nested_list(sizes, i=0, value=[0]):
         for size in range(sizes[i]):
             data.append( nested_list(sizes,i+1) )
     return data
+
+def my_round(value):
+    return math.floor(value + 0.5)
 
 if __name__ == '__main__':
     print( nested_list([4,3,2]) )

@@ -12,7 +12,8 @@ def test_linear(fun):
     fun(data)
 
 def test_linears(fun):
-    data = [(1,2), [3,4], {5,6}, frozenset((7,8)), {9:'9', 10:'10'} , bytes('11', 'utf-8'), bytearray('12', 'utf-8')]
+    data = [(1,2), [3,4], {5,6}, frozenset((7,8)), {9:'nine', 10:'ten'} , bytes('11', 'utf-8'), bytearray('12', 'utf-8')]
+    data.append( [i for i in range(16)] )
     fun(data)
 
 def test_colors(fun):

@@ -1,4 +1,5 @@
 import math
+import utils 
 
 def convert_to_list(data):
     if type(data) is list:
@@ -30,13 +31,13 @@ class Slicer:
     
     def get_middle_low_index(self, length):
         if type(self.middle) is float:
-            return math.floor(length/2 - self.middle*length)
-        return math.floor(length/2 - self.middle/2)
+            return utils.my_round(length/2 - self.middle*length)
+        return utils.my_round(length/2 - self.middle/2)
 
     def get_middle_high_index(self, length):
         if type(self.middle) is float:
-            return math.floor(length/2 + self.middle*length)
-        return math.floor(length/2 + self.middle/2)
+            return utils.my_round(length/2 + self.middle*length)
+        return utils.my_round(length/2 + self.middle/2)
 
     def get_end_index(self, length):
         if type(self.end) is float:
