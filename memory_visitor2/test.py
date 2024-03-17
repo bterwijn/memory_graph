@@ -1,6 +1,9 @@
 import utils
 import config 
 
+import numpy as np
+import extension_numpy
+
 from Node_Table import Node_Table
 
 def test_singular(fun):
@@ -104,6 +107,9 @@ def test_table(fun):
     )
     fun(data)
 
+def test_numpy(fun):
+    data = [np.array([1,2,3,4,5]),]
+    fun(data)
 
 def test_all(fun):
     pass
@@ -121,3 +127,4 @@ def test_all(fun):
     test_list_split(fun)
     test_key_value_split(fun)
     test_table(fun)
+    test_numpy(fun)
