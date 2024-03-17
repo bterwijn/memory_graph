@@ -37,11 +37,7 @@ class Node_Table(Node):
     def __init__(self, data, children, data_width=None, column_names=None, row_names=None):
         self.column_names = column_names
         self.row_names = row_names
-        print('get sli')
-        slicer_pair = config_helpers.get_slicer_2d(self, data)
-        print('slicer_pair:', slicer_pair)
-        slicer_width, slicer_height = slicer_pair
-        print('slicer_width:', slicer_width, 'slicer_height:', slicer_height)
+        slicer_width, slicer_height = config_helpers.get_slicer_2d(self, data)
         if data_width:
             children_sliced = [slicer_width.slice(children[i:i+data_width]) for i in range(0, len(children), data_width)]
         else:
@@ -101,7 +97,10 @@ class Node_Table(Node):
         for block_index in range(len(self.children)):
             for row_index in range(len(self.children[block_index])):
                 if self.row_names:
-                    fun( (depth, self.row_names[block_index][row_index]) )
+                    row_value = None
+                    if row_index < len(self.row_names[block_index]):
+                        row_value = self.row_names[block_index][row_index]
+                    fun( (depth, row_value) )
                     depth=0
                 for column_blocks in self.children[block_index][row_index]:
                     if len(column_blocks) == 0:
