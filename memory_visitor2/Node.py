@@ -5,10 +5,11 @@ from HTML_Table import HTML_Table
 class Node:
     node_id = 0
     
-    def __init__(self, data, children=None):
+    def __init__(self, data, children=None, size=None):
         self.node_id = Node.node_id
         Node.node_id += 1
         self.data = data
+        self.size = size
         self.parent = None
         self.children = children
 
@@ -20,6 +21,9 @@ class Node:
 
     def set_parent(self, parent):
         self.parent = parent
+
+    def get_size(self):
+        return self.size
 
     def get_parent(self):
         return self.parent
@@ -42,6 +46,9 @@ class Node:
         return html_table
     
     def get_label(self):
+        size = self.get_size()
+        if not size is None:
+            return f'{utils.get_type_name(self.data)} ({size})'
         return utils.get_type_name(self.data)
     
     # -------------------- Node interface --------------------

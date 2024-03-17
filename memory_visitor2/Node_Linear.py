@@ -1,3 +1,4 @@
+import utils
 from Node import Node
 from Slicer import Slicer
 import config_helpers
@@ -23,7 +24,7 @@ class Node_Linear(Node):
 
     def __init__(self, data, children=None):
         slicer = config_helpers.get_slicer_1d(self, data)
-        super().__init__(data, slicer.slice(children))
+        super().__init__(data, slicer.slice(children), len(children))
 
     def transform(self, fun):
         self.ref_count = 0

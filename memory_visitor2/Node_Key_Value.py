@@ -72,7 +72,7 @@ class Node_Key_Value(Node):
         #print('Node_Key_Value children:', children)
         hidden_children = [Node_Hidden(i,list(i)) for i in children]
         slicer = config_helpers.get_slicer_1d(self, data)
-        super().__init__(data, slicer.slice(hidden_children))
+        super().__init__(data, slicer.slice(hidden_children), len(hidden_children))
         
     def transform(self, fun):
         for block in self.children:

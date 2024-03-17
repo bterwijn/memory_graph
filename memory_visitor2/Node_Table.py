@@ -55,7 +55,7 @@ class Node_Table(Node):
             self.row_names = (row_names + [' ']*(self.data_height-len(row_names)))[:self.data_height]
             self.row_names = slicer_height.slice(self.row_names)
         self.children = children_sliced
-        super().__init__(data, children_sliced)
+        super().__init__(data, children_sliced, f'{self.data_width}x{self.data_height}')
 
     def transform(self, fun):
         for row_blocks in self.children:
