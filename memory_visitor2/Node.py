@@ -3,8 +3,11 @@ import utils
 from HTML_Table import HTML_Table
 
 class Node:
+    node_id = 0
     
     def __init__(self, data, children=None):
+        self.node_id = Node.node_id
+        Node.node_id += 1
         self.data = data
         self.parent = None
         self.children = children
@@ -25,7 +28,7 @@ class Node:
         return self.children
     
     def get_name(self):
-        return f'node{id(self.data)}'
+        return f'node{self.node_id}'
     
     def get_html_table(self):
         html_table = HTML_Table()

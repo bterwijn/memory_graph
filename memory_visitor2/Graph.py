@@ -35,7 +35,6 @@ if __name__ == '__main__':
     def test_fun(data):
         global test_fun_count
         graph = Graph(data)
-        print('test_fun:', test_fun_count)
         graph.get_graph().render(outfile=f'test_graph{test_fun_count}.png')
         test_fun_count += 1
     test.test_all(test_fun)
