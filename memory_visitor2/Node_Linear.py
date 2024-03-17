@@ -3,7 +3,7 @@ from Slicer import Slicer
 import config_helpers
 
 def fill_html_table_helper(node, html_table, depth, child):
-    #print('depth:', depth, 'child:', child)
+    # print('depth:', depth, 'child:', child)
     vertical = config_helpers.get_vertical_orientation(node, node.ref_count == 0)
     if depth == 1:
         html_table.add_dots()

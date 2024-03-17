@@ -86,7 +86,7 @@ def test_list_split(fun):
     fun(data)
 
 def test_key_value_split(fun):
-    data = { i:i*10 for i in range(1,7)}
+    data = { i:i*10 for i in range(1,20)}
     fun(data)
 
 def test_table(fun):
@@ -111,9 +111,8 @@ def test_all(fun):
     test_linear(fun)
     test_linears(fun)
     test_colors(fun)
-    # test_empty_linear(fun)
+    test_empty_linear(fun)
     test_nested_list(fun)
-    test_key_value(fun)
     test_key_value(fun)
     test_class(fun)
     test_class_vars(fun)

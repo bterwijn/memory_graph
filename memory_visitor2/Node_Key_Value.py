@@ -42,7 +42,7 @@ class HTML_Table_Helper:
                             self.html_table.add_column(value)
                         else:
                             self.html_table.add_reference(self.node,value)
-                    self.html_table.add_new_line()
+                self.html_table.add_new_line()
         else:
             for e in self.elements:
                 if e == 'dots':

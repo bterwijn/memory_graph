@@ -17,6 +17,9 @@ def is_iterable(data):
     except TypeError:
         return False
     
+def has_no_children(children):
+    return len(children) == 1 and len(children[0]) == 0
+    
 def get_type_name(data):
     return type(data).__name__
     

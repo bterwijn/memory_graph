@@ -50,5 +50,5 @@ type_to_vertical_orientation = {
 type_to_slicer = {
     Node_Linear: (Slicer(5,5,5),),
     Node_Key_Value: (Slicer(5,5,5),),
-    Node_Table: (Slicer(5,5),Slicer(5,5)),
+    Node_Table: (Slicer(4,4),Slicer(4,4)),
 }
