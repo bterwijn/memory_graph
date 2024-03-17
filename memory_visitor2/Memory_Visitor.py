@@ -29,6 +29,7 @@ class Memory_Visitor:
             return self.data_ids[data_id]
         else:
             node = self.data_to_node(data)
+            node.set_parent(parent_node)
             self.data_ids[data_id] = node
             node.transform(lambda child: self.visit_recursive(child, node))
             if node.do_backtrack_callback():

@@ -41,3 +41,9 @@ type_to_color = {
     #utils.class_type : "seagreen1",
     type: "seagreen2", # where class variable are stored
 }
+
+type_to_orientation = {
+}
+
+type_to_slicer = {
+}

@@ -1,4 +1,5 @@
 import graphviz
+import config_helpers
 import utils
 import test
 
@@ -21,9 +22,11 @@ class Graph:
 
     def backtrack_callback(self, node):
         #print("backtrack node:",node)
+        color = config_helpers.get_color(node)
+        border = 3 if node.get_parent() is None else 1
         html_table = node.get_html_table()
         self.new_graph.node(node.get_name(),
-                            html_table.to_string(),
+                            html_table.to_string(border, color),
                             xlabel=node.get_label())
         edges = html_table.get_edges()
         for node,child in edges:
