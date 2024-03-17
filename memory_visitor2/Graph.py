@@ -15,6 +15,7 @@ class Graph:
                                     graph_attr=graph_attr,
                                     node_attr=node_attr,
                                     edge_attr=edge_attr)
+        self.subgraphed_nodes = set()
         memory_visitor = Memory_Visitor(self.backtrack_callback)
         memory_visitor.visit(data)
 
@@ -24,8 +25,17 @@ class Graph:
         self.new_graph.node(node.get_name(),
                             html_table.to_string(),
                             xlabel=node.get_label())
-        for node,child in html_table.get_edges():
-            self.new_graph.edge(node, child)
+        edges = html_table.get_edges()
+        for node,child in edges:
+            self.new_graph.edge(node, child+':table')
+        self.add_subgraph(edges)
+
+    def add_subgraph(self, edges):
+        new_edges = [child for node,child in edges if child not in self.subgraphed_nodes]
+        if len(new_edges) > 1:
+            for c in new_edges:
+                self.subgraphed_nodes.add(c)
+            self.new_graph.body.append('{ rank="same"  '+(" -> ".join(new_edges))+'  [weight=99,style=invis]; }\n')
 
     def get_graph(self):
         return self.new_graph

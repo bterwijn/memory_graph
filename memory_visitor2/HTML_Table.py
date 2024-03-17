@@ -58,7 +58,7 @@ class HTML_Table:
         r = 'STYLE="ROUNDED"' if rounded else ''
         self.html += f'<TD PORT="ref{self.ref_count}" {r}> </TD>'
         self.edges.append( (f'{node.get_name()}:ref{self.ref_count}',
-                            f'{child.get_name()}:table') )
+                            child.get_name()) )
         self.ref_count+=1
         self.col_count += 1
 
