@@ -3,6 +3,7 @@ import config_helpers
 import utils
 import test
 
+from Slicer import Slicer
 from Memory_Visitor import Memory_Visitor
 from Node import Node
 
@@ -10,7 +11,7 @@ class Graph:
 
     def __init__(self, data, 
                  colors = None,
-                 orientations = None,
+                 vertical_orientations = None,
                  slicers = None,
                  graphviz_graph_attr = {}, 
                  graphviz_node_attr = {'shape':'plaintext'}, 
@@ -21,7 +22,7 @@ class Graph:
                                     graph_attr=graphviz_graph_attr,
                                     node_attr=graphviz_node_attr,
                                     edge_attr=graphviz_edge_attr)
-        config_helpers.set_config(colors, orientations, slicers)
+        config_helpers.set_config(colors, vertical_orientations, slicers)
         memory_visitor = Memory_Visitor(self.backtrack_callback)
         memory_visitor.visit(data)
 
@@ -52,7 +53,7 @@ if __name__ == '__main__':
     test_fun_count = 0
     def test_fun(data):
         global test_fun_count
-        graph = Graph(data, colors={list:'red'})
+        graph = Graph(data, colors={id(data):'red'}, vertical_orientations={id(data):True, list:False}, slicers={id(data):Slicer(3,4)} )
         graph.get_graph().render(outfile=f'test_graph{test_fun_count}.png')
         test_fun_count += 1
     test.test_all(test_fun)

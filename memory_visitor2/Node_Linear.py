@@ -1,9 +1,10 @@
 from Node import Node
 from Slicer import Slicer
+import config_helpers
 
 def fill_html_table_helper(node, html_table, depth, child):
     #print('depth:', depth, 'child:', child)
-    vertical = (node.ref_count == 0)
+    vertical = config_helpers.get_vertical_orientation(node, node.ref_count == 0)
     if depth == 1:
         html_table.add_dots()
     if child:
@@ -17,10 +18,10 @@ def fill_html_table_helper(node, html_table, depth, child):
                 html_table.add_new_line()
     
 class Node_Linear(Node):
-    slicer = Slicer(3,2,3)
 
     def __init__(self, data, children=None):
-        super().__init__(data, Node_Linear.slicer.slice(children))
+        slicer = config_helpers.get_slicer_1d(self, data)
+        super().__init__(data, slicer.slice(children))
 
     def transform(self, fun):
         self.ref_count = 0

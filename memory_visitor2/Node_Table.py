@@ -1,5 +1,6 @@
 from Node import Node
 from Slicer import Slicer
+import config_helpers
 
 class HTML_Table_Helper:
 
@@ -32,28 +33,31 @@ class HTML_Table_Helper:
                 self.html_table.add_reference(self.node, child, rounded=self.is_rounded())
     
 class Node_Table(Node):
-    slicer_width = Slicer(3,4)
-    slicer_height = Slicer(4,3)
 
     def __init__(self, data, children, data_width=None, column_names=None, row_names=None):
         self.column_names = column_names
         self.row_names = row_names
+        print('get sli')
+        slicer_pair = config_helpers.get_slicer_2d(self, data)
+        print('slicer_pair:', slicer_pair)
+        slicer_width, slicer_height = slicer_pair
+        print('slicer_width:', slicer_width, 'slicer_height:', slicer_height)
         if data_width:
-            children_sliced = [Node_Table.slicer_width.slice(children[i:i+data_width]) for i in range(0, len(children), data_width)]
+            children_sliced = [slicer_width.slice(children[i:i+data_width]) for i in range(0, len(children), data_width)]
         else:
-            children_sliced = [Node_Table.slicer_width.slice(child) for child in children]
+            children_sliced = [slicer_width.slice(child) for child in children]
             if len(children_sliced) > 0:
                 data_width = len(children_sliced[0])
         self.data_width = data_width
         self.data_height = len(children_sliced)
-        children_sliced = Node_Table.slicer_height.slice(children_sliced,3)
+        children_sliced = slicer_height.slice(children_sliced,3)
 
         if column_names:
             self.column_names = (column_names + [' ']*(self.data_width-len(column_names)))[:self.data_width]
-            self.column_names = Node_Table.slicer_width.slice(self.column_names)
+            self.column_names = slicer_width.slice(self.column_names)
         if row_names:
             self.row_names = (row_names + [' ']*(self.data_height-len(row_names)))[:self.data_height]
-            self.row_names = Node_Table.slicer_height.slice(self.row_names)
+            self.row_names = slicer_height.slice(self.row_names)
         self.children = children_sliced
         super().__init__(data, children_sliced)
 

@@ -13,7 +13,7 @@ class Node:
         self.children = children
 
     def __repr__(self):
-        return f'Node({self.data})'#, children={self.children})'
+        return f'Node({self.data})'
 
     def get_data(self):
         return self.data

@@ -4,6 +4,8 @@ from Node import Node
 from Node_Linear import Node_Linear
 from Node_Key_Value import Node_Key_Value
 from Node_Hidden import Node_Hidden
+from Node_Table import Node_Table
+from Slicer import Slicer
 
 no_reference_types = {type(None), bool, int, float, complex, str}
 no_child_references_types = {dict, types.MappingProxyType}
@@ -42,8 +44,11 @@ type_to_color = {
     types.MappingProxyType : "dodgerblue2", # not used
 }
 
-type_to_orientation = {
+type_to_vertical_orientation = {
 }
 
 type_to_slicer = {
+    Node_Linear: (Slicer(10,5,10),),
+    Node_Key_Value: (Slicer(10,5,10),),
+    Node_Table: (Slicer(5,5),Slicer(5,5)),
 }

@@ -1,6 +1,7 @@
 from Node import Node
 from Node_Hidden import Node_Hidden
 from Slicer import Slicer
+import config_helpers
 
 class HTML_Table_Helper:
 
@@ -15,7 +16,6 @@ class HTML_Table_Helper:
         if depth == 1:
             self.elements.append('dots')
         if child:
-            print('children:', child.get_children())
             key, value = child.get_children()
             if not type(key) is str:
                 self.ref_count += 1
@@ -24,7 +24,7 @@ class HTML_Table_Helper:
             self.elements.append(child)
 
     def fill_elements(self):
-        vertical = (self.ref_count == 0)
+        vertical = config_helpers.get_vertical_orientation(self.node, self.ref_count == 0)
         if vertical:
             for e in self.elements:
                 if e == 'dots':
@@ -67,12 +67,12 @@ class HTML_Table_Helper:
                             self.html_table.add_reference(self.node,value)
 
 class Node_Key_Value(Node):
-    slicer = Slicer(3,2,3)
 
     def __init__(self, data, children):
         #print('Node_Key_Value children:', children)
         hidden_children = [Node_Hidden(i,list(i)) for i in children]
-        super().__init__(data, Node_Key_Value.slicer.slice(hidden_children))
+        slicer = config_helpers.get_slicer_1d(self, data)
+        super().__init__(data, slicer.slice(hidden_children))
         
     def transform(self, fun):
         for block in self.children:

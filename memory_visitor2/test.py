@@ -126,7 +126,7 @@ def test_table(fun):
 def test_all(fun):
     pass
     # test_singular(fun)
-    # test_nested_list(fun)
+    test_nested_list(fun)
     test_key_value(fun)
     
     # -------------------------
@@ -142,4 +142,4 @@ def test_all(fun):
     # test_list_split(fun)
     # test_key_value_split(fun)
     
-    #test_table(fun)
+    test_table(fun)
