@@ -39,7 +39,6 @@ class Node_Table(Node):
         self.column_names = column_names
         self.row_names = row_names
         slicer_width, slicer_height = config_helpers.get_slicer_2d(self, data)
-        print('children:',children)
         if data_width:
             children_sliced = [slicer_width.slice(children[i:i+data_width]) for i in range(0, len(children), data_width)]
             self.data_width = data_width
@@ -48,12 +47,8 @@ class Node_Table(Node):
             children_sliced = [slicer_width.slice(child) for child in children]
             self.data_height = len(children)
             self.data_width = 0 if len(children) == 0 else len(children[0])
-        print('data_width:',self.data_width)
-        print('data_height:',self.data_height)
 
-        print('children_sliced1:',children_sliced)
         children_sliced = slicer_height.slice(children_sliced,3)
-        print('children_sliced2:',children_sliced)
         if column_names:
             self.column_names = (column_names + [' ']*(self.data_width-len(column_names)))[:self.data_width]
             self.column_names = slicer_width.slice(self.column_names)
@@ -62,7 +57,7 @@ class Node_Table(Node):
             self.row_names = slicer_height.slice(self.row_names)
         self.children = children_sliced
         
-        super().__init__(data, children_sliced, f'{self.data_width}x{self.data_height}')
+        super().__init__(data, children_sliced, f'{self.data_height}⨯{self.data_width}')
 
     def transform(self, fun):
         for row_blocks in self.children:
