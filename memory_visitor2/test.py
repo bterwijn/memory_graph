@@ -3,6 +3,7 @@ import config
 
 import numpy as np
 import extension_numpy
+import pandas as pd
 
 from Node_Table import Node_Table
 
@@ -111,6 +112,14 @@ def test_numpy(fun):
     data = [np.array([1.1, 2, 3, 4, 5]), np.matrix('1 2; 3 4'), np.random.rand(12,15)]
     fun(data)
 
+def test_pandas(fun):
+    data = {
+        "calories": [420, 380, 390],
+        "duration": [50, 40, 45]
+    }
+    data = pd.DataFrame(data)
+    fun(data)
+
 def test_all(fun):
     pass
     test_singular(fun)
@@ -128,3 +137,4 @@ def test_all(fun):
     test_key_value_split(fun)
     test_table(fun)
     test_numpy(fun)
+    #test_pandas(fun)

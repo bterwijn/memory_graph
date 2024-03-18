@@ -1,6 +1,6 @@
 import config
 import utils
-from Slicer import Slicer 
+from Slicer import Slicer
 
 type_to_color = config.type_to_color
 type_to_vertical_orientation = config.type_to_vertical_orientation
