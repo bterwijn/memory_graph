@@ -1,6 +1,7 @@
 from Node import Node
 from Slicer import Slicer
 import config_helpers
+import math
 
 class HTML_Table_Helper:
 
@@ -41,15 +42,18 @@ class Node_Table(Node):
         print('children:',children)
         if data_width:
             children_sliced = [slicer_width.slice(children[i:i+data_width]) for i in range(0, len(children), data_width)]
+            self.data_width = data_width
+            self.data_height = math.ceil(len(children) / data_width)
         else:
             children_sliced = [slicer_width.slice(child) for child in children]
-            if len(children_sliced) > 0:
-                data_width = len(children_sliced[0])
-        print('children_sliced:',children_sliced)
-        self.data_width = data_width
-        self.data_height = len(children_sliced)
-        children_sliced = slicer_height.slice(children_sliced,3)
+            self.data_height = len(children)
+            self.data_width = 0 if len(children) == 0 else len(children[0])
+        print('data_width:',self.data_width)
+        print('data_height:',self.data_height)
 
+        print('children_sliced1:',children_sliced)
+        children_sliced = slicer_height.slice(children_sliced,3)
+        print('children_sliced2:',children_sliced)
         if column_names:
             self.column_names = (column_names + [' ']*(self.data_width-len(column_names)))[:self.data_width]
             self.column_names = slicer_width.slice(self.column_names)
