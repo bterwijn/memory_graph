@@ -1,4 +1,3 @@
-import utils
 from Node import Node
 from Slicer import Slicer
 import config_helpers

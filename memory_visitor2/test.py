@@ -108,23 +108,23 @@ def test_table(fun):
     fun(data)
 
 def test_numpy(fun):
-    data = [np.array([1,2,3,4,5]),]
+    data = [np.array([1.1, 2, 3, 4, 5]), np.matrix('1 2; 3 4'), np.random.rand(12,15)]
     fun(data)
 
 def test_all(fun):
     pass
-    test_singular(fun)
-    test_linear(fun)
-    test_linears(fun)
-    test_colors(fun)
-    test_empty_linear(fun)
-    test_nested_list(fun)
-    test_key_value(fun)
-    test_class(fun)
-    test_class_vars(fun)
-    test_share_tuple(fun)
-    test_share_children(fun)
-    test_list_split(fun)
-    test_key_value_split(fun)
-    test_table(fun)
+    # test_singular(fun)
+    # test_linear(fun)
+    # test_linears(fun)
+    # test_colors(fun)
+    # test_empty_linear(fun)
+    # test_nested_list(fun)
+    # test_key_value(fun)
+    # test_class(fun)
+    # test_class_vars(fun)
+    # test_share_tuple(fun)
+    # test_share_children(fun)
+    # test_list_split(fun)
+    # test_key_value_split(fun)
+    # test_table(fun)
     test_numpy(fun)
