@@ -33,15 +33,9 @@ class HTML_Table_Helper:
                 else:
                     key, value = e.get_children()
                     if key:
-                        if isinstance(key, Node): 
-                            self.html_table.add_reference(self.node,key,rounded=True)
-                        else:
-                            self.html_table.add_column(key,rounded=True)
+                        self.html_table.add_entry(self.node, key, rounded=True)
                     if value:
-                        if isinstance(value, Node): 
-                            self.html_table.add_reference(self.node,value)
-                        else:
-                            self.html_table.add_column(value)
+                        self.html_table.add_entry(self.node, value)
                 self.html_table.add_new_line()
         else:
             for e in self.elements:
@@ -50,10 +44,7 @@ class HTML_Table_Helper:
                 else:
                     key, value = e.get_children()
                     if key:
-                        if isinstance(key, Node):
-                            self.html_table.add_reference(self.node,key,rounded=True)
-                        else:
-                            self.html_table.add_column(key,rounded=True)
+                        self.html_table.add_entry(self.node, key, rounded=True)
             self.html_table.add_new_line()
             for e in self.elements:
                 if e == 'dots':
@@ -61,10 +52,7 @@ class HTML_Table_Helper:
                 else:
                     key, value = e.get_children()
                     if value:
-                        if isinstance(value, Node): 
-                            self.html_table.add_reference(self.node,value)
-                        else:
-                            self.html_table.add_column(value)
+                        self.html_table.add_entry(self.node, value)
 
 class Node_Key_Value(Node):
 

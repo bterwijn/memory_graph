@@ -1,7 +1,5 @@
 import utils
 
-from HTML_Table import HTML_Table
-
 class Node:
     node_id = 0
     
@@ -35,6 +33,7 @@ class Node:
         return f'node{self.node_id}'
     
     def get_html_table(self):
+        from HTML_Table import HTML_Table
         html_table = HTML_Table()
         if self.children is None:
             html_table.add_string(f'{self.data}')

@@ -1,5 +1,6 @@
 import html
 import config 
+from Node import Node 
 
 def outer_html_table(s, border, color):
     return (f'<\n<TABLE BORDER="0" CELLBORDER="{border}" CELLSPACING="0" CELLPADDING="0" BGCOLOR="{color}"><TR><TD PORT="table">\n' +
@@ -49,7 +50,13 @@ class HTML_Table:
         self.html += format_string(s)
         self.col_count += 1
 
-    def add_column(self, s, rounded=False):
+    def add_entry(self, node, child, rounded=False):
+        if isinstance(child, Node): 
+            self.add_reference(node, child, rounded)
+        else:
+            self.add_value(child, rounded)
+
+    def add_value(self, s, rounded=False):
         self.check_add_new_line()
         r = 'STYLE="ROUNDED"' if rounded else ''
         self.html += f'<TD {r}> {format_string(s)} </TD>'

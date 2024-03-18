@@ -28,10 +28,7 @@ class HTML_Table_Helper:
                 self.html_table.add_dots(rounded=self.is_rounded())
             self.html_table.add_new_line()
         if child:
-            if isinstance(child, Node):
-                self.html_table.add_reference(self.node, child, rounded=self.is_rounded())
-            else:
-                self.html_table.add_column(child, rounded=self.is_rounded())
+            self.html_table.add_entry(self.node, child, rounded=self.is_rounded())
     
 class Node_Table(Node):
 
