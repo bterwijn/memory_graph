@@ -3,13 +3,13 @@ import pandas as pd
 import config
 from Node_Linear import Node_Linear
 from Node_Table import Node_Table
-
+import config_default
     
 config.type_to_node[pd.DataFrame] = lambda data : (
     Node_Table(data, 
-               data.values.tolist(), 
+               data.values.tolist(),
                column_names=data.columns.tolist(),
-               row_names=data.index.tolist()
+               row_names = [ str(i) for i in data.index.tolist()] # TODO: first row problem when 'int' not 'str'
             )
 )
 

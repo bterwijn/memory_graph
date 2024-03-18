@@ -10,14 +10,15 @@ def fill_html_table_helper(node, html_table, depth, child):
         if vertical:
                 html_table.add_new_line()
     if child:
-        if isinstance(child, str):
-            html_table.add_column(child)
-            if vertical:
-                html_table.add_new_line()
-        else:
+        if isinstance(child, Node):
             html_table.add_reference(node,child)
             if vertical:
                 html_table.add_new_line()
+        else:
+            html_table.add_column(child)
+            if vertical:
+                html_table.add_new_line()
+        
     
 class Node_Linear(Node):
 

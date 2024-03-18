@@ -4,6 +4,7 @@ import config
 import numpy as np
 import extension_numpy
 import pandas as pd
+import extension_pandas
 
 from Node_Table import Node_Table
 
@@ -137,4 +138,4 @@ def test_all(fun):
     test_key_value_split(fun)
     test_table(fun)
     test_numpy(fun)
-    #test_pandas(fun)
+    test_pandas(fun)

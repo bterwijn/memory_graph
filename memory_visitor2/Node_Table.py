@@ -28,10 +28,10 @@ class HTML_Table_Helper:
                 self.html_table.add_dots(rounded=self.is_rounded())
             self.html_table.add_new_line()
         if child:
-            if isinstance(child, str):
-                self.html_table.add_column(child, rounded=self.is_rounded())
-            else:
+            if isinstance(child, Node):
                 self.html_table.add_reference(self.node, child, rounded=self.is_rounded())
+            else:
+                self.html_table.add_column(child, rounded=self.is_rounded())
     
 class Node_Table(Node):
 
@@ -55,8 +55,8 @@ class Node_Table(Node):
         if row_names:
             self.row_names = (row_names + [' ']*(self.data_height-len(row_names)))[:self.data_height]
             self.row_names = slicer_height.slice(self.row_names)
+
         self.children = children_sliced
-        
         super().__init__(data, children_sliced, f'{self.data_height}⨯{self.data_width}')
 
     def transform(self, fun):

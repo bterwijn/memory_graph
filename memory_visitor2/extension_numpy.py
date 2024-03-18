@@ -1,9 +1,9 @@
 
-
 import numpy as np
 import config
 from Node_Linear import Node_Linear
 from Node_Table import Node_Table
+import config_default
 
 config.no_reference_types |= {
     np.int8, np.int16, np.int32, np.int64,

@@ -17,9 +17,9 @@ class HTML_Table_Helper:
             self.elements.append('dots')
         if child:
             key, value = child.get_children()
-            if not type(key) is str:
+            if isinstance(key, Node): 
                 self.ref_count += 1
-            if not type(value) is str:
+            if isinstance(value, Node):
                 self.ref_count += 1
             self.elements.append(child)
 
@@ -33,15 +33,15 @@ class HTML_Table_Helper:
                 else:
                     key, value = e.get_children()
                     if key:
-                        if isinstance(key, str):
-                            self.html_table.add_column(key,rounded=True)
-                        else:
+                        if isinstance(key, Node): 
                             self.html_table.add_reference(self.node,key,rounded=True)
-                    if value:
-                        if isinstance(value, str):
-                            self.html_table.add_column(value)
                         else:
+                            self.html_table.add_column(key,rounded=True)
+                    if value:
+                        if isinstance(value, Node): 
                             self.html_table.add_reference(self.node,value)
+                        else:
+                            self.html_table.add_column(value)
                 self.html_table.add_new_line()
         else:
             for e in self.elements:
@@ -50,10 +50,10 @@ class HTML_Table_Helper:
                 else:
                     key, value = e.get_children()
                     if key:
-                        if isinstance(key, str):
-                            self.html_table.add_column(key,rounded=True)
-                        else:
+                        if isinstance(key, Node):
                             self.html_table.add_reference(self.node,key,rounded=True)
+                        else:
+                            self.html_table.add_column(key,rounded=True)
             self.html_table.add_new_line()
             for e in self.elements:
                 if e == 'dots':
@@ -61,10 +61,10 @@ class HTML_Table_Helper:
                 else:
                     key, value = e.get_children()
                     if value:
-                        if isinstance(value, str):
-                            self.html_table.add_column(value)
-                        else:
+                        if isinstance(value, Node): 
                             self.html_table.add_reference(self.node,value)
+                        else:
+                            self.html_table.add_column(value)
 
 class Node_Key_Value(Node):
 

@@ -10,6 +10,8 @@ def inner_html_table(s):
             s + '</TR>\n  </TABLE>')
 
 def format_string(s):
+    if not type(s) is str:
+        s = str(s)
     s = (s[:config.max_string_length] + '..') if len(s) > config.max_string_length else s
     return html.escape(s)
 
