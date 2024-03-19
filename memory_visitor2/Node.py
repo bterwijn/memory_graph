@@ -37,7 +37,7 @@ class Node:
         html_table = HTML_Table()
         if self.children is None:
             html_table.add_string(f'{self.data}')
-        elif utils.has_no_children(self.children):
+        elif not self.children.has_data():
             html_table.add_string(' ')
         else:
             html_table.add_inner_table()

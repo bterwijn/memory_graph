@@ -7,7 +7,7 @@ def outer_html_table(s, border, color):
             s + '\n</TD></TR></TABLE>\n>')
 
 def inner_html_table(s):
-    return ('  <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0">\n    <TR>' +
+    return ('  <TABLE BORDER="0" CELLBORDER="0" CELLSPACING="5" CELLPADDING="0">\n    <TR>' +
             s + '</TR>\n  </TABLE>')
 
 def format_string(s):
@@ -50,31 +50,31 @@ class HTML_Table:
         self.html += format_string(s)
         self.col_count += 1
 
-    def add_entry(self, node, child, rounded=False):
+    def add_entry(self, node, child, rounded=False, border=1):
         if isinstance(child, Node): 
-            self.add_reference(node, child, rounded)
+            self.add_reference(node, child, rounded, border)
         else:
-            self.add_value(child, rounded)
+            self.add_value(child, rounded, border)
 
-    def add_value(self, s, rounded=False):
+    def add_value(self, s, rounded=False, border=1):
         self.check_add_new_line()
         r = 'STYLE="ROUNDED"' if rounded else ''
-        self.html += f'<TD {r}> {format_string(s)} </TD>'
+        self.html += f'<TD BORDER="{border}" {r}> {format_string(s)} </TD>'
         self.col_count += 1
 
-    def add_reference(self, node, child, rounded=False):
+    def add_reference(self, node, child, rounded=False, border=1):
         self.check_add_new_line()
         r = 'STYLE="ROUNDED"' if rounded else ''
-        self.html += f'<TD PORT="ref{self.ref_count}" {r}> </TD>'
+        self.html += f'<TD BORDER="{border}" PORT="ref{self.ref_count}" {r}> </TD>'
         self.edges.append( (f'{node.get_name()}:ref{self.ref_count}',
                             child.get_name()) )
         self.ref_count+=1
         self.col_count += 1
 
-    def add_dots(self, rounded=False):
+    def add_dots(self, rounded=False, border=1):
         self.check_add_new_line()
         r = 'STYLE="ROUNDED"' if rounded else ''
-        self.html += f'<TD {r}>...</TD>'
+        self.html += f'<TD BORDER="{border}" {r}>...</TD>'
         self.col_count += 1
 
     def to_string(self, border=1, color='white'):

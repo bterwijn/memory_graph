@@ -1,6 +1,7 @@
 import config
 import utils
 import test
+import config_helpers
 
 from Node import Node
 from Node_Linear import Node_Linear
@@ -9,12 +10,13 @@ import config_default
 
 def default_backtrack_callback(node):
     print('backtrack_callback:', node)
-    node.visit_with_depth(lambda child: print('-- child:', child))
+    #node.visit_with_depth(lambda child: print('-- child:', child))
 
 class Memory_Visitor:
     
     def __init__(self, backtrack_callback=None):
-        self.backtrack_callback = default_backtrack_callback if backtrack_callback is None else backtrack_callback 
+        config_helpers.set_config()
+        self.backtrack_callback = default_backtrack_callback if backtrack_callback is None else backtrack_callback
         self.data_ids = {}
 
     def visit(self, data):
@@ -44,7 +46,6 @@ class Memory_Visitor:
         elif utils.is_iterable(data): # for lists, tuples, sets, ...
             return Node_Linear(data, data)
         return Node(data) # for int, float, str, ...
-
 
 if __name__ == '__main__':
     def test_fun(data):

@@ -3,7 +3,6 @@ import pandas as pd
 import config
 from Node_Linear import Node_Linear
 from Node_Table import Node_Table
-import config_default
     
 config.type_to_node[pd.DataFrame] = lambda data : (
     Node_Table(data, 
@@ -19,4 +18,3 @@ config.type_to_node[pd.Series] = lambda data : (
 
 config.type_to_color[pd.DataFrame] = "olivedrab1"
 config.type_to_color[pd.Series] = "olivedrab2"
-

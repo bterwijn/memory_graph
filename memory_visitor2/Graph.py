@@ -1,7 +1,7 @@
 import graphviz
-import config_helpers
 import utils
 import test
+import config_helpers
 
 from Slicer import Slicer
 from Memory_Visitor import Memory_Visitor
@@ -22,8 +22,8 @@ class Graph:
                                     graph_attr=graphviz_graph_attr,
                                     node_attr=graphviz_node_attr,
                                     edge_attr=graphviz_edge_attr)
-        config_helpers.set_config(colors, vertical_orientations, slicers)
         memory_visitor = Memory_Visitor(self.backtrack_callback)
+        config_helpers.set_config(colors, vertical_orientations, slicers) # TODO: not happy, Memory_Visitor also set_configs
         memory_visitor.visit(data)
 
     def backtrack_callback(self, node):

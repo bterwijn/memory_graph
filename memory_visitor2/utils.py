@@ -38,5 +38,12 @@ def nested_list(sizes, i=0, value=[0]):
 def my_round(value):
     return math.floor(value + 0.5)
 
+def generator_has_data(generator):
+    try:
+        next(generator)
+        return True
+    except StopIteration:
+        return False
+
 if __name__ == '__main__':
     print( nested_list([4,3,2]) )

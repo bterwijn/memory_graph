@@ -1,5 +1,6 @@
 import math
 import utils 
+from Sliced import Sliced
 
 def convert_to_list(data):
     if type(data) is list:
@@ -54,31 +55,34 @@ class Slicer:
         if self.middle is not None:
             m_low = self.get_middle_low_index(length)
             m_high = self.get_middle_high_index(length)
-            if b>=m_low:
-                slices[-1] = [0,m_high]
+            if b + 1 >= m_low:
+                slices[-1] = [0, m_high]
             else:
                 slices.append([m_low,m_high])
         if self.end is not None:
             e = self.get_end_index(length)
-            if e <= slices[-1][1]:
+            if slices[-1][1] + 1 >= e:
                 slices[-1][1] = None
             else:
                 slices.append([e,None])
-        sliced_data = []
+        sliced = Sliced()
         for index, slice in enumerate(slices):
-            sliced = data[slice[0]:slice[1]]
-            if len(sliced) == 0:
-                if index==0 or index==len(slices)-1:
-                    sliced_data.append(empty_list(list_depth))
+            s0 = slice[0]
+            sli = data[s0:slice[1]]
+            if len(sli) == 0:
+                if index == len(slices)-1:
+                    sliced.add_slice(s0, empty_list(list_depth))
             else:
-                sliced_data.append(sliced)
-        return sliced_data
+                sliced.add_slice(s0, sli)
+        return sliced
         
 if __name__ == '__main__':
-    n = 10
+    n = 12
     data = [i for i in range(n)]
     print('data:',data)
-    slicer = Slicer(1,1,0)
+    slicer = Slicer(0,2,0)
     print('slicer:',slicer)
-    print( slicer.slice(data,3) )
-   
+    sliced = slicer.slice(data)
+    print( sliced )
+    for v in sliced:
+        print(v)

@@ -6,7 +6,7 @@ type_to_color = None
 type_to_vertical_orientation = None
 type_to_slicer = None
 
-def set_config(colors, vertical_orientations, slicers):
+def set_config(colors=None, vertical_orientations=None, slicers=None):
     global type_to_color
     global type_to_vertical_orientation
     global type_to_slicer
