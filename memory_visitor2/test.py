@@ -114,11 +114,12 @@ def test_numpy(fun):
     fun(data)
 
 def test_pandas(fun):
-    data = {
+    dataframe = pd.DataFrame({
         "calories": [420, 380, 390],
         "duration": [50, 40, 45]
-    }
-    data = pd.DataFrame(data)
+    })
+    series = pd.Series( [i for i in range(20)] )
+    data = [dataframe, series]
     fun(data)
 
 def test_all(fun):

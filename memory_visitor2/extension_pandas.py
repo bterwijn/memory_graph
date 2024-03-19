@@ -13,22 +13,10 @@ config.type_to_node[pd.DataFrame] = lambda data : (
             )
 )
 
-#config.type_to_node[np.ndarray] = ndarray_to_node
+config.type_to_node[pd.Series] = lambda data : (
+    Node_Linear(data, data.tolist())
+)
 
-#config.type_to_color[np.ndarray] = "hotpink1"
-#config.type_to_color[np.matrix] = "hotpink2"
+config.type_to_color[pd.DataFrame] = "olivedrab1"
+config.type_to_color[pd.Series] = "olivedrab2"
 
-
-# data = {'Name'   : [ 'Tom', 'Anna', 'Steve', 'Lisa'],
-#         'Age'    : [    28,     34,      29,     42],
-#         'Length' : [  1.70,   1.66,    1.82,   1.73] }
-# dataframe = pd.DataFrame(data)
-# print( dataframe)
-
-# row_names = dataframe.index.tolist()
-# col_name = dataframe.columns.tolist()
-# values = dataframe.values.tolist()
-
-# print('row names:', row_names, type(row_names))
-# print('col names:', col_name, type(col_name))
-# print('values:', values, type(values))
