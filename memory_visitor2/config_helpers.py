@@ -2,14 +2,17 @@ import config
 import utils
 from Slicer import Slicer
 
-type_to_color = config.type_to_color
-type_to_vertical_orientation = config.type_to_vertical_orientation
-type_to_slicer = config.type_to_slicer
+type_to_color = None
+type_to_vertical_orientation = None
+type_to_slicer = None
 
 def set_config(colors, vertical_orientations, slicers):
     global type_to_color
     global type_to_vertical_orientation
     global type_to_slicer
+    type_to_color = config.type_to_color.copy()
+    type_to_vertical_orientation = config.type_to_vertical_orientation.copy()
+    type_to_slicer = config.type_to_slicer.copy()
     if colors:
         type_to_color                |= colors
     if vertical_orientations:
