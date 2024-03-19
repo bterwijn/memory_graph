@@ -11,10 +11,10 @@ class Node_Linear(Node):
 
     def transform(self, fun):
         self.children.transform(fun)
-        self.children.check_has_nodes()
         
     def fill_html_table(self, html_table):
-        vertical = config_helpers.get_vertical_orientation(self, not self.children.has_node())
+        has_nodes = self.children.check_condition_on_children(lambda c: isinstance(c, Node))
+        vertical = config_helpers.get_vertical_orientation(self, not has_nodes)
         if vertical:
             self.fill_html_table_vertical(html_table)
         else:
@@ -43,5 +43,3 @@ class Node_Linear(Node):
                 html_table.add_dots()
             if value:
                 html_table.add_entry(self, value)
-
-    

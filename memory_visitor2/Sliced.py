@@ -46,22 +46,18 @@ class Sliced:
 
     def __init__(self):
         self.slices = []
-        self.has_node_flag = False
-
+        
     def __repr__(self):
         return f"Sliced({self.slices})"
     
     def add_slice(self, index, data):
         self.slices.append(Slice(index, data))
 
-    def check_has_nodes(self):
+    def check_condition_on_children(self, fun):
         for slice in self.slices:
-            if utils.generator_has_data(filter(lambda x: isinstance(x,Node), slice.data)):
-                self.has_node_flag = True
-                return
-
-    def has_node(self):
-        return self.has_node_flag
+            if utils.generator_has_data(filter(lambda x: fun(x), slice.data)):
+                return True
+        return False
 
     def __iter__(self):
         return Sliced_Iterator(self.slices)

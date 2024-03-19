@@ -130,6 +130,12 @@ def test_list(fun):
               frozenset(i for i in range(20)),]
     fun(data)
 
+def test_dict(fun):
+    n = 17
+    data = {i:[i*10] for i in range(n)}
+    data[0] = {'a':1, 'b':2, 'c':3}
+    fun(data)
+
 def test_all(fun):
     pass
     # test_singular(fun)
@@ -149,3 +155,4 @@ def test_all(fun):
     # test_numpy(fun)
     # test_pandas(fun)
     test_list(fun)
+    test_dict(fun)
