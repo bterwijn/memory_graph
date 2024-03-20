@@ -7,7 +7,7 @@ from Slicer import Slicer
 from Memory_Visitor import Memory_Visitor
 from Node import Node
 
-class Graph:
+class Memory_Graph:
 
     def __init__(self, data, 
                  colors = None,
@@ -53,7 +53,7 @@ if __name__ == '__main__':
     test_fun_count = 0
     def test_fun(data):
         global test_fun_count
-        graph = Graph(data) #, colors={id(data):'red'}, vertical_orientations={id(data):True, list:False}, slicers={id(data):(Slicer(0,0),Slicer(0,0))} )
+        graph = Memory_Graph(data) #, colors={id(data):'red'}, vertical_orientations={id(data):True, list:False}, slicers={id(data):(Slicer(0,0),Slicer(0,0))} )
         graph.get_graph().render(outfile=f'test_graph{test_fun_count}.png')
         test_fun_count += 1
     test.test_all(test_fun)
