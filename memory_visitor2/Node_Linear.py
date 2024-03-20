@@ -27,7 +27,7 @@ class Node_Linear(Node):
                 html_table.add_dots()
                 html_table.add_new_line()
             if value:
-                html_table.add_entry(self, index, border=0)
+                html_table.add_index(index)
                 html_table.add_entry(self, value)
                 html_table.add_new_line()
 
@@ -36,7 +36,7 @@ class Node_Linear(Node):
             if jump:
                 html_table.add_entry(self, '', border=0)
             if value:
-                html_table.add_entry(self, index, border=0)
+                html_table.add_index(index)
         html_table.add_new_line()
         for index, jump, value in self.children:
             if jump:

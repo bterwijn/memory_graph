@@ -56,16 +56,21 @@ class HTML_Table:
         else:
             self.add_value(child, rounded, border)
 
+    def add_index(self, s):
+        self.check_add_new_line()
+        self.html += f'<TD><font color="#606060">{str(s)}</font></TD>'
+        self.col_count += 1
+
     def add_value(self, s, rounded=False, border=1):
         self.check_add_new_line()
-        r = 'STYLE="ROUNDED"' if rounded else ''
-        self.html += f'<TD BORDER="{border}" {r}> {format_string(s)} </TD>'
+        r = ' STYLE="ROUNDED"' if rounded else ''
+        self.html += f'<TD BORDER="{border}"{r}> {format_string(s)} </TD>'
         self.col_count += 1
 
     def add_reference(self, node, child, rounded=False, border=1):
         self.check_add_new_line()
-        r = 'STYLE="ROUNDED"' if rounded else ''
-        self.html += f'<TD BORDER="{border}" PORT="ref{self.ref_count}" {r}> </TD>'
+        r = ' STYLE="ROUNDED"' if rounded else ''
+        self.html += f'<TD BORDER="{border}" PORT="ref{self.ref_count}"{r}> </TD>'
         self.edges.append( (f'{node.get_name()}:ref{self.ref_count}',
                             child.get_name()) )
         self.ref_count+=1

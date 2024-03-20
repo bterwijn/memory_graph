@@ -87,7 +87,7 @@ def test_share_children(fun):
     fun(data)
 
 def test_list_split(fun):
-    data = [ list(range(i+1)) for i in range(20)]
+    data = [ list(range(i)) for i in range(120)]
     fun(data)
 
 def test_key_value_split(fun):
@@ -131,26 +131,26 @@ def test_list(fun):
     fun(data)
 
 def test_dict(fun):
-    n = 17
+    n = 18
     data = {i:[i*10] for i in range(n)}
     data[0] = {'a':1, 'b':2, 'c':3}
     fun(data)
 
 def test_all(fun):
     pass
-    # test_singular(fun)
-    # test_linear(fun)
-    # test_linears(fun)
-    # test_colors(fun)
-    # test_empty_linear(fun)
-    # test_nested_list(fun)
-    # test_key_value(fun)
-    # test_class(fun)
-    # test_class_vars(fun)
-    # test_share_tuple(fun)
-    # test_share_children(fun)
-    # test_list_split(fun)
-    # test_key_value_split(fun)
+    test_singular(fun)
+    test_linear(fun)
+    test_linears(fun)
+    test_colors(fun)
+    test_empty_linear(fun)
+    test_nested_list(fun)
+    test_key_value(fun)
+    test_class(fun)
+    test_class_vars(fun)
+    test_share_tuple(fun)
+    test_share_children(fun)
+    test_list_split(fun)
+    test_key_value_split(fun)
     # test_table(fun)
     # test_numpy(fun)
     # test_pandas(fun)
