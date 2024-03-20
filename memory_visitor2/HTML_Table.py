@@ -13,7 +13,7 @@ def inner_html_table(s):
 def format_string(s):
     if not type(s) is str:
         s = str(s)
-    s = (s[:config.max_string_length] + '..') if len(s) > config.max_string_length else s
+    s = (s[:config.max_string_length] + '...') if len(s) > config.max_string_length else s
     return html.escape(s)
 
 class HTML_Table:
@@ -50,16 +50,16 @@ class HTML_Table:
         self.html += format_string(s)
         self.col_count += 1
 
+    def add_index(self, s):
+        self.check_add_new_line()
+        self.html += f'<TD><font color="#606060">{str(s)}</font></TD>'
+        self.col_count += 1
+
     def add_entry(self, node, child, rounded=False, border=1):
         if isinstance(child, Node): 
             self.add_reference(node, child, rounded, border)
         else:
             self.add_value(child, rounded, border)
-
-    def add_index(self, s):
-        self.check_add_new_line()
-        self.html += f'<TD><font color="#606060">{str(s)}</font></TD>'
-        self.col_count += 1
 
     def add_value(self, s, rounded=False, border=1):
         self.check_add_new_line()
