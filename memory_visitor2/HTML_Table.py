@@ -52,7 +52,7 @@ class HTML_Table:
 
     def add_index(self, s):
         self.check_add_new_line()
-        self.html += f'<TD><font color="#606060">{str(s)}</font></TD>'
+        self.html += f'<TD><font color="#505050">{str(s)}</font></TD>'
         self.col_count += 1
 
     def add_entry(self, node, child, rounded=False, border=1):

@@ -9,6 +9,7 @@ class Slice:
 
     def transform(self, fun):
         self.data = [fun(x) for x in self.data]
+        return self
 
     def __repr__(self):
         return f"Slice({self.index},{self.data})"
@@ -65,6 +66,7 @@ class Sliced:
     def transform(self, fun):
         for slice in self.slices:
             slice.transform(fun)
+        return self
 
     def has_data(self):
         return len(self.slices) > 1 or (len(self.slices) == 1 and len(self.slices[0].data) > 0)

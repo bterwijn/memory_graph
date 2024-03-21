@@ -7,12 +7,6 @@ def convert_to_list(data):
         return data
     return list(data)
 
-def empty_list(list_depth):
-    data = []
-    for _ in range(list_depth-1):
-        data = [data]
-    return data
-
 class Slicer:
 
     def __init__(self, begin=None, end=None, middle=None, *, _placeholder=None):
@@ -45,11 +39,7 @@ class Slicer:
             return math.floor(length-self.end*length)
         return length-self.end
 
-    def slice(self, data, list_depth=1):
-        data = convert_to_list(data)
-        if self.begin is None:
-            return [data]
-        length = len(data)
+    def get_slices(self, length):
         b = self.get_begin_index(length)
         slices = [ [0,b] ]
         if self.middle is not None:
@@ -59,24 +49,50 @@ class Slicer:
                 slices[-1] = [0, m_high]
             else:
                 slices.append([m_low,m_high])
-        if self.end is not None:
+        if self.end is None:
+            slices.append([length,None])
+        else:
             e = self.get_end_index(length)
             if slices[-1][1] + 1 >= e:
                 slices[-1][1] = None
             else:
                 slices.append([e,None])
+        return slices
+
+    def slice(self, data):
         sliced = Sliced()
-        for index, slice in enumerate(slices):
-            s0 = slice[0]
-            sli = data[s0:slice[1]]
-            if len(sli) == 0:
-                if index == len(slices)-1:
-                    sliced.add_slice(s0, empty_list(list_depth))
-            else:
-                sliced.add_slice(s0, sli)
+        data = convert_to_list(data) # TODO: no list conversion if not sliced?
+        if self.begin is None:
+            sliced.add_slice(0, data)
+        else:
+            slices = self.get_slices(len(data))
+            print('slices:',slices)
+            for index, slice in enumerate(slices):
+                start = slice[0]
+                sli = data[start:slice[1]]
+                if len(sli) == 0:
+                    if index == len(slices)-1:
+                        sliced.add_slice(start, [])
+                else:
+                    sliced.add_slice(start, sli)
         return sliced
         
-if __name__ == '__main__':
+    def slice_2d(self, data, data_width):
+        sliced = Sliced()
+        length = math.ceil(len(data) / data_width)
+        slices = self.get_slices(length)
+        for index, slice in enumerate(slices):
+            begin = slice[0]
+            end = slice[1] if slice[1] is not None else length
+            steps = end - begin
+            d = [data[(begin+s)*data_width:(begin+s+1)*data_width] for s in range(steps)]
+            if index == len(slices)-1:
+                d[-1] += [''] * (data_width - len(d[-1]))
+            sliced.add_slice(begin, d)
+        return sliced
+
+def slice_test():
+    print('=== slice_test ===')
     n = 12
     data = [i for i in range(n)]
     print('data:',data)
@@ -86,3 +102,20 @@ if __name__ == '__main__':
     print( sliced )
     for v in sliced:
         print(v)
+
+def slice_2d_test():
+    print('=== slice_2d_test ===')
+    n = 10
+    k = 5
+    data = [i for i in range(n*k-3)]
+    print('data:',data)
+    slicer = Slicer()
+    print('slicer:',slicer)
+    sliced = slicer.slice_2d(data, k)
+    print( sliced )
+    for v in sliced:
+        print(v)
+
+if __name__ == '__main__':
+    slice_test()
+    slice_2d_test()
