@@ -6,13 +6,14 @@ import math
 class Node_Table(Node):
 
     def __init__(self, data, children, data_width=None, column_names=None, row_names=None):
-        slicer_width, slicer_height = config_helpers.get_slicer_2d(self, data)
-        print('slicer_width:',slicer_width)
+        slicer_height, slicer_width = config_helpers.get_slicer_2d(self, data)
         print('slicer_height:',slicer_height)
+        print('slicer_width:',slicer_width)
         if data_width:
             sliced_children = slicer_height.slice_2d(children, data_width)
         else:
             sliced_children = slicer_height.slice(children)
+        
         sliced_children.transform(lambda c: slicer_width.slice(c) )
         
         print('sliced_children:',sliced_children)
@@ -26,41 +27,39 @@ class Node_Table(Node):
         #     self.row_names = slicer_height.slice(self.row_names)
 
 
-        self.data_height = 10
-        self.data_width = 11
-        #sliced_children = slicer_width.slice([i for i in range(20)])
+        self.data_height = sliced_children.get_original_length()
+        slices = sliced_children.get_slices()
+        print('slices:',slices)
+        self.data_width = 3 #slices[0].get_data().get_original_length() if len(slices) > 0 else 0 # TODO
         super().__init__(data, sliced_children, f'{self.data_height}⨯{self.data_width}')
 
     def transform(self, fun):
         self.children.transform(lambda s: s.transform(fun))
 
     def fill_html_table(self, html_table):
-       dot_line = False
-       for index1, jump1, sliced in self.children:
-            print('index1:',index1,'jump1:',jump1,'sliced:',sliced)
-            if jump1:
-                dot_line = True
-            if sliced:
-                if html_table.get_row() == 0:  # first row
-                    if html_table.get_column() == 0:
+        # index on top row
+        for index1, jump1, slice in self.children:
+            if slice:
+                html_table.add_value('', border=0)
+                for index2, jump2, value in slice:
+                    if jump2:
                         html_table.add_value('', border=0)
-                    for index2, jump2, value in sliced:
-                        if jump2:
-                            html_table.add_value('', border=0)
-                        if value:
-                            html_table.add_index(index2)
-                    html_table.add_new_line()
-
-                if dot_line: # dot line
-                    html_table.add_new_line()
-                    html_table.add_value('', border=0)
-                    for _ in range (html_table.get_max_column()-1):
-                        html_table.add_dots()
-                    html_table.add_new_line()
-                    dot_line = False
-
-                html_table.add_index(index1) # other rows
-                for index2, jump2, value in sliced:
+                    if value:
+                        html_table.add_index(index2)
+                html_table.add_new_line()
+                break
+        # remaining rows
+        for index1, jump1, slice in self.children:
+            print('index1:',index1,'jump1:',jump1,'sliced:',slice)
+            if jump1:
+                html_table.add_new_line()
+                html_table.add_value('', border=0)
+                for _ in range (html_table.get_max_column()-1):
+                    html_table.add_dots()
+                html_table.add_new_line()
+            if slice:
+                html_table.add_index(index1)
+                for index2, jump2, value in slice:
                     print('  index2:',index2,'jump2:',jump2,'value:',value)
                     if jump2:
                         html_table.add_dots()

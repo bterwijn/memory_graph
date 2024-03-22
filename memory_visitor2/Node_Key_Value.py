@@ -21,7 +21,7 @@ class Node_Key_Value(Node):
         hidden_children = [Node_Hidden(i,list(i)) for i in children]
         slicer = config_helpers.get_slicer_1d(self, data)
         sliced_children = slicer.slice(hidden_children)
-        super().__init__(data, sliced_children, len(hidden_children))
+        super().__init__(data, sliced_children, sliced_children.get_original_length())
         
     def transform(self, fun):
         self.children.transform(lambda node_hidden:  transform_node_hidden(node_hidden, fun) )

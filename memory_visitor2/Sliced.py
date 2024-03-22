@@ -7,12 +7,19 @@ class Slice:
         self.index = index
         self.data = data
 
-    def transform(self, fun):
-        self.data = [fun(x) for x in self.data]
-        return self
+    def __len__(self):
+        return len(self.data)
 
     def __repr__(self):
         return f"Slice({self.index},{self.data})"
+
+    def transform(self, fun):
+        self.data = [fun(x) for x in self.data]
+        return self
+    
+    def get_data(self):
+        return self.data
+    
 
 class Sliced_Iterator:
 
@@ -45,11 +52,15 @@ class Sliced_Iterator:
 
 class Sliced:
 
-    def __init__(self):
+    def __init__(self,length):
+        self.original_length = length
         self.slices = []
         
     def __repr__(self):
         return f"Sliced({self.slices})"
+    
+    def get_original_length(self):
+        return self.original_length
     
     def add_slice(self, index, data):
         self.slices.append(Slice(index, data))
@@ -63,6 +74,9 @@ class Sliced:
     def __iter__(self):
         return Sliced_Iterator(self.slices)
     
+    def get_slices(self):
+        return self.slices
+
     def transform(self, fun):
         for slice in self.slices:
             slice.transform(fun)
@@ -70,3 +84,6 @@ class Sliced:
 
     def has_data(self):
         return len(self.slices) > 1 or (len(self.slices) == 1 and len(self.slices[0].data) > 0)
+    
+    def last_slice_empty(self):
+        return len(self.slices) > 0 and len(self.slices[-1].data) == 0

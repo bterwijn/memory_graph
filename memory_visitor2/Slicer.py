@@ -2,10 +2,12 @@ import math
 import utils 
 from Sliced import Sliced
 
-def convert_to_list(data):
-    if type(data) is list:
+def make_sliceable(data):
+    try:
+        data[0:0]
         return data
-    return list(data)
+    except TypeError:
+        return list(data)
 
 class Slicer:
 
@@ -60,61 +62,97 @@ class Slicer:
         return slices
 
     def slice(self, data):
-        sliced = Sliced()
-        data = convert_to_list(data) # TODO: no list conversion if not sliced?
+        length = len(data)
+        sliced = Sliced(length)
         if self.begin is None:
             sliced.add_slice(0, data)
         else:
-            slices = self.get_slices(len(data))
-            print('slices:',slices)
+            data = make_sliceable(data)
+            slices = self.get_slices(length)
             for index, slice in enumerate(slices):
-                start = slice[0]
-                sli = data[start:slice[1]]
+                begin = slice[0]
+                sli = data[begin:slice[1]]
                 if len(sli) == 0:
-                    if index == len(slices)-1:
-                        sliced.add_slice(start, [])
+                    if not sliced.last_slice_empty():
+                        sliced.add_slice(begin, [])
                 else:
-                    sliced.add_slice(start, sli)
+                    sliced.add_slice(begin, sli)
         return sliced
-        
+
     def slice_2d(self, data, data_width):
-        sliced = Sliced()
         length = math.ceil(len(data) / data_width)
-        slices = self.get_slices(length)
-        for index, slice in enumerate(slices):
-            begin = slice[0]
-            end = slice[1] if slice[1] is not None else length
-            steps = end - begin
-            d = [data[(begin+s)*data_width:(begin+s+1)*data_width] for s in range(steps)]
-            if index == len(slices)-1:
-                d[-1] += [''] * (data_width - len(d[-1]))
-            sliced.add_slice(begin, d)
+        sliced = Sliced(length)
+        if self.begin is None:
+            sliced.add_slice(0, [data[i*data_width:(i+1)*data_width] for i in range(length)] )
+        else:
+            slices = self.get_slices(length)
+            #print('------- slices:',slices)
+            for index, slice in enumerate(slices):
+                #print('slice:',slice)
+                begin = slice[0]
+                end = slice[1] if slice[1] is not None else length
+                steps = end - begin
+                d = [data[(begin+s)*data_width:(begin+s+1)*data_width] for s in range(steps)]
+                #print('d:',d)
+                if len(d) == 0:
+                    if not sliced.last_slice_empty():
+                        sliced.add_slice(begin, [])
+                else:
+                    if index == len(slices)-1 and len(d)>0:
+                        d[-1] += [''] * (data_width - len(d[-1]))
+                    sliced.add_slice(begin, d)
         return sliced
+
+
+def slice_test_size(sliced, sizes):
+    #print('sliced:',sliced)
+    i = 0
+    for slice in sliced.get_slices():
+        # print('slice:',slice,'len:',sizes)
+        assert( len(slice) == sizes[i] )
+        i += 1
+    assert(i == len(sizes))
 
 def slice_test():
     print('=== slice_test ===')
     n = 12
     data = [i for i in range(n)]
-    print('data:',data)
-    slicer = Slicer(0,2,0)
-    print('slicer:',slicer)
-    sliced = slicer.slice(data)
-    print( sliced )
-    for v in sliced:
-        print(v)
+    slice_test_size(Slicer().slice(data), [12])
+    slice_test_size(Slicer(0).slice(data), [0])
+    slice_test_size(Slicer(2).slice(data), [2,0])
+    slice_test_size(Slicer(0,0).slice(data), [0])
+    slice_test_size(Slicer(0,2).slice(data), [0,2])
+    slice_test_size(Slicer(2,0).slice(data), [2,0])
+    slice_test_size(Slicer(2,2).slice(data), [2,2])
+    slice_test_size(Slicer(0,0,0).slice(data), [0])
+    slice_test_size(Slicer(0,0,2).slice(data), [0,2])
+    slice_test_size(Slicer(0,2,0).slice(data), [0,2,0])
+    slice_test_size(Slicer(0,2,2).slice(data), [0,2,2])
+    slice_test_size(Slicer(2,0,0).slice(data), [2,0])
+    slice_test_size(Slicer(2,0,2).slice(data), [2,0,2])
+    slice_test_size(Slicer(2,2,0).slice(data), [2,2,0])
+    slice_test_size(Slicer(2,2,2).slice(data), [2,2,2])
 
 def slice_2d_test():
     print('=== slice_2d_test ===')
-    n = 10
+    n = 12
     k = 5
-    data = [i for i in range(n*k-3)]
-    print('data:',data)
-    slicer = Slicer()
-    print('slicer:',slicer)
-    sliced = slicer.slice_2d(data, k)
-    print( sliced )
-    for v in sliced:
-        print(v)
+    data = [i for i in range(n*k)]
+    slice_test_size(Slicer().slice_2d(data,k), [12])
+    slice_test_size(Slicer(0).slice_2d(data,k), [0])
+    slice_test_size(Slicer(2).slice_2d(data,k), [2,0])
+    slice_test_size(Slicer(0,0).slice_2d(data,k), [0])
+    slice_test_size(Slicer(0,2).slice_2d(data,k), [0,2])
+    slice_test_size(Slicer(2,0).slice_2d(data,k), [2,0])
+    slice_test_size(Slicer(2,2).slice_2d(data,k), [2,2])
+    slice_test_size(Slicer(0,0,0).slice_2d(data,k), [0])
+    slice_test_size(Slicer(0,0,2).slice_2d(data,k), [0,2])
+    slice_test_size(Slicer(0,2,0).slice_2d(data,k), [0,2,0])
+    slice_test_size(Slicer(0,2,2).slice_2d(data,k), [0,2,2])
+    slice_test_size(Slicer(2,0,0).slice_2d(data,k), [2,0])
+    slice_test_size(Slicer(2,0,2).slice_2d(data,k), [2,0,2])
+    slice_test_size(Slicer(2,2,0).slice_2d(data,k), [2,2,0])
+    slice_test_size(Slicer(2,2,2).slice_2d(data,k), [2,2,2])
 
 if __name__ == '__main__':
     slice_test()

@@ -148,8 +148,9 @@ def test_all(fun):
     # test_share_children(fun)
     # test_list_split(fun)
     # test_key_value_split(fun)
-    # test_table(fun)
+    test_table(fun)
     # test_numpy(fun)
     # test_pandas(fun)
-    
+
     test_list(fun)
+    test_dict(fun)
