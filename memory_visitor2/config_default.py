@@ -8,6 +8,7 @@ from Node_Hidden import Node_Hidden
 from Node_Table import Node_Table
 from Slicer import Slicer
 
+
 config.no_reference_types = {type(None), bool, int, float, complex, str}
 config.no_child_references_types = {dict, types.MappingProxyType}
 
@@ -51,5 +52,5 @@ config.type_to_vertical_orientation = {
 config.type_to_slicer = {
     Node_Linear: Slicer(5,5,5),
     Node_Key_Value: Slicer(5,5,5),
-    Node_Table: (Slicer(2,2,0), Slicer(2,1)),
+    Node_Table: (Slicer(3,3,3), Slicer(3,3)),
 }

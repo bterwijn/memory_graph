@@ -1,12 +1,13 @@
-import config
 import utils
-import test
+import config
+import config_default
 import config_helpers
 
 from Node import Node
 from Node_Linear import Node_Linear
 from Node_Key_Value import Node_Key_Value
-import config_default
+
+import test # last
 
 def default_backtrack_callback(node):
     print('backtrack_callback:', node)

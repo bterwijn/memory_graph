@@ -2,35 +2,29 @@ from Node import Node
 from Slicer import Slicer
 import config_helpers
 import math
-    
+
+def add_name_or_index(html_table, index, names):
+    if names and index < len(names):
+        html_table.add_entry(None, names[index], rounded=True)
+    else:
+        html_table.add_index(index)
+
 class Node_Table(Node):
 
-    def __init__(self, data, children, data_width=None, column_names=None, row_names=None):
+    def __init__(self, data, children, data_width=None, row_names=None, column_names=None):
         slicer_height, slicer_width = config_helpers.get_slicer_2d(self, data)
-        print('slicer_height:',slicer_height)
-        print('slicer_width:',slicer_width)
+
         if data_width:
             sliced_children = slicer_height.slice_2d(children, data_width)
+            self.data_width = data_width
         else:
             sliced_children = slicer_height.slice(children)
-        
+            self.data_width = len(children[0])
         sliced_children.transform(lambda c: slicer_width.slice(c) )
-        
-        print('sliced_children:',sliced_children)
-
-        # children_sliced = slicer_height.slice(children_sliced,3)
-        # if column_names:
-        #     self.column_names = (column_names + [' ']*(self.data_width-len(column_names)))[:self.data_width]
-        #     self.column_names = slicer_width.slice(self.column_names)
-        # if row_names:
-        #     self.row_names = (row_names + [' ']*(self.data_height-len(row_names)))[:self.data_height]
-        #     self.row_names = slicer_height.slice(self.row_names)
-
-
         self.data_height = sliced_children.get_original_length()
-        slices = sliced_children.get_slices()
-        print('slices:',slices)
-        self.data_width = 3 #slices[0].get_data().get_original_length() if len(slices) > 0 else 0 # TODO
+
+        self.row_names = row_names
+        self.column_names = column_names
         super().__init__(data, sliced_children, f'{self.data_height}⨯{self.data_width}')
 
     def transform(self, fun):
@@ -45,12 +39,13 @@ class Node_Table(Node):
                     if jump2:
                         html_table.add_value('', border=0)
                     if value:
-                        html_table.add_index(index2)
+                        add_name_or_index(html_table, index2, self.column_names)
+                        #html_table.add_index(index2)
                 html_table.add_new_line()
                 break
         # remaining rows
         for index1, jump1, slice in self.children:
-            print('index1:',index1,'jump1:',jump1,'sliced:',slice)
+            #print('index1:',index1,'jump1:',jump1,'sliced:',slice)
             if jump1:
                 html_table.add_new_line()
                 html_table.add_value('', border=0)
@@ -58,11 +53,13 @@ class Node_Table(Node):
                     html_table.add_dots()
                 html_table.add_new_line()
             if slice:
-                html_table.add_index(index1)
+                add_name_or_index(html_table, index1, self.row_names)
+                #html_table.add_index(index1)
                 for index2, jump2, value in slice:
-                    print('  index2:',index2,'jump2:',jump2,'value:',value)
+                    #print('  index2:',index2,'jump2:',jump2,'value:',value)
                     if jump2:
                         html_table.add_dots()
                     if value:
                         html_table.add_entry(self, value)
                 html_table.add_new_line()
+

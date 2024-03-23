@@ -18,7 +18,7 @@ def test_linear(fun):
 
 def test_linears(fun):
     data = [(1,2), [3,4], {5,6}, frozenset((7,8)), {9:'nine', 10:'ten'} , bytes('11', 'utf-8'), bytearray('12', 'utf-8')]
-    data.append( [i for i in range(16)] )
+    data.append( [i for i in range(20)] )
     fun(data)
 
 def test_colors(fun):
@@ -38,7 +38,7 @@ def test_empty_linear(fun):
     fun(data)
 
 def test_nested_list(fun):
-    data = utils.nested_list([3,3,3])
+    data = utils.nested_list([2,3,4,5])
     fun(data)
 
 def test_key_value(fun):
@@ -110,47 +110,42 @@ def test_table(fun):
     fun(data)
 
 def test_numpy(fun):
-    data = [np.array([1.1, 2, 3, 4, 5]), np.matrix('1 2; 3 4'), np.random.rand(12,15)]
+    data = [np.array([1.1, 2, 3, 4, 5]), 
+            np.matrix([[i*20+j for j in range(20)] for i in range(20)]), 
+            np.random.rand(20,20)]
+    #data = np.matrix('1 2; 3 4')
     fun(data)
 
 def test_pandas(fun):
-    dataframe = pd.DataFrame({
-        "calories": [420, 380, 390],
-        "duration": [50, 40, 45]
-    })
-    series = pd.Series( [i for i in range(20)] )
-    data = [dataframe, series]
-    fun(data)
+    data = [
+            pd.DataFrame({  "calories": [420, 380, 390],
+                            "duration": [50, 40, 45]
+                        }),
 
-def test_list(fun):
-    n = 20
-    data = [ i for i in range(n) ]
-    fun(data)
+            pd.DataFrame({  'Name'   : [ 'Tom', 'Anna', 'Steve', 'Lisa'],
+                            'Age'    : [    28,     34,      29,     42],
+                            'Length' : [  1.70,   1.66,    1.82,   1.73] },
+                            index=['one', 'two', 'three', 'four']),
 
-def test_dict(fun):
-    n = 18
-    data = {i:[i*10] for i in range(n)}
-    data[0] = {'a':1, 'b':2, 'c':3}
+            pd.Series( [i for i in range(20)] )
+            ]
     fun(data)
 
 def test_all(fun):
     pass
-    # test_singular(fun)
-    # test_linear(fun)
-    # test_linears(fun)
-    # test_colors(fun)
-    # test_empty_linear(fun)
-    # test_nested_list(fun)
-    # test_key_value(fun)
-    # test_class(fun)
-    # test_class_vars(fun)
-    # test_share_tuple(fun)
-    # test_share_children(fun)
-    # test_list_split(fun)
-    # test_key_value_split(fun)
+    test_singular(fun)
+    test_linear(fun)
+    test_linears(fun)
+    test_colors(fun)
+    test_empty_linear(fun)
+    test_nested_list(fun)
+    test_key_value(fun)
+    test_class(fun)
+    test_class_vars(fun)
+    test_share_tuple(fun)
+    test_share_children(fun)
+    test_list_split(fun)
+    test_key_value_split(fun)
     test_table(fun)
-    # test_numpy(fun)
-    # test_pandas(fun)
-
-    test_list(fun)
-    test_dict(fun)
+    test_numpy(fun)
+    test_pandas(fun)

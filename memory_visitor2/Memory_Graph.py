@@ -1,11 +1,12 @@
 import graphviz
 import utils
-import test
 import config_helpers
 
 from Slicer import Slicer
 from Memory_Visitor import Memory_Visitor
 from Node import Node
+
+import test # last
 
 class Memory_Graph:
 

@@ -98,8 +98,6 @@ class Slicer:
                     if not sliced.last_slice_empty():
                         sliced.add_slice(begin, [])
                 else:
-                    if index == len(slices)-1 and len(d)>0:
-                        d[-1] += [''] * (data_width - len(d[-1]))
                     sliced.add_slice(begin, d)
         return sliced
 
