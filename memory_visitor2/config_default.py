@@ -8,14 +8,29 @@ from Node_Hidden import Node_Hidden
 from Node_Table import Node_Table
 from Slicer import Slicer
 
+#from Memory_Graph import Memory_Graph
+#from Memory_Visitor import Memory_Visitor
 
-config.no_reference_types = {type(None), bool, int, float, complex, str}
+config.no_reference_types = {
+    type(None) : lambda d: "None", 
+    bool : lambda d: str(d), 
+    int : lambda d: str(d), 
+    float : lambda d: str(d), 
+    complex : lambda d: str(d), 
+    str : lambda d: str(d),
+    types.FunctionType : lambda d: str(d.__qualname__),
+    types.MethodType  : lambda d: str(d.__qualname__),
+}
 config.no_child_references_types = {dict, types.MappingProxyType}
 
 config.max_string_length = 42
 
 config.type_to_node = {
     str: lambda data: Node(data), # visit as whole string, don't iterate over characters
+    types.FunctionType: lambda data: Node(data.__qualname__),
+    types.MethodType: lambda data: Node(data.__qualname__),
+    #Memory_Graph : Node('Memory_Graph'),
+    #Memory_Visitor : Node('Memory_Visitor'),
     dict: lambda data: (
         Node_Key_Value(data, data.items())
             if dict in config.no_child_references_types else 

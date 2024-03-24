@@ -1,4 +1,5 @@
 import math 
+import types
 
 def has_dict_attribute(value):
     return hasattr(value,"__dict__")
@@ -8,7 +9,7 @@ def get_dict_attribute(value):
 
 def get_filtered_dict_attribute(value):
     return [(k,v) for k, v in get_dict_attribute(value).items() 
-            if not k.startswith('__')]
+            if not k.startswith('__') and not isinstance(v,types.FunctionType) ]
 
 def is_iterable(data):
     try:

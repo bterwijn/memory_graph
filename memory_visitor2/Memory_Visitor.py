@@ -25,8 +25,9 @@ class Memory_Visitor:
 
     def visit_recursive(self, data, parent_node):
         #print('visit_recursive:', data, parent_node)
-        if (parent_node != None and type(data) in config.no_reference_types):
-            return str(data)
+        data_type = type(data)
+        if (parent_node != None and data_type in config.no_reference_types):
+            return config.no_reference_types[data_type](data)
         data_id = id(data)
         if data_id in self.data_ids:
             return self.data_ids[data_id]

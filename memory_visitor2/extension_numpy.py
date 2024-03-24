@@ -4,12 +4,26 @@ from Node_Linear import Node_Linear
 from Node_Table import Node_Table
 
 config.no_reference_types |= {
-    np.int8, np.int16, np.int32, np.int64,
-    np.uint8, np.uint16, np.uint32, np.uint64,
-    np.float16, np.float32, np.float64, np.float_,
-    np.complex64, np.complex128, np.complex_,
-    np.bool_, np.bytes_, np.str_,
-    np.datetime64, np.timedelta64
+    np.int8 : lambda d : str(d), 
+    np.int16 : lambda d : str(d), 
+    np.int32 : lambda d : str(d), 
+    np.int64 : lambda d : str(d),
+    np.uint8 : lambda d : str(d), 
+    np.uint16 : lambda d : str(d), 
+    np.uint32 : lambda d : str(d), 
+    np.uint64 : lambda d : str(d),
+    np.float16 : lambda d : str(d), 
+    np.float32 : lambda d : str(d), 
+    np.float64 : lambda d : str(d), 
+    np.float_ : lambda d : str(d),
+    np.complex64 : lambda d : str(d), 
+    np.complex128 : lambda d : str(d), 
+    np.complex_ : lambda d : str(d),
+    np.bool_ : lambda d : str(d), 
+    np.bytes_ : lambda d : str(d), 
+    np.str_ : lambda d : str(d),
+    np.datetime64 : lambda d : str(d), 
+    np.timedelta64 : lambda d : str(d), 
 }
 
 def ndarray_to_node(ndarray_data):

@@ -1,5 +1,5 @@
 
-no_reference_types = set()
+no_reference_types = {}
 no_child_references_types = set()
 
 max_string_length = 42

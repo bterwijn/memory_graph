@@ -131,6 +131,21 @@ def test_pandas(fun):
             ]
     fun(data)
 
+def example_function(a):
+    return a*10
+
+class Example_Class:
+
+    def __init__(self):
+        self.a=1
+        self.b=2
+    def example_method(self):
+        return self.a+self.b
+
+def test_function(fun):
+    data = [1,2,example_function,lambda x: x*100, Example_Class, Example_Class.example_method]
+    fun(data)
+    
 def test_all(fun):
     pass
     test_singular(fun)
@@ -149,3 +164,4 @@ def test_all(fun):
     test_table(fun)
     test_numpy(fun)
     test_pandas(fun)
+    test_function(fun)
