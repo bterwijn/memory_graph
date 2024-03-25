@@ -12,7 +12,7 @@ from Memory_Graph import Memory_Graph
 from Memory_Visitor import Memory_Visitor
 
 config.no_reference_types = {
-    type(None) : lambda d: "None", 
+    type(None) : lambda d: "None",  # so None can be used to indicate no value
     bool : lambda d: d, 
     int : lambda d: d, 
     float : lambda d: d, 
