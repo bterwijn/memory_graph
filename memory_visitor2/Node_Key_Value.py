@@ -40,7 +40,7 @@ class Node_Key_Value(Node):
                 html_table.add_dots(rounded=True)
                 html_table.add_dots()
                 html_table.add_new_line()
-            if value:
+            if value is not None:
                 key_value = value.get_children()
                 html_table.add_entry(self, key_value[0], rounded=True)
                 html_table.add_entry(self, key_value[1])
@@ -50,13 +50,13 @@ class Node_Key_Value(Node):
         for index, jump, value in self.children:
             if jump:
                 html_table.add_dots(rounded=True)
-            if value:
+            if value is not None:
                 key_value = value.get_children()
                 html_table.add_entry(self, key_value[0], rounded=True)
         html_table.add_new_line()
         for index, jump, value in self.children:
             if jump:
                 html_table.add_dots()
-            if value:
+            if value is not None:
                 key_value = value.get_children()
                 html_table.add_entry(self, key_value[1])

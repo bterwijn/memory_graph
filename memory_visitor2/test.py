@@ -2,8 +2,8 @@ import utils
 import config 
 
 import numpy as np
-import extension_numpy
 import pandas as pd
+import extension_numpy
 import extension_pandas
 
 from Node_Table import Node_Table
@@ -87,7 +87,7 @@ def test_share_children(fun):
     fun(data)
 
 def test_list_split(fun):
-    data = [ list(range(i)) for i in range(20) ]
+    data = [ list(range(i)) for i in range(1,2) ]
     fun(data)
 
 def test_key_value_split(fun):

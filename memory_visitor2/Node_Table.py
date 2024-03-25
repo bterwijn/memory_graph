@@ -38,7 +38,7 @@ class Node_Table(Node):
                 for index2, jump2, value in slice:
                     if jump2:
                         html_table.add_value('', border=0)
-                    if value:
+                    if value is not None:
                         add_name_or_index(html_table, index2, self.column_names)
                         #html_table.add_index(index2)
                 html_table.add_new_line()
@@ -59,7 +59,7 @@ class Node_Table(Node):
                     #print('  index2:',index2,'jump2:',jump2,'value:',value)
                     if jump2:
                         html_table.add_dots()
-                    if value:
+                    if value is not None:
                         html_table.add_entry(self, value)
                 html_table.add_new_line()
 

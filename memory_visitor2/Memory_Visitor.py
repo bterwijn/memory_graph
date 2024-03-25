@@ -1,13 +1,11 @@
-import utils
-import config
-import config_default
-import config_helpers
-
 from Node import Node
 from Node_Linear import Node_Linear
 from Node_Key_Value import Node_Key_Value
 
-import test # last
+import utils
+import config
+import config_helpers
+
 
 def default_backtrack_callback(node):
     print('backtrack_callback:', node)
@@ -49,8 +47,3 @@ class Memory_Visitor:
             return Node_Linear(data, data)
         return Node(data) # for int, float, str, ...
 
-if __name__ == '__main__':
-    def test_fun(data):
-        visitor = Memory_Visitor()
-        visitor.visit(data)
-    test.test_all(test_fun)

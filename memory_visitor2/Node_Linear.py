@@ -26,7 +26,7 @@ class Node_Linear(Node):
                 html_table.add_entry(self, '', border=0)
                 html_table.add_dots()
                 html_table.add_new_line()
-            if value:
+            if value is not None:
                 html_table.add_index(index)
                 html_table.add_entry(self, value)
                 html_table.add_new_line()
@@ -35,11 +35,11 @@ class Node_Linear(Node):
         for index, jump, value in self.children:
             if jump:
                 html_table.add_entry(self, '', border=0)
-            if value:
+            if value is not None:
                 html_table.add_index(index)
         html_table.add_new_line()
         for index, jump, value in self.children:
             if jump:
                 html_table.add_dots()
-            if value:
+            if value is not None:
                 html_table.add_entry(self, value)
