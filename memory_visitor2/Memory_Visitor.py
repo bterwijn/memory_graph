@@ -23,6 +23,8 @@ class Memory_Visitor:
 
     def visit_recursive(self, data, parent_node):
         #print('visit_recursive:', data, parent_node)
+        if data is self:
+            return None
         data_type = type(data)
         if (parent_node != None and data_type in config.no_reference_types):
             return config.no_reference_types[data_type](data)
@@ -31,11 +33,12 @@ class Memory_Visitor:
             return self.data_ids[data_id]
         else:
             node = self.data_to_node(data)
-            node.set_parent(parent_node)
             self.data_ids[data_id] = node
-            node.transform(lambda child: self.visit_recursive(child, node))
-            if node.do_backtrack_callback():
-                self.backtrack_callback(node)
+            if node is not None:
+                node.set_parent(parent_node)
+                node.transform(lambda child: self.visit_recursive(child, node))
+                if node.do_backtrack_callback():
+                    self.backtrack_callback(node)
         return node
 
     def data_to_node(self, data):

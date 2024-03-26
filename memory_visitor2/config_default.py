@@ -29,8 +29,6 @@ config.type_to_node = {
     str: lambda data: Node(data), # visit as whole string, don't iterate over characters
     types.FunctionType: lambda data: Node(data.__qualname__),
     types.MethodType: lambda data: Node(data.__qualname__),
-    Memory_Graph : Node('Memory_Graph'),
-    Memory_Visitor : Node('Memory_Visitor'),
     dict: lambda data: (
         Node_Key_Value(data, data.items())
             if dict in config.no_child_references_types else 
