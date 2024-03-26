@@ -24,6 +24,7 @@ config.no_reference_types = {
 config.no_child_references_types = {dict, types.MappingProxyType}
 
 config.max_string_length = 42
+config.max_number_nodes = 1000
 
 config.type_to_node = {
     str: lambda data: Node(data), # visit as whole string, don't iterate over characters

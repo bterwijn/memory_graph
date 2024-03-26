@@ -28,6 +28,9 @@ class Memory_Visitor:
         data_type = type(data)
         if (parent_node != None and data_type in config.no_reference_types):
             return config.no_reference_types[data_type](data)
+        if len(self.data_ids) > config.max_number_nodes:
+            print(f"Memory_Visitor max_number_nodes ({config.max_number_nodes}) reached, stopping recursion.")
+            return None
         data_id = id(data)
         if data_id in self.data_ids:
             return self.data_ids[data_id]
