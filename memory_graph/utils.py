@@ -11,7 +11,8 @@ def filter_dict_attributes(tuples):
     #print('tuples:', tuples)
     return [(k,v) for k, v in tuples 
             if type(k) is str and not k.startswith('__') 
-            and not isinstance(v,types.ModuleType)]
+            and not isinstance(v,types.ModuleType)
+            and not isinstance(v,types.FunctionType)]
 
 def is_iterable(data):
     try:
