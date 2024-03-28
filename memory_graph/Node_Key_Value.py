@@ -1,7 +1,9 @@
-from Node import Node
-from Node_Hidden import Node_Hidden
-from Slicer import Slicer
-import config_helpers
+from memory_graph.Node import Node
+from memory_graph.Node_Hidden import Node_Hidden
+from memory_graph.Slicer import Slicer
+
+import memory_graph.config_helpers as config_helpers
+import memory_graph.utils as utils
 
 def transform_node_hidden(node_hidden, fun):
     node_hidden.transform(fun)
@@ -18,7 +20,7 @@ class Node_Key_Value(Node):
 
     def __init__(self, data, children):
         #print('Node_Key_Value children:', children)
-        hidden_children = [Node_Hidden(i,list(i)) for i in children]
+        hidden_children = [ Node_Hidden(i,list(i)) for i in children ]
         slicer = config_helpers.get_slicer_1d(self, data)
         sliced_children = slicer.slice(hidden_children)
         super().__init__(data, sliced_children, sliced_children.get_original_length())

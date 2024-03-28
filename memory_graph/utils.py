@@ -1,15 +1,17 @@
 import math 
 import types
 
-def has_dict_attribute(value):
+def has_dict_attributes(value):
     return hasattr(value,"__dict__")
 
-def get_dict_attribute(value):
-    return getattr(value,"__dict__")
+def get_dict_attributes(value):
+    return getattr(value,"__dict__").items()
 
-def get_filtered_dict_attribute(value):
-    return [(k,v) for k, v in get_dict_attribute(value).items() 
-            if not k.startswith('__') and not isinstance(v,types.FunctionType) ]
+def filter_dict_attributes(tuples):
+    #print('tuples:', tuples)
+    return [(k,v) for k, v in tuples 
+            if type(k) is str and not k.startswith('__') 
+            and not isinstance(v,types.ModuleType)]
 
 def is_iterable(data):
     try:

@@ -1,7 +1,7 @@
-from Memory_Visitor import Memory_Visitor
+from memory_graph.Memory_Visitor import Memory_Visitor
 
-import config_default
-import test
+import  memory_graph.config_default as config_default
+import memory_graph.test as test
 
 if __name__ == '__main__':
     def test_fun(data):

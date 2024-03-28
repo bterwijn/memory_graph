@@ -1,5 +1,6 @@
-import utils
-from Node import Node
+from memory_graph.Node import Node
+
+import memory_graph.utils as utils
 
 class Slice:
 

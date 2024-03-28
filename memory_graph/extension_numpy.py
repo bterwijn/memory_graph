@@ -1,7 +1,9 @@
+from memory_graph.Node_Linear import Node_Linear
+from memory_graph.Node_Table import Node_Table
+
+import memory_graph.config as config
+
 import numpy as np
-import config
-from Node_Linear import Node_Linear
-from Node_Table import Node_Table
 
 config.no_reference_types |= {
     np.int8 : lambda d : d, 

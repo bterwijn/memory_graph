@@ -1,15 +1,15 @@
-import config
+from memory_graph.Node import Node
+from memory_graph.Node_Linear import Node_Linear
+from memory_graph.Node_Key_Value import Node_Key_Value
+from memory_graph.Node_Hidden import Node_Hidden
+from memory_graph.Node_Table import Node_Table
+from memory_graph.Slicer import Slicer
+
+import memory_graph.config as config
+import memory_graph.utils as utils
+
 import types
 
-from Node import Node
-from Node_Linear import Node_Linear
-from Node_Key_Value import Node_Key_Value
-from Node_Hidden import Node_Hidden
-from Node_Table import Node_Table
-from Slicer import Slicer
-
-from Memory_Graph import Memory_Graph
-from Memory_Visitor import Memory_Visitor
 
 config.no_reference_types = {
     type(None) : lambda d: "None",  # so None can be used to indicate no value
@@ -31,9 +31,9 @@ config.type_to_node = {
     types.FunctionType: lambda data: Node(data.__qualname__),
     types.MethodType: lambda data: Node(data.__qualname__),
     dict: lambda data: (
-        Node_Key_Value(data, data.items())
+        Node_Key_Value(data, utils.filter_dict_attributes(data.items()) )
             if dict in config.no_child_references_types else 
-        Node_Linear(data, data.items()) 
+        Node_Linear(data, utils.filter_dict_attributes(data.items()) ) 
         ),
     Node_Hidden: lambda data: data,
     }

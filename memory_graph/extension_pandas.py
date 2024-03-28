@@ -1,9 +1,10 @@
+from memory_graph.Node_Linear import Node_Linear
+from memory_graph.Node_Table import Node_Table
+
+import memory_graph.config as config
 
 import pandas as pd
-import config
-from Node_Linear import Node_Linear
-from Node_Table import Node_Table
-    
+
 config.type_to_node[pd.DataFrame] = lambda data : (
     Node_Table(data, 
                data.values.tolist(),

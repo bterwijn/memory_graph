@@ -1,7 +1,8 @@
-from Memory_Visitor import Memory_Visitor
+from memory_graph.Memory_Visitor import Memory_Visitor
+
+import memory_graph.config_helpers as config_helpers
 
 import graphviz
-import config_helpers
 
 class Memory_Graph:
 

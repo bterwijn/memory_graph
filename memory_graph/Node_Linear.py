@@ -1,6 +1,7 @@
-from Node import Node
-from Slicer import Slicer
-import config_helpers
+from memory_graph.Node import Node
+from memory_graph.Slicer import Slicer
+
+import memory_graph.config_helpers as config_helpers
 
 class Node_Linear(Node):
 

@@ -1,6 +1,8 @@
+from memory_graph.Sliced import Sliced
+
+import memory_graph.utils as utils
+
 import math
-import utils 
-from Sliced import Sliced
 
 def make_sliceable(data):
     try:

@@ -1,6 +1,8 @@
-from Node import Node
-from Slicer import Slicer
-import config_helpers
+from memory_graph.Node import Node
+from memory_graph.Slicer import Slicer
+
+import memory_graph.config_helpers as config_helpers
+
 import math
 
 def add_name_or_index(html_table, index, names):

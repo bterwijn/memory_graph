@@ -1,7 +1,6 @@
-from memory_graph import rewrite
-from memory_graph import Node
-from memory_graph import rewrite_to_node
-from memory_graph import graphviz_nodes
+from memory_graph.Memory_Graph import Memory_Graph
+
+import memory_graph.config_default as config_default
 
 import inspect
 import sys
@@ -29,19 +28,18 @@ def get_locals_from_calling_frame(stack_index=3):
     return frameInfo.frame.f_locals
 
 def create_graph(data):
-    all_nodes=rewrite_to_node.rewrite_data(data)
-    Node.print_all_nodes(all_nodes)
-    return graphviz_nodes.create_graph(all_nodes)
+    memory_graph = Memory_Graph(data)
+    return memory_graph.get_graph()
 
 def show(data,block=False):
-    graph=create_graph(data)
-    print('graph:',graph)
+    graph = create_graph(data)
+    #print('graph:',graph)
     graph.view()
     if block:
         input(f"showing '{graph.filename}', {get_source_location()}, {press_enter_text}")
 
 def render(data,output_filename=None,block=False):
-    graph=create_graph(data)
+    graph = create_graph(data)
     if output_filename:
         graph.render(outfile=output_filename)
         if block:
@@ -57,16 +55,17 @@ def to_str(data):
     except Exception as e:
         return f"problem printing: {type(data)}"
 
-def d(data=None,log=True,graph=True,block=True,stack_index=3):
+def d(data=None,log=False,graph=True,block=True,stack_index=3):
     if data is None:
         data=get_locals_from_calling_frame(stack_index)
     if log:
         print(f"debugging, {get_source_location()}",file=log_file)
-        if rewrite.is_dict_type(data):
-            for key,value in rewrite.filter_dict(data):
-                print(f"{to_str(key)}: {to_str(value)}",file=log_file)
-        else:
-            print(to_str(data),file=log_file)
+        # TODO
+        # if rewrite.is_dict_type(data):
+        #     for key,value in rewrite.filter_dict(data):
+        #         print(f"{to_str(key)}: {to_str(value)}",file=log_file)
+        # else:
+        #     print(to_str(data),file=log_file)
         print("",end='',file=log_file,flush=True)
     if graph:
         grph=create_graph(data)

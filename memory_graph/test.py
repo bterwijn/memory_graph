@@ -1,13 +1,13 @@
-import utils
-import config 
+import memory_graph.utils as utils
+import memory_graph.config as config
 
 import numpy as np
 import pandas as pd
-import extension_numpy
-import extension_pandas
+import memory_graph.extension_numpy
+import memory_graph.extension_pandas
 
-from Node_Table import Node_Table
-from Memory_Graph import Memory_Graph
+from memory_graph.Node_Table import Node_Table
+from memory_graph.Memory_Graph import Memory_Graph
 
 def test_singular(fun):
     data = 100

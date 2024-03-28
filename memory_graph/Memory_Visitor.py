@@ -1,10 +1,10 @@
-from Node import Node
-from Node_Linear import Node_Linear
-from Node_Key_Value import Node_Key_Value
+from memory_graph.Node import Node
+from memory_graph.Node_Linear import Node_Linear
+from memory_graph.Node_Key_Value import Node_Key_Value
 
-import utils
-import config
-import config_helpers
+import memory_graph.utils as utils    
+import memory_graph.config as config
+import memory_graph.config_helpers as config_helpers
 
 
 def default_backtrack_callback(node):
@@ -47,8 +47,8 @@ class Memory_Visitor:
     def data_to_node(self, data):
         if type(data) in config.type_to_node: # for predefined types
             return config.type_to_node[type(data)](data)
-        elif utils.has_dict_attribute(data): # for user defined classes
-            return Node_Key_Value(data, utils.get_filtered_dict_attribute(data))
+        elif utils.has_dict_attributes(data): # for user defined classes
+            return Node_Key_Value(data, utils.filter_dict_attributes(utils.get_dict_attributes(data)) )
         elif utils.is_iterable(data): # for lists, tuples, sets, ...
             return Node_Linear(data, data)
         return Node(data) # for int, float, str, ...

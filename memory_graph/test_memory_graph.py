@@ -1,7 +1,7 @@
+from memory_graph.Memory_Graph import Memory_Graph
 
-from Memory_Graph import Memory_Graph
-import config_default
-import test # last
+import memory_graph.config_default as config_default
+import memory_graph.test as test
 
 if __name__ == '__main__':
     test_fun_count = 0

@@ -1,6 +1,8 @@
+from memory_graph.Node import Node 
+
+import memory_graph.config as config
+
 import html
-import config 
-from Node import Node 
 
 def outer_html_table(s, border, color):
     return (f'<\n<TABLE BORDER="0" CELLBORDER="{border}" CELLSPACING="0" CELLPADDING="0" BGCOLOR="{color}"><TR><TD PORT="table">\n' +
