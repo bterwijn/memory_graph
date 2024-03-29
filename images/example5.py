@@ -1,3 +1,4 @@
+import memory_graph
 import pandas as pd
 
 data = {'Name':['Tom', 'Anna', 'Steve', 'Lisa'],
@@ -6,10 +7,9 @@ data = {'Name':['Tom', 'Anna', 'Steve', 'Lisa'],
 df = pd.DataFrame(data)
 
 # TODO
-# import memory_graph
 # memory_graph.rewrite.custom_accessor_functions[pd.DataFrame] = lambda d: list(d.items())
 # memory_graph.rewrite.custom_accessor_functions[pd.Series] = lambda d: list(d.items())
 # memory_graph.rewrite_to_node.reduce_reference_parents.add("DataFrame")
 # memory_graph.rewrite_to_node.reduce_reference_parents.add("Series")
 # memory_graph.graphviz_nodes.category_to_color_map['Series'] = 'lightskyblue'
-# memory_graph.render( locals(), 'example5.png' )
+memory_graph.render( locals(), 'example5.png' )

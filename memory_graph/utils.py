@@ -8,9 +8,8 @@ def get_dict_attributes(value):
     return getattr(value,"__dict__").items()
 
 def filter_dict_attributes(tuples):
-    #print('tuples:', tuples)
     return [(k,v) for k, v in tuples 
-            if type(k) is str and not k.startswith('__') 
+            if not (type(k) is str and k.startswith('__'))
             and not isinstance(v,types.ModuleType)
             and not isinstance(v,types.FunctionType)]
 
