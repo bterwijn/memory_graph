@@ -8,10 +8,13 @@ def get_dict_attributes(value):
     return getattr(value,"__dict__").items()
 
 def filter_dict_attributes(tuples):
-    return [(k,v) for k, v in tuples 
-            if not (type(k) is str and k.startswith('__'))
-            and not isinstance(v,types.ModuleType)
-            and not isinstance(v,types.FunctionType)]
+    return [
+        (k,v) for k, v in tuples 
+        if not (type(k) is str and k.startswith('__'))
+        and not isinstance(v,types.ModuleType)
+        and not callable(v)
+            ]
+
 
 def is_iterable(data):
     try:

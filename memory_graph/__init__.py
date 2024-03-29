@@ -11,20 +11,15 @@ __author__ = 'Bas Terwijn'
 log_file=sys.stdout
 press_enter_text="press <ENTER> to continue..."
 
-def get_source_location(stack_index=3):
-    try:
-        frameInfo = inspect.stack()[-stack_index] # get frameInfo of calling frame
-        filename= frameInfo.filenamepop
-        line_nr= frameInfo.lineno
-        function = frameInfo.function
-        return f'in file:"{filename}" line:{line_nr} function:"{function}"'
-    except Exception as e:
-        #print("Exception:",e)
-        pass
-    return ""
+def get_source_location(stack_index):
+    frameInfo = inspect.stack()[stack_index] # get frameInfo of calling frame
+    filename= frameInfo.filename
+    line_nr= frameInfo.lineno
+    function = frameInfo.function
+    return f'in file:"{filename}" line:{line_nr} function:"{function}"'
 
-def get_locals_from_calling_frame(stack_index=3):
-    frameInfo = inspect.stack()[-stack_index] # get frameInfo of calling frame
+def get_locals_from_calling_frame(stack_index):
+    frameInfo = inspect.stack()[stack_index] # get frameInfo of calling frame
     return frameInfo.frame.f_locals
 
 def create_graph(data):
@@ -36,18 +31,14 @@ def show(data,block=False):
     #print('graph:',graph)
     graph.view()
     if block:
-        input(f"showing '{graph.filename}', {get_source_location()}, {press_enter_text}")
+        input(f"showing '{graph.filename}', {get_source_location(2)}, {press_enter_text}")
 
-def render(data,output_filename=None,block=False):
+def render(data, output_filename=None, block=False):
     graph = create_graph(data)
-    if output_filename:
-        graph.render(outfile=output_filename)
-        if block:
-            input(f"rendering '{output_filename}', {get_source_location()}, {press_enter_text}")
-    else:
-        graph.render()
-        if block:
-            input(f"rendering '{graph.filename}', {get_source_location()}, {press_enter_text}")
+    filename = output_filename if output_filename else graph.filename
+    graph.render(outfile=filename)
+    if block:
+        input(f"rendering '{filename}', {get_source_location(2)}, {press_enter_text}")
 
 def to_str(data):
     try:
@@ -55,7 +46,7 @@ def to_str(data):
     except Exception as e:
         return f"problem printing: {type(data)}"
 
-def d(data=None,log=False,graph=True,block=True,stack_index=3):
+def d(data=None,log=False,graph=True,block=True,stack_index=2):
     if data is None:
         data=get_locals_from_calling_frame(stack_index)
     if log:
@@ -127,7 +118,7 @@ def jupyter_locals_filter(jupyter_locals):
     return {k:v for k,v in jupyter_locals.items()
             if k not in jupyter_filter_keys and k[0] != '_'}
 
-def locals_jupyter(stack_index=3):
+def locals_jupyter(stack_index=2):
     return jupyter_locals_filter(get_locals_from_calling_frame(stack_index))
 
 def get_call_stack_jupyter(up_to_function="<module>",stack_index=2):

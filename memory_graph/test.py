@@ -69,6 +69,8 @@ def test_class_vars(fun):
         def __init__(self):
             self.var1=10
             self.var2=20
+        def my_method(self):
+            return 100
     data = [My_Class1, My_Class1()]
     fun(data)
 
