@@ -25,23 +25,26 @@ class Memory_Graph:
 
     def backtrack_callback(self, node):
         #print("backtrack node:",node)
+        html_table = node.get_html_table()
+        edges = html_table.get_edges()
+        # ------------ subgraph
+        self.add_subgraph(edges)
+        # ------------ node
         color = config_helpers.get_color(node)
         border = 3 if node.get_parent() is None else 1
-        html_table = node.get_html_table()
         self.new_graph.node(node.get_name(),
                             html_table.to_string(border, color),
                             xlabel=node.get_label())
-        edges = html_table.get_edges()
-        for node,child in edges:
-            self.new_graph.edge(node, child+':table')
-        self.add_subgraph(edges)
+        # ------------ edges
+        for parent,child in edges:
+            self.new_graph.edge(parent, child+':table')
 
     def add_subgraph(self, edges):
-        new_edges = [child for node,child in edges if child not in self.subgraphed_nodes]
+        new_edges = [child for _,child in edges if child not in self.subgraphed_nodes]
         if len(new_edges) > 1:
-            for c in new_edges:
-                self.subgraphed_nodes.add(c)
             self.new_graph.body.append('{ rank="same"  '+(" -> ".join(new_edges))+'  [weight=99,style=invis]; }\n')
+        for c in new_edges:
+            self.subgraphed_nodes.add(c)
 
     def get_graph(self):
         return self.new_graph
