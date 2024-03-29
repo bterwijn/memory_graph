@@ -10,10 +10,13 @@ class HashSet:
         def add(self, value):
             index = hash(value) % len(self.buckets)
             if self.buckets[index] is None:
-                self.buckets[index] = [value]
-            else:
-                self.buckets[index].append(value)
-
+                self.buckets[index] = []
+            bucket = self.buckets[index]
+            bucket.append(value)
+            if value == 36:
+                memory_graph.render(locals(), "hash_set.png")
+                exit()
+        
         def contains(self, value):
             index = hash(value) % len(self.buckets)
             if self.buckets[index] is None:
@@ -30,6 +33,3 @@ n = 100
 for i in range(n):
     new_value = random.randrange(n)
     hash_set.add(new_value)
-    if new_value == 36:
-        memory_graph.render(locals(), "hash_set.png")
-        exit()
