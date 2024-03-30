@@ -1,6 +1,7 @@
 from memory_graph.Memory_Graph import Memory_Graph
 
 import memory_graph.config_default as config_default
+import memory_graph.utils as utils
 
 import inspect
 import sys
@@ -49,18 +50,16 @@ def to_str(data):
 def d(data=None,log=False,graph=True,block=True,stack_index=2):
     if data is None:
         data=get_locals_from_calling_frame(stack_index)
-    if log:
-        print(f"debugging, {get_source_location()}",file=log_file)
-        # TODO
-        # if rewrite.is_dict_type(data):
-        #     for key,value in rewrite.filter_dict(data):
-        #         print(f"{to_str(key)}: {to_str(value)}",file=log_file)
-        # else:
-        #     print(to_str(data),file=log_file)
-        print("",end='',file=log_file,flush=True)
     if graph:
         grph=create_graph(data)
         grph.view()
+    if log:
+        print(f"debugging, {get_source_location(stack_index)}",file=log_file)
+        if isinstance(data,dict):
+            for key,value in utils.filter_dict_attributes(data.items()):
+                print(f"{to_str(key)}: {to_str(value)}", file=log_file, flush=True)
+        else:
+            print(to_str(data), file=log_file, flush=True)
     if block:
         input(press_enter_text)
 

@@ -15,7 +15,6 @@ def filter_dict_attributes(tuples):
         and not callable(v)
             ]
 
-
 def is_iterable(data):
     try:
         iter(data)
