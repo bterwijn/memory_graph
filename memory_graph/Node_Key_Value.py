@@ -7,7 +7,6 @@ import memory_graph.utils as utils
 
 def transform_node_hidden(node_hidden, fun):
     node_hidden.transform(fun)
-    # node_hidden.check_has_nodes() # TODO
     return node_hidden
 
 def hidden_has_nodes(node_hidden):
@@ -26,7 +25,7 @@ class Node_Key_Value(Node):
         super().__init__(data, sliced_children, sliced_children.get_original_length())
         
     def transform(self, fun):
-        self.children.transform(lambda node_hidden:  transform_node_hidden(node_hidden, fun) )
+        self.children.transform(lambda node_hidden: transform_node_hidden(node_hidden, fun) )
         
     def fill_html_table(self, html_table):
         has_nodes = self.children.check_condition_on_children(lambda c: hidden_has_nodes(c))
