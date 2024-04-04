@@ -6,14 +6,25 @@ import memory_graph.config_helpers as config_helpers
 import math
 
 def add_name_or_index(html_table, index, names):
+    """
+    Helper function to add either the name of a row/column (if available) or its index to the html_table.
+    """
     if names and index < len(names):
         html_table.add_entry(None, names[index], rounded=True)
     else:
         html_table.add_index(index)
 
 class Node_Table(Node):
+    """
+    Node_Table (subclass of Node) is a node that represents a 2D table of data used for 
+    example for Numpy arrays and Pandas DataFrames.
+    """
 
     def __init__(self, data, children, data_width=None, row_names=None, column_names=None):
+        """
+        Create a Node_Table object. Use a Slicer to slice the children so the Node 
+        will not get to big or have too many childeren in the graph.
+        """
         slicer_height, slicer_width = config_helpers.get_slicer_2d(self, data)
 
         if data_width:
@@ -30,9 +41,15 @@ class Node_Table(Node):
         super().__init__(data, sliced_children, f'{self.data_height}⨯{self.data_width}')
 
     def transform(self, fun):
+        """
+        Transform the children of the Node using the 'fun' function.
+        """
         self.children.transform(lambda s: s.transform(fun))
 
     def fill_html_table(self, html_table):
+        """
+        Fill the html_table with the children of the Node.
+        """
         # index on top row
         for index1, jump1, slice in self.children:
             if slice:
