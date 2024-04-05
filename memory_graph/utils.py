@@ -55,5 +55,19 @@ def generator_has_data(generator):
     except StopIteration:
         return False
 
+def take_up_to(condition, iterable):
+    for i in iterable:
+        yield i
+        if condition(i):
+            return
+
+def take_after(condition, iterable):
+    taking = False
+    for i in iterable:
+        if taking:
+            yield i
+        elif condition(i):
+            taking = True
+
 if __name__ == '__main__':
     print( nested_list([4,3,2]) )

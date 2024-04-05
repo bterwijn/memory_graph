@@ -13,6 +13,7 @@ log_file=sys.stdout
 press_enter_text="press <ENTER> to continue..."
 
 def get_source_location(stack_index):
+    """ Helper function to get the source location of the stack with 'stack_index' of the call stack. """
     frameInfo = inspect.stack()[stack_index] # get frameInfo of calling frame
     filename= frameInfo.filename
     line_nr= frameInfo.lineno
@@ -20,14 +21,17 @@ def get_source_location(stack_index):
     return f'in file:"{filename}" line:{line_nr} function:"{function}"'
 
 def get_locals_from_calling_frame(stack_index):
+    """ Helper function to get locals of the stack with 'stack_inex' of the call stack. """
     frameInfo = inspect.stack()[stack_index] # get frameInfo of calling frame
     return frameInfo.frame.f_locals
 
 def create_graph(data):
+    """ Creates and returns a memory graph from 'data'. """
     memory_graph = Memory_Graph(data)
     return memory_graph.get_graph()
 
 def show(data,block=False):
+    """ Shows the graph of 'data' after creating it and optionally blocks. """
     graph = create_graph(data)
     #print('graph:',graph)
     graph.view()
@@ -35,6 +39,7 @@ def show(data,block=False):
         input(f"showing '{graph.filename}', {get_source_location(2)}, {press_enter_text}")
 
 def render(data, output_filename=None, block=False):
+    """ Renders the graph of 'data' to 'output_filename' after creating it and optionally blocks. """
     graph = create_graph(data)
     filename = output_filename if output_filename else graph.filename
     graph.render(outfile=filename)
@@ -48,6 +53,7 @@ def to_str(data):
         return f"problem printing: {type(data)}"
 
 def d(data=None,log=False,graph=True,block=True,stack_index=2):
+    """ TODO """
     if data is None:
         data=get_locals_from_calling_frame(stack_index)
     if graph:
@@ -65,47 +71,43 @@ def d(data=None,log=False,graph=True,block=True,stack_index=2):
 
 # ------------ call stack
 
-def take_up_to(condition,iterable):
-    for i in iterable:
-        yield i
-        if condition(i):
-            return
-
-def take_after(condition,iterable):
-    taking = False
-    for i in iterable:
-        if taking:
-            yield i
-        if condition(i):
-            taking = True
-
 def stack_frames_to_dict(frames):
+    """ Returns a dictionary representing the data on the call stack. 
+    Each key is the stack level and function name, each value is the locals of the frame at that level. 
+    """
     return {f"{level}: {frameInfo.function}" : frameInfo.frame.f_locals
             for level, frameInfo in enumerate(frames)}
 
 def get_call_stack(up_to_function="<module>",stack_index=1):
+    """ Gets the call stack up to the function 'up_to_function'. """
     frames = reversed(list(
-        take_up_to(lambda i: i.function==up_to_function, inspect.stack()[stack_index:])
+        utils.take_up_to(lambda i: i.function==up_to_function, inspect.stack()[stack_index:])
         ))
     return stack_frames_to_dict(frames)
 
 def get_call_stack_after_up_to(after_function,up_to_function="<module>"):
+    """ Gets the call stack after the function 'after_function' up to the function 'up_to_function'."""
     frames = reversed(list(
-            take_up_to(lambda i: i.function == up_to_function,
-            take_after(lambda i: i.function == after_function, inspect.stack()))
+            utils.take_up_to(lambda i: i.function == up_to_function,
+            utils.take_after(lambda i: i.function == after_function, inspect.stack()))
             ))
     return stack_frames_to_dict(frames)
 
 def get_call_stack_pdb(after_function="trace_dispatch",up_to_function="<module>"):
+    """ Get the call stack in a 'pdb' debugger session, filtering out the 'pdb' functions that polute the graph. """
     return get_call_stack_after_up_to(after_function,up_to_function)
 
 def get_call_stack_vscode(after_function="do_wait_suspend",up_to_function="<module>"):
+    """ Get the call stack in a 'vscode' debugger session, filtering out the 'vscode' functions that polute the graph. """
     return get_call_stack_after_up_to(after_function,up_to_function)
 
 def get_call_stack_pycharm(after_function="trace_dispatch",up_to_function="<module>"):
+    """ Get the call stack in a 'pycharm' debugger session, filtering out the 'pycharm' functions that polute the graph. """
     return get_call_stack_after_up_to(after_function,up_to_function)
 
 def save_call_stack(filename):
+    """ Save the call stack to 'filename' for inspection to see what functions need to be 
+    filtered out to create the desired graph. """
     with open(filename,'w') as file:
         for f in inspect.stack():
             file.write(f"function:{f.function} filename:{f.filename}\n")
@@ -114,13 +116,16 @@ def save_call_stack(filename):
             
 jupyter_filter_keys = {'exit','quit','v','In','Out','jupyter_filter_keys'}
 def jupyter_locals_filter(jupyter_locals):
+    """ Filter out the jupyter specific keys that polute the graph. """
     return {k:v for k,v in jupyter_locals.items()
             if k not in jupyter_filter_keys and k[0] != '_'}
 
 def locals_jupyter(stack_index=2):
+    """ Get the locals of the calling frame in a jupyter notebook, filtering out the jupyter specific keys. """
     return jupyter_locals_filter(get_locals_from_calling_frame(stack_index))
 
 def get_call_stack_jupyter(up_to_function="<module>",stack_index=2):
+    """ Get the call stack in a jupyter notebook, filtering out the jupyter specific keys. """
     call_stack = get_call_stack(up_to_function,stack_index)
     globals_frame = next(iter(call_stack))
     call_stack[globals_frame] = jupyter_locals_filter(call_stack[globals_frame])
