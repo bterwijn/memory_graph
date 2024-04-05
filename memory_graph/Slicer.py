@@ -5,6 +5,7 @@ import memory_graph.utils as utils
 import math
 
 def make_sliceable(data):
+    """ Helper function to convert data to a sliceable type if it is not already. """
     try:
         data[0:0]
         return data
@@ -12,8 +13,10 @@ def make_sliceable(data):
         return list(data)
 
 class Slicer:
+    """ Slicer can show only the beginning, middle, and end part of data so that the graph remains more readable. """
 
     def __init__(self, begin=None, end=None, middle=None, *, _placeholder=None):
+        """ Creates a slicer with the number of 'begin', 'middle', and 'end' elements to show. """
         self.begin = begin
         self.end = end
         self.middle = middle
@@ -24,26 +27,31 @@ class Slicer:
         return f"Slicer({self.begin},{self.middle},{self.end})"
 
     def get_begin_index(self, length):
+        """ Helper function to get the index of the end of the beginning of the data. """
         if type(self.begin) is float:
             return math.ceil(self.begin*length)
         return self.begin
     
     def get_middle_low_index(self, length):
+        """ Helper function to get the index of the beginning of the middle of the data. """
         if type(self.middle) is float:
             return utils.my_round(length/2 - self.middle*length)
         return utils.my_round(length/2 - self.middle/2)
 
     def get_middle_high_index(self, length):
+        """ Helper function to get the index of the end of the middle of the data. """
         if type(self.middle) is float:
             return utils.my_round(length/2 + self.middle*length)
         return utils.my_round(length/2 + self.middle/2)
 
     def get_end_index(self, length):
+        """ Helper function to get the index of the beginning of the end of the data. """
         if type(self.end) is float:
             return math.floor(length-self.end*length)
         return length-self.end
 
     def get_slices(self, length):
+        """ Helper function to get the slices given the length and the 'begin', 'middle', and 'end' sizes. """
         b = self.get_begin_index(length)
         slices = [ [0,b] ]
         if self.middle is not None:
@@ -64,6 +72,7 @@ class Slicer:
         return slices
 
     def slice(self, data):
+        """ Returns the slices of 'data'. """
         length = len(data)
         sliced = Sliced(length)
         if self.begin is None:
@@ -82,6 +91,7 @@ class Slicer:
         return sliced
 
     def slice_2d(self, data, data_width):
+        """ Returns the 2d slices of 'data' given 'data_width' as width. """
         length = math.ceil(len(data) / data_width)
         sliced = Sliced(length)
         if self.begin is None:

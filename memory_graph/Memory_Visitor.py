@@ -68,7 +68,7 @@ class Memory_Visitor:
     def data_to_node(self, data):
         """
         Helper function to convert 'data' to a Node object based on its type.
-        
+
         Returns:
             Node: The Node object representing 'data'.
         """

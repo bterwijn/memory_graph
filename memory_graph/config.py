@@ -1,3 +1,4 @@
+""" Configuration file for the graph visualizer. The configuration values are set later by the 'config_default.py' file. """
 
 no_reference_types = {}
 no_child_references_types = set()

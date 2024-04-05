@@ -1,3 +1,4 @@
+""" Extension to add the memory graph configuration for Numpy type. """
 from memory_graph.Node_Linear import Node_Linear
 from memory_graph.Node_Table import Node_Table
 

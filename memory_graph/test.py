@@ -1,3 +1,4 @@
+""" Some test data to make memory graph of for test purposes. """
 import memory_graph.utils as utils
 import memory_graph.config as config
 

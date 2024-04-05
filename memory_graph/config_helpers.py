@@ -1,3 +1,4 @@
+""" This module provides helper functions to access the configuration of the memory graph. """
 from memory_graph.Slicer import Slicer
 
 import memory_graph.config as config
