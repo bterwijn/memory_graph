@@ -1,7 +1,7 @@
-## Installation ##
-Install `memory_graph` using pip:
+# Installation #
+Install (or upgrade) `memory_graph` using pip:
 ```
-pip install memory-graph
+pip install --upgrade memory-graph
 ```
 Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 
@@ -26,8 +26,26 @@ memory_graph.render(data, "my_graph.png")
 memory_graph.render(data, "my_graph.gv") # Graphviz DOT file
 ```
 
+# Chapters #
 
-## Python Data Model ##
+[1. Python Data Model](##1-python-data-model##)
+
+[2. Debugging](##2-debugging##)
+
+[3. Call Stack](##3-call-stack##)
+
+[4. Datastructure Examples](##4-datastructure-examples##)
+
+[5. Configuration](##5-configuration##)
+
+[6. Troubleshooting](##6-troubleshooting##)
+
+extentions
+
+jupyter notebook
+
+
+## 1. Python Data Model ##
 The [Python Data Model](https://docs.python.org/3/reference/datamodel.html) makes a distiction between immutable and mutable types:
 
 * **immutable**: bool, int, float, complex, str, tuple, bytes, frozenset
@@ -118,7 +136,7 @@ memory_graph.show(locals())
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_method.png)
 
 
-## Debugging ##
+## 2. Debugging ##
 Often it is useful to graph all the local variables using:
 ```python
 memory_graph.show(locals(), block=True)
@@ -168,7 +186,7 @@ memory_graph.render(locals(), "my_debug_graph.pdf")
 This avoids having to add any memory_graph `show()` or `d()` calls to your code.
 
 
-## Call Stack ##
+## 3. Call Stack ##
 Function ```memory_graph.get_call_stack()``` returns the full call stack that holds for each called function all the local variables. This enables us to visualize the local variables of each of the called functions on the stack simultaneously. This helps to visualize if variables of different called functions share any data between them. Here for example we call function ```add_one()``` with arguments ```a, b, c``` that adds one to change each of its arguments.
 
 ```python
@@ -238,7 +256,7 @@ memory_graph.get_call_stack_after_up_to(after_function, up_to_function="<module>
 ```
 
 
-## Datastructure Examples ##
+## 4. Datastructure Examples ##
 Module memory_graph can be very useful in a course about datastructures, some examples:
 
 ### Doubly Linked List ###
@@ -364,7 +382,7 @@ for i in range(n):
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/hash_set.png)
 
 
-## Config ##
+## 5. Configuration ##
 Different aspects of memory_graph can be configured.
 
 ### Config Visualization, graphviz_nodes ###
@@ -503,7 +521,7 @@ which results in:
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example5.png)
 
 
-## Troubleshooting ##
+## 6. Troubleshooting ##
 - In Jupyter Notebooks `locals()` has additional variables that cause problems, use `memory_graph.locals_jupyter()` to get the local variables with these additional variables filtered out. Use `memory_graph.get_call_stack_jupyter()` to get the whole call stack with these variables filtered out.
 
 - When graph edges overlap it can be hard to distinguish them. Using an interactive graphviz viewer, such as [xdot](https://github.com/jrfonseca/xdot.py), on a '*.gv' DOT output file will help.
