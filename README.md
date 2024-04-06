@@ -1,25 +1,69 @@
 # Installation #
 Install (or upgrade) `memory_graph` using pip:
 ```
-pip install --upgrade memory-graph
+pip install --upgrade memory_graph
 ```
 Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 
+# Sharing Data #
 
-# Graph your Memory #
-Does your Python code have a bug, is it behaving differently from what you expect? The problem could be a misunderstanding of the Python Data Model, and the first step to the solution could be drawing your data as a graph using `memory_graph.show( your_data )`, an example:
+In Python, assigning the list from variable `a` to variable `b` causes both variables to reference the same list object and therefore share the list. Consequently, any change applied through one variable will impact the other. This behavior can lead to elusive bugs if a programmer incorrectly assumes that list `a` and `b` are independent.
+
+<table><tr>
+<td> 
+
+```python
+import memory_graph
+
+# create the lists 'a' and 'b'
+a = [4, 3, 2]
+b = a
+a.append(1) # changing 'a' changes 'b'
+
+# print the lists
+print('a:', a)
+print('b:', b)
+
+# check if they share data
+print('ids:', id(a), id(b))
+print('identical?:', a is b)
+
+# show the lists in a graph
+memory_graph.show(locals()) 
+```
+
+</td>
+<td>
+
+![mutable2.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/mutable2.png)
+
+a graph showing `a` and `b` share data
+</td>
+</tr></table>
+
+The fact that `a` and `b` share data can not be verified by printing the lists. It can be verified by comparing the identity of both variables using the `id()` function or by using the `is` comparison operator as shown in the program output below, but this quickly becomes impractical in larger programs. 
+```{verbatim}
+a: 4, 3, 2, 1
+b: 4, 3, 2, 1
+ids: 126432214913216 126432214913216
+identical?: True
+```
+A better way to see what data is shared is to draw a graph of the data using the [memory_graph](https://pypi.org/project/memory-graph/) package.
+
+# Memory Graph #
+The [memory_graph](https://pypi.org/project/memory-graph/) package can show a graph with many different data types.
+
 ```python
 import memory_graph
 
 data = [ (1, 2), [3, 4], {5, 6}, {7:'seven', 8:'eight'} ]
 memory_graph.show(data, block=True)
 ```
-This shows a graph with the starting point of our 'data' drawn with thick lines, the program blocks until the ENTER key is pressed.
 
 ![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example1.png)
 
+By using `block=True` the program blocks until the ENTER key is pressed so you can view the graph before continuing further execution (and possibly viewing later graphs). Instead of showing the graph you can also render it to an output file of our choosing (see [Graphviz Output Formats](https://graphviz.org/docs/outputs/)) using for example:
 
-Alternatively render the graph to an output file of our choosing (see [Graphviz Output Formats](https://graphviz.org/docs/outputs/)) using for example:
 ```python
 memory_graph.render(data, "my_graph.pdf")
 memory_graph.render(data, "my_graph.png")

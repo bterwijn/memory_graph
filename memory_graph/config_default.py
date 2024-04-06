@@ -32,6 +32,7 @@ config.max_number_nodes = 1000
 """ Conversion from type to Node objects. """
 config.type_to_node = {
     str: lambda data: Node(data), # visit as whole string, don't iterate over characters
+    range: lambda data: Node_Key_Value(data, {'start':data.start, 'stop':data.stop, 'step':data.step}.items()),
     types.FunctionType: lambda data: Node(data.__qualname__),
     types.MethodType: lambda data: Node(data.__qualname__),
     dict: lambda data: (
@@ -63,6 +64,7 @@ config.type_to_color = {
     type: "seagreen2",            # where class variables are stored
     dict : "dodgerblue1",
     types.MappingProxyType : "dodgerblue2", # not used
+    range : "cornsilk",
 }
 
 """ Types that will be visualized in vertical orientation if 'True', or horizontal orientation 
