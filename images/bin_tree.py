@@ -26,7 +26,7 @@ class BinTree:
             else:
                 self.add_recursive(new_value, node.larger)
         if new_value == 18:
-            memory_graph.render(locals(), f"bintree.png")
+            memory_graph.render(locals(), f"bin_tree.png")
             exit(0)
 
     def add(self, value):

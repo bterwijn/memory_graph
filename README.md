@@ -395,7 +395,7 @@ for i in range(n):
     tree.add(new_value)
     d()  # <--- draw tree after adding
 ```
-![bintree.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bintree.png)
+![bin_tree.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_tree.png)
 
 ### Hash Set ###
 ```python
