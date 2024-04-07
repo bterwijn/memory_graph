@@ -70,21 +70,21 @@ memory_graph.render(data, "my_graph.gv") # Graphviz DOT file
 
 # Chapters #
 
-[1. Python Data Model](##1-python-data-model##)
+[1. Python Data Model](#1-python-data-model)
 
-[2. Debugging](##2-debugging##)
+[2. Debugging](#2-debugging)
 
-[3. Call Stack](##3-call-stack##)
+[3. Call Stack](#3-call-stack)
 
-[4. Datastructure Examples](##4-datastructure-examples##)
+[4. Datastructure Examples](#4-datastructure-examples)
 
-[5. Configuration](##5-configuration##)
+[5. Configuration](#5-configuration)
 
-[6. Extensions](##6-extensions##)
+[6. Extensions](#6-extensions)
 
-[7. Jupyter Notebook](##7-jupyter-notebook##)
+[7. Jupyter Notebook](#7-jupyter-notebook)
 
-[8. Troubleshooting](##8-troubleshooting##)
+[8. Troubleshooting](#8-troubleshooting)
 
 
 ## Author ##
