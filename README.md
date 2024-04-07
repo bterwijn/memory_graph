@@ -46,9 +46,9 @@ b: 4, 3, 2, 1
 ids: 126432214913216 126432214913216
 identical?: True
 ```
-A better way to understand what data is shared is to draw a graph of the data using the [memory_graph](https://pypi.org/project/memory-graph/) package.
+A better way to understand what data is shared is to draw a graph of the data using this [memory_graph](https://pypi.org/project/memory-graph/) package.
 
-# Memory Graph #
+# Memory Graph Packge #
 The [memory_graph](https://pypi.org/project/memory-graph/) package can show a graph with many different data types.
 
 ```python
@@ -395,7 +395,7 @@ for i in range(n):
     tree.add(new_value)
     d()  # <--- draw tree after adding
 ```
-![bin_tree.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_tree.png)
+![bintree.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bintree.png)
 
 ### Hash Set ###
 ```python
