@@ -1,18 +1,27 @@
-python example1.py
-python example2.py
-python example3.py
-python example4.py
-python example5.py
+# intro
+python many_types.py
 
+# debugging
+python debugging.py
+
+# data model
 python immutable.py
 python mutable.py
 python copies.py
 python copy_method.py
 
+# call stack
 python add_one.py
 python factorial.py
 
+# datastructures
 python linked_list.py
 python bin_tree.py
 python hash_set.py
 
+# configuration
+python highlight.py
+
+# extensions
+python extension_numpy.py
+python extension_pandas.py

@@ -15,9 +15,6 @@ class BinTree:
         self.root = None
 
     def add_recursive(self, new_value, node):
-        if new_value == 62 and node.value == 53:
-            memory_graph.render(locals(), "bintree.png")
-            exit()
         if new_value < node.value:
             if node.smaller is None:
                 node.smaller = Node(new_value)
@@ -28,6 +25,9 @@ class BinTree:
                 node.larger = Node(new_value)
             else:
                 self.add_recursive(new_value, node.larger)
+        if new_value == 18:
+            memory_graph.render(locals(), f"bintree.png")
+            exit(0)
 
     def add(self, value):
         if self.root is None:
@@ -36,7 +36,7 @@ class BinTree:
             self.add_recursive(value, self.root)
 
 tree = BinTree()
-n = 100
+n = 20
 for i in range(n):
     new_value = random.randrange(n)
     tree.add(new_value)

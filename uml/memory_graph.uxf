@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.1">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>510</x>
+      <y>30</y>
+      <w>320</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>Memory_Visitor
+-
+node_ids
+-
+Memory_Visitor(data)
+visit_recursive(data, parent)
+data_to_node(data)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>130</x>
+      <y>30</y>
+      <w>210</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>Graph
+-
+memory_visitor
+-
+Graph(data)
+backtrack_callback(node)
+add_node(node)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>90</x>
+      <y>200</y>
+      <w>430</w>
+      <h>230</h>
+    </coordinates>
+    <panel_attributes>Node
+-
+data
+parent
+childeren
+-
+Node(data, children)
+set_parent(parent)
+get_name()
+get_parent()
+get_type()
+get_label()
+get_html_table()
+get_edges()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>700</x>
+      <y>730</y>
+      <w>340</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>Children_Table
+-
+column_slicer
+row_slicer
+-
+Children_Table(children, children_width,
+                         column_names, row_names)
+add_to_graph(graph, node)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>40</x>
+      <y>730</y>
+      <w>280</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>Children_Linear
+-
+slicer
+-
+Children_Linear(children)
+add_to_graph(graph, node)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>370</x>
+      <y>730</y>
+      <w>280</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>Children_Key_Value
+-
+slicer
+-
+Children_Key_Value(children)
+add_to_graph(graph, node)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>300</x>
+      <y>490</y>
+      <w>430</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>Children
+-
+children
+original_size
+-
+Children(children)
+transform(fun)
+visit(fun)
+visit_with_depth(fun)
+
+
+front_back_split_table(data, front_back, data_width)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>890</x>
+      <y>490</y>
+      <w>150</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>Slicer
+-
+
+-
+Slicer(slices)
+slice(data)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>990</x>
+      <y>200</y>
+      <w>210</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>utils
+-
+
+-
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>620</x>
+      <y>190</y>
+      <w>230</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>HTML_Table
+-
+
+-
+add_new_line()
+add_inner_table()
+add_string(s)
+add_index(s)
+add_entry(node, child)
+add_dots()
+get_edges()
+to_string()
+get_column()
+get_row()
+get_edges()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>990</x>
+      <y>330</y>
+      <w>210</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>test
+-
+
+-
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>330</x>
+      <y>100</y>
+      <w>200</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;180.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>170</x>
+      <y>640</y>
+      <w>170</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>150.0;10.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>490</x>
+      <y>640</y>
+      <w>30</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>680</x>
+      <y>640</y>
+      <w>120</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;100.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>420</x>
+      <y>420</y>
+      <w>30</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>990</x>
+      <y>80</y>
+      <w>210</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>config
+-
+
+-
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1090</x>
+      <y>490</y>
+      <w>130</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>Sliced
+-
+slices
+-
+add_slice(slice)
+has_data()
+transform(fun)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1100</x>
+      <y>670</y>
+      <w>130</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>Slice
+-
+index
+data
+-
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1160</x>
+      <y>610</y>
+      <w>30</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+</diagram>
