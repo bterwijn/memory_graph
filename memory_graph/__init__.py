@@ -18,29 +18,38 @@ def get_source_location(stack_index):
     filename= frameInfo.filename
     line_nr= frameInfo.lineno
     function = frameInfo.function
-    return f'in file:"{filename}" line:{line_nr} function:"{function}"'
+    return f'in {filename}:{line_nr} function:"{function}"'
 
 def get_locals_from_calling_frame(stack_index):
     """ Helper function to get locals of the stack with 'stack_inex' of the call stack. """
     frameInfo = inspect.stack()[stack_index] # get frameInfo of calling frame
     return frameInfo.frame.f_locals
 
-def create_graph(data):
+def create_graph(data,
+                 colors = None,
+                 vertical_orientations = None,
+                 slicers = None):
     """ Creates and returns a memory graph from 'data'. """
-    memory_graph = Memory_Graph(data)
+    memory_graph = Memory_Graph(data, colors, vertical_orientations, slicers)
     return memory_graph.get_graph()
 
-def show(data,block=False):
-    """ Shows the graph of 'data' after creating it and optionally blocks. """
-    graph = create_graph(data)
+def show(data,block=False,
+                 colors = None,
+                 vertical_orientations = None,
+                 slicers = None):
+    """ Shows the graph of 'data' and optionally blocks. """
+    graph = create_graph(data, colors, vertical_orientations, slicers)
     #print('graph:',graph)
     graph.view()
     if block:
         input(f"showing '{graph.filename}', {get_source_location(2)}, {press_enter_text}")
 
-def render(data, output_filename=None, block=False):
-    """ Renders the graph of 'data' to 'output_filename' after creating it and optionally blocks. """
-    graph = create_graph(data)
+def render(data, output_filename=None, block=False,
+                 colors = None,
+                 vertical_orientations = None,
+                 slicers = None):
+    """ Renders the graph of 'data' to 'output_filename' and optionally blocks. """
+    graph = create_graph(data, colors, vertical_orientations, slicers)
     filename = output_filename if output_filename else graph.filename
     graph.render(outfile=filename)
     if block:
@@ -52,22 +61,29 @@ def to_str(data):
     except Exception as e:
         return f"problem printing: {type(data)}"
 
-def d(data=None,log=False,graph=True,block=True,stack_index=2):
-    """ TODO """
+def d(data=None,graph=True,log=False,block=True,stack_index=2,
+                 colors = None,
+                 vertical_orientations = None,
+                 slicers = None):
+    """ 
+    Shows the graph of and optionally prints 'data', and optionally blocks.
+    When no 'data' is given, the locals of the calling frame are used as 'data'.
+    """
     if data is None:
         data=get_locals_from_calling_frame(stack_index)
     if graph:
-        grph=create_graph(data)
+        grph=create_graph(data, colors, vertical_orientations, slicers)
         grph.view()
     if log:
-        print(f"debugging, {get_source_location(stack_index)}",file=log_file)
         if isinstance(data,dict):
             for key,value in utils.filter_dict_attributes(data.items()):
                 print(f"{to_str(key)}: {to_str(value)}", file=log_file, flush=True)
         else:
             print(to_str(data), file=log_file, flush=True)
+        if not block and not log_file == sys.stdout:
+            print(f"debugging, {get_source_location(stack_index)}",file=log_file)
     if block:
-        input(press_enter_text)
+        input(f"debugging, {get_source_location(stack_index)}, {press_enter_text}")
 
 # ------------ call stack
 

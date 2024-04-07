@@ -7,10 +7,9 @@ Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 
 # Sharing Data #
 
-In Python, assigning the list from variable `a` to variable `b` causes both variables to reference the same list object and therefore share the list. Consequently, any change applied through one variable will impact the other. This behavior can lead to elusive bugs if a programmer incorrectly assumes that list `a` and `b` are independent.
+In Python, assigning the list from variable `a` to variable `b` causes both variables to reference the same list object and therefore share the data. Consequently, any change applied through one variable will impact the other. This behavior can lead to elusive bugs if a programmer incorrectly assumes that list `a` and `b` are independent.
 
-<table><tr>
-<td> 
+<table><tr><td> 
 
 ```python
 import memory_graph
@@ -32,23 +31,22 @@ print('identical?:', a is b)
 memory_graph.show(locals()) 
 ```
 
-</td>
-<td>
+</td><td>
 
 ![mutable2.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/mutable2.png)
 
 a graph showing `a` and `b` share data
-</td>
-</tr></table>
 
-The fact that `a` and `b` share data can not be verified by printing the lists. It can be verified by comparing the identity of both variables using the `id()` function or by using the `is` comparison operator as shown in the program output below, but this quickly becomes impractical in larger programs. 
+</td></tr></table>
+
+The fact that `a` and `b` share data can not be verified by printing the lists. It can be verified by comparing the identity of both variables using the `id()` function or by using the `is` comparison operator as shown in the program output below, but this quickly becomes impractical for larger programs. 
 ```{verbatim}
 a: 4, 3, 2, 1
 b: 4, 3, 2, 1
 ids: 126432214913216 126432214913216
 identical?: True
 ```
-A better way to see what data is shared is to draw a graph of the data using the [memory_graph](https://pypi.org/project/memory-graph/) package.
+A better way to understand what data is shared is to draw a graph of the data using the [memory_graph](https://pypi.org/project/memory-graph/) package.
 
 # Memory Graph #
 The [memory_graph](https://pypi.org/project/memory-graph/) package can show a graph with many different data types.
@@ -60,9 +58,9 @@ data = [ (1, 2), [3, 4], {5, 6}, {7:'seven', 8:'eight'} ]
 memory_graph.show(data, block=True)
 ```
 
-![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example1.png)
+![many_types.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/many_types.png)
 
-By using `block=True` the program blocks until the ENTER key is pressed so you can view the graph before continuing further execution (and possibly viewing later graphs). Instead of showing the graph you can also render it to an output file of our choosing (see [Graphviz Output Formats](https://graphviz.org/docs/outputs/)) using for example:
+By using `block=True` the program blocks until the ENTER key is pressed so you can view the graph before continuing program execution (and possibly viewing later graphs). Instead of showing the graph you can also render it to an output file of our choosing (see [Graphviz Output Formats](https://graphviz.org/docs/outputs/)) using for example:
 
 ```python
 memory_graph.render(data, "my_graph.pdf")
@@ -82,12 +80,21 @@ memory_graph.render(data, "my_graph.gv") # Graphviz DOT file
 
 [5. Configuration](##5-configuration##)
 
-[6. Troubleshooting](##6-troubleshooting##)
+[6. Extensions](##6-extensions##)
 
-extentions
+[7. Jupyter Notebook](##7-jupyter-notebook##)
 
-jupyter notebook
+[8. Troubleshooting](##8-troubleshooting##)
 
+
+## Author ##
+Bas Terwijn
+
+## Inspiration ##
+Inspired by [Python Tutor](https://pythontutor.com/).
+
+___
+___
 
 ## 1. Python Data Model ##
 The [Python Data Model](https://docs.python.org/3/reference/datamodel.html) makes a distiction between immutable and mutable types:
@@ -152,7 +159,7 @@ memory_graph.show(locals())
 * `c2` is a **shallow copy**, only the data referenced by the first reference is copied and the underlying data is shared
 * `c3` is a **deep copy**, all the data is copied, nothing is shared
 
-![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copies.png)
+![copies.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copies.png)
 
 
 ### custom copy method ###
@@ -177,7 +184,7 @@ b = a.copy()
 
 memory_graph.show(locals())
 ```
-![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_method.png)
+![copy_method.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_method.png)
 
 
 ## 2. Debugging ##
@@ -186,7 +193,7 @@ Often it is useful to graph all the local variables using:
 memory_graph.show(locals(), block=True)
 ```
 
-So much so that function `d()` is available as alias for this for easier debugging. Additionally it logs all local variables by printing them which helps comparing them over time. For example:
+So much so that function `d()` is available as alias for this for easier debugging. Additionally it can optionally log the data by printing them. For example:
 ```python
 from memory_graph import d
 
@@ -194,13 +201,13 @@ my_squares = []
 my_squares_ref = my_squares
 for i in range(5):
     my_squares.append(i**2)
-    d()
+    d(log=True)
 my_squares_copy = my_squares.copy()
-d()
+d(log=True)
 ```
 which after pressing ENTER a number of times results in:
 
-![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example2.png)
+![debugging.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/debugging.png)
 ```
 my_squares: [0, 1, 4, 9, 16]
 my_squares_ref: [0, 1, 4, 9, 16]
@@ -210,28 +217,28 @@ my_squares_copy: [0, 1, 4, 9, 16]
 
 Function `d()` has these default arguments:
 ```python
-def d(data=None, log=True, graph=True, block=True):
+def d(data=None, graph=True, log=False, block=True):
 ```
-- data: the data that is handled, defaults to `locals()`
-- log: if True the data is printed
+- data: the data that is handled, defaults to `locals()` when not specified
 - graph: if True the data is visualized as a graph
+- log: if True the data is printed
 - block: if True the function blocks until the ENTER key is pressed
 
 To print to a log file instead of standard output use:
 ```python
-memory_graph.log_file = open("log_file.txt", "w")
+memory_graph.log_file = open("my_log_file.txt", "w")
 ```
 
 ### Watchpoint in Debugger ###
-Alternative you can also set this expression as a 'watchpoint' in a debugger tool and open the "my_debug_graph.pdf" output file for a continuous visualization of all the local variables while debugging:
+Alternatively you get an even better debugging experience when you set expression:
 ```
 memory_graph.render(locals(), "my_debug_graph.pdf")
 ```
-This avoids having to add any memory_graph `show()` or `d()` calls to your code.
+as a *watchpoint* in a debugger tool and open the "my_debug_graph.pdf" output file. This continuouly shows the graph of all the local variables while debugging and avoids having to add any memory_graph `show()`, `render()`, or `d()` calls to your code.
 
 
 ## 3. Call Stack ##
-Function ```memory_graph.get_call_stack()``` returns the full call stack that holds for each called function all the local variables. This enables us to visualize the local variables of each of the called functions on the stack simultaneously. This helps to visualize if variables of different called functions share any data between them. Here for example we call function ```add_one()``` with arguments ```a, b, c``` that adds one to change each of its arguments.
+Function ```memory_graph.get_call_stack()``` returns the full call stack that holds for each called function all the local variables. This enables us to visualize the local variables of each of the called functions simultaneously. This helps to visualize if variables of different called functions share any data between them. Here for example we call function ```add_one()``` with arguments ```a, b, c``` that adds one to change each of its arguments.
 
 ```python
 import memory_graph
@@ -249,9 +256,9 @@ c = [4, 3, 2]
 add_one(a, b, c.copy())
 print(f"a:{a} b:{b} c:{c}")
 ```
-![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/add_one.png)
+![add_one.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/add_one.png)
 
-As ```a``` is of immutable type 'int' and as we call the function with a copy of ```c```, only ```b``` is shared so only ```b``` is changed in the calling stack frame as reflected in the printed output:
+As `a` is of immutable type 'int' and as we call the function with a copy of `c`, only `b` is shared so only `b` is changed in the calling stack frame as reflected in the printed output:
 ```
 a:0 b:[4, 3, 2, 1] c:[4, 3, 2]
 ```
@@ -281,7 +288,7 @@ factorial(3)
 and the final result is: 1 x 2 x 3 = 6
 
 ### Call Stack in Watchpoint ###
-The ```memory_graph.get_call_stack()``` doesn't work well in a watchpoint context in most debuggers because debuggers introduce additional stack frames that cause problems. Use these alternative functions for various debuggers to ignore the problematic stack frames:
+The ```memory_graph.get_call_stack()``` doesn't work well in a watchpoint context in most debuggers because debuggers introduce additional stack frames that cause problems. Use these alternative functions for various debuggers to filter out these problematic stack frames:
 
 | debugger | function to get the call stack |
 |:---|:---|
@@ -294,7 +301,7 @@ For other debuggers, invoke this function within the watchpoint context. Then, i
 ```
 memory_graph.save_call_stack("call_stack.txt")
 ```
-and then call this function to get the desired call stack to render:
+and then call this function to get the desired call stack to show in the graph:
 ```
 memory_graph.get_call_stack_after_up_to(after_function, up_to_function="<module>")
 ```
@@ -305,7 +312,7 @@ Module memory_graph can be very useful in a course about datastructures, some ex
 
 ### Doubly Linked List ###
 ```python
-import memory_graph
+from memory_graph import d
 import random
 random.seed(0) # use same random numbers each run
 
@@ -337,13 +344,13 @@ n = 100
 for i in range(n):
     new_value = random.randrange(n)
     linked_list.add_front(new_value)
-    memory_graph.show(locals(), block=True) # <--- draw linked list
+    d() # <--- draw linked list
 ```
-![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/linked_list.png)
+![linked_list.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/linked_list.png)
 
 ### Binary Tree ###
 ```python
-import memory_graph
+from memory_graph import d
 import random
 random.seed(0) # use same random numbers each run
 
@@ -360,7 +367,7 @@ class BinTree:
         self.root = None
 
     def add_recursive(self, new_value, node):
-        memory_graph.show(locals(), block=True) # <--- draw tree when adding recursively
+        d() # <--- draw tree when adding recursively
         if new_value < node.value:
             if node.smaller is None:
                 node.smaller = Node(new_value)
@@ -383,13 +390,13 @@ n = 100
 for i in range(n):
     new_value = random.randrange(100)
     tree.add(new_value)
-    memory_graph.show(locals(), block=True)  # <--- draw tree after adding
+    d()  # <--- draw tree after adding
 ```
-![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_tree.png)
+![bin_tree.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_tree.png)
 
 ### Hash Set ###
 ```python
-import memory_graph
+from memory_graph import d
 import random
 random.seed(0) # use same random numbers each run
 
@@ -421,159 +428,103 @@ n = 100
 for i in range(n):
     new_value = random.randrange(n)
     hash_set.add(new_value)
-    memory_graph.show(locals(), block=True) # <--- draw hash set
+    d() # <--- draw hash set
 ```
-![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/hash_set.png)
+![hash_set.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/hash_set.png)
 
 
 ## 5. Configuration ##
-Different aspects of memory_graph can be configured.
+Different aspects of memory_graph can be configured. The default configuration is reset by importing 'memory_graph.config_default'.
 
-### Config Visualization, graphviz_nodes ###
-Configure how the nodes of the graph are visualized with:
+- ***memory_graph.config.no_reference_types*** : dict
+  - Holds all types for which no seperate node it drawn but that are shown as elements in their parent Node. It maps each type to a function that determines how it is visualized.
 
-- ***memory_graph.graphviz_nodes.linear_layout_vertical*** : bool
-  - if False, linear node layout is horizontal
-- ***memory_graph.graphviz_nodes.linear_any_ref_layout_vertical*** : bool
-  - if False, linear node layout is horizontal if any of its elements is a refence
-- ***memory_graph.graphviz_nodes.linear_all_ref_layout_vertical*** : bool
-  - if False, linear node layout is horizontal if all elements are reference
-- ***memory_graph.graphviz_nodes.key_value_layout_vertical*** : bool
-  - if False, key_value node layout is horizontal
-- ***memory_graph.graphviz_nodes.key_value_any_ref_layout_vertical*** : bool
-  - if False, key_value node layout is horizontal if any of its elements is a refence
-- ***memory_graph.graphviz_nodes.key_value_all_ref_layout_vertical*** : bool
-  - if False, key_value node layout is horizontal if all elements are reference
-- ***memory_graph.graphviz_nodes.padding*** : int
-  - the padding in nodes
-- ***memory_graph.graphviz_nodes.padding*** : int
-  - the spacing in nodes
-- ***memory_graph.graphviz_nodes.join_references_count*** : int
-  - minimum number of reference we join together
-- ***memory_graph.graphviz_nodes.join_circle_size*** : string
-  - size of the join circle
-- ***memory_graph.graphviz_nodes.join_circle_minlen*** : string
-  - extra space for references above a join circle
-- ***memory_graph.graphviz_nodes.max_string_length*** : int
-  - maximum string length where the string is cut off
-- ***memory_graph.graphviz_nodes.category_to_color_map*** : dict
-  - mapping van type/caterogries to node colors
-- ***memory_graph.graphviz_nodes.uncategorized_color*** : dict
-  - color for unkown types/categories
-- ***memory_graph.graphviz_nodes.graph_attr*** : dict
-  - allows to set various [graphviz graph attributes](https://graphviz.org/docs/graph/)
-- ***memory_graph.graphviz_nodes.node_attr*** : dict
-  - allows to set various [graphviz node attributes](https://graphviz.org/docs/nodes/)
-- ***memory_graph.graphviz_nodes.edge_attr*** : dict
-  - allows to set various [graphviz edges attributes](https://graphviz.org/docs/edges/)
+- ***memory_graph.config.no_child_references_types*** : set
+  - The set of key_value types that don't draw references to their direct childeren but have their children shown as elements of their node.
 
-See for color names: [graphviz colors](https://graphviz.org/doc/info/colors.html)
+- ***memory_graph.config.max_string_length*** : int
+  - The maximum length of strings shown in the graph.
 
-To configure more about the visualization use:
-```
-digraph = memory_graph.create_graph( locals() )
-```
-and see the [graphviz api](https://graphviz.readthedocs.io/en/stable/api.html) to render it in many different ways.
+- ***memory_graph.config.max_number_nodes*** : int
+  - The maxium number of Nodes shows in the graph. When the graph gets to big set this to a small number to analyze the problem.
 
-### Config Graph Structure, rewrite_to_node ###
-Configure the structure of the nodes in the graph with:
+- ***memory_graph.config.type_to_node*** : dict
+  - Determines how a data types is converted to a Node (sub)class for visualization in the graph.
 
-- ***memory_graph.rewrite_to_node.reduce_reference_parents*** : set
-  - the node types/categories for which we remove the reference to children
-- ***memory_graph.rewrite_to_node.reduce_reference_children*** : bool
-  - the node types/categories for which we remove the reference from parents
-  
-### Config Node Creation, rewrite ###
-Configure what nodes are created based on reading the given data structure:
+- ***memory_graph.config.type_to_color*** : dict
+  - Maps each type to the [graphviz color](https://graphviz.org/doc/info/colors.html) it gets in the graph. 
 
-- ***memory_graph.rewrite.ignore_types*** : dict
-  - all types that we ignore, these will not be in the graph
-- ***memory_graph.rewrite.singular_types*** : set
-  - all types rewritten to node as singular values (bool, int, float, ...)
-- ***memory_graph.rewrite.linear_types*** : set
-  - all types rewritten to node as linear values (tuple, list, set, ...)
-- ***memory_graph.rewrite.dict_types*** : set
-  - all types rewritten to node as dictionary values (dict, mappingproxy)
-- ***memory_graph.rewrite.dict_ignore_dunder_keys*** : bool
-  - determines if we ignore dunder keys ('`__example`') in dict_types
-- ***memory_graph.rewrite.custom_accessor_functions*** : dict
-  - custom accessor functions to define how to read various data types
+- ***memory_graph.config.type_to_vertical_orientation*** : dict
+  - Maps each type to its orientation. Use 'True' for vertical and 'False' for horizontal. If not specified Node_Linear and Node_Key_Value are vertical unless they have references to children.
 
+- ***memory_graph.config.type_to_slicer*** : dict
+  - Maps each type to a Slicer. A slicer determines how many elements of a data type are shown in the graph to prevent the graph from getting too big. 'Slicer()' does no slicing, 'Slicer(1,2,3)' shows just 1 element at the beginning, 2 in the middle, and 3 at the end.
 
-### Config Examples ###
-This example shows a class with a class variable and has some recursive references.
+### Temporary Configuration ###
+In addition to the global configuration, a temporary configuration can be set for a single `show()`, `render()`, or `d()` call to change the colors, orientation, and slicer. This example highlights a particular list element in red, gives it a horizontal orientattion, and overwrites the default slicer for lists:
+
 ```python
 import memory_graph
-my_list = [10, 20, 10]
+from memory_graph.Slicer import Slicer
 
-class My_Class:
-    my_class_var = 20 # class variable
-    
-    def __init__(self):
-        self.var1 = "foo"
-        self.var2 = "bar"
-        self.var3 = 20
+data = [ list(range(20)) for i in range(1,5)]
+highlight = data[2]
 
-obj1 = My_Class()
-obj2 = My_Class()
-
-data=[my_list, my_list, obj1, obj2]
-
-my_list.append(data)
-my_list.append(my_list) # recursive reference
-
-memory_graph.show(locals())
+memory_graph.show( locals(),
+    colors                = {id(highlight): "red"   }, # set color to "red"
+    vertical_orientations = {id(highlight): False   }, # set horizontal orientation
+    slicers               = {id(highlight): Slicer()}  # set no slicing 
+)
 ```
-![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example3.png)
+![highlight.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/highlight.png)
 
-With configuration:
-```
-memory_graph.graphviz_nodes.linear_layout_vertical = False           # draw lists,tuples,sets,... horizontally
-memory_graph.graphviz_nodes.category_to_color_map['list'] = 'yellow' # change color of 'list' type
-memory_graph.graphviz_nodes.spacing = 15                             # more spacing in each node
-memory_graph.graphviz_nodes.graph_attr['ranksep'] = '1.2'            # more vertical separation
-memory_graph.graphviz_nodes.graph_attr['nodesep'] = '1.2'            # more horizontal separation
-memory_graph.rewrite_to_node.reduce_reference_children.remove("int") # draw references to 'int' type
-```
+## 6. Extensions ##
+Different extension are available for types from Python packages. 
 
-this example looks like:
+### Numpy ###
+Numpy types `arrray` and `matrix` and `ndarray` can be graphed with the "memory_graph.extension_numpy" extension:
 
-![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example4.png)
-
-
-### Custom Accessor Functions ###
-For any type a custom accessor function can be introduced. For example Pandas DataFrames and Series are not visualized correctly by default. This can be fixed by adding custom accessor functions:
 ```python
-import memory_graph
+from memory_graph import d
+import numpy as np
+import memory_graph.extension_numpy
+
+array = np.array([1.1, 2, 3, 4, 5])
+matrix = np.matrix([[i*20+j for j in range(20)] for i in range(20)])
+ndarray = np.random.rand(20,20)
+d()
+```
+![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_numpy.png)
+
+### Pandas ###
+Pandas types `Series` and `DataFrame` can be graphed with the "memory_graph.extension_pandas" extension:
+
+```python
+from memory_graph import d
 import pandas as pd
+import memory_graph.extension_pandas
 
-data = {'Name'   : [ 'Tom', 'Anna', 'Steve', 'Lisa'],
-        'Age'    : [    28,     34,      29,     42],
-        'Length' : [  1.70,   1.66,    1.82,   1.73] }
-df = pd.DataFrame(data)
-
-memory_graph.rewrite.custom_accessor_functions[pd.DataFrame] = lambda d: list(d.items())
-memory_graph.rewrite.custom_accessor_functions[pd.Series] = lambda d: list(d.items())
-memory_graph.rewrite_to_node.reduce_reference_parents.add("DataFrame")
-memory_graph.rewrite_to_node.reduce_reference_parents.add("Series")
-memory_graph.graphviz_nodes.category_to_color_map['Series'] = 'lightskyblue'
-memory_graph.show( locals() )
+series = pd.Series( [i for i in range(20)] )
+dataframe1 = pd.DataFrame({  "calories": [420, 380, 390],
+                             "duration": [50, 40, 45] })
+dataframe2 = pd.DataFrame({  'Name'   : [ 'Tom', 'Anna', 'Steve', 'Lisa'],
+                             'Age'    : [    28,     34,      29,     42],
+                             'Length' : [  1.70,   1.66,    1.82,   1.73] },
+                            index=['one', 'two', 'three', 'four']) # with row names
+d()
 ```
+![extension_pandas.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_pandas.png)
 
-which results in:
+## 7. Jupyter Notebook ##
 
-![image](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/example5.png)
+In Jupyter Notebook `locals()` has additional variables that cause problems in the graph, use `memory_graph.locals_jupyter()` to get the local variables with these problematic variables filtered out. Use `memory_graph.get_call_stack_jupyter()` to get the whole call stack with these variables filtered out. 
 
+See for example [jupyter_example.ipynb](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/jupyter_example.ipynb).
+![jupyter_example.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/jupyter_example.png)
 
-## 6. Troubleshooting ##
-- In Jupyter Notebooks `locals()` has additional variables that cause problems, use `memory_graph.locals_jupyter()` to get the local variables with these additional variables filtered out. Use `memory_graph.get_call_stack_jupyter()` to get the whole call stack with these variables filtered out.
+## 8. Troubleshooting ##
+
+- Adobe Acrobat Reader [doesn't refresh a PDF file](https://superuser.com/questions/337011/windows-pdf-viewer-that-auto-refreshes-pdf-when-compiling-with-pdflatex) when it changes on disk and blocks updates which results in an `Could not open 'somefile.pdf' for writing : Permission denied` error. One solution is to install a PDF reader that does refresh ([Evince](https://www.fosshub.com/Evince.html) for example) and set it as the default PDF reader. Another solution is to `render()` the graph to a different output format and open it manually.
 
 - When graph edges overlap it can be hard to distinguish them. Using an interactive graphviz viewer, such as [xdot](https://github.com/jrfonseca/xdot.py), on a '*.gv' DOT output file will help.
 
-
-## Author ##
-Bas Terwijn
-
-
-## Inspiration ##
-Inspired by [Python Tutor](https://pythontutor.com/).

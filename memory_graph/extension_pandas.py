@@ -10,7 +10,7 @@ config.type_to_node[pd.DataFrame] = lambda data : (
     Node_Table(data, 
                data.values.tolist(),
                column_names=data.columns.tolist(),
-               row_names = [ str(i) for i in data.index.tolist()] # TODO: first row problem when 'int' not 'str'
+               row_names = [ str(i) for i in data.index.tolist()]
             )
 )
 
