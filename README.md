@@ -19,16 +19,16 @@ a = [4, 3, 2]
 b = a
 a.append(1) # changing 'a' changes 'b'
 
-# print the lists
+# print the 'a' and 'b' list
 print('a:', a)
 print('b:', b)
 
-# check if they share data
+# check if 'a' and 'b' share data
 print('ids:', id(a), id(b))
 print('identical?:', a is b)
 
-# show the lists in a graph
-memory_graph.show(locals()) 
+# show all local variables in a graph
+memory_graph.show( locals() )
 ```
 
 </td><td>
@@ -46,7 +46,7 @@ b: 4, 3, 2, 1
 ids: 126432214913216 126432214913216
 identical?: True
 ```
-A better way to understand what data is shared is to draw a graph of the data using this [memory_graph](https://pypi.org/project/memory-graph/) package.
+A better way to understand what data is shared is to draw a graph of the data using the [memory_graph](https://pypi.org/project/memory-graph/) package.
 
 # Memory Graph Packge #
 The [memory_graph](https://pypi.org/project/memory-graph/) package can show a graph with many different data types.
@@ -54,7 +54,13 @@ The [memory_graph](https://pypi.org/project/memory-graph/) package can show a gr
 ```python
 import memory_graph
 
-data = [ (1, 2), [3, 4], {5, 6}, {7:'seven', 8:'eight'} ]
+class MyClass:
+
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+data = [ range(1, 2), (3, 4), {5, 6}, {7:'seven', 8:'eight'},  MyClass(9, 10) ]
 memory_graph.show(data, block=True)
 ```
 
