@@ -40,7 +40,7 @@ def test_empty_linear(fun):
     fun(data)
 
 def test_nested_list(fun):
-    data = utils.nested_list([2,3,4,5])
+    data = utils.nested_list([2,2,2,2,2,2,2])
     fun(data)
 
 def test_key_value(fun):

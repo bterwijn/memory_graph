@@ -12,7 +12,7 @@ import memory_graph.utils as utils
 import types
 
 """ The maxium number of Nodes shown in the graph. When the graph gets too big set this to a smaller number to analyze the problem. A `★` symbol indictes where the gra[h is cut short.  """
-config.max_number_nodes = 100
+config.max_number_nodes = 1000
 
 """ The maximum length of strings shown in the graph. Longer strings will be truncated. """
 config.max_string_length = 42

@@ -65,7 +65,7 @@ memory_graph.show(data, block=True)
 ```
 ![many_types.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/many_types.png)
 
-By using `block=True` the program blocks until the ENTER key is pressed so you can view the graph before continuing program execution (and possibly viewing later graphs). Instead of showing the graph you can also render it to an output file of our choosing (see [Graphviz Output Formats](https://graphviz.org/docs/outputs/)) using for example:
+By using `block=True` the program blocks until the ENTER key is pressed so you can view the graph before continuing program execution (and possibly viewing later graphs). Instead of showing the graph you can also render it to an output file of your choosing (see [Graphviz Output Formats](https://graphviz.org/docs/outputs/)) using for example:
 
 ```python
 memory_graph.render(data, "my_graph.pdf")

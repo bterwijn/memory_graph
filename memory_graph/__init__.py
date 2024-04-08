@@ -6,7 +6,7 @@ import memory_graph.utils as utils
 import inspect
 import sys
 
-__version__ = "0.2.00"
+__version__ = "0.2.01"
 __author__ = 'Bas Terwijn'
 
 log_file=sys.stdout

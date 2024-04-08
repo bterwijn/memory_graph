@@ -7,8 +7,8 @@ long_description_from_readme = (this_directory / "README.md").read_text()
 
 setup(
     name = 'memory_graph',
-    version = '0.2.00',
-    description = 'Draws a graph of your data to analyze the structure of its references.',
+    version = '0.2.01',
+    description = 'Draws a graph of your data to analyze its structure.',
     long_description = long_description_from_readme,
     long_description_content_type = 'text/markdown',
     readme = 'README.md',
