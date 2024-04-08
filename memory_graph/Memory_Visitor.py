@@ -6,7 +6,6 @@ import memory_graph.utils as utils
 import memory_graph.config as config
 import memory_graph.config_helpers as config_helpers
 
-
 def default_backtrack_callback(node):
     print('backtrack_callback:', node)
     #node.visit_with_depth(lambda child: print('-- child:', child))
@@ -49,12 +48,12 @@ class Memory_Visitor:
         data_type = type(data)
         if (parent_node != None and data_type in config.no_reference_types):
             return config.no_reference_types[data_type](data)
-        if len(self.data_ids) > config.max_number_nodes:
-            print(f"Memory_Visitor max_number_nodes ({config.max_number_nodes}) reached, stopping recursion.")
-            return None
         data_id = id(data)
         if data_id in self.data_ids:
             return self.data_ids[data_id]
+        elif len(self.data_ids) > config.max_number_nodes:
+            print(f"Memory_Visitor max_number_nodes ({config.max_number_nodes}) reached, stopping recursion.")
+            return "★"
         else:
             node = self.data_to_node(data)
             self.data_ids[data_id] = node

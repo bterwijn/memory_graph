@@ -11,4 +11,3 @@ if __name__ == '__main__':
         graph.get_graph().render(outfile=f'test_graph{test_fun_count}.png')
         test_fun_count += 1
     test.test_all(test_fun)
-

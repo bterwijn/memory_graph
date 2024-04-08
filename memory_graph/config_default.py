@@ -11,6 +11,12 @@ import memory_graph.utils as utils
 
 import types
 
+""" The maxium number of Nodes shown in the graph. When the graph gets too big set this to a smaller number to analyze the problem. A `★` symbol indictes where the gra[h is cut short.  """
+config.max_number_nodes = 100
+
+""" The maximum length of strings shown in the graph. Longer strings will be truncated. """
+config.max_string_length = 42
+
 """ Types that by default will not have references pointing to them in the graph but instead will be visualized in the node of their parent. """
 config.no_reference_types = {
     type(None) : lambda d: "None",  # so None can be used to indicate no value
@@ -25,9 +31,6 @@ config.no_reference_types = {
 
 """ Types that will not have references pointing to their children in the graph but instead will have their children visualized in their node. """
 config.no_child_references_types = {dict, types.MappingProxyType}
-
-config.max_string_length = 42
-config.max_number_nodes = 1000
 
 """ Conversion from type to Node objects. """
 config.type_to_node = {

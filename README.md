@@ -49,7 +49,7 @@ identical?: True
 A better way to understand what data is shared is to draw a graph of the data using the [memory_graph](https://pypi.org/project/memory-graph/) package.
 
 # Memory Graph Packge #
-The [memory_graph](https://pypi.org/project/memory-graph/) package can show a graph with many different data types.
+The [memory_graph](https://pypi.org/project/memory-graph/) package can graph many different data types.
 
 ```python
 import memory_graph
@@ -63,7 +63,6 @@ class MyClass:
 data = [ range(1, 2), (3, 4), {5, 6}, {7:'seven', 8:'eight'},  MyClass(9, 10) ]
 memory_graph.show(data, block=True)
 ```
-
 ![many_types.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/many_types.png)
 
 By using `block=True` the program blocks until the ENTER key is pressed so you can view the graph before continuing program execution (and possibly viewing later graphs). Instead of showing the graph you can also render it to an output file of our choosing (see [Graphviz Output Formats](https://graphviz.org/docs/outputs/)) using for example:
@@ -445,17 +444,17 @@ for i in range(n):
 ## 5. Configuration ##
 Different aspects of memory_graph can be configured. The default configuration is reset by importing 'memory_graph.config_default'.
 
+- ***memory_graph.config.max_number_nodes*** : int
+  - The maxium number of Nodes shown in the graph. When the graph gets too big set this to a smaller number. A `★` symbol indictes where the graph is cut short.
+
+- ***memory_graph.config.max_string_length*** : int
+  - The maximum length of strings shown in the graph. Longer strings will be truncated.
+
 - ***memory_graph.config.no_reference_types*** : dict
-  - Holds all types for which no seperate node it drawn but that are shown as elements in their parent Node. It maps each type to a function that determines how it is visualized.
+  - Holds all types for which no seperate node is drawn but that instead are shown as elements in their parent Node. It maps each type to a function that determines how it is visualized.
 
 - ***memory_graph.config.no_child_references_types*** : set
   - The set of key_value types that don't draw references to their direct childeren but have their children shown as elements of their node.
-
-- ***memory_graph.config.max_string_length*** : int
-  - The maximum length of strings shown in the graph.
-
-- ***memory_graph.config.max_number_nodes*** : int
-  - The maxium number of Nodes shows in the graph. When the graph gets to big set this to a small number to analyze the problem.
 
 - ***memory_graph.config.type_to_node*** : dict
   - Determines how a data types is converted to a Node (sub)class for visualization in the graph.
