@@ -48,7 +48,7 @@ identical?: True
 ```
 A better way to understand what data is shared is to draw a graph of the data using the [memory_graph](https://pypi.org/project/memory-graph/) package.
 
-# Memory Graph Packge #
+# Memory Graph #
 The [memory_graph](https://pypi.org/project/memory-graph/) package can graph many different data types.
 
 ```python
@@ -496,6 +496,7 @@ Numpy types `arrray` and `matrix` and `ndarray` can be graphed with the "memory_
 from memory_graph import d
 import numpy as np
 import memory_graph.extension_numpy
+np.random.seed(0) # use same random numbers each run
 
 array = np.array([1.1, 2, 3, 4, 5])
 matrix = np.matrix([[i*20+j for j in range(20)] for i in range(20)])
