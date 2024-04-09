@@ -112,7 +112,7 @@ The [Python Data Model](https://docs.python.org/3/reference/datamodel.html) make
 In the code below variable `a` and `b` both reference the same `int` value 10. An `int` is an immutable type and therefore when we change variable `a` its value can **not** be mutated in place, and thus a copy is made and `a` and `b` reference a different value afterwards.
 ```python
 import memory_graph
-memory_graph.rewrite_to_node.reduce_reference_children.remove("int") # shows references to 'int'
+memory_graph.config.no_reference_types.pop(int, None) # show references to ints
 
 a = 10
 b = a
