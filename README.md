@@ -203,15 +203,15 @@ memory_graph.show(locals(), block=True)
 
 So much so that function `d()` is available as alias for this for easier debugging. Additionally it can optionally log the data by printing them. For example:
 ```python
-from memory_graph import d
+import memory_graph
 
 my_squares = []
 my_squares_ref = my_squares
 for i in range(5):
     my_squares.append(i**2)
-    d(log=True)
+    memory_graph.d(log=True)
 my_squares_copy = my_squares.copy()
-d(log=True)
+memory_graph.d(log=True)
 ```
 which after pressing ENTER a number of times results in:
 
@@ -320,7 +320,7 @@ Module memory_graph can be very useful in a course about datastructures, some ex
 
 ### Doubly Linked List ###
 ```python
-from memory_graph import d
+import memory_graph
 import random
 random.seed(0) # use same random numbers each run
 
@@ -346,19 +346,19 @@ class LinkedList:
             new_node.next = self.head
             self.head.prev = new_node
             self.head = new_node
+        memory_graph.d() # <--- draw graph
 
 linked_list = LinkedList()
 n = 100
 for i in range(n):
     new_value = random.randrange(n)
     linked_list.add_front(new_value)
-    d() # <--- draw linked list
 ```
 ![linked_list.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/linked_list.png)
 
 ### Binary Tree ###
 ```python
-from memory_graph import d
+import memory_graph
 import random
 random.seed(0) # use same random numbers each run
 
@@ -375,7 +375,6 @@ class BinTree:
         self.root = None
 
     def add_recursive(self, new_value, node):
-        d() # <--- draw tree when adding recursively
         if new_value < node.value:
             if node.smaller is None:
                 node.smaller = Node(new_value)
@@ -386,6 +385,7 @@ class BinTree:
                 node.larger = Node(new_value)
             else:
                 self.add_recursive(new_value, node.larger)
+        memory_graph.d() # <--- draw graph
 
     def add(self, value):
         if self.root is None:
@@ -398,13 +398,12 @@ n = 100
 for i in range(n):
     new_value = random.randrange(100)
     tree.add(new_value)
-    d()  # <--- draw tree after adding
 ```
 ![bin_tree.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_tree.png)
 
 ### Hash Set ###
 ```python
-from memory_graph import d
+import memory_graph
 import random
 random.seed(0) # use same random numbers each run
 
@@ -419,6 +418,7 @@ class HashSet:
             self.buckets[index] = [value]
         else:
             self.buckets[index].append(value)
+        memory_graph.d() # <--- draw graph
 
     def contains(self, value):
         index = hash(value) % len(self.buckets)
@@ -436,7 +436,6 @@ n = 100
 for i in range(n):
     new_value = random.randrange(n)
     hash_set.add(new_value)
-    d() # <--- draw hash set
 ```
 ![hash_set.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/hash_set.png)
 
@@ -493,7 +492,7 @@ Different extensions are available for types from other Python packages.
 Numpy types `arrray` and `matrix` and `ndarray` can be graphed with the "memory_graph.extension_numpy" extension:
 
 ```python
-from memory_graph import d
+import memory_graph
 import numpy as np
 import memory_graph.extension_numpy
 np.random.seed(0) # use same random numbers each run
@@ -501,7 +500,7 @@ np.random.seed(0) # use same random numbers each run
 array = np.array([1.1, 2, 3, 4, 5])
 matrix = np.matrix([[i*20+j for j in range(20)] for i in range(20)])
 ndarray = np.random.rand(20,20)
-d()
+memory_graph.d()
 ```
 ![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_numpy.png)
 
@@ -509,7 +508,7 @@ d()
 Pandas types `Series` and `DataFrame` can be graphed with the "memory_graph.extension_pandas" extension:
 
 ```python
-from memory_graph import d
+import memory_graph
 import pandas as pd
 import memory_graph.extension_pandas
 
@@ -520,7 +519,7 @@ dataframe2 = pd.DataFrame({  'Name'   : [ 'Tom', 'Anna', 'Steve', 'Lisa'],
                              'Age'    : [    28,     34,      29,     42],
                              'Length' : [  1.70,   1.66,    1.82,   1.73] },
                             index=['one', 'two', 'three', 'four']) # with row names
-d()
+memory_graph.d()
 ```
 ![extension_pandas.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_pandas.png)
 
