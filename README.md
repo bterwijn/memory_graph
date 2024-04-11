@@ -217,7 +217,7 @@ which after pressing ENTER a number of times results in:
 ![debugging.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/debugging.gif)
 ```
 squares: [1, 4, 9, 16, 25]
-collector: [[1], [1, 4], [1, 4, 9], [1, 4, 9, 16], [1, 4, 9, 16, 25]]
+squares_collector: [[1], [1, 4], [1, 4, 9], [1, 4, 9, 16], [1, 4, 9, 16, 25]]
 i: 5
 ```
 
