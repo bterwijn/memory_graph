@@ -287,12 +287,7 @@ def factorial(n):
 
 factorial(3)
 ```
-  <div><img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial1.png" /></div>
-  <div><img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial2.png" /></div>
-  <div><img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial3.png" /></div>
-  <div><img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial4.png" /></div>
-  <div><img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial5.png" /></div>
-  <div><img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial6.png" /></div>
+![factorial.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial.gif)
 and the final result is: 1 x 2 x 3 = 6
 
 ### Call Stack in Watchpoint ###

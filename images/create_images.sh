@@ -13,6 +13,7 @@ python copy_method.py
 # call stack
 python add_one.py
 python factorial.py
+bash create_gif.sh factorial
 
 # datastructures
 python linked_list.py

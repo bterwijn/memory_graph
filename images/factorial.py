@@ -4,7 +4,7 @@ image=0
 def get_fac_name():
     global image
     image+=1
-    return f"factorial{image}.png"
+    return f"factorial{image:02d}.png"
 
 def factorial(n):
     if n==0:
@@ -16,4 +16,5 @@ def factorial(n):
     memory_graph.render( memory_graph.get_call_stack(), get_fac_name())
     return result
 
+memory_graph.render( memory_graph.get_call_stack(), get_fac_name())
 factorial(3)
