@@ -37,9 +37,10 @@ class Node_Key_Value(Node):
         """
         #print('Node_Key_Value children:', children)
         hidden_children = [ Node_Hidden(i,list(i)) for i in children ]
+        self.size = len(hidden_children)
         slicer = config_helpers.get_slicer_1d(self, data)
         sliced_children = slicer.slice(hidden_children)
-        super().__init__(data, sliced_children, sliced_children.get_original_length())
+        super().__init__(data, sliced_children)
         
     def transform(self, fun):
         """
@@ -91,3 +92,12 @@ class Node_Key_Value(Node):
             if value is not None:
                 key_value = value.get_children() # add the key-value pair of Hidden_Node, not the tuple
                 html_table.add_entry(self, key_value[1])
+
+    def get_label(self):
+        """
+        Return a label for the node to be shown in the graph next to the HTML table.
+        """
+        if self.get_children().has_all_data():
+            return f'{self.get_type_name()}'
+        return f'{self.get_type_name()} {self.size}'
+    

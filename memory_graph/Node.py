@@ -15,11 +15,10 @@ class Node:
         children (list): The children of the node.
         size (string): The size of the node to be shown in the graph.
     """
-    def __init__(self, data, children=None, size=None):
+    def __init__(self, data, children=None):
         self.node_id = Node.node_id
         Node.node_id += 1
         self.data = data
-        self.size = size
         self.parent = None
         self.children = children
 
@@ -34,6 +33,18 @@ class Node:
         Return the original data represented by the node.
         """
         return self.data
+    
+    def get_type(self):
+        """
+        Return the type of the data represented by the node.
+        """
+        return type(self.data)
+    
+    def get_type_name(self):
+        """
+        Return the name of the type of the data represented by the node.
+        """
+        return utils.get_type_name(self.data)
 
     def set_parent(self, parent):
         """
@@ -46,12 +57,6 @@ class Node:
         Return the parent of the node.
         """    
         return self.parent
-
-    def get_size(self):
-        """
-        Return the size of the node to be shown in the graph.
-        """
-        return self.size
 
     def get_children(self):
         """
@@ -78,17 +83,6 @@ class Node:
             self.fill_html_table(html_table)
         return html_table
     
-    def get_label(self):
-        """
-        Return a label for the node to be shown in the graph next to the HTML table, the size 
-        is included in the label if available.
-        """
-        label = utils.get_type_name(self.data)
-        size = self.get_size()
-        if not size is None:
-            label +=f' ({size})'
-        return label
-    
     # -------------------- Node interface, overriden by subclasses --------------------
 
     def do_backtrack_callback(self):
@@ -109,3 +103,9 @@ class Node:
         Fill the HTML_Table object with each child of the node.
         """
         pass
+
+    def get_label(self):
+        """
+        Return a label for the node to be shown in the graph next to the HTML table.
+        """
+        return self.get_type_name()

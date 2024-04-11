@@ -109,3 +109,6 @@ class Sliced:
         """ Return True if the last slice of the Sliced object is empty. """
         return len(self.slices) > 0 and len(self.slices[-1].data) == 0
     
+    def has_all_data(self):
+        """ Return True if the Sliced object has all the data. """
+        return len(self.slices) == 1 and len(self.slices[0].data) == self.original_length

@@ -16,7 +16,7 @@ class Node_Linear(Node):
         """
         slicer = config_helpers.get_slicer_1d(self, data)
         sliced_children = slicer.slice(children)
-        super().__init__(data, sliced_children, sliced_children.get_original_length())
+        super().__init__(data, sliced_children)
 
     def transform(self, fun):
         """

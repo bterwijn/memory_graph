@@ -38,7 +38,7 @@ class Node_Table(Node):
 
         self.row_names = row_names
         self.column_names = column_names
-        super().__init__(data, sliced_children, f'{self.data_height}⨯{self.data_width}')
+        super().__init__(data, sliced_children)
 
     def transform(self, fun):
         """
@@ -82,3 +82,9 @@ class Node_Table(Node):
                         html_table.add_entry(self, value)
                 html_table.add_new_line()
 
+    def get_label(self):
+        """
+        Return a label for the node to be shown in the graph next to the HTML table.
+        """
+        return f'{self.get_type_name()} {self.data_height}⨯{self.data_width}'
+    
