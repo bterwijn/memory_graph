@@ -409,15 +409,15 @@ random.seed(0) # use same random numbers each run
 
 class HashSet:
 
-    def __init__(self, capacity=20):
+    def __init__(self, capacity=15):
         self.buckets = [None] * capacity
 
     def add(self, value):
         index = hash(value) % len(self.buckets)
         if self.buckets[index] is None:
-            self.buckets[index] = [value]
-        else:
-            self.buckets[index].append(value)
+            self.buckets[index] = []
+        bucket = self.buckets[index]
+        bucket.append(value)
         memory_graph.d() # <--- draw graph
 
     def contains(self, value):

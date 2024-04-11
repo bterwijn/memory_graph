@@ -4,7 +4,7 @@ random.seed(0) # use same random numbers each run
 
 class HashSet:
     
-        def __init__(self, capacity=20):
+        def __init__(self, capacity=15):
             self.buckets = [None] * capacity
     
         def add(self, value):
