@@ -3,6 +3,7 @@ python many_types.py
 
 # debugging
 python debugging.py
+bash create_gif.sh debugging
 
 # data model
 python immutable.py

@@ -205,22 +205,20 @@ So much so that function `d()` is available as alias for this for easier debuggi
 ```python
 import memory_graph
 
-my_squares = []
-my_squares_ref = my_squares
-for i in range(5):
-    my_squares.append(i**2)
+squares = []
+squares_collector = []
+for i in range(1,6):
+    squares.append(i**2)
+    squares_collector.append(squares.copy())
     memory_graph.d(log=True)
-my_squares_copy = my_squares.copy()
-memory_graph.d(log=True)
 ```
 which after pressing ENTER a number of times results in:
 
-![debugging.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/debugging.png)
+![debugging.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/debugging.gif)
 ```
-my_squares: [0, 1, 4, 9, 16]
-my_squares_ref: [0, 1, 4, 9, 16]
-i: 4
-my_squares_copy: [0, 1, 4, 9, 16]
+squares: [1, 4, 9, 16, 25]
+collector: [[1], [1, 4], [1, 4, 9], [1, 4, 9, 16], [1, 4, 9, 16, 25]]
+i: 5
 ```
 
 Function `d()` has these default arguments:
