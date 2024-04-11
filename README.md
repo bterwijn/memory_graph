@@ -288,6 +288,7 @@ def factorial(n):
 factorial(3)
 ```
 ![factorial.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial.gif)
+
 and the final result is: 1 x 2 x 3 = 6
 
 ### Call Stack in Watchpoint ###
