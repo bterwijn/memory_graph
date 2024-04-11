@@ -268,7 +268,7 @@ print(f"a:{a} b:{b} c:{c}")
 
 As `a` is of immutable type 'int' and as we call the function with a copy of `c`, only `b` is shared so only `b` is changed in the calling stack frame as reflected in the printed output:
 ```
-a:0 b:[4, 3, 2, 1] c:[4, 3, 2]
+a:10 b:[4, 3, 2, 1] c:[4, 3, 2]
 ```
 
 ### Recursion ###
