@@ -33,7 +33,7 @@ def create_graph(data,
     memory_graph = Memory_Graph(data, colors, vertical_orientations, slicers)
     return memory_graph.get_graph()
 
-def show(data=None ,block=False,
+def show(data=None ,block=False, stack_index=2,
                  colors = None,
                  vertical_orientations = None,
                  slicers = None):
@@ -41,12 +41,11 @@ def show(data=None ,block=False,
     if data is None:
         data=get_locals_from_calling_frame(stack_index)
     graph = create_graph(data, colors, vertical_orientations, slicers)
-    #print('graph:',graph)
     graph.view()
     if block:
         input(f"showing '{graph.filename}', {get_source_location(2)}, {press_enter_text}")
 
-def render(data=None, output_filename=None, block=False,
+def render(data=None, output_filename=None, block=False, stack_index=2,
                  colors = None,
                  vertical_orientations = None,
                  slicers = None):
@@ -54,7 +53,7 @@ def render(data=None, output_filename=None, block=False,
     if data is None:
         data=get_locals_from_calling_frame(stack_index)
     graph = create_graph(data, colors, vertical_orientations, slicers)
-    filename = output_filename if output_filename else graph.filename
+    filename = output_filename if output_filename else graph.filename+".pdf"
     graph.render(outfile=filename)
     if block:
         input(f"rendering '{filename}', {get_source_location(2)}, {press_enter_text}")
