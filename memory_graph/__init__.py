@@ -33,22 +33,26 @@ def create_graph(data,
     memory_graph = Memory_Graph(data, colors, vertical_orientations, slicers)
     return memory_graph.get_graph()
 
-def show(data,block=False,
+def show(data=None ,block=False,
                  colors = None,
                  vertical_orientations = None,
                  slicers = None):
     """ Shows the graph of 'data' and optionally blocks. """
+    if data is None:
+        data=get_locals_from_calling_frame(stack_index)
     graph = create_graph(data, colors, vertical_orientations, slicers)
     #print('graph:',graph)
     graph.view()
     if block:
         input(f"showing '{graph.filename}', {get_source_location(2)}, {press_enter_text}")
 
-def render(data, output_filename=None, block=False,
+def render(data=None, output_filename=None, block=False,
                  colors = None,
                  vertical_orientations = None,
                  slicers = None):
     """ Renders the graph of 'data' to 'output_filename' and optionally blocks. """
+    if data is None:
+        data=get_locals_from_calling_frame(stack_index)
     graph = create_graph(data, colors, vertical_orientations, slicers)
     filename = output_filename if output_filename else graph.filename
     graph.render(outfile=filename)
