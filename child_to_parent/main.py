@@ -51,6 +51,11 @@ class Graph:
     def get_parents(self, child):
         return self.children[child]
     
+class Slices:
+
+    def __init__(self) -> None:
+        self.slices = []
+
 class Sliced_Graph:
 
     def __init__(self, root_id, graph) -> None:
