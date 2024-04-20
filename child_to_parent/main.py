@@ -46,6 +46,9 @@ class Graph:
                 self.children[child][parent_id] = []
             self.children[child][parent_id].append(index)
 
+    def add_root(self, parent_id):
+        self.children[parent_id] = {}
+
     def get_children(self):
         return self.children
     
@@ -259,6 +262,19 @@ class Sliced_Graph:
     
     def get_slices(self, parent):
         return self.parents[parent]
+    
+    def add_missing_edges(self):
+        for p in self.get_parents():
+            print("p:", p)
+            self.add_paths_to_root(p)
+
+    def add_paths_to_root(self, node):
+        print('  node:',node)
+        parents_indices = self.graph.get_parents(node)
+        for parent, indices in parents_indices.items():
+            for index in indices:
+                print('    parent:',parent,'index:',index)
+                self.add_paths_to_root(parent)
 
 def visit_recursive(data, identities, graph):
     found, identity = identities.add(data)
@@ -270,7 +286,9 @@ def visit_recursive(data, identities, graph):
     return identity
 
 def visit(data, identities, graph):
-    return visit_recursive(data, identities, graph)
+    root_id = visit_recursive(data, identities, graph)
+    graph.add_root(root_id)
+    return root_id
 
 def main():
     child = ['c', 'h', 'i', 'l', 'd', '!']
@@ -288,6 +306,6 @@ def main():
 
     sliced_graph = Sliced_Graph(root_id, graph, Slicer(2,2))
     print(sliced_graph)
-    
+    sliced_graph.add_missing_edges()
 
 main()
