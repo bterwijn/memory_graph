@@ -1,5 +1,10 @@
 import copy
 import bisect
+import math
+
+def my_round(value):
+    """ Rounds the value to the nearest integer rounding '.5' up consistantly. """
+    return math.floor(value + 0.5)
 
 class Identities:
 
@@ -141,39 +146,119 @@ def test_slices():
     slices.add_slice([95,96])
     assert slices.get_slices() == [[10,20], [30,40], [60,70], [80,90], [95,96]], "Slice error: merging none"
 
+class Slicer:
+
+    def __init__(self, begin=None, end=None, middle=None, /) -> None:
+        self.begin = begin
+        self.end = end
+        self.middle = middle
+        if not self.middle is None:
+            self.end, self.middle = self.middle, self.end
+
+    def __repr__(self) -> str:
+        return f"Slicer({self.begin},{self.middle},{self.end})"
+
+    def get_slices(self, length):
+        slices = Slices()
+        if self.begin is None:
+            slices.add_slice([0, length])
+        else:
+            if isinstance(self.begin, float):
+                slices.add_slice([0, 
+                                  min(length,my_round(length*self.begin))]) # TODO: my_round
+            else:
+                slices.add_slice([0, 
+                                  min(length,self.begin)])
+            if not self.middle is None:
+                mid = length/2
+                if isinstance(self.middle, float):
+                    half = length*self.middle/2
+                else:
+                    half = self.middle/2
+                slices.add_slice([max(0,my_round(mid-half)), 
+                                  min(length,my_round(mid+half))])
+            if not self.end is None:
+                if isinstance(self.end, float):
+                    slices.add_slice([max(0,my_round(length-length*self.end)),
+                                      length])
+                else:
+                    slices.add_slice([max(0,length-self.end),
+                                      length])
+        #print("slices:",slices)
+        return slices
+
+def test_slicer():
+    slicer = Slicer(0.1, 0.2, 0.3)
+    slices = slicer.get_slices(100)
+    assert slices.get_slices() == [[0, 10], [40, 60], [70, 100]], "Slicer error"
+
+    slicer = Slicer(10, 20, 30)
+    slices = slicer.get_slices(100)
+    assert slices.get_slices() == [[0, 10], [40, 60], [70, 100]], "Slicer error"
+
+    slicer = Slicer(0.1, 0.3)
+    slices = slicer.get_slices(100)
+    assert slices.get_slices() == [[0, 10], [70, 100]], "Slicer error"
+
+    slicer = Slicer(10, 30)
+    slices = slicer.get_slices(100)
+    assert slices.get_slices() == [[0, 10], [70, 100]], "Slicer error"
+
+    slicer = Slicer(0.1)
+    slices = slicer.get_slices(100)
+    assert slices.get_slices() == [[0, 10]], "Slicer error"
+
+    slicer = Slicer(10)
+    slices = slicer.get_slices(100)
+    assert slices.get_slices() == [[0, 10]], "Slicer error"
+
+    slicer = Slicer()
+    slices = slicer.get_slices(100)
+    assert slices.get_slices() == [[0, 100]], "Slicer error"
+
+    slicer = Slicer(2,2)
+    slices = slicer.get_slices(0)
+    assert slices.get_slices() == [[0,0]], "Slicer error"
+
+    slicer = Slicer(2,2)
+    slices = slicer.get_slices(5)
+    assert slices.get_slices() == [[0,5]], "Slicer error"
+
+    slicer = Slicer(2,2)
+    slices = slicer.get_slices(6)
+    assert slices.get_slices() == [[0,2],[4,6]], "Slicer error"
+
 class Sliced_Graph:
 
-    def __init__(self, root_id, graph) -> None:
+    def __init__(self, root_id, graph, slicer) -> None:
         self.graph = graph
+        self.slicer = slicer
         self.parents = {}
         self.slice(root_id)
 
     def __repr__(self) -> str:
         s = "Sliced_Graph\n=== parents:\n"
         for parent_id in self.parents:
-            s += f"{parent_id} : {self.get_children(parent_id)}\n"
+            s += f"{parent_id} : {self.get_slices(parent_id)} {self.graph.get_children(parent_id)}\n"
         return s
 
     def slice(self, data_id, n=3):
         if data_id in self.parents:
             return
-        sliced_children = self.graph.get_children(data_id)
-        if len(sliced_children) > n:
-            sliced_children = sliced_children[:n]
-            self.parents[data_id] = sliced_children
-        else:
-            self.parents[data_id] = None
-        for child in sliced_children:
-            self.slice(child)
+        children = self.graph.get_children(data_id)
+        print("children:",children, "slicer:", self.slicer)
+        slices = self.slicer.get_slices(len(children))
+        print("slices:",slices)
+        self.parents[data_id] = slices
+        for slice in slices.get_slices():
+            for child in children[slice[0]:slice[1]]:
+                self.slice(child)
 
     def get_parents(self):
         return self.parents
     
-    def get_children(self, parent):
-        sliced_children = self.parents[parent]
-        if sliced_children is None:
-            return self.graph.get_children(parent)
-        return sliced_children
+    def get_slices(self, parent):
+        return self.parents[parent]
 
 def visit_recursive(data, identities, graph):
     found, identity = identities.add(data)
@@ -188,7 +273,7 @@ def visit(data, identities, graph):
     return visit_recursive(data, identities, graph)
 
 def main():
-    child = ['c', 'h', 'i', 'l', 'd']
+    child = ['c', 'h', 'i', 'l', 'd', '!']
     long = [i for i in range(10)] + [child] + [i for i in range(10)]
     data =  [ long, child]
     print(data) 
@@ -197,8 +282,12 @@ def main():
     root_id = visit(data, identities, graph)
     print('root_id:', root_id)
     print(graph)
-    sliced_graph = Sliced_Graph(root_id, graph)
-    print(sliced_graph)
+
     test_slices()
+    test_slicer()
+
+    sliced_graph = Sliced_Graph(root_id, graph, Slicer(2,2))
+    print(sliced_graph)
+    
 
 main()
