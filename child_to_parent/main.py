@@ -80,15 +80,15 @@ class Slices:
     def get_slices(self):
         return self.slices
 
-    def add_slice(self, begin_end):
+    def add_slice(self, begin_end, remove_interposed_dots=1):
         insert0 = bisect.bisect_right(self.slices, begin_end[0], key=lambda x: x[0])
         insert1 = bisect.bisect_left (self.slices, begin_end[1], key=lambda x: x[1])
         merge_begin, merge_end = False, False
         if insert0 > 0:
-            if self.slices[insert0-1][1] >= begin_end[0]-1:
+            if self.slices[insert0-1][1] >= (begin_end[0] - remove_interposed_dots):
                 merge_begin = True
         if insert1 < len(self.slices):
-            if self.slices[insert1][0] <= begin_end[1]+1:
+            if self.slices[insert1][0] <= (begin_end[1] + remove_interposed_dots):
                 merge_end = True
         if merge_begin and merge_end:
             if insert0 - insert1 == 1: # no slices changed
@@ -292,7 +292,7 @@ class Sliced_Graph:
             for index in indices:
                 print('    parent:',parent,'index:',index)
                 slices = self.get_slices(parent)
-                all_new_edges &= slices.add_slice([index,index+1])
+                all_new_edges &= slices.add_slice([index,index+1], 0) 
             if all_new_edges:
                 self.add_paths_to_root(parent)
 
@@ -311,7 +311,7 @@ def visit(data, identities, graph):
     return root_id
 
 def main():
-    child = ['a', 'b', 'c']
+    child = [i*100 for i in range(1,10)]
     long = [i for i in range(10)]
     long.insert(4, child)
     long.insert(6, child)
