@@ -91,6 +91,8 @@ class Slices:
             if self.slices[insert1][0] <= begin_end[1]+1:
                 merge_end = True
         if merge_begin and merge_end:
+            if insert0 - insert1 == 1: # no slices changed
+                return False
             self.slices[insert0-1][1] = self.slices[insert1][1]
             del self.slices[insert0:insert1+1]
         elif merge_begin:
@@ -102,6 +104,7 @@ class Slices:
         else:
             del self.slices[insert0:insert1]
             self.slices.insert(insert0, begin_end)
+        return True
 
 def test_slices():
     test = Slices( [[10,20], [30,40], [60,70], [80,90]] )
@@ -148,6 +151,19 @@ def test_slices():
     slices = test.copy()
     slices.add_slice([95,96])
     assert slices.get_slices() == [[10,20], [30,40], [60,70], [80,90], [95,96]], "Slice error: merging none"
+
+    slices = test.copy()
+    assert not slices.add_slice([10,11])
+    assert not slices.add_slice([19,20])
+    assert not slices.add_slice([30,31])
+    assert not slices.add_slice([39,40])
+    assert not slices.add_slice([65,66])
+    assert slices.add_slice([9,10])
+    assert slices.add_slice([20,21])
+    assert slices.add_slice([28,29])
+    assert slices.add_slice([41,42])
+    assert slices.add_slice([75,76])
+    assert slices.add_slice([100,200])
 
 class Slicer:
 
@@ -272,8 +288,12 @@ class Sliced_Graph:
         print('  node:',node)
         parents_indices = self.graph.get_parents(node)
         for parent, indices in parents_indices.items():
+            all_new_edges = True
             for index in indices:
                 print('    parent:',parent,'index:',index)
+                slices = self.get_slices(parent)
+                all_new_edges &= slices.add_slice([index,index+1])
+            if all_new_edges:
                 self.add_paths_to_root(parent)
 
 def visit_recursive(data, identities, graph):
@@ -291,8 +311,10 @@ def visit(data, identities, graph):
     return root_id
 
 def main():
-    child = ['c', 'h', 'i', 'l', 'd', '!']
-    long = [i for i in range(10)] + [child] + [i for i in range(10)]
+    child = ['a', 'b', 'c']
+    long = [i for i in range(10)]
+    long.insert(4, child)
+    long.insert(6, child)
     data =  [ long, child]
     print(data) 
     graph = Graph()
@@ -307,5 +329,6 @@ def main():
     sliced_graph = Sliced_Graph(root_id, graph, Slicer(2,2))
     print(sliced_graph)
     sliced_graph.add_missing_edges()
+    print(sliced_graph)
 
 main()
