@@ -37,15 +37,17 @@ class Memory_Graph:
                                     graph_attr=graphviz_graph_attr,
                                     node_attr=graphviz_node_attr,
                                     edge_attr=graphviz_edge_attr)
-        memory_visitor = Memory_Visitor(self.backtrack_callback)
-        #config_helpers.set_config(colors, vertical_orientations, slicers) # TODO: not happy, Memory_Visitor also set_configs
-        #memory_visitor.visit(data)
+        
         full_graph = Full_Graph(data)
         print(full_graph)
         sliced_graph = Sliced_Graph(full_graph, Slicer(2,2))
         print(sliced_graph)
         sliced_graph.add_missing_edges()
         print(sliced_graph)
+        sliced_graph.process_nodes(self.node_callback)
+
+    def node_callback(self, node_count, node, slices):
+        print('node_count:', node_count, 'node:', node,'slices:', slices)
 
     def backtrack_callback(self, node):
         """

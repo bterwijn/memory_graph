@@ -4,8 +4,6 @@ class Node:
     """
     Node represents a node in the memory graph. This base class has different subclasses for different types of nodes.
     """
-
-    node_id = 0
     
     """
     Create a Node object.
@@ -16,10 +14,8 @@ class Node:
         size (string): The size of the node to be shown in the graph.
     """
     def __init__(self, data, children=None):
-        self.node_id = Node.node_id
-        Node.node_id += 1
         self.data = data
-        self.parent = None
+        self.parent = None       # TODO: remove parent?
         self.children = children
 
     def __repr__(self):

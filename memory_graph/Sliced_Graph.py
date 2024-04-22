@@ -50,3 +50,21 @@ class Sliced_Graph:
                 all_new_edges &= slices.add_slice([index,index+1], 0) 
             if all_new_edges:
                 self.add_paths_to_root(parent)
+
+    def process_nodes(self, callback):
+        self.process_nodes_recursive(self.full_graph.get_root(), callback, set())
+
+    def process_nodes_recursive(self, node_id, callback, id_to_count):
+        node = self.full_graph.get_node(node_id)
+        node_id = id(node.get_data())
+        if not node_id in id_to_count:
+            node_count = len(id_to_count)
+            id_to_count.add(node_id)
+            children = node.get_children()
+            slices = None
+            if not children is None:
+                slices = self.get_slices(node_id)
+                for slice in slices.get_slices():
+                    for child in node.get_children()[slice[0]:slice[1]]:
+                        self.process_nodes_recursive(child, callback, id_to_count)
+            callback(node_count, node, slices)
