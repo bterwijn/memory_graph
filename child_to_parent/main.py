@@ -6,36 +6,47 @@ def my_round(value):
     """ Rounds the value to the nearest integer rounding '.5' up consistantly. """
     return math.floor(value + 0.5)
 
-class Identities:
+class ID_To_Data:
 
     def __init__(self):
-        self.identities = {}
+        self.id_to_data = {}
     
     def add(self, obj):
         identity = id(obj)
-        if identity in self.identities:
+        if identity in self.id_to_data:
             return (True, identity)
-        self.identities[identity] = obj
+        self.id_to_data[identity] = obj
         return (False, identity)
     
-    def get(self, identity):
-        return self.identities.get(identity)
+    def __index__(self, identity):
+        return self.id_to_data[identity]
     
 
-class Graph:
+class Full_Graph:
 
-    def __init__(self) -> None:
+    def __init__(self, data, id_to_data) -> None:
         self.parents = {}
         self.children = {}
+        root_id = self.build_graph_recursive(data, id_to_data)
+        self.add_root(root_id)
 
     def __repr__(self) -> str:
-        s = "Graph\n=== parents:\n"
+        s = "Full_Graph\n=== parents:\n"
         for parent_id,child_ids in self.parents.items():
             s += f"{parent_id} : {child_ids}\n"
         s += "=== children:\n"
         for child_id,parents_indices in self.children.items():
             s += f"{child_id} : {parents_indices}\n"
         return s
+
+    def build_graph_recursive(self, data, id_to_data):
+        found, identity = id_to_data.add(data)
+        if not found:
+            child_ids = []
+            if isinstance(data, list):
+                child_ids = [self.build_graph_recursive(child, id_to_data) for child in data]
+            self.add(identity, child_ids)
+        return identity
 
     def add(self, parent_id, child_ids):
         self.parents[parent_id] = child_ids
@@ -48,6 +59,10 @@ class Graph:
 
     def add_root(self, parent_id):
         self.children[parent_id] = {}
+        self.root = parent_id
+
+    def get_root(self):
+        return self.root
 
     def get_children(self):
         return self.children
@@ -249,22 +264,22 @@ def test_slicer():
 
 class Sliced_Graph:
 
-    def __init__(self, root_id, graph, slicer) -> None:
-        self.graph = graph
+    def __init__(self, full_graph, slicer) -> None:
+        self.full_graph = full_graph
         self.slicer = slicer
         self.parents = {}
-        self.slice(root_id)
+        self.slice(full_graph.get_root())
 
     def __repr__(self) -> str:
         s = "Sliced_Graph\n=== parents:\n"
         for parent_id in self.parents:
-            s += f"{parent_id} : {self.get_slices(parent_id)} {self.graph.get_children(parent_id)}\n"
+            s += f"{parent_id} : {self.get_slices(parent_id)} {self.full_graph.get_children(parent_id)}\n"
         return s
 
     def slice(self, data_id, n=3):
         if data_id in self.parents:
             return
-        children = self.graph.get_children(data_id)
+        children = self.full_graph.get_children(data_id)
         print("children:",children, "slicer:", self.slicer)
         slices = self.slicer.get_slices(len(children))
         print("slices:",slices)
@@ -286,7 +301,7 @@ class Sliced_Graph:
 
     def add_paths_to_root(self, node):
         print('  node:',node)
-        parents_indices = self.graph.get_parents(node)
+        parents_indices = self.full_graph.get_parents(node)
         for parent, indices in parents_indices.items():
             all_new_edges = True
             for index in indices:
@@ -296,37 +311,22 @@ class Sliced_Graph:
             if all_new_edges:
                 self.add_paths_to_root(parent)
 
-def visit_recursive(data, identities, graph):
-    found, identity = identities.add(data)
-    if not found:
-        child_ids = []
-        if isinstance(data, list):
-            child_ids = [visit_recursive(child, identities, graph) for child in data]
-        graph.add(identity, child_ids)
-    return identity
-
-def visit(data, identities, graph):
-    root_id = visit_recursive(data, identities, graph)
-    graph.add_root(root_id)
-    return root_id
-
 def main():
     child = [i*100 for i in range(1,10)]
     long = [i for i in range(10)]
     long.insert(4, child)
     long.insert(6, child)
     data =  [ long, child]
-    print(data) 
-    graph = Graph()
-    identities = Identities()
-    root_id = visit(data, identities, graph)
-    print('root_id:', root_id)
-    print(graph)
+    print(data)
+
+    id_to_data = ID_To_Data()
+    full_graph = Full_Graph(data, id_to_data)
+    print(full_graph)
 
     test_slices()
     test_slicer()
 
-    sliced_graph = Sliced_Graph(root_id, graph, Slicer(2,2))
+    sliced_graph = Sliced_Graph(full_graph, Slicer(2,2))
     print(sliced_graph)
     sliced_graph.add_missing_edges()
     print(sliced_graph)
