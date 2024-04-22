@@ -26,7 +26,7 @@ class Node:
         """
         Return a string representation of the node showing the original data represented by the node.
         """
-        return f'Node({self.data})'
+        return f'{utils.get_type_name(self)} children:{self.children}'
 
     def get_data(self):
         """
@@ -65,6 +65,12 @@ class Node:
         """
         return self.children
     
+    def set_children(self, children):
+        """
+        Set the children of the node.
+        """
+        self.children = children
+
     def get_name(self):
         """
         Return a unique name for the node.

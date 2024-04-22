@@ -14,9 +14,7 @@ class Node_Linear(Node):
         Create a Node_Linear object. Use a Slicer to slice the children so the 
         Node will not get to big or have too many childeren in the graph.
         """
-        slicer = config_helpers.get_slicer_1d(self, data)
-        sliced_children = slicer.slice(children)
-        super().__init__(data, sliced_children)
+        super().__init__(data, children)
 
     def transform(self, fun):
         """
