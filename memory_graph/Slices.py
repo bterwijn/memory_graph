@@ -1,6 +1,8 @@
 import bisect
 import copy
 
+from Slices_Iterator import Slices_Iterator
+
 class Slices:
 
     def __init__(self, slices=None) -> None:
@@ -12,6 +14,9 @@ class Slices:
     def __repr__(self) -> str:
         return f"Slices({self.slices})"
     
+    def __iter__(self):
+        return Slices_Iterator(self.slices)
+
     def copy(self):
         s = Slices()
         s.slices = copy.deepcopy(self.slices)

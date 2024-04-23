@@ -22,18 +22,18 @@ class Node_Linear(Node):
         """
         self.children.transform(fun)
         
-    def fill_html_table(self, html_table):
+    def fill_html_table(self, html_table, slices):
         """
         Fill the html_table with the children of the Node.
         """
-        has_nodes = self.children.check_condition_on_children(lambda c: isinstance(c, Node))
-        vertical = config_helpers.get_vertical_orientation(self, not has_nodes)
+        #has_nodes = self.children.check_condition_on_children(lambda c: isinstance(c, Node))
+        vertical = False #config_helpers.get_vertical_orientation(self, not has_nodes)
         if vertical:
-            self.fill_html_table_vertical(html_table)
+            self.fill_html_table_vertical(html_table, slices)
         else:
-            self.fill_html_table_horizontal(html_table)
+            self.fill_html_table_horizontal(html_table, slices)
 
-    def fill_html_table_vertical(self, html_table):
+    def fill_html_table_vertical(self, html_table, slices):
         """
         Helper function to fill the html_table with the children of the Node in vertical orientation.
         """
@@ -47,17 +47,20 @@ class Node_Linear(Node):
                 html_table.add_entry(self, value)
                 html_table.add_new_line()
 
-    def fill_html_table_horizontal(self, html_table):
+    def fill_html_table_horizontal(self, html_table, slices):
         """
         Helper function to fill the html_table with the children of the Node in horizontal orientation.
         """
-        for index, jump, value in self.children:
+        print("slices:",slices)
+        for index, jump in slices:
+            value = self.children[index]
             if jump:
                 html_table.add_entry(self, '', border=0)
             if value is not None:
                 html_table.add_index(index)
         html_table.add_new_line()
-        for index, jump, value in self.children:
+        for index, jump in slices:
+            value = self.children[index]
             if jump:
                 html_table.add_dots()
             if value is not None:

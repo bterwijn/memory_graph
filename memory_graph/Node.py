@@ -73,7 +73,7 @@ class Node:
         """
         return f'node{self.node_id}'
     
-    def get_html_table(self):
+    def get_html_table(self, slices):
         """
         Return the HTML_Table object that determines how the node is visualized in the graph.
         """
@@ -81,8 +81,8 @@ class Node:
         html_table = HTML_Table()
         if self.children is None:
             html_table.add_string(f'{self.data}')
-        elif self.children.has_data():
-            self.fill_html_table(html_table)
+        else: #if self.children.has_data():
+            self.fill_html_table(html_table, slices)
         return html_table
     
     # -------------------- Node interface, overriden by subclasses --------------------
@@ -100,7 +100,7 @@ class Node:
         """
         pass
         
-    def fill_html_table(self, html_table):
+    def fill_html_table(self, html_table, slices):
         """
         Fill the HTML_Table object with each child of the node.
         """
