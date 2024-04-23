@@ -9,12 +9,10 @@ import memory_graph.config_helpers as config_helpers
 class Full_Graph:
 
     def __init__(self, data) -> None:
-        self.ids_visited = set()
-        self.parents = {}
-        self.children = {}
+        self.parents = {}   # {id:Node}
+        self.children = {}  # {id:{id:[index]}}
         root_id = self.build_graph_recursive(data)
         self.add_root(root_id)
-        
 
     def __repr__(self) -> str:
         s = "Full_Graph\n=== parents:\n"
@@ -27,19 +25,26 @@ class Full_Graph:
 
     def build_graph_recursive(self, data):
         identity = id(data)
-        if not identity in self.ids_visited:
+        if not identity in self.parents:
             node = self.data_to_node(data)
             print("node:",node)
-            self.ids_visited.add(identity)
-            #node.transform(lambda x: self.build_graph_recursive(x)) # TODO, use transform?
+            self.parents[identity] = node
             children = node.get_children()
             if not children is None:
-                node.set_children( [self.build_graph_recursive(child) for child in children] )
-            self.add(identity, node)
+                for index, child in enumerate(children):    
+                    child_id = self.build_graph_recursive(child)
+                    self.add_child(identity, child_id, index)
         else:
             print('seen:',identity, data)
         return identity
-    
+
+    def add_child(self, parent_id, child_id, index):
+        if not child_id in self.children:
+            self.children[child_id]={}
+        if not parent_id in self.children[child_id]:
+            self.children[child_id][parent_id] = []
+        self.children[child_id][parent_id].append(index)
+
     def data_to_node(self, data):
         """
         Helper function to convert 'data' to a Node object based on its type.
@@ -53,18 +58,7 @@ class Full_Graph:
             return Node_Key_Value(data, utils.filter_dict_attributes(utils.get_dict_attributes(data)) )
         elif utils.is_iterable(data): # for lists, tuples, sets, ...
             return Node_Linear(data, data)
-        return Node(data) # for int, float, str, ...
-
-    def add(self, parent_id, node):
-        self.parents[parent_id] = node
-        children = node.get_children()
-        if not children is None:
-            for index, child in enumerate(children):
-                if not child in self.children:
-                    self.children[child]={}
-                if not parent_id in self.children[child]:
-                    self.children[child][parent_id] = []
-                self.children[child][parent_id].append(index)
+        return Node(data) # for int, float, str, ...    
 
     def add_root(self, parent_id):
         self.children[parent_id] = {}
