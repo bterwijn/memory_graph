@@ -30,10 +30,8 @@ class Full_Graph:
             self.id_to_node[node_id] = node
             children = node.get_children()
             if not children is None:
-                for index in range(len(children)):
-                    child_id = self.build_graph_recursive(children[index])
-                    children[index] = child_id
-                    self.add_child(node_id, child_id, index)
+                for index, child in enumerate(children):
+                    self.add_child(node_id, self.build_graph_recursive(child), index)
         else:
             print('seen:',node_id, data)
         return node_id
@@ -72,6 +70,9 @@ class Full_Graph:
 
     def get_node(self, node_id):
         return self.id_to_node[node_id]
+    
+    def get_child(self, children, index):
+        return self.id_to_node[id(children[index])]
     
     def get_parents(self, node_id):
         return self.id_to_parent_indices[node_id]

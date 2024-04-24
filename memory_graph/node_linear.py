@@ -43,7 +43,7 @@ class Node_Linear(Node):
                 html_table.add_dots()
                 html_table.add_new_line()
             else:
-                child_node = full_graph.get_node(self.children[index])
+                child_node = full_graph.get_child(self.children, index)
                 html_table.add_index(index)
                 html_table.add_entry(self, child_node)
                 html_table.add_new_line()
@@ -52,15 +52,19 @@ class Node_Linear(Node):
         """
         Helper function to fill the html_table with the children of the Node in horizontal orientation.
         """
-        for index in slices.get_iter(self.get_nr_children()):
-            if index == None:
-                html_table.add_value('', border=0)
-            else:
-                html_table.add_index(index)
-        html_table.add_new_line()
-        for index in slices.get_iter(self.get_nr_children()):
-            if index == None:
-                html_table.add_dots()
-            else:
-                child_node = full_graph.get_node(self.children[index])
-                html_table.add_entry(self, child_node)
+        for slice in self.get_children():
+            for child in slice:
+                html_table.add_entry(self, full_graph.get_node(id(child)))
+            html_table.add_dots()
+        # for index in slices.get_iter(self.get_nr_children()):
+        #     if index == None:
+        #         html_table.add_value('', border=0)
+        #     else:
+        #         html_table.add_index(index)
+        # html_table.add_new_line()
+        # for index in slices.get_iter(self.get_nr_children()):
+        #     if index == None:
+        #         html_table.add_dots()
+        #     else:
+        #         child_node = full_graph.get_child(self.children, index)
+        #         html_table.add_entry(self, child_node)

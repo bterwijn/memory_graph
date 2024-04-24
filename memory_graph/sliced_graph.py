@@ -22,9 +22,12 @@ class Sliced_Graph:
             slicer = memory_graph.config_helpers.get_slicer_1d(node, node.get_data())
             slices = slicer.get_slices(len(children))
             self.id_to_slices[node_id] = slices
-            for slice in slices.get_slices():
-                for child in children[slice[0]:slice[1]]:
-                    self.slice(child)
+            try:
+                for slice in slices.get_slices():
+                    for child in children[slice[0]:slice[1]]:
+                        self.slice(id(child))
+            except TypeError:
+                slices.slice_iterable(children, lambda child: self.slice(id(child)))
 
     def get_node_ids(self):
         return self.id_to_slices
@@ -59,7 +62,12 @@ class Sliced_Graph:
             slices = None
             if not children is None:
                 slices = self.get_slices(node_id)
-                for slice in slices.get_slices():
-                    for child_id in node.get_children()[slice[0]:slice[1]]:
-                        self.process_nodes_recursive(child_id, callback, id_to_count)
+                sliced_children = slices.slice_children(children)
+                node.set_children(sliced_children)
+                for slice in sliced_children:
+                    for child in slice:
+                        self.process_nodes_recursive(id(child), callback, id_to_count)
+                #for slice in slices.get_slices():
+                #    for child in node.get_children()[slice[0]:slice[1]]:
+                #        self.process_nodes_recursive(id(child), callback, id_to_count)
             callback(node, slices, self.full_graph)

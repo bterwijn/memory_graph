@@ -50,6 +50,26 @@ class Slices:
             del self.slices[insert0:insert1]
             self.slices.insert(insert0, begin_end)
         return True
+    
+    def slice_iterable(self, iterable, fun):
+        if len(self.slices) == 0:
+            return
+        si = 0
+        for index, value in enumerate(iterable):
+            if index >= self.slices[si][0]:
+                if index == self.slices[si][1]:
+                    si += 1
+                    if si == len(self.slices):
+                        return
+                else:
+                    fun(value)
+
+    def slice_children(self, children):
+        sliced = []
+        for slice in self.slices:
+            sliced.append(children[slice[0]:slice[1]])
+        return sliced
+
 
 def test_slices():
     test = Slices( [[10,20], [30,40], [60,70], [80,90]] )
@@ -109,6 +129,9 @@ def test_slices():
     assert slices.add_slice([41,42])
     assert slices.add_slice([75,76])
     assert slices.add_slice([100,200])
+
+    slices = test.copy()
+    slices.slice_iterable(range(100), lambda x: print(x, end=', '))
 
 if __name__ == "__main__":
     test_slices()

@@ -15,7 +15,7 @@ class Node:
     """
     def __init__(self, data, children=None):
         self.data = data
-        self.children = list(children) if children is not None else None
+        self.children = children
 
     def __repr__(self):
         """
@@ -52,6 +52,12 @@ class Node:
         Return the number of children of the node.
         """
         return len(self.children) if self.children is not None else 0
+
+    def set_children(self, children):
+        """
+        Set the children of the node.
+        """
+        self.children = children
 
     def get_children(self):
         """
