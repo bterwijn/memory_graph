@@ -1,9 +1,9 @@
+import memory_graph.config_helpers
 
 class Sliced_Graph:
 
-    def __init__(self, full_graph, slicer) -> None:
+    def __init__(self, full_graph) -> None:
         self.full_graph = full_graph
-        self.slicer = slicer
         self.id_to_slices = {}
         self.slice(full_graph.get_root_id())
 
@@ -19,9 +19,8 @@ class Sliced_Graph:
         node = self.full_graph.get_node(node_id)
         children = node.get_children()
         if not children is None:
-            print("children:",children, "slicer:", self.slicer)
-            slices = self.slicer.get_slices(len(children))
-            print("slices:",slices)
+            slicer = memory_graph.config_helpers.get_slicer_1d(node, node.get_data())
+            slices = slicer.get_slices(len(children))
             self.id_to_slices[node_id] = slices
             for slice in slices.get_slices():
                 for child in children[slice[0]:slice[1]]:

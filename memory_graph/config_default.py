@@ -40,7 +40,7 @@ config.type_to_node = {
             if dict in config.no_child_references_types else 
         Node_Linear(data, utils.filter_dict_attributes(data.items()) ) 
         ),
-    Node_Hidden: lambda data: data,
+    Node_Hidden: lambda data: data, # TODO?
     }
 
 """ Colors of different types in the graph. """

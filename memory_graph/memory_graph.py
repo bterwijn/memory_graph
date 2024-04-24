@@ -1,4 +1,3 @@
-from memory_graph.memory_visitor import Memory_Visitor
 from memory_graph.full_graph import Full_Graph
 from memory_graph.sliced_graph import Sliced_Graph
 from memory_graph.slicer import Slicer
@@ -42,7 +41,7 @@ class Memory_Graph:
         
         full_graph = Full_Graph(data)
         print(full_graph)
-        sliced_graph = Sliced_Graph(full_graph, Slicer(2,2))
+        sliced_graph = Sliced_Graph(full_graph)
         print(sliced_graph)
         sliced_graph.add_missing_edges()
         print(sliced_graph)
