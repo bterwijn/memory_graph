@@ -19,14 +19,9 @@ config.max_string_length = 42
 
 """ Types that by default will not have references pointing to them in the graph but instead will be visualized in the node of their parent. """
 config.no_reference_types = {
-    type(None) : lambda d: "None",  # so None can be used to indicate no value
-    bool : lambda d: d, 
-    int : lambda d: d, 
-    float : lambda d: d, 
-    complex : lambda d: d, 
-    str : lambda d: d,
-    types.FunctionType : lambda d: str(d.__qualname__),
-    types.MethodType  : lambda d: str(d.__qualname__),
+    type(None), bool, int, float, complex, str,
+    types.FunctionType,
+    types.MethodType,
 }
 
 """ Types that will not have references pointing to their children in the graph but instead will have their children visualized in their node. """
@@ -34,6 +29,8 @@ config.no_child_references_types = {dict, types.MappingProxyType}
 
 """ Conversion from type to Node objects. """
 config.type_to_node = {
+    types.FunctionType : lambda d: Node(d.__qualname__),
+    types.MethodType  : lambda d: Node(d.__qualname__),
     str: lambda data: Node(data), # visit as whole string, don't iterate over characters
     range: lambda data: Node_Key_Value(data, {'start':data.start, 'stop':data.stop, 'step':data.step}.items()),
     types.FunctionType: lambda data: Node(data.__qualname__),

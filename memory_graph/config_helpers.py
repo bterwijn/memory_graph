@@ -32,16 +32,16 @@ def get_property(data_id, data_type, node_type, dictionary, default):
     return default
 
 def get_color(node, default='white'):
-    return get_property(id(node.get_data()), 
-                        type(node.get_data()),
-                        type(node), 
+    return get_property(node.get_id(),
+                        node.get_type(),
+                        type(node),
                         type_to_color, 
                         default)
     
 def get_vertical_orientation(node, default):
-    return get_property(id(node.get_data()), 
-                        type(node.get_data()),
-                        type(node),  
+    return get_property(node.get_id(),
+                        node.get_type(),
+                        type(node),
                         type_to_vertical_orientation, 
                         default)
 

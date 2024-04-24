@@ -3,6 +3,7 @@ from memory_graph.Full_Graph import Full_Graph
 from memory_graph.Sliced_Graph import Sliced_Graph
 from memory_graph.Slicer import Slicer
 
+import memory_graph.config as config
 import memory_graph.config_helpers as config_helpers
 
 import graphviz
@@ -32,6 +33,7 @@ class Memory_Graph:
             graphviz_node_attr (dict): A dictionary of node attributes used to configure graphviz.
             graphviz_edge_attr (dict): A dictionary of edge attributes used to configure graphviz.
         """
+        config_helpers.set_config()
         self.subgraphed_nodes = set()
         self.new_graph=graphviz.Digraph('memory_graph',
                                     graph_attr=graphviz_graph_attr,
@@ -47,20 +49,21 @@ class Memory_Graph:
         sliced_graph.process_nodes(self.node_callback)
 
     def node_callback(self, node, slices, full_graph):
-        print('node:', node,'slices:', slices)
-        html_table = node.get_html_table(slices, full_graph)
-        edges = html_table.get_edges()
-        # ------------ subgraph
-        self.add_subgraph(edges)
-        # ------------ node
-        color = "white" # config_helpers.get_color(node)
-        border = 3 if node.get_id() == full_graph.get_root_id() else 1
-        self.new_graph.node(node.get_name(),
-                            html_table.to_string(border, color),
-                            xlabel=node.get_label())
-        # ------------ edges
-        for parent,child in edges:
-            self.new_graph.edge(parent, child+':table')
+        if not node.get_type() in config.no_reference_types or node.get_id() == full_graph.get_root_id() :
+            print('node:', node,'slices:', slices)
+            html_table = node.get_html_table(slices, full_graph)
+            edges = html_table.get_edges()
+            # ------------ subgraph
+            self.add_subgraph(edges)
+            # ------------ node
+            color = config_helpers.get_color(node)
+            border = 3 if node.get_id() == full_graph.get_root_id() else 1
+            self.new_graph.node(node.get_name(),
+                                html_table.to_string(border, color),
+                                xlabel=node.get_label())
+            # ------------ edges
+            for parent,child in edges:
+                self.new_graph.edge(parent, child+':table')
 
     def backtrack_callback(self, node):
         """

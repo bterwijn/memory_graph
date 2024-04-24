@@ -27,7 +27,7 @@ class Node_Linear(Node):
         Fill the html_table with the children of the Node.
         """
         #has_nodes = self.children.check_condition_on_children(lambda c: isinstance(c, Node))
-        vertical = True #config_helpers.get_vertical_orientation(self, not has_nodes)
+        vertical = False #config_helpers.get_vertical_orientation(self, not has_nodes)
         if vertical:
             self.fill_html_table_vertical(html_table, slices, full_graph)
         else:
@@ -39,13 +39,13 @@ class Node_Linear(Node):
         """
         for index in slices.get_iter(self.get_nr_children()):
             if index == None:
-                html_table.add_entry(self, '', border=0)
+                html_table.add_value('', border=0)
                 html_table.add_dots()
                 html_table.add_new_line()
             else:
-                node = full_graph.get_node(self.children[index])
+                child_node = full_graph.get_node(self.children[index])
                 html_table.add_index(index)
-                html_table.add_entry(self, node)
+                html_table.add_entry(self, child_node)
                 html_table.add_new_line()
 
     def fill_html_table_horizontal(self, html_table, slices, full_graph):
@@ -54,7 +54,7 @@ class Node_Linear(Node):
         """
         for index in slices.get_iter(self.get_nr_children()):
             if index == None:
-                html_table.add_entry(self, '', border=0)
+                html_table.add_value('', border=0)
             else:
                 html_table.add_index(index)
         html_table.add_new_line()
@@ -62,5 +62,5 @@ class Node_Linear(Node):
             if index == None:
                 html_table.add_dots()
             else:
-                node = full_graph.get_node(self.children[index])
-                html_table.add_entry(self, node)
+                child_node = full_graph.get_node(self.children[index])
+                html_table.add_entry(self, child_node)
