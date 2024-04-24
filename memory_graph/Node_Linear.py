@@ -27,7 +27,7 @@ class Node_Linear(Node):
         Fill the html_table with the children of the Node.
         """
         #has_nodes = self.children.check_condition_on_children(lambda c: isinstance(c, Node))
-        vertical = False #config_helpers.get_vertical_orientation(self, not has_nodes)
+        vertical = True #config_helpers.get_vertical_orientation(self, not has_nodes)
         if vertical:
             self.fill_html_table_vertical(html_table, slices, full_graph)
         else:
@@ -37,31 +37,30 @@ class Node_Linear(Node):
         """
         Helper function to fill the html_table with the children of the Node in vertical orientation.
         """
-        for index, jump, value in self.children:
-            if jump:
+        for index in slices.get_iter(self.get_nr_children()):
+            if index == None:
                 html_table.add_entry(self, '', border=0)
                 html_table.add_dots()
                 html_table.add_new_line()
-            if value is not None:
+            else:
+                node = full_graph.get_node(self.children[index])
                 html_table.add_index(index)
-                html_table.add_entry(self, value)
+                html_table.add_entry(self, node)
                 html_table.add_new_line()
 
     def fill_html_table_horizontal(self, html_table, slices, full_graph):
         """
         Helper function to fill the html_table with the children of the Node in horizontal orientation.
         """
-        print("slices:",slices)
-        for index, jump in slices:
-            value = self.children[index]
-            if jump:
+        for index in slices.get_iter(self.get_nr_children()):
+            if index == None:
                 html_table.add_entry(self, '', border=0)
-            if value is not None:
+            else:
                 html_table.add_index(index)
         html_table.add_new_line()
-        for index, jump in slices:
-            value = self.children[index]
-            if jump:
+        for index in slices.get_iter(self.get_nr_children()):
+            if index == None:
                 html_table.add_dots()
-            if value is not None:
-                html_table.add_entry(self, full_graph.get_node(value))
+            else:
+                node = full_graph.get_node(self.children[index])
+                html_table.add_entry(self, node)

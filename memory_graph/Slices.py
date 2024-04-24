@@ -14,8 +14,8 @@ class Slices:
     def __repr__(self) -> str:
         return f"Slices({self.slices})"
     
-    def __iter__(self):
-        return Slices_Iterator(self.slices)
+    def get_iter(self,length):
+        return Slices_Iterator(self.slices,length)
 
     def copy(self):
         s = Slices()

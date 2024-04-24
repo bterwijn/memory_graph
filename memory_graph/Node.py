@@ -15,7 +15,6 @@ class Node:
     """
     def __init__(self, data, children=None):
         self.data = data
-        self.parent = None       # TODO: remove parent?
         self.children = children
 
     def __repr__(self):
@@ -48,17 +47,11 @@ class Node:
         """
         return utils.get_type_name(self.data)
 
-    def set_parent(self, parent):
+    def get_nr_children(self):
         """
-        Set the parent of the node.
+        Return the number of children of the node.
         """
-        self.parent = parent
-
-    def get_parent(self):
-        """
-        Return the parent of the node.
-        """    
-        return self.parent
+        return len(self.children) if self.children is not None else 0
 
     def get_children(self):
         """
@@ -66,12 +59,6 @@ class Node:
         later they too are converted to Node by the Memory_visitor using the Node 'transform' method.
         """
         return self.children
-    
-    def set_children(self, children):
-        """
-        Set the children of the node.
-        """
-        self.children = children
 
     def get_name(self):
         """
