@@ -1,4 +1,4 @@
-from memory_graph.Memory_Graph import Memory_Graph
+from memory_graph.memory_graph import Memory_Graph
 
 import memory_graph.config_default as config_default
 import memory_graph.utils as utils

@@ -1,6 +1,6 @@
-from memory_graph.Node import Node
-from memory_graph.Node_Hidden import Node_Hidden
-from memory_graph.Slicer import Slicer
+from memory_graph.node import Node
+from memory_graph.node_hidden import Node_Hidden
+from memory_graph.slicer import Slicer
 
 import memory_graph.config_helpers as config_helpers
 import memory_graph.utils as utils

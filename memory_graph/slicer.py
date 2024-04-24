@@ -1,4 +1,4 @@
-from memory_graph.Slices import Slices
+from memory_graph.slices import Slices
 import memory_graph.utils as utils
 
 class Slicer:
@@ -87,7 +87,7 @@ if __name__ == '__main__':
     test_slicer()
     print('Slicer test passed')
 
-# from memory_graph.Sliced import Sliced
+# from memory_graph.sliced import Sliced
 
 # import memory_graph.utils as utils
 

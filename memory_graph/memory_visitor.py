@@ -1,6 +1,6 @@
-from memory_graph.Node import Node
-from memory_graph.Node_Linear import Node_Linear
-from memory_graph.Node_Key_Value import Node_Key_Value
+from memory_graph.node import Node
+from memory_graph.node_linear import Node_Linear
+from memory_graph.node_key_value import Node_Key_Value
 
 import memory_graph.utils as utils    
 import memory_graph.config as config

@@ -1,4 +1,4 @@
-from memory_graph.Node import Node
+from memory_graph.node import Node
 
 class Node_Hidden(Node):
     """

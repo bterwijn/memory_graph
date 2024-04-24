@@ -1,5 +1,5 @@
 """ This module provides helper functions to access the configuration of the memory graph. """
-from memory_graph.Slicer import Slicer
+from memory_graph.slicer import Slicer
 
 import memory_graph.config as config
 import memory_graph.utils as utils

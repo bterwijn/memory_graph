@@ -1,7 +1,7 @@
-from memory_graph.Memory_Visitor import Memory_Visitor
-from memory_graph.Full_Graph import Full_Graph
-from memory_graph.Sliced_Graph import Sliced_Graph
-from memory_graph.Slicer import Slicer
+from memory_graph.memory_visitor import Memory_Visitor
+from memory_graph.full_graph import Full_Graph
+from memory_graph.sliced_graph import Sliced_Graph
+from memory_graph.slicer import Slicer
 
 import memory_graph.config as config
 import memory_graph.config_helpers as config_helpers

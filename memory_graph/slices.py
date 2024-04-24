@@ -1,7 +1,7 @@
 import bisect
 import copy
 
-from Slices_Iterator import Slices_Iterator
+from memory_graph.slices_iterator import Slices_Iterator
 
 class Slices:
 

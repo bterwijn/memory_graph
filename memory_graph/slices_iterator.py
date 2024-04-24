@@ -23,7 +23,7 @@ class Slices_Iterator:
         return next(self.gen)
 
 def test_slices_iterator():
-    from memory_graph.Slices import Slices
+    from memory_graph.slices import Slices
     test = Slices( [[10,20], [30,40], [60,70], [80,90]] )
     slices = Slices_Iterator(test.get_slices(), 100)
     for i in slices:
