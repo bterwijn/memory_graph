@@ -22,18 +22,18 @@ class Node_Linear(Node):
         """
         self.children.transform(fun)
         
-    def fill_html_table(self, html_table, slices):
+    def fill_html_table(self, html_table, slices, full_graph):
         """
         Fill the html_table with the children of the Node.
         """
         #has_nodes = self.children.check_condition_on_children(lambda c: isinstance(c, Node))
         vertical = False #config_helpers.get_vertical_orientation(self, not has_nodes)
         if vertical:
-            self.fill_html_table_vertical(html_table, slices)
+            self.fill_html_table_vertical(html_table, slices, full_graph)
         else:
-            self.fill_html_table_horizontal(html_table, slices)
+            self.fill_html_table_horizontal(html_table, slices, full_graph)
 
-    def fill_html_table_vertical(self, html_table, slices):
+    def fill_html_table_vertical(self, html_table, slices, full_graph):
         """
         Helper function to fill the html_table with the children of the Node in vertical orientation.
         """
@@ -47,7 +47,7 @@ class Node_Linear(Node):
                 html_table.add_entry(self, value)
                 html_table.add_new_line()
 
-    def fill_html_table_horizontal(self, html_table, slices):
+    def fill_html_table_horizontal(self, html_table, slices, full_graph):
         """
         Helper function to fill the html_table with the children of the Node in horizontal orientation.
         """
@@ -64,4 +64,4 @@ class Node_Linear(Node):
             if jump:
                 html_table.add_dots()
             if value is not None:
-                html_table.add_entry(self, value)
+                html_table.add_entry(self, full_graph.get_node(value))

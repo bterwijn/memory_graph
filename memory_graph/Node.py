@@ -24,6 +24,12 @@ class Node:
         """
         return f'{utils.get_type_name(self)} children:{self.children}'
 
+    def get_id(self):
+        """
+        Return the id of the node.
+        """
+        return id(self.data)
+
     def get_data(self):
         """
         Return the original data represented by the node.
@@ -71,9 +77,9 @@ class Node:
         """
         Return a unique name for the node.
         """
-        return f'node{self.node_id}'
+        return f'node{self.get_id()}'
     
-    def get_html_table(self, slices):
+    def get_html_table(self, slices, full_graph):
         """
         Return the HTML_Table object that determines how the node is visualized in the graph.
         """
@@ -82,7 +88,7 @@ class Node:
         if self.children is None:
             html_table.add_string(f'{self.data}')
         else: #if self.children.has_data():
-            self.fill_html_table(html_table, slices)
+            self.fill_html_table(html_table, slices, full_graph)
         return html_table
     
     # -------------------- Node interface, overriden by subclasses --------------------

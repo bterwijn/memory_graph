@@ -46,16 +46,16 @@ class Memory_Graph:
         print(sliced_graph)
         sliced_graph.process_nodes(self.node_callback)
 
-    def node_callback(self, node_count, node, slices):
-        print('node_count:', node_count, 'node:', node,'slices:', slices)
-        html_table = node.get_html_table(slices)
+    def node_callback(self, node, slices, full_graph):
+        print('node:', node,'slices:', slices)
+        html_table = node.get_html_table(slices, full_graph)
         edges = html_table.get_edges()
         # ------------ subgraph
         self.add_subgraph(edges)
         # ------------ node
         color = "white" # config_helpers.get_color(node)
-        border = 3 if node.get_parent() is None else 1
-        self.new_graph.node(f"node_{node_count}",
+        border = 3 if node.get_id() == full_graph.get_root_id() else 1
+        self.new_graph.node(node.get_name(),
                             html_table.to_string(border, color),
                             xlabel=node.get_label())
         # ------------ edges

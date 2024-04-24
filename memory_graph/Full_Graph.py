@@ -30,8 +30,9 @@ class Full_Graph:
             self.id_to_node[node_id] = node
             children = node.get_children()
             if not children is None:
-                for index, child in enumerate(children):    
-                    child_id = self.build_graph_recursive(child)
+                for index in range(len(children)):
+                    child_id = self.build_graph_recursive(children[index])
+                    children[index] = child_id
                     self.add_child(node_id, child_id, index)
         else:
             print('seen:',node_id, data)
@@ -61,10 +62,10 @@ class Full_Graph:
 
     def add_root(self, node_id):
         self.id_to_parent_indices[node_id] = {}
-        self.root = node_id
+        self.root_id = node_id
 
-    def get_root(self):
-        return self.root
+    def get_root_id(self):
+        return self.root_id
 
     def get_node_ids(self):
         return self.id_to_node

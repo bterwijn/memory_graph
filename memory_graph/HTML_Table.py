@@ -69,7 +69,7 @@ class HTML_Table:
 
     def add_entry(self, node, child, rounded=False, border=1):
         """ Add child to the inner table either as reference if it a Node or as a value otherwise. """
-        if isinstance(child, Node): 
+        if isinstance(child, Node):
             self.add_reference(node, child, rounded, border)
         else:
             self.add_value(child, rounded, border)
