@@ -1,5 +1,5 @@
 import memory_graph
-from memory_graph.Slicer import Slicer
+from memory_graph.slicer import Slicer
 
 data = [ list(range(20)) for i in range(1,5)]
 highlight = data[2]

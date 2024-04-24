@@ -75,7 +75,7 @@ class Node:
         """
         Return the HTML_Table object that determines how the node is visualized in the graph.
         """
-        from memory_graph.HTML_Table import HTML_Table
+        from memory_graph.html_table import HTML_Table
         html_table = HTML_Table()
         if self.children is None:
             html_table.add_string(f'{self.data}')

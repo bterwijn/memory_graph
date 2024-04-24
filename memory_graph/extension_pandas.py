@@ -1,6 +1,6 @@
 """ Extension to add the memory graph configuration for Pandas type. """
-from memory_graph.Node_Linear import Node_Linear
-from memory_graph.Node_Table import Node_Table
+from memory_graph.node_linear import Node_Linear
+from memory_graph.node_table import Node_Table
 
 import memory_graph.config as config
 

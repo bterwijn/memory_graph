@@ -1,4 +1,4 @@
-from memory_graph.Sliced import Sliced
+from memory_graph.sliced import Sliced
 
 import memory_graph.utils as utils
 

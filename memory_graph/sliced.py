@@ -1,4 +1,4 @@
-from memory_graph.Node import Node
+from memory_graph.node import Node
 
 import memory_graph.utils as utils
 

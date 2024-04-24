@@ -7,8 +7,8 @@ import pandas as pd
 import memory_graph.extension_numpy
 import memory_graph.extension_pandas
 
-from memory_graph.Node_Table import Node_Table
-from memory_graph.Memory_Graph import Memory_Graph
+from memory_graph.node_table import Node_Table
+from memory_graph.memory_graph import Memory_Graph
 
 def test_singular(fun):
     data = 100

@@ -1,4 +1,4 @@
-from memory_graph.Memory_Visitor import Memory_Visitor
+from memory_graph.memory_visitor import Memory_Visitor
 
 import memory_graph.config_helpers as config_helpers
 
