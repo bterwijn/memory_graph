@@ -15,7 +15,7 @@ class Node:
     """
     def __init__(self, data, children=None):
         self.data = data
-        self.children = children
+        self.children = utils.make_sliceable(children) if children is not None else None
 
     def __repr__(self):
         """

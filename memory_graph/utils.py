@@ -18,6 +18,13 @@ def filter_dict_attributes(tuples):
         and not callable(v)
             ]
 
+def make_sliceable(data):
+    try:
+        data[0:0]
+        return data
+    except TypeError:
+        return list(data)
+
 def is_iterable(data):
     """ Returns 'True' if 'data' is iterable. """
     try:
