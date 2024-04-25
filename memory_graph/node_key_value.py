@@ -35,12 +35,7 @@ class Node_Key_Value(Node):
         Create a Node_Key_Value object. Use a Slicer to slice the children so the
         Node will not get too big or have too many childeren in the graph.
         """
-        #print('Node_Key_Value children:', children)
-        hidden_children = [ Node_Hidden(i,list(i)) for i in children ]
-        self.size = len(hidden_children)
-        slicer = config_helpers.get_slicer_1d(self, data)
-        sliced_children = slicer.slice(hidden_children)
-        super().__init__(data, sliced_children)
+        super().__init__(data, children)
         
     def transform(self, fun):
         """
@@ -49,55 +44,67 @@ class Node_Key_Value(Node):
         """
         self.children.transform(lambda node_hidden: transform_node_hidden(node_hidden, fun) )
         
-    def fill_html_table(self, html_table):
+    def fill_html_table(self, html_table, slices, full_graph):
         """
         Fill the html_table with the children of the Node.
         """
-        has_nodes = self.children.check_condition_on_children(lambda c: hidden_has_nodes(c))
-        vertical = config_helpers.get_vertical_orientation(self, not has_nodes)
+        #has_nodes = self.children.check_condition_on_children(lambda c: hidden_has_nodes(c))
+        vertical = False #config_helpers.get_vertical_orientation(self, not has_nodes)
         if vertical:
-            self.fill_html_table_vertical(html_table)
+            self.fill_html_table_vertical(html_table, slices, full_graph)
         else:
-            self.fill_html_table_horizontal(html_table)
+            self.fill_html_table_horizontal(html_table, slices, full_graph)
 
-    def fill_html_table_vertical(self, html_table):
+    def fill_html_table_vertical(self, html_table, slices, full_graph):
         """
         Helper function to fill the html_table with the children of the Node in vertical orientation.
         """
-        for index, jump, value in self.children:
-            if jump:
-                html_table.add_dots(rounded=True)
+        for index in slices.get_iter(self.get_nr_children()):
+            if index == None:
+                html_table.add_value('', border=0)
                 html_table.add_dots()
-                html_table.add_new_line()
-            if value is not None:
-                key_value = value.get_children() # add the key-value pair of Hidden_Node, not the tuple
-                html_table.add_entry(self, key_value[0], rounded=True)
-                html_table.add_entry(self, key_value[1])
-                html_table.add_new_line()
+                html_table.add_dots()
+            else:
+                html_table.add_index(index)
+                child_node = full_graph.get_child(self.children, index)
+                key = full_graph.get_node(id(child_node.get_children()[0]))
+                html_table.add_entry(self, key)
+                value = full_graph.get_node(id(child_node.get_children()[1]))
+                html_table.add_entry(self, value)
+            html_table.add_new_line()
 
-    def fill_html_table_horizontal(self, html_table):
+    def fill_html_table_horizontal(self, html_table, slices, full_graph):
         """
         Helper function to fill the html_table with the children of the Node in horizontal orientation.
         """
-        for index, jump, value in self.children:
-            if jump:
-                html_table.add_dots(rounded=True)
-            if value is not None:
-                key_value = value.get_children() # add the key-value pair of Hidden_Node, not the tuple
-                html_table.add_entry(self, key_value[0], rounded=True)
+        for index in slices.get_iter(self.get_nr_children()):
+            if index == None:
+                html_table.add_value('', border=0)
+            else:
+                html_table.add_index(index)
         html_table.add_new_line()
-        for index, jump, value in self.children:
-            if jump:
+        for index in slices.get_iter(self.get_nr_children()):
+            if index == None:
                 html_table.add_dots()
-            if value is not None:
-                key_value = value.get_children() # add the key-value pair of Hidden_Node, not the tuple
-                html_table.add_entry(self, key_value[1])
+            else:
+                child_node = full_graph.get_child(self.children, index)
+                key = full_graph.get_node(id(child_node.get_children()[0]))
+                html_table.add_entry(self, key)
+        html_table.add_new_line()
+        for index in slices.get_iter(self.get_nr_children()):
+            if index == None:
+                html_table.add_dots()
+            else:
+                child_node = full_graph.get_child(self.children, index)
+                value = full_graph.get_node(id(child_node.get_children()[1]))
+                html_table.add_entry(self, value)
 
     def get_label(self):
         """
         Return a label for the node to be shown in the graph next to the HTML table.
         """
-        if self.get_children().has_all_data():
-            return f'{self.get_type_name()}'
-        return f'{self.get_type_name()} {self.size}'
+        return f'{self.get_type_name()}'
+        # if self.get_children().has_all_data():
+        #     return f'{self.get_type_name()}'
+        # return f'{self.get_type_name()} {self.size}'
     

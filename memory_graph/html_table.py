@@ -68,7 +68,7 @@ class HTML_Table:
         self.col_count += 1
 
     def add_entry(self, node, child, rounded=False, border=1):
-        """ Add child to the inner table either as reference if it a Node or as a value otherwise. """
+        """ Add child to the inner table either as reference if it is a Node or as a value otherwise. """
         if child.get_type() in config.no_reference_types:
             self.add_value(str(child.get_data()), rounded, border)
         else:
@@ -79,7 +79,6 @@ class HTML_Table:
         self.check_add_new_line()
         r = ' STYLE="ROUNDED"' if rounded else ''
         self.html += f'<TD BORDER="{border}"{r}> {format_string(s)} </TD>'
-        #self.html += f'<TD BORDER="{border}"{r}> {format_string(s)} </TD>'
         self.col_count += 1
 
     def add_reference(self, node, child, rounded=False, border=1):
