@@ -25,20 +25,21 @@ class Node_Table(Node):
         Create a Node_Table object. Use a Slicer to slice the children so the Node 
         will not get to big or have too many childeren in the graph.
         """
-        slicer_height, slicer_width = config_helpers.get_slicer_2d(self, data)
+        super().__init__(data, children)
+        # slicer_height, slicer_width = config_helpers.get_slicer_2d(self, data)
 
-        if data_width:
-            sliced_children = slicer_height.slice_2d(children, data_width)
-            self.data_width = data_width
-        else:
-            sliced_children = slicer_height.slice(children)
-            self.data_width = len(children[0])
-        sliced_children.transform(lambda c: slicer_width.slice(c) )
-        self.data_height = sliced_children.get_original_length()
+        # if data_width:
+        #     sliced_children = slicer_height.slice_2d(children, data_width)
+        #     self.data_width = data_width
+        # else:
+        #     sliced_children = slicer_height.slice(children)
+        #     self.data_width = len(children[0])
+        # sliced_children.transform(lambda c: slicer_width.slice(c) )
+        # self.data_height = sliced_children.get_original_length()
 
-        self.row_names = row_names
-        self.column_names = column_names
-        super().__init__(data, sliced_children)
+        # self.row_names = row_names
+        # self.column_names = column_names
+        # super().__init__(data, sliced_children)
 
     def transform(self, fun):
         """
@@ -46,45 +47,47 @@ class Node_Table(Node):
         """
         self.children.transform(lambda s: s.transform(fun))
 
-    def fill_html_table(self, html_table):
+    def fill_html_table(self, html_table, slices, full_graph):
         """
         Fill the html_table with the children of the Node.
         """
-        # index on top row
-        for index1, jump1, slice in self.children:
-            if slice:
-                html_table.add_value('', border=0)
-                for index2, jump2, value in slice:
-                    if jump2:
-                        html_table.add_value('', border=0)
-                    if value is not None:
-                        add_name_or_index(html_table, index2, self.column_names)
-                        #html_table.add_index(index2)
-                html_table.add_new_line()
-                break
-        # remaining rows
-        for index1, jump1, slice in self.children:
-            #print('index1:',index1,'jump1:',jump1,'sliced:',slice)
-            if jump1:
-                html_table.add_new_line()
-                html_table.add_value('', border=0)
-                for _ in range (html_table.get_max_column()-1):
-                    html_table.add_dots()
-                html_table.add_new_line()
-            if slice:
-                add_name_or_index(html_table, index1, self.row_names)
-                #html_table.add_index(index1)
-                for index2, jump2, value in slice:
-                    #print('  index2:',index2,'jump2:',jump2,'value:',value)
-                    if jump2:
-                        html_table.add_dots()
-                    if value is not None:
-                        html_table.add_entry(self, value)
-                html_table.add_new_line()
+        print('self:',self, 'slices:',slices)
+        # # index on top row
+        # for index1, jump1, slice in self.children:
+        #     if slice:
+        #         html_table.add_value('', border=0)
+        #         for index2, jump2, value in slice:
+        #             if jump2:
+        #                 html_table.add_value('', border=0)
+        #             if value is not None:
+        #                 add_name_or_index(html_table, index2, self.column_names)
+        #                 #html_table.add_index(index2)
+        #         html_table.add_new_line()
+        #         break
+        # # remaining rows
+        # for index1, jump1, slice in self.children:
+        #     #print('index1:',index1,'jump1:',jump1,'sliced:',slice)
+        #     if jump1:
+        #         html_table.add_new_line()
+        #         html_table.add_value('', border=0)
+        #         for _ in range (html_table.get_max_column()-1):
+        #             html_table.add_dots()
+        #         html_table.add_new_line()
+        #     if slice:
+        #         add_name_or_index(html_table, index1, self.row_names)
+        #         #html_table.add_index(index1)
+        #         for index2, jump2, value in slice:
+        #             #print('  index2:',index2,'jump2:',jump2,'value:',value)
+        #             if jump2:
+        #                 html_table.add_dots()
+        #             if value is not None:
+        #                 html_table.add_entry(self, value)
+        #         html_table.add_new_line()
 
     def get_label(self):
         """
         Return a label for the node to be shown in the graph next to the HTML table.
         """
-        return f'{self.get_type_name()} {self.data_height}⨯{self.data_width}'
+        return f'{self.get_type_name()}'
+        #return f'{self.get_type_name()} {self.data_height}⨯{self.data_width}'
     

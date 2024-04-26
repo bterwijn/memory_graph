@@ -1,4 +1,5 @@
 import memory_graph.utils as utils
+import memory_graph.config_helpers as config_helpers
 
 class Node:
     """
@@ -99,6 +100,11 @@ class Node:
         """
         pass
         
+    def make_slices(self):
+        slicer = config_helpers.get_slicer_1d(self, self.get_data())
+        print('slicer:',slicer)
+        return slicer.get_slices(self.get_nr_children())
+
     def fill_html_table(self, html_table, slices):
         """
         Fill the HTML_Table object with each child of the node.

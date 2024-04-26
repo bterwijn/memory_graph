@@ -8,7 +8,6 @@ import memory_graph.extension_numpy
 import memory_graph.extension_pandas
 
 from memory_graph.node_table import Node_Table
-from memory_graph.memory_graph import Memory_Graph
 
 def test_singular(fun):
     data = 100
@@ -150,12 +149,6 @@ def test_function(fun):
     data = [1,2,example_function,lambda x: x*100, Example_Class, Example_Class.example_method]
     fun(data)
 
-def test_memory_graph(fun):
-    data = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]
-    graph = Memory_Graph(data)
-    data.append(graph)
-    fun(data)
-
 def test_all(fun):
     pass
     test_singular(fun)
@@ -175,4 +168,3 @@ def test_all(fun):
     test_numpy(fun)
     test_pandas(fun)
     test_function(fun)
-    test_memory_graph(fun)

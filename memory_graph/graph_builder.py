@@ -7,7 +7,7 @@ import memory_graph.config_helpers as config_helpers
 
 import graphviz
 
-class Memory_Graph:
+class Graph_Builder:
     """
     Memory_Graph creates a graph of memory using the graphviz library. 
     """

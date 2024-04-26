@@ -1,4 +1,4 @@
-from memory_graph.memory_graph import Memory_Graph
+from memory_graph.graph_builder import Graph_Builder
 
 import memory_graph.config_default as config_default
 import memory_graph.utils as utils
@@ -30,7 +30,7 @@ def create_graph(data,
                  vertical_orientations = None,
                  slicers = None):
     """ Creates and returns a memory graph from 'data'. """
-    memory_graph = Memory_Graph(data, colors, vertical_orientations, slicers)
+    memory_graph = Graph_Builder(data, colors, vertical_orientations, slicers)
     return memory_graph.get_graph()
 
 def show(data=None ,block=False, stack_index=2,
