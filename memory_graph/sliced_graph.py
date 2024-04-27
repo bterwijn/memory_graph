@@ -18,9 +18,13 @@ class Sliced_Graph:
         node = self.full_graph.get_node(node_id)
         children = node.get_children()
         if not children is None:
-            slices = node.make_slices()
+            slicer = node.get_slicer()
+            print('node:',node,'slicer:',slicer)
+            slices = children.slice(slicer)
             self.id_to_slices[node_id] = slices
-            node.visit_children(slices, lambda child_id: self.slice(child_id))
+            for index in slices:
+                self.slice(id(children[index]))
+            #node.visit_children(slices, lambda child_id: self.slice(child_id))
 
     def get_node_ids(self):
         return self.id_to_slices
@@ -36,13 +40,13 @@ class Sliced_Graph:
     def add_paths_to_root(self, node_id):
         print('  node_id:',node_id)
         parents_indices = self.full_graph.get_parents(node_id)
-        for parent, indices in parents_indices.items():
+        for parent_id, indices in parents_indices.items():
             for index in indices:
-                print('    parent:',parent,'index:',index)
-                slices = self.get_slices(parent)
-                slices.add_slice([index,index+1], 0) 
-            if not parent in self.id_to_slices:
-                self.add_paths_to_root(parent)
+                print('    parent_id:',parent_id,'index:',index)
+                slices = self.get_slices(parent_id)
+                slices.add_index(index)
+            if not parent_id in self.id_to_slices:
+                self.add_paths_to_root(parent_id)
 
     def process_nodes(self, callback):
         self.process_nodes_recursive(self.full_graph.get_root_id(), callback, set())

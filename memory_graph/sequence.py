@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 
 from memory_graph.slices import Slices2D
+import memory_graph.utils as utils
 
 class Sequence(ABC):
 
@@ -32,7 +33,7 @@ class Sequence(ABC):
 class Sequence1D(Sequence):
 
     def __init__(self, data):
-        self.data = data
+        self.data = utils.make_sliceable(data)
 
     def __repr__(self):
         return f'Sequence1D: {self.data}'
@@ -62,7 +63,7 @@ class Sequence1D(Sequence):
 class Sequence2D(Sequence):
 
     def __init__(self, data):
-        self.data = data
+        self.data = utils.make_sliceable(data)
 
     def __repr__(self):
         return f'Sequence2D: {self.data}'

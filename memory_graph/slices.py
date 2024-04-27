@@ -13,6 +13,10 @@ class Slices(ABC):
         pass
 
     @abstractmethod
+    def add_index(self, index):
+        pass
+
+    @abstractmethod
     def table_iter(self, size):
         pass
 
@@ -71,6 +75,9 @@ class Slices1D(Slices):
     def __iter__(self):
         return Slices_Iterator1D(self)
     
+    def add_index(self, index):
+        self.add_slice([index,index+1], 0)
+    
     def table_iter(self, size):
         return Slices_Table_Iterator1D(self, size)
 
@@ -124,6 +131,10 @@ class Slices2D(Slices):
 
     def __iter__(self):
         return Slices_Iterator2D(self)
+
+    def add_index(self, index):
+        i0,i1 = index
+        self.add_slice(i0, [i1,i1+1], 0)
 
     def table_iter(self, size):
         return Slices_Table_Iterator2D(self, size)

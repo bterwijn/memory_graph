@@ -69,6 +69,7 @@ class HTML_Table:
 
     def add_entry(self, node, child, rounded=False, border=1):
         """ Add child to the inner table either as reference if it is a Node or as a value otherwise. """
+        #print('child:',child)
         if child.get_type() in config.no_reference_types:
             self.add_value(str(child.get_data()), rounded, border)
         else:

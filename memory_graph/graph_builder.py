@@ -64,26 +64,6 @@ class Graph_Builder:
             for parent,child in edges:
                 self.new_graph.edge(parent, child+':table')
 
-    def backtrack_callback(self, node):
-        """
-        Callback function called by the Memory_Visitor when backtracking while reading each 
-        node in the memory reachable from the 'data' root node after calling the Memory_Graph constructor.
-        """
-        #print("backtrack node:",node)
-        html_table = node.get_html_table()
-        edges = html_table.get_edges()
-        # ------------ subgraph
-        self.add_subgraph(edges)
-        # ------------ node
-        color = config_helpers.get_color(node)
-        border = 3 if node.get_parent() is None else 1
-        self.new_graph.node(node.get_name(),
-                            html_table.to_string(border, color),
-                            xlabel=node.get_label())
-        # ------------ edges
-        for parent,child in edges:
-            self.new_graph.edge(parent, child+':table')
-
     def add_subgraph(self, edges):
         """
         Helper function to add 'edges' to the graphviz graph. Each edges is a tuple (parent,child) where parent 

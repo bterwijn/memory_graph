@@ -46,7 +46,7 @@ def get_vertical_orientation(node, default):
                         default)
 
 def get_slicer(node, data, default=Slicer(3,2,3)):
-    slicer = get_property(id(data),
+    return get_property(id(data),
                         type(data),
                         type(node), 
                         type_to_slicer, 

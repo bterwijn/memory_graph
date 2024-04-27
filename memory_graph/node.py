@@ -100,15 +100,8 @@ class Node:
         """
         pass
         
-    def make_slices(self):
-        slicer = config_helpers.get_slicer(self, self.get_data())
-        print('slicer:',slicer)
-        return slicer.get_slices(self.get_nr_children())
-    
-    def visit_children(self, slices, fun):
-        for slice in slices.get_slices():
-            for child in self.children[slice[0]:slice[1]]:
-                fun(id(child))
+    def get_slicer(self):
+        return config_helpers.get_slicer(self, self.get_data())
 
     def fill_html_table(self, html_table, slices):
         """
