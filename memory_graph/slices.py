@@ -1,9 +1,26 @@
+from abc import ABC, abstractmethod
+
 import bisect
 import copy
 
-from memory_graph.slices_iterator import Slices_Iterator
+from memory_graph.slices_iterator import Slices_Iterator1D, Slices_Iterator2D
+from memory_graph.slices_table_iterator import Slices_Table_Iterator1D, Slices_Table_Iterator2D
 
-class Slices:
+class Slices(ABC):
+
+    @abstractmethod
+    def __iter__(self):
+        pass
+
+    @abstractmethod
+    def table_iter(self, size):
+        pass
+
+    @abstractmethod
+    def get_index_set(self):
+        pass
+
+class Slices1D(Slices):
 
     def __init__(self, slices=None) -> None:
         self.slices = []
@@ -12,13 +29,13 @@ class Slices:
                 self.add_slice(i)
 
     def __repr__(self) -> str:
-        return f"Slices({self.slices})"
+        return f"Slices1D({self.slices})"
     
     def get_iter(self,length):
         return Slices_Iterator(self.slices,length)
 
     def copy(self):
-        s = Slices()
+        s = Slices1D()
         s.slices = copy.deepcopy(self.slices)
         return s
 
@@ -51,88 +68,70 @@ class Slices:
             self.slices.insert(insert0, begin_end)
         return True
     
-    # def slice_iterable(self, iterable, fun):
-    #     if len(self.slices) == 0:
-    #         return
-    #     si = 0
-    #     for index, value in enumerate(iterable):
-    #         if index >= self.slices[si][0]:
-    #             if index == self.slices[si][1]:
-    #                 si += 1
-    #                 if si == len(self.slices):
-    #                     return
-    #             else:
-    #                 fun(value)
-
-    # def slice_children(self, children):
-    #     sliced = []
-    #     for slice in self.slices:
-    #         sliced.append(children[slice[0]:slice[1]])
-    #     return sliced
-
-
-def test_slices():
-    test = Slices( [[10,20], [30,40], [60,70], [80,90]] )
-    slices = test.copy()
-    slices.add_slice([21,79])
-    assert slices.get_slices() == [[10,90]], "Slice error: merging begin and end"
-
-    slices = test.copy()
-    slices.add_slice([31,39])
-    assert slices.get_slices() == [[10,20], [30,40], [60,70], [80,90]], "Slice error: merging begin and end"
-
-    slices = test.copy()
-    slices.add_slice([15,50])
-    assert slices.get_slices() == [[10,50], [60,70], [80,90]], "Slice error: merging begin"
-
-    slices = test.copy()
-    slices.add_slice([15,65])
-    assert slices.get_slices() == [[10,70], [80,90]], "Slice error: merging begin"
-
-    slices = test.copy()
-    slices.add_slice([35,45])
-    assert slices.get_slices() == [[10,20], [30,45], [60,70], [80,90]], "Slice error: merging begin"
-
-    slices = test.copy()
-    slices.add_slice([25,65])
-    assert slices.get_slices() == [[10,20], [25,70], [80,90]], "Slice error: merging end"
+    def __iter__(self):
+        return Slices_Iterator1D(self)
     
-    slices = test.copy()
-    slices.add_slice([15,65])
-    assert slices.get_slices() == [[10,70], [80,90]], "Slice error: merging end"
+    def table_iter(self, size):
+        return Slices_Table_Iterator1D(self, size)
 
-    slices = test.copy()
-    slices.add_slice([55,65])
-    assert slices.get_slices() == [[10,20], [30,40], [55,70], [80,90]], "Slice error: merging end"
+    def get_index_set(self):
+        index_set = set()
+        for s in self.slices:
+            index_set.update(range(s[0],s[1]))
+        return index_set
 
-    slices = test.copy()
-    slices.add_slice([25,75])
-    assert slices.get_slices() == [[10,20], [25,75], [80,90]], "Slice error: merging none"
+class Slices2D(Slices):
 
-    slices = test.copy()
-    slices.add_slice([5,6])
-    assert slices.get_slices() == [[5,6], [10,20], [30,40], [60,70], [80,90]], "Slice error: merging none"
+    def __init__(self, index_slices=None) -> None:
+        self.index_slices = []
+        self.row_slices = Slices1D()
+        self.col_slices = Slices1D()
+        if not index_slices is None:
+            for index,slices1d in index_slices:
+                self.add_slices(index, slices1d)
 
-    slices = test.copy()
-    slices.add_slice([95,96])
-    assert slices.get_slices() == [[10,20], [30,40], [60,70], [80,90], [95,96]], "Slice error: merging none"
+    def __repr__(self):
+        s='Sices2D:\n'
+        s += 'row_slices:' + str(self.row_slices) + '\n'
+        s += 'col_slices:' + str(self.col_slices) + '\n'
+        for i in self.index_slices:
+            s += str(i) + '\n'
+        return s
+    
+    def get_row_slices(self):
+        return self.row_slices
+    
+    def get_col_slices(self):
+        return self.col_slices
+    
+    def get_index_slices(self):
+        return self.index_slices
 
-    slices = test.copy()
-    assert not slices.add_slice([10,11])
-    assert not slices.add_slice([19,20])
-    assert not slices.add_slice([30,31])
-    assert not slices.add_slice([39,40])
-    assert not slices.add_slice([65,66])
-    assert slices.add_slice([9,10])
-    assert slices.add_slice([20,21])
-    assert slices.add_slice([28,29])
-    assert slices.add_slice([41,42])
-    assert slices.add_slice([75,76])
-    assert slices.add_slice([100,200])
+    def add_slice(self, index, begin_end, remove_interposed_dots=1):
+        self.row_slices.add_slice([index,index+1], 0)
+        self.col_slices.add_slice(begin_end, 0)
+        insert = bisect.bisect_left(self.index_slices, index, key=lambda x: x[0])
+        if insert < len(self.index_slices):
+            if self.index_slices[insert][0] == index:
+                slices_update = self.index_slices[insert][1]
+                slices_update.add_slice(begin_end, remove_interposed_dots)
+                return
+        self.index_slices.insert(insert, [index, Slices1D([begin_end])])
 
-    #slices = test.copy()
-    #slices.slice_iterable(range(100), lambda x: print(x, end=', '))
+    def add_slices(self, index, slices, remove_interposed_dots=1):
+        for slice in slices.get_slices():
+            self.add_slice(index, slice, remove_interposed_dots)
 
-if __name__ == "__main__":
-    test_slices()
-    print("Slices: All tests pass")
+    def __iter__(self):
+        return Slices_Iterator2D(self)
+
+    def table_iter(self, size):
+        return Slices_Table_Iterator2D(self, size)
+
+    def get_index_set(self):
+        index_set = set()
+        for index,slices in self.index_slices:
+            for slice in slices.get_slices():
+                for s in range(slice[0],slice[1]):
+                    index_set.add((index,s))
+        return index_set

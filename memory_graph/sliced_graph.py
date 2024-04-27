@@ -18,14 +18,9 @@ class Sliced_Graph:
         node = self.full_graph.get_node(node_id)
         children = node.get_children()
         if not children is None:
-            # slicer = memory_graph.config_helpers.get_slicer_1d(node, node.get_data())
-            # print('slicer:',slicer)
-            # slices = slicer.get_slices(len(children))
             slices = node.make_slices()
             self.id_to_slices[node_id] = slices
-            for slice in slices.get_slices():
-                for child in children[slice[0]:slice[1]]:
-                    self.slice(id(child))
+            node.visit_children(slices, lambda child_id: self.slice(child_id))
 
     def get_node_ids(self):
         return self.id_to_slices

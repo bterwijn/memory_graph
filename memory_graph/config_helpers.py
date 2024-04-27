@@ -45,26 +45,9 @@ def get_vertical_orientation(node, default):
                         type_to_vertical_orientation, 
                         default)
 
-def get_slicer_1d(node, data, default=Slicer(10,5,10)):
+def get_slicer(node, data, default=Slicer(3,2,3)):
     slicer = get_property(id(data),
                         type(data),
                         type(node), 
                         type_to_slicer, 
                         default)
-    if type(slicer) is Slicer:
-        return slicer
-    if utils.is_iterable(slicer):
-        return next(iter(slicer))
-    return default
-
-def get_slicer_2d(node, data, default=Slicer(5,5)):
-    slicer = get_property(id(data),
-                        type(data),
-                        type(node), 
-                        type_to_slicer, 
-                        default)
-    if type(slicer) is Slicer:
-        return slicer, slicer
-    if len(slicer) == 2:
-        return slicer
-    return default, default

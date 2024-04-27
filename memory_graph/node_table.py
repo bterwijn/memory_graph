@@ -1,5 +1,6 @@
 from memory_graph.node import Node
 from memory_graph.slicer import Slicer
+from memory_graph.slices import Slices2D
 
 import memory_graph.config_helpers as config_helpers
 
@@ -47,6 +48,24 @@ class Node_Table(Node):
         """
         self.children.transform(lambda s: s.transform(fun))
 
+    def make_slices(self):
+        slicer1 = config_helpers.get_slicer_1d(self, self.get_data())
+        if isinstance(slicer1, list):
+            slicer1 = slicer1[0]
+            slicer2 = slicer1[1]
+        else:
+            slicer2 = slicer1
+        slices2d = Slicer2D()
+
+        return slicer2d
+
+        return slicer.get_slices(self.get_nr_children())
+
+    def visit_children(self, slices, fun):
+        for slice in slices.get_slices():
+            for child in self.children[slice[0]:slice[1]]:
+                fun(id(child))
+
     def fill_html_table(self, html_table, slices, full_graph):
         """
         Fill the html_table with the children of the Node.
@@ -83,6 +102,8 @@ class Node_Table(Node):
         #             if value is not None:
         #                 html_table.add_entry(self, value)
         #         html_table.add_new_line()
+
+
 
     def get_label(self):
         """
