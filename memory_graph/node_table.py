@@ -1,6 +1,5 @@
 from memory_graph.node import Node
-from memory_graph.slicer import Slicer
-from memory_graph.slices import Slices2D
+from memory_graph.sequence import Sequence2D
 
 import memory_graph.config_helpers as config_helpers
 
@@ -26,21 +25,7 @@ class Node_Table(Node):
         Create a Node_Table object. Use a Slicer to slice the children so the Node 
         will not get to big or have too many childeren in the graph.
         """
-        super().__init__(data, children)
-        # slicer_height, slicer_width = config_helpers.get_slicer_2d(self, data)
-
-        # if data_width:
-        #     sliced_children = slicer_height.slice_2d(children, data_width)
-        #     self.data_width = data_width
-        # else:
-        #     sliced_children = slicer_height.slice(children)
-        #     self.data_width = len(children[0])
-        # sliced_children.transform(lambda c: slicer_width.slice(c) )
-        # self.data_height = sliced_children.get_original_length()
-
-        # self.row_names = row_names
-        # self.column_names = column_names
-        # super().__init__(data, sliced_children)
+        super().__init__(data, Sequence2D(children))
 
     def transform(self, fun):
         """
@@ -48,62 +33,42 @@ class Node_Table(Node):
         """
         self.children.transform(lambda s: s.transform(fun))
 
-    def make_slices(self):
-        slicer1 = config_helpers.get_slicer_1d(self, self.get_data())
-        if isinstance(slicer1, list):
-            slicer1 = slicer1[0]
-            slicer2 = slicer1[1]
-        else:
-            slicer2 = slicer1
-        slices2d = Slicer2D()
-
-        return slicer2d
-
-        return slicer.get_slices(self.get_nr_children())
-
-    def visit_children(self, slices, fun):
-        for slice in slices.get_slices():
-            for child in self.children[slice[0]:slice[1]]:
-                fun(id(child))
-
     def fill_html_table(self, html_table, slices, full_graph):
         """
         Fill the html_table with the children of the Node.
         """
-        print('self:',self, 'slices:',slices)
-        # # index on top row
-        # for index1, jump1, slice in self.children:
-        #     if slice:
-        #         html_table.add_value('', border=0)
-        #         for index2, jump2, value in slice:
-        #             if jump2:
-        #                 html_table.add_value('', border=0)
-        #             if value is not None:
-        #                 add_name_or_index(html_table, index2, self.column_names)
-        #                 #html_table.add_index(index2)
-        #         html_table.add_new_line()
-        #         break
-        # # remaining rows
-        # for index1, jump1, slice in self.children:
-        #     #print('index1:',index1,'jump1:',jump1,'sliced:',slice)
-        #     if jump1:
-        #         html_table.add_new_line()
-        #         html_table.add_value('', border=0)
-        #         for _ in range (html_table.get_max_column()-1):
-        #             html_table.add_dots()
-        #         html_table.add_new_line()
-        #     if slice:
-        #         add_name_or_index(html_table, index1, self.row_names)
-        #         #html_table.add_index(index1)
-        #         for index2, jump2, value in slice:
-        #             #print('  index2:',index2,'jump2:',jump2,'value:',value)
-        #             if jump2:
-        #                 html_table.add_dots()
-        #             if value is not None:
-        #                 html_table.add_entry(self, value)
-        #         html_table.add_new_line()
-
-
+        children = self.children
+        html_table.add_value('', border=0)
+        for index in slices.table_iter(children.size()):
+            rowi, coli = index
+            if rowi == -1:
+                html_table.add_value('', border=0)
+            elif rowi == -2:
+                html_table.add_new_line()
+                break
+            else:
+                html_table.add_index(coli)
+        first_column = True
+        for index in slices.table_iter(children.size()):
+            rowi, coli = index
+            if first_column:
+                html_table.add_index(rowi)
+                first_column = False
+            if rowi == -1:
+                html_table.add_dots()
+            elif rowi == -2:
+                html_table.add_new_line()
+                first_column = True
+            elif rowi == -3:
+                html_table.add_new_line()
+                html_table.add_value('', border=0)
+                for _ in range (html_table.get_max_column()-1):
+                    html_table.add_dots()
+                html_table.add_new_line()
+            else:
+                child = children[index]
+                child_node = full_graph.get_child_node(child)
+                html_table.add_entry(self, child_node)
 
     def get_label(self):
         """

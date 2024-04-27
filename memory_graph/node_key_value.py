@@ -46,7 +46,7 @@ class Node_Key_Value(Node):
         Fill the html_table with the children of the Node.
         """
         #has_nodes = self.children.check_condition_on_children(lambda c: hidden_has_nodes(c))
-        vertical = True #config_helpers.get_vertical_orientation(self, not has_nodes)
+        vertical = False #config_helpers.get_vertical_orientation(self, not has_nodes)
         if vertical:
             self.fill_html_table_vertical(html_table, slices, full_graph)
         else:

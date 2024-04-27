@@ -59,7 +59,7 @@ class Sliced_Graph:
             slices = None
             if not children is None:
                 slices = self.get_slices(node_id)
-                for slice in slices.get_slices():
-                   for child in node.get_children()[slice[0]:slice[1]]:
-                       self.process_nodes_recursive(id(child), callback, id_to_count)
+                for index in slices:
+                    child_id = id(children[index])
+                    self.process_nodes_recursive(child_id, callback, id_to_count)
             callback(node, slices, self.full_graph)
