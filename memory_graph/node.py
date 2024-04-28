@@ -48,11 +48,11 @@ class Node:
         """
         return utils.get_type_name(self.data)
 
-    def get_nr_children(self):
+    def has_children(self):
         """
         Return the number of children of the node.
         """
-        return len(self.children) if self.children is not None else 0
+        return not self.children is None
 
     def set_children(self, children):
         """
@@ -109,7 +109,7 @@ class Node:
         """
         pass
 
-    def get_label(self):
+    def get_label(self, slices):
         """
         Return a label for the node to be shown in the graph next to the HTML table.
         """

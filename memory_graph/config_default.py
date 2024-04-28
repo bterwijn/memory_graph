@@ -74,7 +74,7 @@ config.type_to_vertical_orientation = {
 
 """ Slicer objects for different types. """
 config.type_to_slicer = {
-    Node_Linear: Slicer(5,5,5),
+    Node_Linear: Slicer(2,2), #Slicer(5,5,5),
     Node_Key_Value: Slicer(5,5,5),
     Node_Table: (Slicer(3,3,3), Slicer(3,3)),
 }

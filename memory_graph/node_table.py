@@ -86,7 +86,7 @@ class Node_Table(Node):
                 child_node = full_graph.get_child_node(child)
                 html_table.add_entry(self, child_node)
 
-    def get_label(self):
+    def get_label(self, slices):
         """
         Return a label for the node to be shown in the graph next to the HTML table.
         """

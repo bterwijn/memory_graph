@@ -59,7 +59,7 @@ class Graph_Builder:
             border = 3 if node.get_id() == full_graph.get_root_id() else 1
             self.new_graph.node(node.get_name(),
                                 html_table.to_string(border, color),
-                                xlabel=node.get_label())
+                                xlabel=node.get_label(slices))
             # ------------ edges
             for parent,child in edges:
                 self.new_graph.edge(parent, child+':table')

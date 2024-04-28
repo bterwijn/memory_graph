@@ -21,14 +21,30 @@ class Node_Linear(Node):
         Transform the children of the Node using the 'fun' function.
         """
         self.children.transform(fun)
-        
+    
+    def has_references(self, slices, full_graph):
+        """
+        Return if the node has references to other nodes.
+        """
+        for index in slices:
+            if full_graph.get_child_node(self.children[index]).has_children():
+                return True
+        return False
+
+    def is_vertical(self, slices, full_graph):
+        """
+        Return if the node is vertical or horizontal based on the orientation of the children.
+        """
+        vertical = config_helpers.get_vertical_orientation(self, None)
+        if vertical is None:
+            vertical = not self.has_references(slices, full_graph)
+        return vertical
+
     def fill_html_table(self, html_table, slices, full_graph):
         """
         Fill the html_table with the children of the Node.
         """
-        #has_nodes = self.children.check_condition_on_children(lambda c: isinstance(c, Node))
-        vertical = False #config_helpers.get_vertical_orientation(self, not has_nodes)
-        if vertical:
+        if self.is_vertical(slices, full_graph):
             self.fill_html_table_vertical(html_table, slices, full_graph)
         else:
             self.fill_html_table_horizontal(html_table, slices, full_graph)
@@ -68,3 +84,14 @@ class Node_Linear(Node):
                 html_table.add_entry(self, child_node)
             else:
                 html_table.add_dots()
+
+    def get_label(self, slices):
+        """
+        Return a label for the node to be shown in the graph next to the HTML table.
+        """
+        type_name = self.get_type_name()
+        last_index = slices.get_slices()[-1][1]
+        size = self.get_children().size()
+        if last_index == size:
+            return f'{type_name}'
+        return f'{type_name} {size}'
