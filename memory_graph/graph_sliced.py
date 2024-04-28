@@ -33,7 +33,7 @@ class Graph_Sliced:
         return self.id_to_slices[node_id]
     
     def add_missing_edges(self):
-        for node_id in self.get_node_ids():
+        for node_id in list(self.get_node_ids().keys()):
             print("node_id:", node_id)
             self.add_paths_to_root(node_id)
 
@@ -41,11 +41,18 @@ class Graph_Sliced:
         print('  node_id:',node_id)
         parents_indices = self.graph_full.get_parents(node_id)
         for parent_id, indices in parents_indices.items():
+            new_parent = False
+            if not parent_id in self.id_to_slices:
+                new_parent = True
+                parent = self.graph_full.get_node(parent_id)
+                slices = parent.get_children().empty_slice()
+                self.id_to_slices[parent_id] = slices
+            else:
+                slices = self.get_slices(parent_id)
             for index in indices:
                 print('    parent_id:',parent_id,'index:',index)
-                slices = self.get_slices(parent_id)
                 slices.add_index(index)
-            if not parent_id in self.id_to_slices:
+            if new_parent:
                 self.add_paths_to_root(parent_id)
 
     def process_nodes(self, callback):

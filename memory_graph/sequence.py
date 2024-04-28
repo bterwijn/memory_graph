@@ -1,12 +1,16 @@
 from abc import ABC, abstractmethod
 
-from memory_graph.slices import Slices2D
+from memory_graph.slices import Slices1D, Slices2D
 import memory_graph.utils as utils
 
 class Sequence(ABC):
 
     @abstractmethod
     def size():
+        pass
+
+    @abstractmethod
+    def empty_slice(self):
         pass
 
     @abstractmethod
@@ -41,6 +45,9 @@ class Sequence1D(Sequence):
     def size(self):
         return len(self.data)
     
+    def empty_slice(self):
+        return Slices1D()
+
     def slice(self, slicer):
         return slicer.get_slices( len(self.data) )
     
@@ -74,6 +81,9 @@ class Sequence2D(Sequence):
             l2 = len(self.data[0])
         return l1, l2
     
+    def empty_slice(self):
+        return Slices2D()
+
     def slice(self, slicer0):
         if type(slicer0) is tuple:
             slicer0, slicer1 = slicer0
