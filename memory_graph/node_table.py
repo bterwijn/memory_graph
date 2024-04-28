@@ -33,7 +33,7 @@ class Node_Table(Node):
         """
         self.children.transform(lambda s: s.transform(fun))
 
-    def fill_html_table(self, html_table, slices, full_graph):
+    def fill_html_table(self, html_table, slices, graph_full):
         """
         Fill the html_table with the children of the Node.
         """
@@ -83,7 +83,7 @@ class Node_Table(Node):
                 html_table.add_new_line()
             else:
                 child = children[index]
-                child_node = full_graph.get_child_node(child)
+                child_node = graph_full.get_child_node(child)
                 html_table.add_entry(self, child_node)
 
     def get_label(self, slices):

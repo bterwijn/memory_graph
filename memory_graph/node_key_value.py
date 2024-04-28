@@ -42,40 +42,40 @@ class Node_Key_Value(Node):
         """
         self.children.transform(lambda node_hidden: transform_node_hidden(node_hidden, fun) )
     
-    def has_references(self, slices, full_graph):
+    def has_references(self, slices, graph_full):
         """
         Return if the node has references to other nodes.
         """
         for index in slices:
             child = self.children[index]
-            child_node = full_graph.get_child_node(child)
-            key = full_graph.get_node(id(child_node.get_children()[0]))
-            value = full_graph.get_node(id(child_node.get_children()[1]))
+            child_node = graph_full.get_child_node(child)
+            key = graph_full.get_node(id(child_node.get_children()[0]))
+            value = graph_full.get_node(id(child_node.get_children()[1]))
             if key.has_children() or value.has_children():
                 return True
         return False
 
-    def is_vertical(self, slices, full_graph):
+    def is_vertical(self, slices, graph_full):
         """
         Return if the node is vertical or horizontal based on the orientation of the children.
         """
         vertical = config_helpers.get_vertical_orientation(self, None)
         if vertical is None:
-            vertical = not self.has_references(slices, full_graph)
+            vertical = not self.has_references(slices, graph_full)
         return vertical
 
-    def fill_html_table(self, html_table, slices, full_graph):
+    def fill_html_table(self, html_table, slices, graph_full):
         """
         Fill the html_table with the children of the Node.
         """
-        vertical = self.is_vertical(slices, full_graph)
+        vertical = self.is_vertical(slices, graph_full)
         print('key_val vertical:', vertical)
         if vertical:
-            self.fill_html_table_vertical(html_table, slices, full_graph)
+            self.fill_html_table_vertical(html_table, slices, graph_full)
         else:
-            self.fill_html_table_horizontal(html_table, slices, full_graph)
+            self.fill_html_table_horizontal(html_table, slices, graph_full)
 
-    def fill_html_table_vertical(self, html_table, slices, full_graph):
+    def fill_html_table_vertical(self, html_table, slices, graph_full):
         """
         Helper function to fill the html_table with the children of the Node in vertical orientation.
         """
@@ -83,17 +83,17 @@ class Node_Key_Value(Node):
         for index in slices.table_iter(children.size()):
             if index>=0:
                 child = children[index]
-                child_node = full_graph.get_child_node(child)
-                key = full_graph.get_node(id(child_node.get_children()[0]))
+                child_node = graph_full.get_child_node(child)
+                key = graph_full.get_node(id(child_node.get_children()[0]))
                 html_table.add_entry(self, key, rounded=True)
-                value = full_graph.get_node(id(child_node.get_children()[1]))
+                value = graph_full.get_node(id(child_node.get_children()[1]))
                 html_table.add_entry(self, value)
             else:
                 html_table.add_dots()
                 html_table.add_dots()
             html_table.add_new_line()
 
-    def fill_html_table_horizontal(self, html_table, slices, full_graph):
+    def fill_html_table_horizontal(self, html_table, slices, graph_full):
         """
         Helper function to fill the html_table with the children of the Node in horizontal orientation.
         """
@@ -101,8 +101,8 @@ class Node_Key_Value(Node):
         for index in slices.table_iter(children.size()):
             if index>=0:
                 child = children[index]
-                child_node = full_graph.get_child_node(child)
-                key = full_graph.get_node(id(child_node.get_children()[0]))
+                child_node = graph_full.get_child_node(child)
+                key = graph_full.get_node(id(child_node.get_children()[0]))
                 html_table.add_entry(self, key, rounded=True)
             else:
                 html_table.add_dots()
@@ -110,8 +110,8 @@ class Node_Key_Value(Node):
         for index in slices.table_iter(children.size()):
             if index>=0:
                 child = children[index]
-                child_node = full_graph.get_child_node(child)
-                value = full_graph.get_node(id(child_node.get_children()[1]))
+                child_node = graph_full.get_child_node(child)
+                value = graph_full.get_node(id(child_node.get_children()[1]))
                 html_table.add_entry(self, value)
             else:
                 html_table.add_dots()

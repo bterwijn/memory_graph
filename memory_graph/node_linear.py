@@ -22,34 +22,34 @@ class Node_Linear(Node):
         """
         self.children.transform(fun)
     
-    def has_references(self, slices, full_graph):
+    def has_references(self, slices, graph_full):
         """
         Return if the node has references to other nodes.
         """
         for index in slices:
-            if full_graph.get_child_node(self.children[index]).has_children():
+            if graph_full.get_child_node(self.children[index]).has_children():
                 return True
         return False
 
-    def is_vertical(self, slices, full_graph):
+    def is_vertical(self, slices, graph_full):
         """
         Return if the node is vertical or horizontal based on the orientation of the children.
         """
         vertical = config_helpers.get_vertical_orientation(self, None)
         if vertical is None:
-            vertical = not self.has_references(slices, full_graph)
+            vertical = not self.has_references(slices, graph_full)
         return vertical
 
-    def fill_html_table(self, html_table, slices, full_graph):
+    def fill_html_table(self, html_table, slices, graph_full):
         """
         Fill the html_table with the children of the Node.
         """
-        if self.is_vertical(slices, full_graph):
-            self.fill_html_table_vertical(html_table, slices, full_graph)
+        if self.is_vertical(slices, graph_full):
+            self.fill_html_table_vertical(html_table, slices, graph_full)
         else:
-            self.fill_html_table_horizontal(html_table, slices, full_graph)
+            self.fill_html_table_horizontal(html_table, slices, graph_full)
 
-    def fill_html_table_vertical(self, html_table, slices, full_graph):
+    def fill_html_table_vertical(self, html_table, slices, graph_full):
         """
         Helper function to fill the html_table with the children of the Node in vertical orientation.
         """
@@ -58,7 +58,7 @@ class Node_Linear(Node):
             if index>=0:
                 html_table.add_index(index)
                 child = children[index]
-                child_node = full_graph.get_child_node(child)
+                child_node = graph_full.get_child_node(child)
                 html_table.add_entry(self, child_node)
                 html_table.add_new_line()
             else:
@@ -66,7 +66,7 @@ class Node_Linear(Node):
                 html_table.add_dots()
                 html_table.add_new_line()
 
-    def fill_html_table_horizontal(self, html_table, slices, full_graph):
+    def fill_html_table_horizontal(self, html_table, slices, graph_full):
         """
         Helper function to fill the html_table with the children of the Node in horizontal orientation.
         """
@@ -80,7 +80,7 @@ class Node_Linear(Node):
         for index in slices.table_iter(children.size()):
             if index>=0:
                 child = children[index]
-                child_node = full_graph.get_child_node(child)
+                child_node = graph_full.get_child_node(child)
                 html_table.add_entry(self, child_node)
             else:
                 html_table.add_dots()

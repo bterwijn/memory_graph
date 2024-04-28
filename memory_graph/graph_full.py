@@ -5,7 +5,7 @@ from memory_graph.node_key_value import Node_Key_Value
 import memory_graph.utils as utils    
 import memory_graph.config as config
 
-class Full_Graph:
+class Graph_Full:
 
     def __init__(self, data) -> None:
         self.id_to_node = {}            # {id:Node}
@@ -14,7 +14,7 @@ class Full_Graph:
         self.add_root(root_id)
 
     def __repr__(self) -> str:
-        s = "Full_Graph\n=== nodes:\n"
+        s = "Graph_Full\n=== nodes:\n"
         for node_id,node in self.id_to_node.items():
             s += f"{node_id} : {node}\n"
         s += "=== parent_indices:\n"
