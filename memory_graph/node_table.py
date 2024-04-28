@@ -38,28 +38,44 @@ class Node_Table(Node):
         Fill the html_table with the children of the Node.
         """
         children = self.children
+        children_size = children.size()
+        children_height = children_size[0]
+        children_width = children_size[1]
+
+        row_slices = slices.get_row_slices()
+        col_slices = slices.get_col_slices()
+
+        # row indices
+        row_indices = set()
+        for index in row_slices.table_iter(children_height):
+            if index >= 0:
+                row_indices.add(index)
+
+        # use column indices for header row
         html_table.add_value('', border=0)
-        for index in slices.table_iter(children.size()):
-            rowi, coli = index
-            if rowi == -1:
+        for index in col_slices.table_iter(children_width):
+            if index == -1:
                 html_table.add_value('', border=0)
-            elif rowi == -2:
-                html_table.add_new_line()
-                break
             else:
-                html_table.add_index(coli)
+                html_table.add_index(index)
+        html_table.add_new_line()
+
+        # add remaing rows
         first_column = True
-        for index in slices.table_iter(children.size()):
+        for index in slices.table_iter(children_size):
             rowi, coli = index
             if first_column:
-                html_table.add_index(rowi)
+                if rowi in row_indices:
+                    html_table.add_index(rowi)
+                else:
+                    html_table.add_value('', border=0)
                 first_column = False
-            if rowi == -1:
+            if coli == -1:
                 html_table.add_dots()
-            elif rowi == -2:
+            elif coli == -2:
                 html_table.add_new_line()
                 first_column = True
-            elif rowi == -3:
+            elif coli == -3:
                 html_table.add_new_line()
                 html_table.add_value('', border=0)
                 for _ in range (html_table.get_max_column()-1):

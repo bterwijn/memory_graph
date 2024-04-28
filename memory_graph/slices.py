@@ -123,7 +123,8 @@ class Slices2D(Slices):
                 slices_update = self.index_slices[insert][1]
                 slices_update.add_slice(begin_end, remove_interposed_dots)
                 return
-        self.index_slices.insert(insert, [index, Slices1D([begin_end])])
+        slice = Slices1D([begin_end.copy()]) # copy to make independent from col_slices entry
+        self.index_slices.insert(insert, [index, slice]) 
 
     def add_slices(self, index, slices, remove_interposed_dots=1):
         for slice in slices.get_slices():

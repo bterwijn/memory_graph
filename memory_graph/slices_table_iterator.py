@@ -62,14 +62,14 @@ class Slices_Table_Iterator2D(Slices_Table_Iterator):
                 first_col = True
                 for col_slice in col_slices:
                     if not first_col:
-                        yield (-1,-1)
+                        yield (row_i,-1)
                     first_col = False
                     for col_i in range(col_slice[0], col_slice[1]):
                         index = (row_i, col_i)
                         if index in index_set:
                             yield index
                         else:
-                            yield (-1,-1)
+                            yield (row_i,-1)
 
     def __next__(self):
         return next(self.gen)
