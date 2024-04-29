@@ -1,6 +1,6 @@
 from memory_graph.graph_full import Graph_Full
 from memory_graph.graph_sliced import Graph_Sliced
-from memory_graph.slicer import Slicer
+from memory_graph.node_key_value import Node_Key_Value
 
 import memory_graph.config as config
 import memory_graph.config_helpers as config_helpers
@@ -40,16 +40,27 @@ class Graph_Builder:
                                     edge_attr=graphviz_edge_attr)
         
         graph_full = Graph_Full(data)
-        print(graph_full)
+        #print(graph_full)
         graph_sliced = Graph_Sliced(graph_full)
-        print(graph_sliced)
+        #print(graph_sliced)
         graph_sliced.add_missing_edges()
-        print(graph_sliced)
+        #print(graph_sliced)
         graph_sliced.process_nodes(self.node_callback)
 
+    def show_node_in_graph(self, node, slices, graph_full):
+        # don't show no_reference_types unless it is the root
+        if node.get_type() in config.no_reference_types and not node.get_id() == graph_full.get_root_id():
+            return False
+        # don't show a tuple with a single parent that is a Node_Key_Value
+        if node.get_type() is tuple:
+            parents_indices = graph_full.get_parents(node.get_id())
+            if len(parents_indices) == 1 and type(graph_full.get_node(next(iter(parents_indices)))) is Node_Key_Value:
+                return False
+        return True
+
     def node_callback(self, node, slices, graph_full):
-        if not node.get_type() in config.no_reference_types or node.get_id() == graph_full.get_root_id() :
-            print('node:', node,'slices:', slices)
+        if self.show_node_in_graph(node, slices, graph_full):
+            #print('node:', node,'slices:', slices)
             html_table = node.get_html_table(slices, graph_full)
             edges = html_table.get_edges()
             # ------------ subgraph

@@ -57,7 +57,6 @@ class Node_Table(Node):
         # add remaing rows
         first_col = True
         for index in slices.table_iter(children_size):
-            print('index:', index)
             rowi, coli = index
             if first_col and not coli==-3:
                 first_col = False

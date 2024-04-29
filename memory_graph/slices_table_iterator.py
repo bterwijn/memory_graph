@@ -58,7 +58,6 @@ class Slices_Table_Iterator2D(Slices_Table_Iterator):
             for row_i in range(row_slice[0], row_slice[1]):
                 first_col_slice = True
                 for col_slice in col_slices:
-                    print('col_slice:', col_slice)
                     if first_col_slice:
                         if len(col_slices) > 0 and col_slice[0] > 0:
                             yield (row_i, -1)
@@ -66,7 +65,6 @@ class Slices_Table_Iterator2D(Slices_Table_Iterator):
                     else:
                         yield (row_i, -1)  
                     for col_i in range(col_slice[0], col_slice[1]):
-                        print('col_i:', col_i)
                         yield (row_i, col_i)
                 if col_i < self.size[1]-1:
                     yield (row_i, -1)
