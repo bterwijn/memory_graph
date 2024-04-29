@@ -62,19 +62,17 @@ def test_slices1d():
 
 def test_slices2d():
     from memory_graph.slices import Slices
-    slices2d = Slices2D()
-    slices2d.add_slice(3, [0,10])
-    slices2d.add_slice(3, [20,30])
-    slices2d.add_slice(0, [0,10])
-    slices2d.add_slice(0, [20,30])
-    slices2d.add_slice(1, [0,10])
-    slices2d.add_slice(1, [20,30])
-    slices2d.add_slice(1, [5,22])
-    slices2d.add_slice(1, [30,31])
-    slices2d.add_slice(0, [11,13])
-    slices2d.add_slice(0, [18,19])
+    slices2d = Slices2D( Slices1D([[20,30]]),
+                         Slices1D([[20,30]])
+    )
+    
+    slices2d.add_index((19,19))
+    slices2d.add_index((31,31))
     print(slices2d)
-    slices2d.add_slice(0, [19,20])
+    slices2d.add_index((18,19))
+    print(slices2d)
+    slices2d.add_index((19,18))
+    slices2d.add_index((30,30))
     print(slices2d)
 
 if __name__ == "__main__":

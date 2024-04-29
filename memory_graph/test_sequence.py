@@ -9,12 +9,10 @@ def status(index):
 def test_slicing(sequence, slicer):
     print(sequence)
     print(slicer)
-    sequence.apply_all(print)
     for i in sequence.indices_all():
         print(i, sequence[i])
     slices = sequence.slice(slicer)
     print('slices:',slices)
-    sequence.apply(slices, print)
     for index in slices:
         print(index, ':', sequence[index])
     for index in slices.table_iter(sequence.size()):

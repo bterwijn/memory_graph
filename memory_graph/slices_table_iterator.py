@@ -46,7 +46,6 @@ class Slices_Table_Iterator2D(Slices_Table_Iterator):
         return self
 
     def generate(self):
-        index_set = self.slices.get_index_set()
         row_slices = self.slices.get_row_slices().get_slices()
         col_slices = self.slices.get_col_slices().get_slices()
         first_row_slice = True
@@ -66,10 +65,7 @@ class Slices_Table_Iterator2D(Slices_Table_Iterator):
                     first_col = False
                     for col_i in range(col_slice[0], col_slice[1]):
                         index = (row_i, col_i)
-                        if index in index_set:
-                            yield index
-                        else:
-                            yield (row_i,-1)
+                        yield index
 
     def __next__(self):
         return next(self.gen)

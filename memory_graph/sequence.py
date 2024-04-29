@@ -18,10 +18,6 @@ class Sequence(ABC):
         pass
 
     @abstractmethod
-    def apply_all(self, fun):
-        pass
-
-    @abstractmethod
     def indices_all(self):
         pass
 
@@ -29,9 +25,6 @@ class Sequence(ABC):
     def __getitem__(self, index):
         pass
 
-    @abstractmethod
-    def apply(self, slices, fun):
-        pass
 
 
 class Sequence1D(Sequence):
@@ -50,10 +43,6 @@ class Sequence1D(Sequence):
 
     def slice(self, slicer):
         return slicer.get_slices( len(self.data) )
-    
-    def apply_all(self, fun):
-        for i in self.data:
-            fun(i)
 
     def indices_all(self):
         for i in range(len(self.data)):
@@ -61,11 +50,6 @@ class Sequence1D(Sequence):
 
     def __getitem__(self, index):
         return self.data[index]
-
-    def apply(self, slices, fun):
-        for s in slices.get_slices():
-            for i in range(s[0], s[1]):
-                fun(self.data[i])
 
 class Sequence2D(Sequence):
 
@@ -91,18 +75,7 @@ class Sequence2D(Sequence):
             slicer1 = slicer0
         slices0 = slicer0.get_slices( len(self.data) )
         slices1 = slicer1.get_slices( len(self.data[0]) )
-        slices2d = Slices2D()
-        for s in slices0.get_slices():
-            for i in range(s[0], s[1]):
-                #print('s:',i, slices1)
-                slices2d.add_slices(i, slices1.copy())
-                #print('slices2d:',slices2d)
-        return slices2d
-    
-    def apply_all(self, fun):
-        for row in self.data:
-            for i in row:
-                fun(i)
+        return Slices2D(slices0, slices1)
 
     def indices_all(self):
         len0 = len(self.data) 
@@ -114,10 +87,4 @@ class Sequence2D(Sequence):
 
     def __getitem__(self, index):
         return self.data[index[0]][index[1]]
-
-    def apply(self, slices, fun):
-        for index,slices in slices.get_index_slices():
-            for s in slices.get_slices():
-                for i in range(s[0], s[1]):
-                    fun(self.data[index][i])
 
