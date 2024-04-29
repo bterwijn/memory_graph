@@ -90,8 +90,11 @@ class Node_Linear(Node):
         Return a label for the node to be shown in the graph next to the HTML table.
         """
         type_name = self.get_type_name()
-        last_index = slices.get_slices()[-1][1]
-        size = self.get_children().size()
-        if last_index == size:
-            return f'{type_name}'
-        return f'{type_name} {size}'
+        s = slices.get_slices()
+        if len(s) > 0:
+            last_index = s[-1][1]
+            size = self.get_children().size()
+            if last_index != size:
+                return f'{type_name} {size}'
+        return f'{type_name}'
+        

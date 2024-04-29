@@ -120,4 +120,10 @@ class Node_Key_Value(Node):
         """
         Return a label for the node to be shown in the graph next to the HTML table.
         """
-        return f'{self.get_type_name()} {self.get_children().size()}'
+        type_name = self.get_type_name()
+        size = self.get_children().size()
+        s = slices.get_slices()
+        if len(s) == 1:
+            if s[0][1] - s[0][0] == size:
+                return f'{type_name}'
+        return f'{type_name} {size}'

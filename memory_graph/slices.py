@@ -20,6 +20,10 @@ class Slices(ABC):
     def table_iter(self, size):
         pass
 
+    @abstractmethod
+    def is_empty(self):
+        pass
+
 class Slices1D(Slices):
 
     def __init__(self, slices=None) -> None:
@@ -43,14 +47,17 @@ class Slices1D(Slices):
         return self.slices
 
     def add_slice(self, begin_end, remove_interposed_dots=1):
-        insert0 = bisect.bisect_right(self.slices, begin_end[0], key=lambda x: x[0])
-        insert1 = bisect.bisect_left (self.slices, begin_end[1], key=lambda x: x[1])
+        i0, i1 = begin_end
+        if i1 <= i0:
+            return False
+        insert0 = bisect.bisect_right(self.slices, i0, key=lambda x: x[0])
+        insert1 = bisect.bisect_left (self.slices, i1, key=lambda x: x[1])
         merge_begin, merge_end = False, False
         if insert0 > 0:
-            if self.slices[insert0-1][1] >= (begin_end[0] - remove_interposed_dots):
+            if self.slices[insert0-1][1] >= (i0 - remove_interposed_dots):
                 merge_begin = True
         if insert1 < len(self.slices):
-            if self.slices[insert1][0] <= (begin_end[1] + remove_interposed_dots):
+            if self.slices[insert1][0] <= (i1 + remove_interposed_dots):
                 merge_end = True
         if merge_begin and merge_end:
             if insert0 - insert1 == 1: # no slices changed
@@ -76,6 +83,9 @@ class Slices1D(Slices):
     
     def table_iter(self, size):
         return Slices_Table_Iterator1D(self, size)
+    
+    def is_empty(self):
+        return len(self.slices) == 0
 
 class Slices2D(Slices):
 
@@ -105,3 +115,6 @@ class Slices2D(Slices):
 
     def table_iter(self, size):
         return Slices_Table_Iterator2D(self, size)
+
+    def is_empty(self):
+        return len(self.row_slices.slices) == 0

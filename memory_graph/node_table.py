@@ -37,19 +37,14 @@ class Node_Table(Node):
         """
         Fill the html_table with the children of the Node.
         """
+        if slices.is_empty():
+            return
         children = self.children
         children_size = children.size()
         children_height = children_size[0]
         children_width = children_size[1]
-
         row_slices = slices.get_row_slices()
         col_slices = slices.get_col_slices()
-
-        # row indices
-        row_indices = set()
-        for index in row_slices.table_iter(children_height):
-            if index >= 0:
-                row_indices.add(index)
 
         # use column indices for header row
         html_table.add_value('', border=0)
@@ -61,26 +56,25 @@ class Node_Table(Node):
         html_table.add_new_line()
 
         # add remaing rows
-        first_column = True
+        first_col = True
         for index in slices.table_iter(children_size):
+            print('index:', index)
             rowi, coli = index
-            if first_column:
-                if rowi in row_indices:
-                    html_table.add_index(rowi)
-                else:
-                    html_table.add_value('', border=0)
-                first_column = False
+            if first_col and not coli==-3:
+                first_col = False
+                html_table.add_index(rowi)
             if coli == -1:
                 html_table.add_dots()
             elif coli == -2:
                 html_table.add_new_line()
-                first_column = True
+                first_col = True
             elif coli == -3:
                 html_table.add_new_line()
                 html_table.add_value('', border=0)
                 for _ in range (html_table.get_max_column()-1):
                     html_table.add_dots()
                 html_table.add_new_line()
+                first_col = True
             else:
                 child = children[index]
                 child_node = graph_full.get_child_node(child)
@@ -90,6 +84,6 @@ class Node_Table(Node):
         """
         Return a label for the node to be shown in the graph next to the HTML table.
         """
-        return f'{self.get_type_name()}'
-        #return f'{self.get_type_name()} {self.data_height}⨯{self.data_width}'
+        size = self.get_children().size()
+        return f'{self.get_type_name()} {size[0]}⨯{size[1]}'
     
