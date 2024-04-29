@@ -21,16 +21,24 @@ class Node_Table(Node):
     example for Numpy arrays and Pandas DataFrames.
     """
 
-    def __init__(self, data, children, data_width=None, row_names=None, column_names=None):
+    def __init__(self, data, children, data_width=None, row_names=None, col_names=None):
         """
         Create a Node_Table object. Use a Slicer to slice the children so the Node 
         will not get to big or have too many childeren in the graph.
         """
+        self.row_names = row_names
+        self.col_names = col_names
         if data_width is None:
             super().__init__(data, Sequence2D(children))
         else:
             list_views = [List_View(children, i, i+data_width) for i in range(0,len(children),data_width)]
             super().__init__(data, Sequence2D(list_views))
+
+    def add_index_or_name(self, html_table, index, names):
+        if not names is None and index < len(names):
+            html_table.add_value(names[index], rounded=1, border=1)
+        else:
+            html_table.add_index(index)
 
     def fill_html_table(self, html_table, slices, graph_full):
         """
@@ -47,11 +55,12 @@ class Node_Table(Node):
 
         # use column indices for header row
         html_table.add_value('', border=0)
-        for index in col_slices.table_iter(children_width):
-            if index == -1:
+        for coli in col_slices.table_iter(children_width):
+            if coli == -1:
                 html_table.add_value('', border=0)
             else:
-                html_table.add_index(index)
+                #html_table.add_index(index)
+                self.add_index_or_name(html_table, coli, self.col_names)
         html_table.add_new_line()
 
         # add remaing rows
@@ -60,7 +69,8 @@ class Node_Table(Node):
             rowi, coli = index
             if first_col and not coli==-3:
                 first_col = False
-                html_table.add_index(rowi)
+                #html_table.add_index(rowi)
+                self.add_index_or_name(html_table, rowi, self.row_names)
             if coli == -1:
                 html_table.add_dots()
             elif coli == -2:

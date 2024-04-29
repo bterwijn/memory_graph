@@ -69,7 +69,6 @@ class Node_Key_Value(Node):
         Fill the html_table with the children of the Node.
         """
         vertical = self.is_vertical(slices, graph_full)
-        print('key_val vertical:', vertical)
         if vertical:
             self.fill_html_table_vertical(html_table, slices, graph_full)
         else:
