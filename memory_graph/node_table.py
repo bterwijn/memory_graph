@@ -1,5 +1,6 @@
 from memory_graph.node import Node
 from memory_graph.sequence import Sequence2D
+from memory_graph.list_view import List_View
 
 import memory_graph.config_helpers as config_helpers
 
@@ -25,13 +26,11 @@ class Node_Table(Node):
         Create a Node_Table object. Use a Slicer to slice the children so the Node 
         will not get to big or have too many childeren in the graph.
         """
-        super().__init__(data, Sequence2D(children))
-
-    def transform(self, fun):
-        """
-        Transform the children of the Node using the 'fun' function.
-        """
-        self.children.transform(lambda s: s.transform(fun))
+        if data_width is None:
+            super().__init__(data, Sequence2D(children))
+        else:
+            list_views = [List_View(children, i, i+data_width) for i in range(0,len(children),data_width)]
+            super().__init__(data, Sequence2D(list_views))
 
     def fill_html_table(self, html_table, slices, graph_full):
         """

@@ -15,21 +15,11 @@ class Slices_Iterator1D(Slices_Iterator):
 
     def __init__(self, slices1d):
         self.slices = slices1d
-        #self.length = length
         self.gen = self.generate()
 
     def __iter__(self):
         return self
 
-    # def generate(self):
-    #     if len(self.slices) > 0:
-    #         if self.slices[0][0] > 0:
-    #             yield None
-    #     for si in range(len(self.slices)):
-    #         for i in range(self.slices[si][0], self.slices[si][1]):
-    #             yield i
-    #         if i < self.length-1:
-    #             yield None
     def generate(self):
         slices = self.slices.get_slices()
         for si in range(len(slices)):

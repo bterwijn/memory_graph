@@ -39,5 +39,4 @@ class Slicer:
                 else:
                     slices1d.add_slice([max(0,length-self.end),
                                       length])
-        #print("slices1d:",slices1d)
         return slices1d

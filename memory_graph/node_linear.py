@@ -15,12 +15,6 @@ class Node_Linear(Node):
         Node will not get to big or have too many childeren in the graph.
         """
         super().__init__(data, Sequence1D(children))
-
-    def transform(self, fun):
-        """
-        Transform the children of the Node using the 'fun' function.
-        """
-        self.children.transform(fun)
     
     def has_references(self, slices, graph_full):
         """

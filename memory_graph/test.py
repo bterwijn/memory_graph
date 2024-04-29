@@ -113,9 +113,13 @@ def test_table(fun):
     fun(data)
 
 def test_numpy(fun):
-    data = [np.array([1.1, 2, 3, 4, 5]), 
-            np.matrix([[i*20+j for j in range(20)] for i in range(20)]), 
-            np.random.rand(20,20)]
+    a = np.array([1, 2, 3])
+    print(a, type(a))
+    data = [
+            np.array([1, 2, 3]),
+            np.matrix([[i*3+j for j in range(20)] for i in range(3)]), 
+            np.random.rand(20,20)
+            ]
     #data = np.matrix('1 2; 3 4')
     fun(data)
 

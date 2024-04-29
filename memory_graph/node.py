@@ -54,12 +54,6 @@ class Node:
         """
         return not self.children is None
 
-    def set_children(self, children):
-        """
-        Set the children of the node.
-        """
-        self.children = children
-
     def get_children(self):
         """
         Return the children of the node. Initially the children are raw data, but 
@@ -85,24 +79,13 @@ class Node:
             self.fill_html_table(html_table, slices, graph_full)
         return html_table
     
-    # -------------------- Node interface, overriden by subclasses --------------------
-
-    def do_backtrack_callback(self):
-        """
-        Returns if the callback function is called for this Node type. 
-        """
-        return True
-    
-    def transform(self, fun):
-        """
-        Transform each child of the node using the given 'fun' function. 
-        This converts each child from raw data to a Node object.
-        """
-        pass
-        
+       
     def get_slicer(self):
         return config_helpers.get_slicer(self, self.get_data())
 
+
+    # -------------------- Node interface, overriden by subclasses --------------------
+     
     def fill_html_table(self, html_table, slices):
         """
         Fill the HTML_Table object with each child of the node.
