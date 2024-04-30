@@ -71,7 +71,8 @@ def test_class_vars(fun):
             self.var2=20
         def my_method(self):
             return 100
-    data = [My_Class1, My_Class1()]
+    m = My_Class1()
+    data = locals()
     fun(data)
 
 def test_share_tuple(fun):

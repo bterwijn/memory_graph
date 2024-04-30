@@ -29,12 +29,10 @@ config.no_child_references_types = {dict, types.MappingProxyType}
 
 """ Conversion from type to Node objects. """
 config.type_to_node = {
-    types.FunctionType : lambda d: Node(d.__qualname__),
-    types.MethodType  : lambda d: Node(d.__qualname__),
     str: lambda data: Node(data), # visit as whole string, don't iterate over characters
-    range: lambda data: Node_Key_Value(data, {'start':data.start, 'stop':data.stop, 'step':data.step}.items()),
     types.FunctionType: lambda data: Node(data.__qualname__),
     types.MethodType: lambda data: Node(data.__qualname__),
+    range: lambda data: Node_Key_Value(data, {'start':data.start, 'stop':data.stop, 'step':data.step}.items()),
     dict: lambda data: (
         Node_Key_Value(data, utils.filter_dict_attributes(data.items()) )
             if dict in config.no_child_references_types else 

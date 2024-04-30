@@ -1,6 +1,7 @@
 from memory_graph.node import Node 
 
 import memory_graph.config as config
+import memory_graph.utils as utils
 
 import html
 
@@ -69,11 +70,11 @@ class HTML_Table:
 
     def add_entry(self, node, child, rounded=False, border=1):
         """ Add child to the inner table either as reference if it is a Node or as a value otherwise. """
-        #print('child:',child)
-        if child.get_type() in config.no_reference_types:
-            self.add_value(str(child.get_data()), rounded, border)
-        else:
+        if isinstance(child,Node) and not child.get_type() in config.no_reference_types:
             self.add_reference(node, child, rounded, border)
+        else:
+            value = child.get_data() if isinstance(child,Node) else child
+            self.add_value(str(value), rounded, border)
 
     def add_value(self, s, rounded=False, border=1):
         """ Helper function to add a value s to the inner table. """

@@ -28,10 +28,11 @@ class Graph_Full:
             node = self.data_to_node(data)
             print("node:",node)
             self.id_to_node[node_id] = node
-            children = node.get_children()
-            if not children is None:
-                for index in children.indices_all():
-                    self.add_child(node_id, self.build_graph_recursive(children[index]), index)
+            if isinstance(node, Node):
+                children = node.get_children()
+                if not children is None:
+                    for index in children.indices_all():
+                        self.add_child(node_id, self.build_graph_recursive(children[index]), index)
         return node_id
 
     def add_child(self, node_id, child_id, index):
@@ -54,7 +55,9 @@ class Graph_Full:
             return Node_Key_Value(data, utils.filter_dict_attributes(utils.get_dict_attributes(data)) )
         elif utils.is_iterable(data): # for lists, tuples, sets, ...
             return Node_Linear(data, data)
-        return Node(data) # for int, float, str, ...    
+        elif not data in config.no_reference_types:
+            return Node(data)
+        return data # for int, float, ...
 
     def add_root(self, node_id):
         self.id_to_parent_indices[node_id] = {}

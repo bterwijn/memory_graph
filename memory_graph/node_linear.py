@@ -21,7 +21,8 @@ class Node_Linear(Node):
         Return if the node has references to other nodes.
         """
         for index in slices:
-            if graph_full.get_child_node(self.children[index]).has_children():
+            node = graph_full.get_child_node(self.children[index])
+            if isinstance(node,Node) and node.has_children():
                 return True
         return False
 

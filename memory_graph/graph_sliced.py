@@ -1,3 +1,4 @@
+from memory_graph.node import Node
 
 class Graph_Sliced:
 
@@ -16,15 +17,15 @@ class Graph_Sliced:
         if node_id in self.id_to_slices:
             return
         node = self.graph_full.get_node(node_id)
-        children = node.get_children()
-        if not children is None:
-            slicer = node.get_slicer()
-            print('node:',node,'slicer:',slicer)
-            slices = children.slice(slicer)
-            self.id_to_slices[node_id] = slices
-            for index in slices:
-                self.slice(id(children[index]))
-            #node.visit_children(slices, lambda child_id: self.slice(child_id))
+        if isinstance(node, Node):
+            children = node.get_children()
+            if not children is None:
+                slicer = node.get_slicer()
+                print('node:',node,'slicer:',slicer)
+                slices = children.slice(slicer)
+                self.id_to_slices[node_id] = slices
+                for index in slices:
+                    self.slice(id(children[index]))
 
     def get_node_ids(self):
         return self.id_to_slices
@@ -62,11 +63,12 @@ class Graph_Sliced:
         if not node_id in id_to_count:
             id_to_count.add(node_id)
             node = self.graph_full.get_node(node_id)
-            children = node.get_children()
-            slices = None
-            if not children is None:
-                slices = self.get_slices(node_id)
-                for index in slices:
-                    child_id = id(children[index])
-                    self.process_nodes_recursive(child_id, callback, id_to_count)
-            callback(node, slices, self.graph_full)
+            if isinstance(node, Node):
+                children = node.get_children()
+                slices = None
+                if not children is None:
+                    slices = self.get_slices(node_id)
+                    for index in slices:
+                        child_id = id(children[index])
+                        self.process_nodes_recursive(child_id, callback, id_to_count)
+                callback(node, slices, self.graph_full)
