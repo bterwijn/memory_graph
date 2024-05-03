@@ -49,11 +49,12 @@ class Node_Linear(Node):
         Helper function to fill the html_table with the children of the Node in vertical orientation.
         """
         children = self.children
+        graph_full = graph_sliced.get_graph_full()
         for index in slices.table_iter(children.size()):
             if index>=0:
                 html_table.add_index(index)
                 child = children[index]
-                child_node = graph_sliced.get_graph_full().get_child_node(child)
+                child_node = graph_full.get_child_node(child)
                 html_table.add_entry(self, child_node, graph_sliced)
                 html_table.add_new_line()
             else:
@@ -66,6 +67,7 @@ class Node_Linear(Node):
         Helper function to fill the html_table with the children of the Node in horizontal orientation.
         """
         children = self.children
+        graph_full = graph_sliced.get_graph_full()
         for index in slices.table_iter(children.size()):
             if index>=0:
                 html_table.add_index(index)
@@ -75,7 +77,7 @@ class Node_Linear(Node):
         for index in slices.table_iter(children.size()):
             if index>=0:
                 child = children[index]
-                child_node = graph_sliced.get_graph_full().get_child_node(child)
+                child_node = graph_full.get_child_node(child)
                 html_table.add_entry(self, child_node, graph_sliced)
             else:
                 html_table.add_dots()

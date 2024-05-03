@@ -1,6 +1,14 @@
-from memory_graph.node import Node
+from memory_graph.node           import Node
+from memory_graph.node_key_value import Node_Key_Value
 import memory_graph.node
 from memory_graph.slices import Slices1D
+
+def is_tuple_with_key_value_parent(node, graph_full) -> bool:
+    if node.get_type() is tuple:
+        parents_indices = graph_full.get_parents(node.get_id())
+        if len(parents_indices) == 1 and type(graph_full.get_node(next(iter(parents_indices)))) is Node_Key_Value:
+            return True
+    return False
 
 class Graph_Sliced:
 
@@ -29,8 +37,10 @@ class Graph_Sliced:
                 slices = children.slice(slicer)
                 #print('node:',node,'slicer:',slicer, 'slices:',slices)
                 self.id_to_slices[node_id] = slices
+                if not is_tuple_with_key_value_parent(node, self.graph_full):
+                    depth -= 1
                 for index in slices:
-                    self.slice(id(children[index]), depth-1)
+                    self.slice(id(children[index]), depth)
             else:
                 self.id_to_slices[node_id] = None # for nodes without children
 

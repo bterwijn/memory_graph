@@ -1,5 +1,6 @@
 from memory_graph.graph_full import Graph_Full
 from memory_graph.graph_sliced import Graph_Sliced
+import memory_graph.graph_sliced 
 from memory_graph.node_key_value import Node_Key_Value
 
 import memory_graph.config as config
@@ -50,11 +51,8 @@ class Graph_Builder:
     def show_node_in_graph(self, node, graph_full):
         if graph_full.size() == 1:
             return True
-        # don't show a tuple with a single parent that is a Node_Key_Value
-        if node.get_type() is tuple:
-            parents_indices = graph_full.get_parents(node.get_id())
-            if len(parents_indices) == 1 and type(graph_full.get_node(next(iter(parents_indices)))) is Node_Key_Value:
-                return False
+        if memory_graph.graph_sliced.is_tuple_with_key_value_parent(node, graph_full):
+            return False
         return True
 
     def node_callback(self, node, slices, graph_sliced):
