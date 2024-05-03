@@ -49,19 +49,23 @@ class Graph_Full:
         Returns:
             Node: The Node object representing 'data'.
         """
-        if type(data) in config.type_to_node: # for predefined types
+        data_type = type(data)
+        if data_type in config.type_to_node: # for predefined types
             return config.type_to_node[type(data)](data)
         elif utils.has_dict_attributes(data): # for user defined classes
             return Node_Key_Value(data, utils.filter_dict_attributes(utils.get_dict_attributes(data)) )
         elif utils.is_iterable(data): # for lists, tuples, sets, ...
             return Node_Linear(data, data)
-        elif not data in config.no_reference_types:
+        elif (not data_type in config.no_reference_types): # for reference types
             return Node(data)
         return data # for int, float, ...
 
     def add_root(self, node_id):
         self.id_to_parent_indices[node_id] = {}
         self.root_id = node_id
+
+    def size(self):
+        return len(self.id_to_node)
 
     def get_root_id(self):
         return self.root_id

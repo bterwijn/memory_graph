@@ -1,4 +1,5 @@
 import memory_graph.utils as utils
+import memory_graph.config as config
 import memory_graph.config_helpers as config_helpers
 
 class Node:
@@ -67,7 +68,7 @@ class Node:
         """
         return f'node{self.get_id()}'
     
-    def get_html_table(self, slices, graph_full):
+    def get_html_table(self, slices, graph_sliced):
         """
         Return the HTML_Table object that determines how the node is visualized in the graph.
         """
@@ -76,7 +77,7 @@ class Node:
         if self.children is None:
             html_table.add_string(f'{self.data}')
         else: #if self.children.has_data():
-            self.fill_html_table(html_table, slices, graph_full)
+            self.fill_html_table(html_table, slices, graph_sliced)
         return html_table
     
        
@@ -85,15 +86,24 @@ class Node:
 
 
     # -------------------- Node interface, overriden by subclasses --------------------
-     
-    def fill_html_table(self, html_table, slices):
+
+    def fill_html_table(self, html_table, slices, graph_sliced):
         """
         Fill the HTML_Table object with each child of the node.
         """
         pass
+
+    def is_separate_node(self):
+        """
+        Return if the node is a separate node in the graph.
+        """
+        return not self.get_type() in config.no_reference_types
 
     def get_label(self, slices):
         """
         Return a label for the node to be shown in the graph next to the HTML table.
         """
         return self.get_type_name()
+    
+def is_separate_node(data):
+    return isinstance(data, Node) and data.is_separate_node()

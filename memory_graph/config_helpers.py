@@ -2,7 +2,6 @@
 from memory_graph.slicer import Slicer
 
 import memory_graph.config as config
-import memory_graph.utils as utils
 
 type_to_color = None
 type_to_vertical_orientation = None

@@ -1,7 +1,7 @@
 from memory_graph.node import Node 
+import memory_graph.node
 
 import memory_graph.config as config
-import memory_graph.utils as utils
 
 import html
 
@@ -60,7 +60,6 @@ class HTML_Table:
     def add_string(self, s):
         """ Add a string s to the outer table. """
         self.html += format_string(s)
-        #self.col_count += 1
 
     def add_index(self, s):
         """ Add an index s to the inner table. """
@@ -68,10 +67,13 @@ class HTML_Table:
         self.html += f'<TD><font color="#505050">{str(s)}</font></TD>'
         self.col_count += 1
 
-    def add_entry(self, node, child, rounded=False, border=1):
+    def add_entry(self, node, child, graph_sliced, rounded=False, border=1):
         """ Add child to the inner table either as reference if it is a Node or as a value otherwise. """
-        if isinstance(child,Node) and not child.get_type() in config.no_reference_types:
-            self.add_reference(node, child, rounded, border)
+        if memory_graph.node.is_separate_node(child):
+            if graph_sliced.has_slices(child.get_id()):
+                self.add_reference(node, child, rounded, border)
+            else:
+                self.add_value("★", rounded, border)
         else:
             value = child.get_data() if isinstance(child,Node) else child
             self.add_value(str(value), rounded, border)

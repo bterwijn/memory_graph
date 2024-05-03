@@ -42,6 +42,12 @@ def test_list_vew():
     list_view = List_View(original_list, 3, 8)
     print(list_view)  # Output: List_View([3, 4, 5, 6, 7])
     print(list_view[1:4])  # Output: List_View([4, 5, 6])
+    # 2D array
+    n = 4
+    data = [i for i in range(n*n)]
+    list_views = [List_View(data, i, i+n) for i in range(0,len(data),n)]
+    for row in list_views:
+        print(row)
 
 if __name__ == "__main__":
     test_list_vew()

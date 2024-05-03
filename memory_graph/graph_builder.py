@@ -41,16 +41,15 @@ class Graph_Builder:
         
         graph_full = Graph_Full(data)
         #print(graph_full)
-        graph_sliced = Graph_Sliced(graph_full)
+        graph_sliced = Graph_Sliced(graph_full, depth = config.max_tree_depth)
         #print(graph_sliced)
         graph_sliced.add_missing_edges()
         #print(graph_sliced)
         graph_sliced.process_nodes(self.node_callback)
 
-    def show_node_in_graph(self, node, slices, graph_full):
-        # don't show no_reference_types unless it is the root
-        if node.get_type() in config.no_reference_types and not node.get_id() == graph_full.get_root_id():
-            return False
+    def show_node_in_graph(self, node, graph_full):
+        if graph_full.size() == 1:
+            return True
         # don't show a tuple with a single parent that is a Node_Key_Value
         if node.get_type() is tuple:
             parents_indices = graph_full.get_parents(node.get_id())
@@ -58,10 +57,11 @@ class Graph_Builder:
                 return False
         return True
 
-    def node_callback(self, node, slices, graph_full):
-        if self.show_node_in_graph(node, slices, graph_full):
-            #print('node:', node,'slices:', slices)
-            html_table = node.get_html_table(slices, graph_full)
+    def node_callback(self, node, slices, graph_sliced):
+        graph_full = graph_sliced.get_graph_full()
+        if self.show_node_in_graph(node, graph_full):
+            print('node:', node,'slices:', slices)
+            html_table = node.get_html_table(slices, graph_sliced)
             edges = html_table.get_edges()
             # ------------ subgraph
             self.add_subgraph(edges)

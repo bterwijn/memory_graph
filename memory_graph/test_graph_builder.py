@@ -1,6 +1,5 @@
 from memory_graph.graph_builder import Graph_Builder
 
-import memory_graph.config_default as config_default
 import memory_graph.test as test
 
 if __name__ == '__main__':

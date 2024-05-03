@@ -2,10 +2,6 @@ from memory_graph.node import Node
 from memory_graph.sequence import Sequence2D
 from memory_graph.list_view import List_View
 
-import memory_graph.config_helpers as config_helpers
-
-import math
-
 def add_name_or_index(html_table, index, names):
     """
     Helper function to add either the name of a row/column (if available) or its index to the html_table.
@@ -40,7 +36,7 @@ class Node_Table(Node):
         else:
             html_table.add_index(index)
 
-    def fill_html_table(self, html_table, slices, graph_full):
+    def fill_html_table(self, html_table, slices, graph_sliced):
         """
         Fill the html_table with the children of the Node.
         """
@@ -48,9 +44,7 @@ class Node_Table(Node):
             return
         children = self.children
         children_size = children.size()
-        children_height = children_size[0]
         children_width = children_size[1]
-        row_slices = slices.get_row_slices()
         col_slices = slices.get_col_slices()
 
         # use column indices for header row
@@ -59,7 +53,6 @@ class Node_Table(Node):
             if coli == -1:
                 html_table.add_value('', border=0)
             else:
-                #html_table.add_index(index)
                 self.add_index_or_name(html_table, coli, self.col_names)
         html_table.add_new_line()
 
@@ -69,7 +62,6 @@ class Node_Table(Node):
             rowi, coli = index
             if first_col and not coli==-3:
                 first_col = False
-                #html_table.add_index(rowi)
                 self.add_index_or_name(html_table, rowi, self.row_names)
             if coli == -1:
                 html_table.add_dots()
@@ -85,8 +77,11 @@ class Node_Table(Node):
                 first_col = True
             else:
                 child = children[index]
-                child_node = graph_full.get_child_node(child)
-                html_table.add_entry(self, child_node)
+                child_node = graph_sliced.get_graph_full().get_child_node(child)
+                html_table.add_entry(self, child_node, graph_sliced)
+
+    def is_separate_node(self):
+        return True
 
     def get_label(self, slices):
         """

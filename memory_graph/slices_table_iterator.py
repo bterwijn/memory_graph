@@ -1,4 +1,3 @@
-
 from abc import ABC, abstractmethod
 
 class Slices_Table_Iterator(ABC):

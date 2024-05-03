@@ -35,16 +35,16 @@ class Node_Linear(Node):
             vertical = not self.has_references(slices, graph_full)
         return vertical
 
-    def fill_html_table(self, html_table, slices, graph_full):
+    def fill_html_table(self, html_table, slices, graph_sliced):
         """
         Fill the html_table with the children of the Node.
         """
-        if self.is_vertical(slices, graph_full):
-            self.fill_html_table_vertical(html_table, slices, graph_full)
+        if self.is_vertical(slices, graph_sliced.get_graph_full()):
+            self.fill_html_table_vertical(html_table, slices, graph_sliced)
         else:
-            self.fill_html_table_horizontal(html_table, slices, graph_full)
+            self.fill_html_table_horizontal(html_table, slices, graph_sliced)
 
-    def fill_html_table_vertical(self, html_table, slices, graph_full):
+    def fill_html_table_vertical(self, html_table, slices, graph_sliced):
         """
         Helper function to fill the html_table with the children of the Node in vertical orientation.
         """
@@ -53,15 +53,15 @@ class Node_Linear(Node):
             if index>=0:
                 html_table.add_index(index)
                 child = children[index]
-                child_node = graph_full.get_child_node(child)
-                html_table.add_entry(self, child_node)
+                child_node = graph_sliced.get_graph_full().get_child_node(child)
+                html_table.add_entry(self, child_node, graph_sliced)
                 html_table.add_new_line()
             else:
                 html_table.add_value('', border=0)
                 html_table.add_dots()
                 html_table.add_new_line()
 
-    def fill_html_table_horizontal(self, html_table, slices, graph_full):
+    def fill_html_table_horizontal(self, html_table, slices, graph_sliced):
         """
         Helper function to fill the html_table with the children of the Node in horizontal orientation.
         """
@@ -75,10 +75,13 @@ class Node_Linear(Node):
         for index in slices.table_iter(children.size()):
             if index>=0:
                 child = children[index]
-                child_node = graph_full.get_child_node(child)
-                html_table.add_entry(self, child_node)
+                child_node = graph_sliced.get_graph_full().get_child_node(child)
+                html_table.add_entry(self, child_node, graph_sliced)
             else:
                 html_table.add_dots()
+
+    def is_separate_node(self):
+        return True
 
     def get_label(self, slices):
         """

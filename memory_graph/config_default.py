@@ -1,9 +1,9 @@
 """ Sets the default configuration values for the memory graph. """
-from memory_graph.node import Node
-from memory_graph.node_linear import Node_Linear
+from memory_graph.node           import Node
+from memory_graph.node_linear    import Node_Linear
 from memory_graph.node_key_value import Node_Key_Value
-from memory_graph.node_hidden import Node_Hidden
-from memory_graph.node_table import Node_Table
+from memory_graph.node_table     import Node_Table
+
 from memory_graph.slicer import Slicer
 
 import memory_graph.config as config
@@ -11,8 +11,8 @@ import memory_graph.utils as utils
 
 import types
 
-""" The maxium number of Nodes shown in the graph. When the graph gets too big set this to a smaller number to analyze the problem. A `★` symbol indictes where the gra[h is cut short.  """
-config.max_number_nodes = 1000
+""" The maximum depth of nodes in the graph. When the graph gets too big set this to a small positive number. A `★` symbol indictes where the graph is cut short.  """
+config.max_tree_depth = -1
 
 """ The maximum length of strings shown in the graph. Longer strings will be truncated. """
 config.max_string_length = 42
@@ -38,7 +38,6 @@ config.type_to_node = {
             if dict in config.no_child_references_types else 
         Node_Linear(data, utils.filter_dict_attributes(data.items()) ) 
         ),
-    Node_Hidden: lambda data: data, # TODO?
     }
 
 """ Colors of different types in the graph. """
