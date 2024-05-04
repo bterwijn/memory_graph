@@ -58,7 +58,7 @@ class Graph_Builder:
     def node_callback(self, node, slices, graph_sliced):
         graph_full = graph_sliced.get_graph_full()
         if self.show_node_in_graph(node, graph_full):
-            print('node:', node,'slices:', slices)
+            #print('node:', node,'slices:', slices)
             html_table = node.get_html_table(slices, graph_sliced)
             edges = html_table.get_edges()
             # ------------ subgraph
@@ -70,15 +70,15 @@ class Graph_Builder:
                                 html_table.to_string(border, color),
                                 xlabel=node.get_label(slices))
             # ------------ edges
-            for parent,child in edges:
-                self.new_graph.edge(parent, child+':table')
+            for parent,child,dashed in edges:
+                self.new_graph.edge(parent, child+':table', style='dashed' if dashed else 'solid')
 
     def add_subgraph(self, edges):
         """
         Helper function to add 'edges' to the graphviz graph. Each edges is a tuple (parent,child) where parent 
         and child are node names. Each edge is added to the graph only once.
         """
-        new_edges = [child for _,child in edges if child not in self.subgraphed_nodes]
+        new_edges = [child for _,child,_ in edges if child not in self.subgraphed_nodes]
         if len(new_edges) > 1:
             self.new_graph.body.append('{ rank="same"  '+(" -> ".join(new_edges))+'  [weight=99,style=invis]; }\n')
         for c in new_edges:

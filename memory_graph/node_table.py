@@ -78,7 +78,7 @@ class Node_Table(Node):
             else:
                 child = children[index]
                 child_node = graph_sliced.get_graph_full().get_child_node(child)
-                html_table.add_entry(self, child_node, graph_sliced)
+                html_table.add_entry(self, child_node, graph_sliced, dashed=slices.is_dashed(index))
 
     def is_separate_node(self):
         return True

@@ -67,11 +67,11 @@ class HTML_Table:
         self.html += f'<TD><font color="#505050">{str(s)}</font></TD>'
         self.col_count += 1
 
-    def add_entry(self, node, child, graph_sliced, rounded=False, border=1):
+    def add_entry(self, node, child, graph_sliced, rounded=False, border=1, dashed=False):
         """ Add child to the inner table either as reference if it is a Node or as a value otherwise. """
         if memory_graph.node.is_separate_node(child):
             if graph_sliced.has_slices(child.get_id()):
-                self.add_reference(node, child, rounded, border)
+                self.add_reference(node, child, rounded, border, dashed)
             else:
                 self.add_value("★", rounded, border)
         else:
@@ -85,13 +85,13 @@ class HTML_Table:
         self.html += f'<TD BORDER="{border}"{r}> {format_string(s)} </TD>'
         self.col_count += 1
 
-    def add_reference(self, node, child, rounded=False, border=1):
+    def add_reference(self, node, child, rounded=False, border=1, dashed=False):
         """ Helper function to add a reference to the inner table. """
         self.check_add_new_line()
         r = ' STYLE="ROUNDED"' if rounded else ''
         self.html += f'<TD BORDER="{border}" PORT="ref{self.ref_count}"{r}> </TD>'
         self.edges.append( (f'{node.get_name()}:ref{self.ref_count}',
-                            child.get_name()) )
+                            child.get_name(), dashed) )
         self.ref_count += 1
         self.col_count += 1
 

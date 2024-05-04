@@ -55,7 +55,7 @@ class Node_Linear(Node):
                 html_table.add_index(index)
                 child = children[index]
                 child_node = graph_full.get_child_node(child)
-                html_table.add_entry(self, child_node, graph_sliced)
+                html_table.add_entry(self, child_node, graph_sliced, dashed=slices.is_dashed(index))
                 html_table.add_new_line()
             else:
                 html_table.add_value('', border=0)
@@ -78,7 +78,7 @@ class Node_Linear(Node):
             if index>=0:
                 child = children[index]
                 child_node = graph_full.get_child_node(child)
-                html_table.add_entry(self, child_node, graph_sliced)
+                html_table.add_entry(self, child_node, graph_sliced, dashed=slices.is_dashed(index))
             else:
                 html_table.add_dots()
 

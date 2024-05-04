@@ -76,11 +76,10 @@ class Node:
         html_table = HTML_Table()
         if self.children is None:
             html_table.add_string(f'{self.data}')
-        else: #if self.children.has_data():
+        else:
             self.fill_html_table(html_table, slices, graph_sliced)
         return html_table
     
-       
     def get_slicer(self):
         return config_helpers.get_slicer(self, self.get_data())
 

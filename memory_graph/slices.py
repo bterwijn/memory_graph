@@ -8,6 +8,15 @@ from memory_graph.slices_table_iterator import Slices_Table_Iterator1D, Slices_T
 
 class Slices(ABC):
 
+    def __init__(self):
+        self.dashed = set()
+
+    def __repr__(self) -> str:
+        return f"dashed: {self.dashed}"
+
+    def is_dashed(self, index):
+        return index in self.dashed
+
     @abstractmethod
     def __iter__(self):
         pass
@@ -27,13 +36,14 @@ class Slices(ABC):
 class Slices1D(Slices):
 
     def __init__(self, slices=None) -> None:
+        super().__init__()
         self.slices = []
         if not slices is None:
             for i in slices:
                 self.add_slice(i)
 
     def __repr__(self) -> str:
-        return f"Slices1D({self.slices})"
+        return f"Slices1D({self.slices}) "+super().__repr__()
     
     def get_iter(self,length):
         return Slices_Iterator(self.slices,length)
@@ -41,10 +51,17 @@ class Slices1D(Slices):
     def copy(self):
         s = Slices1D()
         s.slices = copy.deepcopy(self.slices)
+        s.dashed = copy.deepcopy(self.dashed)
         return s
 
     def get_slices(self):
         return self.slices
+
+    def has_index(self, index):
+        for i in self.slices:
+            if i[0] <= index and index < i[1]:
+                return True
+        return False
 
     def add_slice(self, begin_end, remove_interposed_dots=1):
         i0, i1 = begin_end
@@ -78,8 +95,10 @@ class Slices1D(Slices):
     def __iter__(self):
         return Slices_Iterator1D(self)
     
-    def add_index(self, index):
+    def add_index(self, index, dashed=False):
         self.add_slice([index,index+1], 0)
+        if dashed:
+            self.dashed.add(index)
     
     def table_iter(self, size):
         return Slices_Table_Iterator1D(self, size)
@@ -90,6 +109,7 @@ class Slices1D(Slices):
 class Slices2D(Slices):
 
     def __init__(self, row_slices = None, col_slices= None) -> None:
+        super().__init__()
         self.row_slices = Slices1D() if row_slices is None else row_slices
         self.col_slices = Slices1D() if col_slices is None else col_slices
 
@@ -97,6 +117,7 @@ class Slices2D(Slices):
         s='Sices2D:\n'
         s += 'row_slices:' + str(self.row_slices) + '\n'
         s += 'col_slices:' + str(self.col_slices) + '\n'
+        s += super().__repr__() + '\n'
         return s
     
     def get_row_slices(self):
@@ -108,10 +129,12 @@ class Slices2D(Slices):
     def __iter__(self):
         return Slices_Iterator2D(self)
 
-    def add_index(self, index):
+    def add_index(self, index, dashed=False):
         i0,i1 = index
         self.row_slices.add_slice([i0,i0+1], 0)
         self.col_slices.add_slice([i1,i1+1], 0)
+        if dashed:
+            self.dashed.add((i0,i1))
 
     def table_iter(self, size):
         return Slices_Table_Iterator2D(self, size)

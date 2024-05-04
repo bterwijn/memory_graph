@@ -36,7 +36,7 @@ config.type_to_node = {
     dict: lambda data: (
         Node_Key_Value(data, utils.filter_dict_attributes(data.items()) )
             if dict in config.no_child_references_types else 
-        Node_Linear(data, utils.filter_dict_attributes(data.items()) ) 
+        Node_Linear(data, utils.filter_dict_attributes(data.items()) )
         ),
     }
 
