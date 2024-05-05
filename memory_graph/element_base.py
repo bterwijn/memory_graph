@@ -92,7 +92,7 @@ class Element_Base:
         """
         pass
 
-    def is_separate_node(self):
+    def is_node(self):
         """
         Return if the node is a separate node in the graph.
         """

@@ -82,7 +82,7 @@ class Element_Linear(Element_Base):
             else:
                 html_table.add_dots()
 
-    def is_separate_node(self):
+    def is_node(self):
         return True
 
     def get_label(self, slices):

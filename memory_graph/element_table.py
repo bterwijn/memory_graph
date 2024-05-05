@@ -80,7 +80,7 @@ class Element_Table(Element_Base):
                 child_node = graph_sliced.get_graph_full().get_child_node(child)
                 html_table.add_entry(self, child_node, graph_sliced, dashed=slices.is_dashed(index))
 
-    def is_separate_node(self):
+    def is_node(self):
         return True
 
     def get_label(self, slices):

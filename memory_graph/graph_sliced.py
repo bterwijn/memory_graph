@@ -36,10 +36,11 @@ class Missing_Edges:
 
 class Graph_Sliced:
 
-    def __init__(self, graph_full, depth) -> None:
+    def __init__(self, graph_full, depth=-1) -> None:
         self.graph_full = graph_full
         self.id_to_slices = {}
-        self.slice(graph_full.get_root_id(), depth)
+        self.node_ids = set()
+        self.slice_graph(graph_full.get_root_id(), depth)
 
     def get_graph_full(self):
         return self.graph_full
@@ -47,26 +48,27 @@ class Graph_Sliced:
     def __repr__(self) -> str:
         s = "Graph_Sliced\n=== parents:\n"
         for element_id in self.id_to_slices:
-            s += f"{element_id} : {self.get_slices(element_id)} {self.graph_full.get_element(element_id)}\n"
+            s += f"{element_id}: {self.get_slices(element_id)} {self.graph_full.get_element_by_id(element_id)}\n"
+        s+= f'node_ids: {self.node_ids}\n'
         return s
 
-    def slice(self, element_id, depth):
+    def slice_graph(self, element_id, depth):
         if depth == 0 or element_id in self.id_to_slices:
             return
-        element = self.graph_full.get_element(element_id)
-        if memory_graph.element_base.is_separate_element(element):
-            children = element.get_children()
-            if not children is None:
-                slicer = element.get_slicer()
-                slices = children.slice(slicer)
-                #print('element:',element,'slicer:',slicer, 'slices:',slices)
-                self.id_to_slices[element_id] = slices
-                if not is_tuple_with_key_value_parent(element, self.graph_full):
-                    depth -= 1
-                for index in slices:
-                    self.slice(id(children[index]), depth)
-            else:
-                self.id_to_slices[element_id] = None # for elements without children
+        element = self.graph_full.get_element_by_id(element_id)
+        is_node = self.graph_full.is_node(element)
+        if is_node:
+            self.node_ids.add(element_id)
+        children = self.graph_full.get_children(element)
+        if not children is None:
+            slicer = element.get_slicer()
+            slices = children.slice(slicer)
+            #print('element:',element,'slicer:',slicer, 'slices:',slices)
+            self.id_to_slices[element_id] = slices
+            if is_node:
+                depth -= 1
+            for index in slices:
+                self.slice_graph(id(children[index]), depth)
 
     def get_element_ids(self):
         return self.id_to_slices
@@ -76,6 +78,9 @@ class Graph_Sliced:
     
     def has_slices(self, element_id):
         return element_id in self.id_to_slices
+    
+    def get_node_ids(self):
+        return self.node_ids
     
     def add_missing_edges(self):
         for element_id in list(self.get_element_ids().keys()):

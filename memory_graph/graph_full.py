@@ -27,7 +27,7 @@ class Graph_Full:
         element_id = id(data)
         if not element_id in self.id_to_element:
             element = self.data_to_element(data)
-            print("element:",element)
+            #print("element:",element)
             self.id_to_element[element_id] = element
             if isinstance(element, Element_Base):
                 children = element.get_children()
@@ -91,3 +91,15 @@ class Graph_Full:
         if element_id in self.id_to_parent_indices:
             return self.id_to_parent_indices[element_id]
         return {}
+    
+    def is_node(self, element):
+        if not isinstance(element, Element_Base):
+            return False
+        data = element.get_data()
+        if type(data) == tuple:
+            parent_indices = self.get_parent_indices_by_id(id(data))
+            if len(parent_indices) == 1:
+                parent_id, _ = next(iter(parent_indices.items()))
+                return not type(self.get_element_by_id(parent_id)) == Element_Key_Value
+        return True
+        
