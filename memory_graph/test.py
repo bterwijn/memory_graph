@@ -7,7 +7,7 @@ import pandas as pd
 import memory_graph.extension_numpy
 import memory_graph.extension_pandas
 
-from memory_graph.node_table import Node_Table
+from memory_graph.element_table import Element_Table
 
 def test_singular(fun):
     data = 100
@@ -106,7 +106,7 @@ def test_table(fun):
     data = My_Table((15,15))
     config.type_to_color[My_Table] = 'plum1'
     config.type_to_node[My_Table] = lambda data: (
-            Node_Table(data, data.data , data.size[0], 
+            Element_Table(data, data.data , data.size[0], 
                         #column_names = [f'col{i}' for i in range(data.size[1])],
                         #row_names = [f'row{i}' for i in range(data.size[0])] 
             )

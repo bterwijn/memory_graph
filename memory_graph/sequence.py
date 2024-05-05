@@ -25,8 +25,6 @@ class Sequence(ABC):
     def __getitem__(self, index):
         pass
 
-
-
 class Sequence1D(Sequence):
 
     def __init__(self, data):

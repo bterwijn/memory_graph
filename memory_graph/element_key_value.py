@@ -1,43 +1,43 @@
-from memory_graph.node import Node
+from memory_graph.element_base import Element_Base
 from memory_graph.sequence import Sequence1D
 
 import memory_graph.config_helpers as config_helpers
 
 def transform_node_hidden(node_hidden, fun):
     """
-    Helper function to forward the transform to the children of the Node_Hidden node.
+    Helper function to forward the transform to the children of the Element_Hidden node.
     """
     node_hidden.transform(fun)
     return node_hidden
 
 def hidden_has_nodes(node_hidden):
     """
-    Helper function to check if the Node_Hidden node has any children that are Node 
+    Helper function to check if the Element_Hidden node has any children that are Element_Base 
     objects so that references need to be drawn in the graph.
     """
     for c in node_hidden.get_children():
-        if isinstance(c, Node):
+        if isinstance(c, Element_Base):
             return True
     return False
 
-class Node_Key_Value(Node):
+class Element_Key_Value(Element_Base):
     """
-    Node_Key_Value (subclass of Node) is a node that represents a node with key-value 
+    Element_Key_Value (subclass of Element_Base) is a node that represents a node with key-value 
     pairs (tuples) as children. This node type mainly used for dictionaries and classes. 
-    Each child is made a Hidden_Node so that each tuple is not shown as a separate node 
+    Each child is made a Hidden_Element_Base so that each tuple is not shown as a separate node 
     but instead as a key,value pair in the current node.
     """
 
     def __init__(self, data, children):
         """
-        Create a Node_Key_Value object. Use a Slicer to slice the children so the
-        Node will not get too big or have too many childeren in the graph.
+        Create a Element_Key_Value object. Use a Slicer to slice the children so the
+        Element_Base will not get too big or have too many childeren in the graph.
         """
         super().__init__(data, Sequence1D(children))
         
     def transform(self, fun):
         """
-        Transform the children of the Node using the 'fun' function and the 
+        Transform the children of the Element_Base using the 'fun' function and the 
         'transform_node_hidden' helper to function transform each key and value instead of each tuple.
         """
         self.children.transform(lambda node_hidden: transform_node_hidden(node_hidden, fun) )
@@ -51,8 +51,8 @@ class Node_Key_Value(Node):
             child_node = graph_full.get_child_node(child)
             key = graph_full.get_node(id(child_node.get_children()[0]))
             value = graph_full.get_node(id(child_node.get_children()[1]))
-            if (isinstance(key  , Node) and key  .has_children() or 
-                isinstance(value, Node) and value.has_children()):
+            if (isinstance(key  , Element_Base) and key  .has_children() or 
+                isinstance(value, Element_Base) and value.has_children()):
                 return True
         return False
 
@@ -67,7 +67,7 @@ class Node_Key_Value(Node):
 
     def fill_html_table(self, html_table, slices, graph_sliced):
         """
-        Fill the html_table with the children of the Node.
+        Fill the html_table with the children of the Element_Base.
         """
         vertical = self.is_vertical(slices, graph_sliced.get_graph_full())
         if vertical:
@@ -87,7 +87,7 @@ class Node_Key_Value(Node):
 
     def fill_html_table_vertical(self, html_table, slices, graph_sliced):
         """
-        Helper function to fill the html_table with the children of the Node in vertical orientation.
+        Helper function to fill the html_table with the children of the Element_Base in vertical orientation.
         """
         children = self.children
         graph_full = graph_sliced.get_graph_full()
@@ -104,7 +104,7 @@ class Node_Key_Value(Node):
 
     def fill_html_table_horizontal(self, html_table, slices, graph_sliced):
         """
-        Helper function to fill the html_table with the children of the Node in horizontal orientation.
+        Helper function to fill the html_table with the children of the Element_Base in horizontal orientation.
         """
         children = self.children
         for index in slices.table_iter(children.size()):

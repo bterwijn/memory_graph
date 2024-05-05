@@ -1,7 +1,7 @@
 from memory_graph.graph_full import Graph_Full
 from memory_graph.graph_sliced import Graph_Sliced
 import memory_graph.graph_sliced 
-from memory_graph.node_key_value import Node_Key_Value
+from memory_graph.element_key_value import Element_Key_Value
 
 import memory_graph.config as config
 import memory_graph.config_helpers as config_helpers
@@ -25,7 +25,7 @@ class Graph_Builder:
         Create a graph of memory using the graphviz library.
 
         Args:
-            data (Node): The root node of the memory in the graph.
+            data (Element_Base): The root node of the memory in the graph.
             colors (dict): A dictionary of colors to use for different types of nodes.
             vertical_orientations (dict): A dictionary of whether to use vertical/horizontal orientation for different types of nodes.
             slicers (dict): A dictionary of slicers to use for different types of nodes.
@@ -46,7 +46,7 @@ class Graph_Builder:
         #print(graph_sliced)
         graph_sliced.add_missing_edges()
         #print(graph_sliced)
-        graph_sliced.process_nodes(self.node_callback)
+        graph_sliced.process_nodes(self.element_callback)
 
     def show_node_in_graph(self, node, graph_full):
         if graph_full.size() == 1:
@@ -66,7 +66,7 @@ class Graph_Builder:
             # ------------ node
             color = config_helpers.get_color(node)
             border = 3 if node.get_id() == graph_full.get_root_id() else 1
-            self.new_graph.node(node.get_name(),
+            self.new_graph.element_base(node.get_name(),
                                 html_table.to_string(border, color),
                                 xlabel=node.get_label(slices))
             # ------------ edges

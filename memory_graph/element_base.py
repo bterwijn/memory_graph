@@ -2,13 +2,13 @@ import memory_graph.utils as utils
 import memory_graph.config as config
 import memory_graph.config_helpers as config_helpers
 
-class Node:
+class Element_Base:
     """
-    Node represents a node in the memory graph. This base class has different subclasses for different types of nodes.
+    Element_Base represents a node in the memory graph. This base class has different subclasses for different types of nodes.
     """
     
     """
-    Create a Node object.
+    Create a Element_Base object.
 
     Args:
         data (object): The data represented by the node.
@@ -58,7 +58,7 @@ class Node:
     def get_children(self):
         """
         Return the children of the node. Initially the children are raw data, but 
-        later they too are converted to Node by the Memory_visitor using the Node 'transform' method.
+        later they too are converted to Element_Base by the Memory_visitor using the Element_Base 'transform' method.
         """
         return self.children
 
@@ -84,7 +84,7 @@ class Node:
         return config_helpers.get_slicer(self, self.get_data())
 
 
-    # -------------------- Node interface, overriden by subclasses --------------------
+    # -------------------- Element_Base interface, overriden by subclasses --------------------
 
     def fill_html_table(self, html_table, slices, graph_sliced):
         """
@@ -105,4 +105,4 @@ class Node:
         return self.get_type_name()
     
 def is_separate_node(data):
-    return isinstance(data, Node) and data.is_separate_node()
+    return isinstance(data, Element_Base) and data.is_separate_node()

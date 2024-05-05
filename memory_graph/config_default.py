@@ -1,8 +1,8 @@
 """ Sets the default configuration values for the memory graph. """
-from memory_graph.node           import Node
-from memory_graph.node_linear    import Node_Linear
-from memory_graph.node_key_value import Node_Key_Value
-from memory_graph.node_table     import Node_Table
+from memory_graph.element_base           import Element_Base
+from memory_graph.element_linear    import Element_Linear
+from memory_graph.element_key_value import Element_Key_Value
+from memory_graph.element_table     import Element_Table
 
 from memory_graph.slicer import Slicer
 
@@ -27,16 +27,16 @@ config.no_reference_types = {
 """ Types that will not have references pointing to their children in the graph but instead will have their children visualized in their node. """
 config.no_child_references_types = {dict, types.MappingProxyType}
 
-""" Conversion from type to Node objects. """
-config.type_to_node = {
-    str: lambda data: Node(data), # visit as whole string, don't iterate over characters
-    types.FunctionType: lambda data: Node(data.__qualname__),
-    types.MethodType: lambda data: Node(data.__qualname__),
-    range: lambda data: Node_Key_Value(data, {'start':data.start, 'stop':data.stop, 'step':data.step}.items()),
+""" Conversion from type to Element_Base objects. """
+config.type_to_element = {
+    str: lambda data: Element_Base(data), # visit as whole string, don't iterate over characters
+    types.FunctionType: lambda data: Element_Base(data.__qualname__),
+    types.MethodType: lambda data: Element_Base(data.__qualname__),
+    range: lambda data: Element_Key_Value(data, {'start':data.start, 'stop':data.stop, 'step':data.step}.items()),
     dict: lambda data: (
-        Node_Key_Value(data, utils.filter_dict_attributes(data.items()) )
+        Element_Key_Value(data, utils.filter_dict_attributes(data.items()) )
             if dict in config.no_child_references_types else 
-        Node_Linear(data, utils.filter_dict_attributes(data.items()) )
+        Element_Linear(data, utils.filter_dict_attributes(data.items()) )
         ),
     }
 
@@ -57,7 +57,7 @@ config.type_to_color = {
     bytes : "khaki1",
     bytearray : "khaki2",
     # ================= key_value
-    Node_Key_Value : "seagreen1", # for classes
+    Element_Key_Value : "seagreen1", # for classes
     type: "seagreen2",            # where class variables are stored
     dict : "dodgerblue1",
     types.MappingProxyType : "dodgerblue2", # not used
@@ -65,13 +65,13 @@ config.type_to_color = {
 }
 
 """ Types that will be visualized in vertical orientation if 'True', or horizontal orientation 
-if 'False'. Otherwise the Node decides based on it having references."""
+if 'False'. Otherwise the Element_Base decides based on it having references."""
 config.type_to_vertical_orientation = {
 }
 
 """ Slicer objects for different types. """
 config.type_to_slicer = {
-    Node_Linear: Slicer(5,5,5),
-    Node_Key_Value: Slicer(5,5,5),
-    Node_Table: (Slicer(3,3,3), Slicer(3,3)),
+    Element_Linear: Slicer(5,5,5),
+    Element_Key_Value: Slicer(5,5,5),
+    Element_Table: (Slicer(3,3,3), Slicer(3,3)),
 }

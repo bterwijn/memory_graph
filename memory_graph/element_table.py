@@ -1,4 +1,4 @@
-from memory_graph.node import Node
+from memory_graph.element_base import Element_Base
 from memory_graph.sequence import Sequence2D
 from memory_graph.list_view import List_View
 
@@ -11,15 +11,15 @@ def add_name_or_index(html_table, index, names):
     else:
         html_table.add_index(index)
 
-class Node_Table(Node):
+class Element_Table(Element_Base):
     """
-    Node_Table (subclass of Node) is a node that represents a 2D table of data used for 
+    Element_Table (subclass of Element_Base) is a node that represents a 2D table of data used for 
     example for Numpy arrays and Pandas DataFrames.
     """
 
     def __init__(self, data, children, data_width=None, row_names=None, col_names=None):
         """
-        Create a Node_Table object. Use a Slicer to slice the children so the Node 
+        Create a Element_Table object. Use a Slicer to slice the children so the Element_Base 
         will not get to big or have too many childeren in the graph.
         """
         self.row_names = row_names
@@ -38,7 +38,7 @@ class Node_Table(Node):
 
     def fill_html_table(self, html_table, slices, graph_sliced):
         """
-        Fill the html_table with the children of the Node.
+        Fill the html_table with the children of the Element_Base.
         """
         if slices.is_empty():
             return

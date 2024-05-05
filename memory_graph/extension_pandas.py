@@ -1,13 +1,13 @@
 """ Extension to add the memory graph configuration for Pandas type. """
-from memory_graph.node_linear import Node_Linear
-from memory_graph.node_table import Node_Table
+from memory_graph.element_linear import Element_Linear
+from memory_graph.element_table import Element_Table
 
 import memory_graph.config as config
 
 import pandas as pd
 
 config.type_to_node[pd.DataFrame] = lambda data : (
-    Node_Table(data, 
+    Element_Table(data, 
                data.values.tolist(),
                col_names = data.columns.tolist(),
                row_names = [ str(i) for i in data.index.tolist()]
@@ -15,7 +15,7 @@ config.type_to_node[pd.DataFrame] = lambda data : (
 )
 
 config.type_to_node[pd.Series] = lambda data : (
-    Node_Linear(data, data.tolist())
+    Element_Linear(data, data.tolist())
 )
 
 config.type_to_color[pd.DataFrame] = "olivedrab1"

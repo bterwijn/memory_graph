@@ -1,18 +1,18 @@
-from memory_graph.node import Node
+from memory_graph.element_base import Element_Base
 from memory_graph.sequence import Sequence1D
 
 import memory_graph.config_helpers as config_helpers
 
-class Node_Linear(Node):
+class Element_Linear(Element_Base):
     """
-    Node_Linear (subclass of Node) is a node that represents a linear sequence 
+    Element_Linear (subclass of Element_Base) is a node that represents a linear sequence 
     of data used for most iterable type like list, tuple, set, etc.
     """
 
     def __init__(self, data, children=None):
         """
-        Create a Node_Linear object. Use a Slicer to slice the children so the 
-        Node will not get to big or have too many childeren in the graph.
+        Create a Element_Linear object. Use a Slicer to slice the children so the 
+        Element_Base will not get to big or have too many childeren in the graph.
         """
         super().__init__(data, Sequence1D(children))
     
@@ -22,7 +22,7 @@ class Node_Linear(Node):
         """
         for index in slices:
             node = graph_full.get_child_node(self.children[index])
-            if isinstance(node,Node) and node.has_children():
+            if isinstance(node,Element_Base) and node.has_children():
                 return True
         return False
 
@@ -37,7 +37,7 @@ class Node_Linear(Node):
 
     def fill_html_table(self, html_table, slices, graph_sliced):
         """
-        Fill the html_table with the children of the Node.
+        Fill the html_table with the children of the Element_Base.
         """
         if self.is_vertical(slices, graph_sliced.get_graph_full()):
             self.fill_html_table_vertical(html_table, slices, graph_sliced)
@@ -46,7 +46,7 @@ class Node_Linear(Node):
 
     def fill_html_table_vertical(self, html_table, slices, graph_sliced):
         """
-        Helper function to fill the html_table with the children of the Node in vertical orientation.
+        Helper function to fill the html_table with the children of the Element_Base in vertical orientation.
         """
         children = self.children
         graph_full = graph_sliced.get_graph_full()
@@ -64,7 +64,7 @@ class Node_Linear(Node):
 
     def fill_html_table_horizontal(self, html_table, slices, graph_sliced):
         """
-        Helper function to fill the html_table with the children of the Node in horizontal orientation.
+        Helper function to fill the html_table with the children of the Element_Base in horizontal orientation.
         """
         children = self.children
         graph_full = graph_sliced.get_graph_full()
