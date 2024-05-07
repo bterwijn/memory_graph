@@ -42,34 +42,35 @@ class Element_Key_Value(Element_Base):
         """
         self.children.transform(lambda node_hidden: transform_node_hidden(node_hidden, fun) )
     
-    def has_references(self, slices, graph_full):
+    def has_references(self, slices, graph_sliced):
         """
         Return if the node has references to other nodes.
         """
+        graph_full = graph_sliced.get_graph_full()
         for index in slices:
-            child = self.children[index]
-            child_node = graph_full.get_child_node(child)
-            key = graph_full.get_node(id(child_node.get_children()[0]))
-            value = graph_full.get_node(id(child_node.get_children()[1]))
-            if (isinstance(key  , Element_Base) and key  .has_children() or 
-                isinstance(value, Element_Base) and value.has_children()):
+            child = graph_full.get_element(self.children[index])
+            key = child.get_children()[0]
+            if id(key) in graph_sliced.get_node_ids():
+                return True
+            value = child.get_children()[1]
+            if id(value) in graph_sliced.get_node_ids():
                 return True
         return False
 
-    def is_vertical(self, slices, graph_full):
+    def is_vertical(self, slices, graph_sliced):
         """
         Return if the node is vertical or horizontal based on the orientation of the children.
         """
         vertical = config_helpers.get_vertical_orientation(self, None)
         if vertical is None:
-            vertical = not self.has_references(slices, graph_full)
+            vertical = not self.has_references(slices, graph_sliced)
         return vertical
 
     def fill_html_table(self, html_table, slices, graph_sliced):
         """
         Fill the html_table with the children of the Element_Base.
         """
-        vertical = self.is_vertical(slices, graph_sliced.get_graph_full())
+        vertical = self.is_vertical(slices, graph_sliced)
         if vertical:
             self.fill_html_table_vertical(html_table, slices, graph_sliced)
         else:
@@ -78,8 +79,8 @@ class Element_Key_Value(Element_Base):
     @staticmethod
     def get_value_dashed(child_id, index, graph_sliced):
         graph_full = graph_sliced.get_graph_full()
-        child_node = graph_full.get_node(child_id)
-        value = graph_full.get_node(id(child_node.get_children()[index]))
+        child = graph_full.get_element_by_id(child_id)
+        value = graph_full.get_element_by_id(id(child.get_children()[index]))
         is_dashed = False
         if child_id in graph_sliced.get_node_ids():
             is_dashed = graph_sliced.get_slices(child_id).is_dashed(index)

@@ -103,6 +103,3 @@ class Element_Base:
         Return a label for the node to be shown in the graph next to the HTML table.
         """
         return self.get_type_name()
-    
-def is_separate_node(data):
-    return isinstance(data, Element_Base) and data.is_separate_node()

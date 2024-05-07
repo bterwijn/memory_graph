@@ -83,7 +83,7 @@ class Graph_Sliced:
         return self.node_ids
     
     def add_missing_edges(self):
-        for element_id in list(self.get_element_ids().keys()):
+        for element_id in self.node_ids.copy():
             print('add_missing_edges element_id:', element_id)
             self.add_missing_edges_recursive(element_id)
 
@@ -95,9 +95,9 @@ class Graph_Sliced:
 
     def find_missing_edges(self, element_id):
         missing_edges = Missing_Edges()
-        parents_indices = self.graph_full.get_parents(element_id)
+        parents_indices = self.graph_full.get_parent_indices_by_id(element_id)
         for parent_id, indices in parents_indices.items():
-            parent = self.graph_full.get_element(parent_id)
+            parent = self.graph_full.get_element_by_id(parent_id)
             type = parent.get_type()
             for index in indices:
                 if parent_id in self.id_to_slices:
@@ -111,7 +111,7 @@ class Graph_Sliced:
     def add_edges(self, missing_edges):
         for type, parents_indices in missing_edges.type_to_parents_indices.items():
             print('add_edges  type:',type)
-            config_count = 0
+            config_count = 3
             count = config_count
             for parent_id, indices in parents_indices.items():
                 if count == 0:
@@ -119,9 +119,11 @@ class Graph_Sliced:
                 new_parent = False
                 if not parent_id in self.id_to_slices:
                     new_parent = True
-                    parent = self.graph_full.get_element(parent_id)
+                    parent = self.graph_full.get_element_by_id(parent_id)
                     slices = parent.get_children().empty_slice()
                     self.id_to_slices[parent_id] = slices
+                    if self.graph_full.is_node(parent):
+                        self.node_ids.add(parent_id)
                 else:
                     slices = self.get_slices(parent_id)
                 for index in indices:
@@ -129,28 +131,29 @@ class Graph_Sliced:
                     is_dashed = config_count<missing_edges.get_index_count()
                     slices.add_index(index, dashed=is_dashed)
                     count -= 1
-                    if new_parent:
-                        self.add_missing_edges_recursive(parent_id)
+                if new_parent:
+                    self.add_missing_edges_recursive(parent_id)
 
-    def process_elements(self, callback):
+    def visit_all_nodes(self, callback):
         if self.graph_full.size() == 1:
-            element = self.graph_full.get_element(self.graph_full.get_root_id())
+            element = self.graph_full.get_element_by_id(self.graph_full.get_root_id())
             if not isinstance(element, Element_Base):
                 element = Element_Base(element)
             callback(element, Slices1D([[0,1]]), self)
         else:
-            self.process_elements_recursive(self.graph_full.get_root_id(), callback, set())
+            self.visit_all_nodes_recursive(self.graph_full.get_root_id(), callback, set())
 
-    def process_elements_recursive(self, element_id, callback, id_to_count):
-        if not element_id in id_to_count:
-            id_to_count.add(element_id)
-            element = self.graph_full.get_element(element_id)
-            if memory_graph.element_base.is_separate_element(element) and self.has_slices(element_id):
+    def visit_all_nodes_recursive(self, element_id, callback, just_once):
+        if not element_id in just_once:
+            just_once.add(element_id)
+            element = self.graph_full.get_element_by_id(element_id)
+            slices = None
+            if self.has_slices(element_id):
                 slices = self.get_slices(element_id)
                 children = element.get_children()
-                if not children is None:
-                    for index in slices:
-                        child_id = id(children[index])
-                        self.process_elements_recursive(child_id, callback, id_to_count)
-                print('element:',element,'slices:',slices)
+                for index in slices:
+                    child_id = id(children[index])
+                    self.visit_all_nodes_recursive(child_id, callback, just_once)
+            print('element:',element)
+            if element_id in self.node_ids:
                 callback(element, slices, self)

@@ -105,7 +105,7 @@ def test_table(fun):
             self.data = [i for i in range(size[0]*size[1])]
     data = My_Table((15,15))
     config.type_to_color[My_Table] = 'plum1'
-    config.type_to_node[My_Table] = lambda data: (
+    config.type_to_element[My_Table] = lambda data: (
             Element_Table(data, data.data , data.size[0], 
                         #column_names = [f'col{i}' for i in range(data.size[1])],
                         #row_names = [f'row{i}' for i in range(data.size[0])] 

@@ -22,6 +22,10 @@ class Slices(ABC):
         pass
 
     @abstractmethod
+    def has_index(self, index):
+        pass
+
+    @abstractmethod
     def add_index(self, index):
         pass
 
@@ -95,6 +99,14 @@ class Slices1D(Slices):
     def __iter__(self):
         return Slices_Iterator1D(self)
     
+    def has_index(self, index):
+        insert = bisect.bisect_right(self.slices, index, key=lambda x: x[0])
+        #print('insert:',insert,'index:',index,'slices:',self.slices)
+        if insert==0:
+            return False
+        i0, i1 = self.slices[insert-1]
+        return i0 <= index and index < i1
+
     def add_index(self, index, dashed=False):
         self.add_slice([index,index+1], 0)
         if dashed:
@@ -128,6 +140,10 @@ class Slices2D(Slices):
 
     def __iter__(self):
         return Slices_Iterator2D(self)
+
+    def has_index(self, index):
+        i0,i1 = index
+        return self.row_slices.has_index(i0) and self.col_slices.has_index(i1)
 
     def add_index(self, index, dashed=False):
         i0,i1 = index

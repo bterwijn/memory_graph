@@ -59,6 +59,12 @@ def test_slices1d():
     assert slices.add_slice([41,42])
     assert slices.add_slice([75,76])
     assert slices.add_slice([100,200])
+    
+    test = Slices1D( [ [i,i+2] for i in range(0,30,4)] )
+    #print('test:',test)
+    for index in range(30):
+        #print('index:',index, 'has_index:',test.has_index(index))
+        assert test.has_index(index) == ((index//2) % 2 == 0), f"Error: {index}"
 
 def test_slices2d():
     from memory_graph.slices import Slices

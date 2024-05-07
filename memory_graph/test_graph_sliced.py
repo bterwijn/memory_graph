@@ -27,7 +27,15 @@ def walk_graph(graph_full, element_id, indent=0):
 
 if __name__ == '__main__':
     memory_graph.config_helpers.set_config()
-    data = [[1,2],(3,4), {5:500, 6:600}, My_Class()]
+    a = [1,2]
+    b = [3,4,a]
+    c = [5,6,b]
+    d = [7,8,c]
+    long_list = [i for i in range(30)]
+    long_list[8] = d
+    long_list[10] = b
+    data = [long_list, a]
     graph_full = Graph_Full(data)
     graph_sliced = Graph_Sliced(graph_full)
     print('graph_sliced:',graph_sliced)
+    graph_sliced.add_missing_edges()

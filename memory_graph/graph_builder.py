@@ -46,32 +46,24 @@ class Graph_Builder:
         #print(graph_sliced)
         graph_sliced.add_missing_edges()
         #print(graph_sliced)
-        graph_sliced.process_nodes(self.element_callback)
-
-    def show_node_in_graph(self, node, graph_full):
-        if graph_full.size() == 1:
-            return True
-        if memory_graph.graph_sliced.is_tuple_with_key_value_parent(node, graph_full):
-            return False
-        return True
+        graph_sliced.visit_all_nodes(self.node_callback)
 
     def node_callback(self, node, slices, graph_sliced):
         graph_full = graph_sliced.get_graph_full()
-        if self.show_node_in_graph(node, graph_full):
-            #print('node:', node,'slices:', slices)
-            html_table = node.get_html_table(slices, graph_sliced)
-            edges = html_table.get_edges()
-            # ------------ subgraph
-            self.add_subgraph(edges)
-            # ------------ node
-            color = config_helpers.get_color(node)
-            border = 3 if node.get_id() == graph_full.get_root_id() else 1
-            self.new_graph.element_base(node.get_name(),
-                                html_table.to_string(border, color),
-                                xlabel=node.get_label(slices))
-            # ------------ edges
-            for parent,child,dashed in edges:
-                self.new_graph.edge(parent, child+':table', style='dashed' if dashed else 'solid')
+        print('node:', node,'slices:', slices)
+        html_table = node.get_html_table(slices, graph_sliced)
+        edges = html_table.get_edges()
+        # ------------ subgraph
+        self.add_subgraph(edges)
+        # ------------ node
+        color = config_helpers.get_color(node)
+        border = 3 if id(node) == graph_full.get_root_id() else 1
+        self.new_graph.node(node.get_name(),
+                            html_table.to_string(border, color),
+                            xlabel=node.get_label(slices))
+        # ------------ edges
+        for parent,child,dashed in edges:
+            self.new_graph.edge(parent, child+':table', style='dashed' if dashed else 'solid')
 
     def add_subgraph(self, edges):
         """

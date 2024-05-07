@@ -19,8 +19,8 @@ def ndarrayy_to_node(ndarrayy_data):
     else:
         return Element_Linear(ndarrayy_data, ndarrayy_data.tolist()) # convert to list for stable id(element)
     
-config.type_to_node[np.matrix] = lambda data : Element_Table(data, data.tolist()) # convert to list for stable id(element) 
-config.type_to_node[np.ndarray] = lambda data :  ndarrayy_to_node(data)
+config.type_to_element[np.matrix] = lambda data : Element_Table(data, data.tolist()) # convert to list for stable id(element) 
+config.type_to_element[np.ndarray] = lambda data :  ndarrayy_to_node(data)
 
 config.type_to_color[np.ndarray] = "hotpink1"
 config.type_to_color[np.matrix] = "hotpink2"

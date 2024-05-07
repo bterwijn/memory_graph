@@ -27,7 +27,7 @@ class Graph_Full:
         element_id = id(data)
         if not element_id in self.id_to_element:
             element = self.data_to_element(data)
-            #print("element:",element)
+            #   print("element:",element)
             self.id_to_element[element_id] = element
             if isinstance(element, Element_Base):
                 children = element.get_children()
@@ -76,6 +76,9 @@ class Graph_Full:
 
     def get_element_by_id(self, element_id):
         return self.id_to_element[element_id]
+
+    def get_element(self, element):
+        return self.get_element_by_id(id(element))
 
     def get_data(self, element):
         if isinstance(element, Element_Base):

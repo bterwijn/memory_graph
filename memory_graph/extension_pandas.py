@@ -6,7 +6,7 @@ import memory_graph.config as config
 
 import pandas as pd
 
-config.type_to_node[pd.DataFrame] = lambda data : (
+config.type_to_element[pd.DataFrame] = lambda data : (
     Element_Table(data, 
                data.values.tolist(),
                col_names = data.columns.tolist(),
@@ -14,7 +14,7 @@ config.type_to_node[pd.DataFrame] = lambda data : (
             )
 )
 
-config.type_to_node[pd.Series] = lambda data : (
+config.type_to_element[pd.Series] = lambda data : (
     Element_Linear(data, data.tolist())
 )
 

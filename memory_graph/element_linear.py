@@ -16,30 +16,29 @@ class Element_Linear(Element_Base):
         """
         super().__init__(data, Sequence1D(children))
     
-    def has_references(self, slices, graph_full):
+    def has_references(self, slices, graph_sliced):
         """
         Return if the node has references to other nodes.
         """
         for index in slices:
-            node = graph_full.get_child_node(self.children[index])
-            if isinstance(node,Element_Base) and node.has_children():
+            if id(self.children[index]) in graph_sliced.node_ids:
                 return True
         return False
 
-    def is_vertical(self, slices, graph_full):
+    def is_vertical(self, slices, graph_sliced):
         """
         Return if the node is vertical or horizontal based on the orientation of the children.
         """
         vertical = config_helpers.get_vertical_orientation(self, None)
         if vertical is None:
-            vertical = not self.has_references(slices, graph_full)
+            vertical = not self.has_references(slices, graph_sliced)
         return vertical
 
     def fill_html_table(self, html_table, slices, graph_sliced):
         """
         Fill the html_table with the children of the Element_Base.
         """
-        if self.is_vertical(slices, graph_sliced.get_graph_full()):
+        if self.is_vertical(slices, graph_sliced):
             self.fill_html_table_vertical(html_table, slices, graph_sliced)
         else:
             self.fill_html_table_horizontal(html_table, slices, graph_sliced)
@@ -53,9 +52,8 @@ class Element_Linear(Element_Base):
         for index in slices.table_iter(children.size()):
             if index>=0:
                 html_table.add_index(index)
-                child = children[index]
-                child_node = graph_full.get_child_node(child)
-                html_table.add_entry(self, child_node, graph_sliced, dashed=slices.is_dashed(index))
+                child = graph_full.get_element(children[index])
+                html_table.add_entry(self, child, graph_sliced, dashed=slices.is_dashed(index))
                 html_table.add_new_line()
             else:
                 html_table.add_value('', border=0)
@@ -76,9 +74,8 @@ class Element_Linear(Element_Base):
         html_table.add_new_line()
         for index in slices.table_iter(children.size()):
             if index>=0:
-                child = children[index]
-                child_node = graph_full.get_child_node(child)
-                html_table.add_entry(self, child_node, graph_sliced, dashed=slices.is_dashed(index))
+                child = graph_full.get_element(children[index])
+                html_table.add_entry(self, child, graph_sliced, dashed=slices.is_dashed(index))
             else:
                 html_table.add_dots()
 
