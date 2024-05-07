@@ -1,5 +1,5 @@
 """ Sets the default configuration values for the memory graph. """
-from memory_graph.element_base           import Element_Base
+from memory_graph.element_base      import Element_Base
 from memory_graph.element_linear    import Element_Linear
 from memory_graph.element_key_value import Element_Key_Value
 from memory_graph.element_table     import Element_Table

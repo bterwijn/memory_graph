@@ -1,6 +1,7 @@
 import memory_graph.utils as utils
 import memory_graph.config as config
 import memory_graph.config_helpers as config_helpers
+from memory_graph.sequence import Sequence1D
 
 class Element_Base:
     """
@@ -9,27 +10,48 @@ class Element_Base:
     
     """
     Create a Element_Base object.
-
-    Args:
-        data (object): The data represented by the node.
-        children (list): The children of the node.
-        size (string): The size of the node to be shown in the graph.
     """
     def __init__(self, data, children=None):
         self.data = data
-        self.children = children
+        self.children = Sequence1D([]) if children is None else children
+        self.parent_indices = {}
 
     def __repr__(self):
         """
         Return a string representation of the node showing the original data represented by the node.
         """
-        return f'{utils.get_type_name(self)} children:{self.children}'
+        #return f'data: {self.data} children: {self.children} parents: {self.parents}'
+        return f'{self.get_type_name()} id:{self.get_id()} parent_indices:{self.parent_indices}'
+
+    def add_parent_index(self, parent, parent_index):
+        """
+        Add a parent to the node.
+        """
+        parent_id = parent.get_id()
+        if not parent_id in self.parent_indices:
+            self.parent_indices[parent_id] = []
+        self.parent_indices[parent_id].append(parent_index)
+
+    def get_parent_indices(self):
+        return self.parent_indices
 
     def get_id(self):
         """
         Return the id of the node.
         """
         return id(self.data)
+
+    def __eq__(self, other):
+        """
+        Return if the node is equal to another node.
+        """
+        return self.get_id() == other.get_id()
+    
+    def __hash__(self):
+        """
+        Return the hash of the node.
+        """
+        return self.get_id()
 
     def get_data(self):
         """
@@ -49,11 +71,11 @@ class Element_Base:
         """
         return utils.get_type_name(self.data)
 
-    def has_children(self):
-        """
-        Return the number of children of the node.
-        """
-        return not self.children is None
+    # def has_children(self):
+    #     """
+    #     Return the number of children of the node.
+    #     """
+    #     return not self.children is None
 
     def get_children(self):
         """
@@ -82,7 +104,6 @@ class Element_Base:
     
     def get_slicer(self):
         return config_helpers.get_slicer(self, self.get_data())
-
 
     # -------------------- Element_Base interface, overriden by subclasses --------------------
 

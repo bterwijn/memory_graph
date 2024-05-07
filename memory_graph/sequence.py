@@ -6,7 +6,11 @@ import memory_graph.utils as utils
 class Sequence(ABC):
 
     @abstractmethod
-    def size():
+    def is_empty(self):
+        pass
+
+    @abstractmethod
+    def size(self):
         pass
 
     @abstractmethod
@@ -25,6 +29,10 @@ class Sequence(ABC):
     def __getitem__(self, index):
         pass
 
+    @abstractmethod
+    def __setitem__(self, index, value):
+        pass
+
 class Sequence1D(Sequence):
 
     def __init__(self, data):
@@ -32,6 +40,9 @@ class Sequence1D(Sequence):
 
     def __repr__(self):
         return f'Sequence1D: {self.data}'
+    
+    def is_empty(self):
+        return len(self.data) == 0
     
     def size(self):
         return len(self.data)
@@ -48,6 +59,9 @@ class Sequence1D(Sequence):
 
     def __getitem__(self, index):
         return self.data[index]
+    
+    def __setitem__(self, index, value):
+        self.data[index] = value
 
 class Sequence2D(Sequence):
 
@@ -57,6 +71,9 @@ class Sequence2D(Sequence):
     def __repr__(self):
         return f'Sequence2D: {self.data}'
     
+    def is_empty(self):
+        return len(self.data) == 0
+
     def size(self):
         l1, l2 = len(self.data), 0
         if l1 > 0:
@@ -86,3 +103,5 @@ class Sequence2D(Sequence):
     def __getitem__(self, index):
         return self.data[index[0]][index[1]]
 
+    def __setitem__(self, index, value):
+        self.data[index[0]][index[1]] = value
