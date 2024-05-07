@@ -27,10 +27,9 @@ class Element_Base:
         """
         Add a parent to the node.
         """
-        parent_id = parent.get_id()
-        if not parent_id in self.parent_indices:
-            self.parent_indices[parent_id] = []
-        self.parent_indices[parent_id].append(parent_index)
+        if not parent in self.parent_indices:
+            self.parent_indices[parent] = []
+        self.parent_indices[parent].append(parent_index)
 
     def get_parent_indices(self):
         return self.parent_indices
@@ -105,6 +104,19 @@ class Element_Base:
     def get_slicer(self):
         return config_helpers.get_slicer(self, self.get_data())
 
+    def is_node(self):
+        """
+        Return if the node is a separate node in the graph.
+        """
+        return not self.get_type() in config.no_reference_types
+    
+    def is_hidden_node(self):
+        """
+        Return if the node is a hidden node in the graph.
+        """
+        from memory_graph.element_key_value import Element_Key_Value
+        return self.get_type() is tuple and len(self.children) == 1 and type(self.children[0]) is Element_Key_Value
+
     # -------------------- Element_Base interface, overriden by subclasses --------------------
 
     def fill_html_table(self, html_table, slices, graph_sliced):
@@ -112,12 +124,6 @@ class Element_Base:
         Fill the HTML_Table object with each child of the node.
         """
         pass
-
-    def is_node(self):
-        """
-        Return if the node is a separate node in the graph.
-        """
-        return not self.get_type() in config.no_reference_types
 
     def get_label(self, slices):
         """
