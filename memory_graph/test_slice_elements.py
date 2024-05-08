@@ -8,10 +8,12 @@ import memory_graph.config_helpers as config_helpers
 
 config_helpers.set_config()
 
-a = list(range(20))
-b = set(range(10))
-a.append(b)
-data = [a, b]
+a = [1,2]
+b = [3,4,a]
+c = [5,6,b]
+long_list = list(range(30))
+long_list[7]=c
+data = [long_list, a]
 
 print('=== memory_to_elements')
 root_element = memory_to_elements.to_elements(data) 

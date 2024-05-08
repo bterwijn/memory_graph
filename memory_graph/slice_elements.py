@@ -15,10 +15,10 @@ def slice_elements_recursive(element, sliced_elements, depth):
                 sliced_elements[element] = slices
             if not element.is_hidden_node():
                 depth -= 1
-            for index in children.indices_all():
+            for index in slices:
                 slice_elements_recursive(children[index], sliced_elements, depth)
 
 def slice_elements(element, depth):
-    element_to_slices = {}
-    slice_elements_recursive(element, element_to_slices, depth)
-    return element_to_slices
+    sliced_elements = {}
+    slice_elements_recursive(element, sliced_elements, depth)
+    return sliced_elements

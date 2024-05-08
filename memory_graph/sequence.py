@@ -14,7 +14,7 @@ class Sequence(ABC):
         pass
 
     @abstractmethod
-    def empty_slice(self):
+    def empty_slices(self):
         pass
 
     @abstractmethod
@@ -47,7 +47,7 @@ class Sequence1D(Sequence):
     def size(self):
         return len(self.data)
     
-    def empty_slice(self):
+    def empty_slices(self):
         return Slices1D()
 
     def slice(self, slicer):
@@ -80,7 +80,7 @@ class Sequence2D(Sequence):
             l2 = len(self.data[0])
         return l1, l2
     
-    def empty_slice(self):
+    def empty_slices(self):
         return Slices2D()
 
     def slice(self, slicer0):

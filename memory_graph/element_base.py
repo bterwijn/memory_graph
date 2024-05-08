@@ -21,7 +21,7 @@ class Element_Base:
         Return a string representation of the node showing the original data represented by the node.
         """
         #return f'data: {self.data} children: {self.children} parents: {self.parents}'
-        return f'{self.get_type_name()} id:{self.get_id()} parent_indices:{self.parent_indices}'
+        return f'{self.get_type_name()} id:{self.get_id()}'
 
     def add_parent_index(self, parent, parent_index):
         """
