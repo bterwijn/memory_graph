@@ -67,11 +67,11 @@ class HTML_Table:
         self.html += f'<TD><font color="#505050">{str(s)}</font></TD>'
         self.col_count += 1
 
-    def add_entry(self, node, child, graph_sliced, rounded=False, border=1, dashed=False):
+    def add_entry(self, node, child, sliced_elements, rounded=False, border=1, dashed=False):
         """ Add child to the inner table either as reference if it is a Element_Base or as a value otherwise. """
-        print('child:', child, 'is_node:', graph_sliced.get_graph_full().is_node(child))
-        if graph_sliced.get_graph_full().is_node(child):
-            if id(child.get_data()) in graph_sliced.get_node_ids():
+        print('child:', child)
+        if child.is_node():
+            if child in sliced_elements:
                 self.add_reference(node, child, rounded, border, dashed)
             else:
                 self.add_value("✂", rounded, border)

@@ -34,6 +34,12 @@ class Element_Base:
     def get_parent_indices(self):
         return self.parent_indices
 
+    def is_root(self):
+        """
+        Return if the node is the root of the graph.
+        """
+        return len(self.parent_indices) == 0
+
     def get_id(self):
         """
         Return the id of the node.
@@ -89,7 +95,7 @@ class Element_Base:
         """
         return f'node{self.get_id()}'
     
-    def get_html_table(self, slices, graph_sliced):
+    def get_html_table(self, slices, sliced_elements):
         """
         Return the HTML_Table object that determines how the node is visualized in the graph.
         """
@@ -98,7 +104,7 @@ class Element_Base:
         if self.children is None:
             html_table.add_string(f'{self.data}')
         else:
-            self.fill_html_table(html_table, slices, graph_sliced)
+            self.fill_html_table(html_table, slices, sliced_elements)
         return html_table
     
     def get_slicer(self):
@@ -119,7 +125,7 @@ class Element_Base:
 
     # -------------------- Element_Base interface, overriden by subclasses --------------------
 
-    def fill_html_table(self, html_table, slices, graph_sliced):
+    def fill_html_table(self, html_table, slices, sliced_elements):
         """
         Fill the HTML_Table object with each child of the node.
         """

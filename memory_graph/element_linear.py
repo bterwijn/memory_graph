@@ -34,16 +34,16 @@ class Element_Linear(Element_Base):
             vertical = not self.has_references(slices, graph_sliced)
         return vertical
 
-    def fill_html_table(self, html_table, slices, graph_sliced):
+    def fill_html_table(self, html_table, slices, sliced_elements):
         """
         Fill the html_table with the children of the Element_Base.
         """
-        if self.is_vertical(slices, graph_sliced):
-            self.fill_html_table_vertical(html_table, slices, graph_sliced)
+        if False: #self.is_vertical(slices, graph_sliced):
+            self.fill_html_table_vertical(html_table, slices, sliced_elements)
         else:
-            self.fill_html_table_horizontal(html_table, slices, graph_sliced)
+            self.fill_html_table_horizontal(html_table, slices, sliced_elements)
 
-    def fill_html_table_vertical(self, html_table, slices, graph_sliced):
+    def fill_html_table_vertical(self, html_table, slices, sliced_elements):
         """
         Helper function to fill the html_table with the children of the Element_Base in vertical orientation.
         """
@@ -60,22 +60,20 @@ class Element_Linear(Element_Base):
                 html_table.add_dots()
                 html_table.add_new_line()
 
-    def fill_html_table_horizontal(self, html_table, slices, graph_sliced):
+    def fill_html_table_horizontal(self, html_table, slices, sliced_elements):
         """
         Helper function to fill the html_table with the children of the Element_Base in horizontal orientation.
         """
-        children = self.children
-        graph_full = graph_sliced.get_graph_full()
-        for index in slices.table_iter(children.size()):
+        for index in slices.table_iter(self.children.size()):
             if index>=0:
                 html_table.add_index(index)
             else:
                 html_table.add_value('', border=0)
         html_table.add_new_line()
-        for index in slices.table_iter(children.size()):
+        for index in slices.table_iter(self.children.size()):
             if index>=0:
-                child = graph_full.get_element(children[index])
-                html_table.add_entry(self, child, graph_sliced, dashed=slices.is_dashed(index))
+                child = self.children[index]
+                html_table.add_entry(self, child, sliced_elements, dashed=slices.is_dashed(index))
             else:
                 html_table.add_dots()
 
