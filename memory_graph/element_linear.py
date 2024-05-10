@@ -16,29 +16,30 @@ class Element_Linear(Element_Base):
         """
         super().__init__(data, Sequence1D(children))
     
-    def has_references(self, slices, graph_sliced):
+    def has_references(self, slices):
         """
         Return if the node has references to other nodes.
         """
         for index in slices:
-            if id(self.children[index]) in graph_sliced.node_ids:
+            child = self.children[index]
+            if child.is_node() and not child.is_hidden_node():
                 return True
         return False
 
-    def is_vertical(self, slices, graph_sliced):
+    def is_vertical(self, slices, sliced_elements):
         """
         Return if the node is vertical or horizontal based on the orientation of the children.
         """
         vertical = config_helpers.get_vertical_orientation(self, None)
         if vertical is None:
-            vertical = not self.has_references(slices, graph_sliced)
+            vertical = not self.has_references(slices)
         return vertical
 
     def fill_html_table(self, html_table, slices, sliced_elements):
         """
         Fill the html_table with the children of the Element_Base.
         """
-        if False: #self.is_vertical(slices, graph_sliced):
+        if self.is_vertical(slices, sliced_elements):
             self.fill_html_table_vertical(html_table, slices, sliced_elements)
         else:
             self.fill_html_table_horizontal(html_table, slices, sliced_elements)
@@ -83,11 +84,10 @@ class Element_Linear(Element_Base):
         Return a label for the node to be shown in the graph next to the HTML table.
         """
         type_name = self.get_type_name()
+        size = self.get_children().size()
         s = slices.get_slices()
-        if len(s) > 0:
-            last_index = s[-1][1]
-            size = self.get_children().size()
-            if last_index != size:
-                return f'{type_name} {size}'
-        return f'{type_name}'
+        if len(s) == 1:
+            if s[0][1] - s[0][0] == size:
+                return f'{type_name}'
+        return f'{type_name} {size}'
         

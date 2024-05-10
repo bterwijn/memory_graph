@@ -12,9 +12,7 @@ def add_subgraph(graphviz_graph, edges, subgraphed_nodes):
         subgraphed_nodes.add(c)
 
 def add_to_graphviz_graph(graphviz_graph, node, slices, sliced_elements, subgraphed_nodes):
-    print(node, slices)
     html_table = node.get_html_table(slices, sliced_elements)
-
     edges = html_table.get_edges()
     # ------------ subgraph
     add_subgraph(graphviz_graph, edges, subgraphed_nodes)

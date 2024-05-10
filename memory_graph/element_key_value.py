@@ -17,47 +17,39 @@ class Element_Key_Value(Element_Base):
         Element_Base will not get too big or have too many childeren in the graph.
         """
         super().__init__(data, Sequence1D(children))
-        
-    def transform(self, fun):
-        """
-        Transform the children of the Element_Base using the 'fun' function and the 
-        'transform_node_hidden' helper to function transform each key and value instead of each tuple.
-        """
-        self.children.transform(lambda node_hidden: transform_node_hidden(node_hidden, fun) )
     
-    def has_references(self, slices, graph_sliced):
+    def has_references(self, slices, sliced_elements):
         """
         Return if the node has references to other nodes.
         """
-        graph_full = graph_sliced.get_graph_full()
         for index in slices:
-            child = graph_full.get_element(self.children[index])
+            child = self.children[index]
             key = child.get_children()[0]
-            if id(key) in graph_sliced.get_node_ids():
+            if key.is_node() and not key.is_hidden_node():
                 return True
             value = child.get_children()[1]
-            if id(value) in graph_sliced.get_node_ids():
+            if value.is_node() and not value.is_hidden_node():
                 return True
         return False
 
-    def is_vertical(self, slices, graph_sliced):
+    def is_vertical(self, slices, sliced_elements):
         """
         Return if the node is vertical or horizontal based on the orientation of the children.
         """
         vertical = config_helpers.get_vertical_orientation(self, None)
         if vertical is None:
-            vertical = not self.has_references(slices, graph_sliced)
+            vertical = not self.has_references(slices, sliced_elements)
         return vertical
 
-    def fill_html_table(self, html_table, slices, graph_sliced):
+    def fill_html_table(self, html_table, slices, sliced_elements):
         """
         Fill the html_table with the children of the Element_Base.
         """
-        vertical = False #self.is_vertical(slices, graph_sliced)
+        vertical = self.is_vertical(slices, sliced_elements)
         if vertical:
-            self.fill_html_table_vertical(html_table, slices, graph_sliced)
+            self.fill_html_table_vertical(html_table, slices, sliced_elements)
         else:
-            self.fill_html_table_horizontal(html_table, slices, graph_sliced)
+            self.fill_html_table_horizontal(html_table, slices, sliced_elements)
 
     @staticmethod
     def get_value_dashed(child, index):

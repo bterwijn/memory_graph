@@ -36,7 +36,7 @@ class Element_Table(Element_Base):
         else:
             html_table.add_index(index)
 
-    def fill_html_table(self, html_table, slices, graph_sliced):
+    def fill_html_table(self, html_table, slices, sliced_elements):
         """
         Fill the html_table with the children of the Element_Base.
         """
@@ -77,8 +77,7 @@ class Element_Table(Element_Base):
                 first_col = True
             else:
                 child = children[index]
-                child_node = graph_sliced.get_graph_full().get_child_node(child)
-                html_table.add_entry(self, child_node, graph_sliced, dashed=slices.is_dashed(index))
+                html_table.add_entry(self, child, sliced_elements, dashed=slices.is_dashed(index))
 
     def is_node(self):
         return True

@@ -9,6 +9,11 @@ import memory_graph.config_helpers as config_helpers
 
 import graphviz
 
+import numpy as np
+import memory_graph.extension_numpy
+import pandas as pd
+import memory_graph.extension_pandas
+
 config_helpers.set_config()
 
 a = [1,2]
@@ -16,8 +21,16 @@ b = [3,4,a]
 c = [5,6,b]
 long_list = list(range(30))
 long_list[7]=c
-dic = {1:'a', 2:'b'}
-data = [long_list, a, dic]
+dic = {i:i*100 for i in range(20)}
+matrix = np.random.rand(15,8)
+table = pd.DataFrame({  'Name'   : [ 'Tom', 'Anna', 'Steve', 'Lisa'],
+                        'Age'    : [    28,     34,      29,     42],
+                        'Length' : [  1.70,   1.66,    1.82,   1.73] },
+                        index=['one', 'two', 'three', 'four'])
+
+data = [long_list, a, dic, matrix, table]
+
+
 #data = [dic]
 
 print('=== memory_to_elements')
