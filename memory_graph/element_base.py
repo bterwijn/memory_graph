@@ -121,7 +121,13 @@ class Element_Base:
         Return if the node is a hidden node in the graph.
         """
         from memory_graph.element_key_value import Element_Key_Value
-        return self.get_type() is tuple and len(self.children) == 1 and type(self.children[0]) is Element_Key_Value
+        if self.get_type() is tuple:
+            parent_indices = self.get_parent_indices()
+            if len(parent_indices) == 1:
+                first_parent = next(iter(parent_indices))
+                if type(first_parent) is Element_Key_Value:
+                    return True
+        return False
 
     # -------------------- Element_Base interface, overriden by subclasses --------------------
 

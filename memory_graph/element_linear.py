@@ -47,13 +47,11 @@ class Element_Linear(Element_Base):
         """
         Helper function to fill the html_table with the children of the Element_Base in vertical orientation.
         """
-        children = self.children
-        graph_full = graph_sliced.get_graph_full()
-        for index in slices.table_iter(children.size()):
+        for index in slices.table_iter(self.children.size()):
             if index>=0:
                 html_table.add_index(index)
-                child = graph_full.get_element(children[index])
-                html_table.add_entry(self, child, graph_sliced, dashed=slices.is_dashed(index))
+                child = self.children[index]
+                html_table.add_entry(self, child, sliced_elements, dashed=slices.is_dashed(index))
                 html_table.add_new_line()
             else:
                 html_table.add_value('', border=0)

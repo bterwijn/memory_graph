@@ -18,6 +18,12 @@ def filter_dict_attributes(tuples):
         and not callable(v)
             ]
 
+def make_list(data):
+    """ Returns a list from 'data'. """
+    if type(data) is list:
+        return data
+    return list(data)
+
 def make_sliceable(data):
     try:
         data[0:0]

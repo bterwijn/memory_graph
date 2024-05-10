@@ -22,10 +22,12 @@ def to_elements_recursive(data, parent, parent_index, known_elements):
         element = known_elements[data_id]
     else:
         element = data_to_element(data)
+        #print('element:', element)
         known_elements[data_id] = element
         for index in element.get_children().indices_all():
             child = element.get_children()[index]
             child_element = to_elements_recursive(child, element, index, known_elements)
+            #print('element.get_children()', element.get_children())
             element.get_children()[index] = child_element
     if not parent is None:
         element.add_parent_index(parent, parent_index)

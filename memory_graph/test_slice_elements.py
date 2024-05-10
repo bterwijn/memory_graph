@@ -16,7 +16,9 @@ b = [3,4,a]
 c = [5,6,b]
 long_list = list(range(30))
 long_list[7]=c
-data = [long_list, a]
+dic = {1:'a', 2:'b'}
+data = [long_list, a, dic]
+#data = [dic]
 
 print('=== memory_to_elements')
 root_element = memory_to_elements.to_elements(data) 

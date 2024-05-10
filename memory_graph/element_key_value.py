@@ -3,23 +3,6 @@ from memory_graph.sequence import Sequence1D
 
 import memory_graph.config_helpers as config_helpers
 
-def transform_node_hidden(node_hidden, fun):
-    """
-    Helper function to forward the transform to the children of the Element_Hidden node.
-    """
-    node_hidden.transform(fun)
-    return node_hidden
-
-def hidden_has_nodes(node_hidden):
-    """
-    Helper function to check if the Element_Hidden node has any children that are Element_Base 
-    objects so that references need to be drawn in the graph.
-    """
-    for c in node_hidden.get_children():
-        if isinstance(c, Element_Base):
-            return True
-    return False
-
 class Element_Key_Value(Element_Base):
     """
     Element_Key_Value (subclass of Element_Base) is a node that represents a node with key-value 
@@ -70,55 +53,53 @@ class Element_Key_Value(Element_Base):
         """
         Fill the html_table with the children of the Element_Base.
         """
-        vertical = self.is_vertical(slices, graph_sliced)
+        vertical = False #self.is_vertical(slices, graph_sliced)
         if vertical:
             self.fill_html_table_vertical(html_table, slices, graph_sliced)
         else:
             self.fill_html_table_horizontal(html_table, slices, graph_sliced)
 
     @staticmethod
-    def get_value_dashed(child_id, index, graph_sliced):
-        graph_full = graph_sliced.get_graph_full()
-        child = graph_full.get_element_by_id(child_id)
-        value = graph_full.get_element_by_id(id(child.get_children()[index]))
+    def get_value_dashed(child, index):
+        value = child.get_children()[index]
         is_dashed = False
-        if child_id in graph_sliced.get_node_ids():
-            is_dashed = graph_sliced.get_slices(child_id).is_dashed(index)
+        #if child_id in graph_sliced.get_node_ids():
+        #    is_dashed = graph_sliced.get_slices(child_id).is_dashed(index)
         return value, is_dashed
 
-    def fill_html_table_vertical(self, html_table, slices, graph_sliced):
+    def fill_html_table_vertical(self, html_table, slices, sliced_elements):
         """
         Helper function to fill the html_table with the children of the Element_Base in vertical orientation.
         """
-        children = self.children
-        graph_full = graph_sliced.get_graph_full()
-        for index in slices.table_iter(children.size()):
+        for index in slices.table_iter(self.children.size()):
             if index>=0:
-                key, is_dashed = self.get_value_dashed(id(children[index]),0,graph_sliced)
-                html_table.add_entry(self, key, graph_sliced, rounded=True, dashed=is_dashed)
-                value, is_dashed = self.get_value_dashed(id(children[index]),1,graph_sliced)
-                html_table.add_entry(self, value, graph_sliced, dashed=is_dashed)
+                child = self.children[index]
+                key, is_dashed = self.get_value_dashed(child,0)
+                html_table.add_entry(self, key, sliced_elements, rounded=True, dashed=is_dashed)
+                value, is_dashed = self.get_value_dashed(child,1)
+                html_table.add_entry(self, value, sliced_elements, dashed=is_dashed)
             else:
                 html_table.add_dots()
                 html_table.add_dots()
             html_table.add_new_line()
 
-    def fill_html_table_horizontal(self, html_table, slices, graph_sliced):
+    def fill_html_table_horizontal(self, html_table, slices, sliced_elements):
         """
         Helper function to fill the html_table with the children of the Element_Base in horizontal orientation.
         """
-        children = self.children
-        for index in slices.table_iter(children.size()):
+        for index in slices.table_iter(self.children.size()):
             if index>=0:
-                key, is_dashed = self.get_value_dashed(id(children[index]),0,graph_sliced)
-                html_table.add_entry(self, key, graph_sliced, rounded=True, dashed=is_dashed)
+                child = self.children[index]
+                key, is_dashed = self.get_value_dashed(child,0)
+                html_table.add_entry(self, key, sliced_elements, rounded=True, dashed=is_dashed)
             else:
                 html_table.add_dots()
         html_table.add_new_line()
-        for index in slices.table_iter(children.size()):
+        for index in slices.table_iter(self.children.size()):
             if index>=0:
-                value, is_dashed = self.get_value_dashed(id(children[index]),1,graph_sliced)
-                html_table.add_entry(self, value, graph_sliced, dashed=is_dashed)
+                child = self.children[index]
+                value, is_dashed = self.get_value_dashed(child,1)
+                html_table.add_entry(self, value, sliced_elements, dashed=is_dashed)
             else:
                 html_table.add_dots()
 

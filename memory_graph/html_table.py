@@ -69,7 +69,7 @@ class HTML_Table:
 
     def add_entry(self, node, child, sliced_elements, rounded=False, border=1, dashed=False):
         """ Add child to the inner table either as reference if it is a Element_Base or as a value otherwise. """
-        print('child:', child)
+        #print('child:', child)
         if child.is_node():
             if child in sliced_elements:
                 self.add_reference(node, child, rounded, border, dashed)
