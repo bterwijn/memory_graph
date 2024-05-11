@@ -12,7 +12,9 @@ import memory_graph.utils as utils
 import types
 
 """ The maximum depth of nodes in the graph. When the graph gets too big set this to a small positive number. A `★` symbol indictes where the graph is cut short.  """
-config.max_tree_depth = -1
+config.max_tree_depth = 10
+
+config.max_missing_edges = 3
 
 """ The maximum length of strings shown in the graph. Longer strings will be truncated. """
 config.max_string_length = 42
@@ -32,6 +34,7 @@ config.type_to_element = {
     str: lambda data: Element_Base(data), # visit as whole string, don't iterate over characters
     types.FunctionType: lambda data: Element_Base(data.__qualname__),
     types.MethodType: lambda data: Element_Base(data.__qualname__),
+    type: lambda data: Element_Base(str(data)),
     range: lambda data: Element_Key_Value(data, {'start':data.start, 'stop':data.stop, 'step':data.step}.items()),
     dict: lambda data: (
         Element_Key_Value(data, utils.filter_dict_attributes(data.items()) )

@@ -1,6 +1,7 @@
 """ Configuration file for the graph visualizer. The configuration values are set later by the 'config_default.py' file. """
 
 max_tree_depth = None
+max_missing_edges = None
 max_string_length = None
 
 no_reference_types = {}

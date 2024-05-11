@@ -52,12 +52,14 @@ class Element_Key_Value(Element_Base):
             self.fill_html_table_horizontal(html_table, slices, sliced_elements)
 
     @staticmethod
-    def get_value_dashed(child, index):
-        value = child.get_children()[index]
+    def get_value_dashed(child, index, sliced_elements):
+        grandchild = child.get_children()[index]
         is_dashed = False
-        #if child_id in graph_sliced.get_node_ids():
-        #    is_dashed = graph_sliced.get_slices(child_id).is_dashed(index)
-        return value, is_dashed
+        if child in sliced_elements:
+            slices = sliced_elements[child]
+            if not slices is None:
+                is_dashed = slices.is_dashed(index)
+        return grandchild, is_dashed
 
     def fill_html_table_vertical(self, html_table, slices, sliced_elements):
         """
@@ -66,12 +68,12 @@ class Element_Key_Value(Element_Base):
         for index in slices.table_iter(self.children.size()):
             if index>=0:
                 child = self.children[index]
-                key, is_dashed = self.get_value_dashed(child,0)
+                key, is_dashed = self.get_value_dashed(child,0,sliced_elements)
                 html_table.add_entry(self, key, sliced_elements, rounded=True, dashed=is_dashed)
-                value, is_dashed = self.get_value_dashed(child,1)
+                value, is_dashed = self.get_value_dashed(child,1,sliced_elements)
                 html_table.add_entry(self, value, sliced_elements, dashed=is_dashed)
             else:
-                html_table.add_dots()
+                html_table.add_dots(rounded=True)
                 html_table.add_dots()
             html_table.add_new_line()
 
@@ -82,15 +84,15 @@ class Element_Key_Value(Element_Base):
         for index in slices.table_iter(self.children.size()):
             if index>=0:
                 child = self.children[index]
-                key, is_dashed = self.get_value_dashed(child,0)
+                key, is_dashed = self.get_value_dashed(child,0,sliced_elements)
                 html_table.add_entry(self, key, sliced_elements, rounded=True, dashed=is_dashed)
             else:
-                html_table.add_dots()
+                html_table.add_dots(rounded=True)
         html_table.add_new_line()
         for index in slices.table_iter(self.children.size()):
             if index>=0:
                 child = self.children[index]
-                value, is_dashed = self.get_value_dashed(child,1)
+                value, is_dashed = self.get_value_dashed(child,1,sliced_elements)
                 html_table.add_entry(self, value, sliced_elements, dashed=is_dashed)
             else:
                 html_table.add_dots()
@@ -103,6 +105,8 @@ class Element_Key_Value(Element_Base):
         Return a label for the node to be shown in the graph next to the HTML table.
         """
         type_name = self.get_type_name()
+        if slices is None:
+            return f'{type_name}'
         size = self.get_children().size()
         s = slices.get_slices()
         if len(s) == 1:

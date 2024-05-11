@@ -84,6 +84,8 @@ class Element_Linear(Element_Base):
         Return a label for the node to be shown in the graph next to the HTML table.
         """
         type_name = self.get_type_name()
+        if slices is None:
+            return f'{type_name}'
         size = self.get_children().size()
         s = slices.get_slices()
         if len(s) == 1:

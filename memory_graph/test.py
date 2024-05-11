@@ -9,6 +9,8 @@ import memory_graph.extension_pandas
 
 from memory_graph.element_table import Element_Table
 
+import random
+
 def test_singular(fun):
     data = 100
     fun(data)
@@ -150,9 +152,60 @@ class Example_Class:
     def example_method(self):
         return self.a+self.b
 
-def test_function(fun):
-    data = [1,2,example_function,lambda x: x*100, Example_Class, Example_Class.example_method]
+def test_different_types(fun):
+    data = [1,2,type(3),type({}), example_function,lambda x: x*100, Example_Class, Example_Class.example_method]
     fun(data)
+
+
+
+class Node:
+    shared_data = [1,2,3]
+
+    def __init__(self, value):
+        self.smaller = None
+        self.value   = value
+        self.shared  = Node.shared_data
+        self.larger  = None
+
+class BinTree:
+
+    def __init__(self):
+        self.root = None
+
+    def insert_recursive(self, node, value):
+        nn = None
+        if value < node.value:
+            if node.smaller is None:
+                nn = Node(value)
+                node.smaller = nn
+            else:
+                nn = self.insert_recursive(node.smaller, value)
+        else:
+            if node.larger is None:
+                nn = Node(value)
+                node.larger = nn
+            else:
+                nn = self.insert_recursive(node.larger, value)
+        return nn
+
+    def insert(self, value):
+        nn = None
+        if self.root is None:
+            nn = Node(value)
+            self.root = nn
+        else:
+            nn = self.insert_recursive(self.root, value)
+        return nn
+
+def test_missing_edges(fun):
+    config.max_tree_depth = 7
+    config.max_missing_edges = 5
+    tree = BinTree()
+    last_node = None
+    n = 200
+    for i in range(50):
+        last_node = tree.insert(random.randint(0,n*10))
+    fun( memory_graph.get_call_stack() )
 
 def test_all(fun):
     pass
@@ -172,4 +225,5 @@ def test_all(fun):
     test_table(fun)
     test_numpy(fun)
     test_pandas(fun)
-    test_function(fun)
+    test_different_types(fun)
+    test_missing_edges(fun)

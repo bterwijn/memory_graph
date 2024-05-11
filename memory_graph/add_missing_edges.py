@@ -1,8 +1,8 @@
 
 def add_parent_indices(type_to_parent_indices, sliced_elements, max_missing_edges):
-    print('add_parent_indices type_to_parent_indices:',type_to_parent_indices)
+    #print('add_parent_indices type_to_parent_indices:',type_to_parent_indices)
     for _, parent_indices in type_to_parent_indices.items():
-        dashed = True #len(parent_indices) > max_missing_edges   # TODO
+        dashed = len(parent_indices) > max_missing_edges
         for parent, index in parent_indices[0:max_missing_edges]:
             new_parent = False
             if not parent in sliced_elements:
@@ -14,7 +14,7 @@ def add_parent_indices(type_to_parent_indices, sliced_elements, max_missing_edge
                 add_indices_to_parents(parent, sliced_elements, max_missing_edges)
 
 def add_indices_to_parents(element, sliced_elements, max_missing_edges):
-    print('add_indices_to_parents element:',element)
+    #print('add_indices_to_parents element:',element)
     type_to_parent_indices = {}
     parent_indices = element.get_parent_indices()
     for parent, indices in parent_indices.items():

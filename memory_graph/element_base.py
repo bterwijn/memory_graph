@@ -100,10 +100,11 @@ class Element_Base:
         Return the HTML_Table object that determines how the node is visualized in the graph.
         """
         from memory_graph.html_table import HTML_Table
+        import memory_graph.element_base
         html_table = HTML_Table()
-        if self.children is None:
+        if type(self) is memory_graph.element_base.Element_Base:
             html_table.add_string(f'{self.data}')
-        else:
+        elif not slices is None:
             self.fill_html_table(html_table, slices, sliced_elements)
         return html_table
     

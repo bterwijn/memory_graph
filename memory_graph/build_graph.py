@@ -34,10 +34,11 @@ def build_graph_recursive(graphviz_graph, element, sliced_elements, visited_elem
     slices = None
     if element in sliced_elements:
         slices = sliced_elements[element]
-        for index in slices:
-            child = children[index]
-            build_graph_recursive(graphviz_graph, child, sliced_elements, visited_elements, subgraphed_nodes)
-    if element.is_node() and not element.is_hidden_node():
+        if not slices is None:
+            for index in slices:
+                child = children[index]
+                build_graph_recursive(graphviz_graph, child, sliced_elements, visited_elements, subgraphed_nodes)
+    if element.is_node() and not element.is_hidden_node() or element.is_root():
         add_to_graphviz_graph(graphviz_graph, element, slices, sliced_elements, subgraphed_nodes)
 
 def build_graph(graphviz_graph, root_element, sliced_elements):

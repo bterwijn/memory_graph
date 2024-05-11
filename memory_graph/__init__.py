@@ -1,10 +1,19 @@
-from memory_graph.graph_builder import Graph_Builder
+#from memory_graph.graph_builder import Graph_Builder
+import memory_graph.memory_to_elements as memory_to_elements
+import memory_graph.print_elements as print_elements
+import memory_graph.slice_elements as slice_elements
+import memory_graph.add_missing_edges as add_missing_edges
+import memory_graph.build_graph as build_graph
 
-import memory_graph.config_default as config_default
+import memory_graph.config as config
+import memory_graph.config_default
+import memory_graph.config_helpers as config_helper
 import memory_graph.utils as utils
 
 import inspect
 import sys
+
+import graphviz
 
 __version__ = "0.2.04"
 __author__ = 'Bas Terwijn'
@@ -30,8 +39,19 @@ def create_graph(data,
                  vertical_orientations = None,
                  slicers = None):
     """ Creates and returns a memory graph from 'data'. """
-    memory_graph = Graph_Builder(data, colors, vertical_orientations, slicers)
-    return memory_graph.get_graph()
+    config_helper.set_config(colors, vertical_orientations, slicers)
+    root_element = memory_to_elements.to_elements(data) 
+    sliced_elements = slice_elements.slice_elements(root_element, config.max_tree_depth)
+    sliced_elements = add_missing_edges.add_missing_edges(sliced_elements, config.max_missing_edges)
+    graphviz_graph_attr = {}
+    graphviz_node_attr = {'shape':'plaintext'}
+    graphviz_edge_attr = {}
+    graphviz_graph=graphviz.Digraph('memory_graph',
+                                    graph_attr=graphviz_graph_attr,
+                                    node_attr=graphviz_node_attr,
+                                    edge_attr=graphviz_edge_attr)
+    build_graph.build_graph(graphviz_graph, root_element, sliced_elements)
+    return graphviz_graph
 
 def show(data=None ,block=False, stack_index=2,
                  colors = None,
@@ -45,7 +65,7 @@ def show(data=None ,block=False, stack_index=2,
     if block:
         input(f"showing '{graph.filename}', {get_source_location(2)}, {press_enter_text}")
 
-def render(data=None, output_filename=None, block=False, stack_index=2,
+def render(data=None, outfile=None, block=False, stack_index=2,
                  colors = None,
                  vertical_orientations = None,
                  slicers = None):
@@ -53,7 +73,7 @@ def render(data=None, output_filename=None, block=False, stack_index=2,
     if data is None:
         data=get_locals_from_calling_frame(stack_index)
     graph = create_graph(data, colors, vertical_orientations, slicers)
-    filename = output_filename if output_filename else graph.filename+".pdf"
+    filename = outfile if outfile else graph.filename+".pdf"
     graph.render(outfile=filename)
     if block:
         input(f"rendering '{filename}', {get_source_location(2)}, {press_enter_text}")

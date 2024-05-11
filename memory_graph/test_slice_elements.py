@@ -33,22 +33,22 @@ data = [long_list, a, dic, matrix, table]
 
 #data = [dic]
 
-print('=== memory_to_elements')
+#print('=== memory_to_elements')
 root_element = memory_to_elements.to_elements(data) 
-print('root_element:', root_element)
-print_elements.print_elements(root_element)
+#print('root_element:', root_element)
+#print_elements.print_elements(root_element)
 
-print('=== slice_elements')
+#print('=== slice_elements')
 sliced_elements = slice_elements.slice_elements(root_element, 10)
-for key,value in sliced_elements.items():
-    print(f'{key}: {value}')
+#for key,value in sliced_elements.items():
+#    print(f'{key}: {value}')
 
-print('=== add_missing_edges')
+#print('=== add_missing_edges')
 sliced_elements = add_missing_edges.add_missing_edges(sliced_elements)
-for key,value in sliced_elements.items():
-    print(f'{key}: {value}')
+#for key,value in sliced_elements.items():
+#    print(f'{key}: {value}')
 
-print('=== create graphviz_graph')
+#print('=== create graphviz_graph')
 graphviz_graph_attr = {}
 graphviz_node_attr = {'shape':'plaintext'}
 graphviz_edge_attr = {}
@@ -57,6 +57,6 @@ graphviz_graph=graphviz.Digraph('memory_graph',
                                 node_attr=graphviz_node_attr,
                                 edge_attr=graphviz_edge_attr)
 
-print('=== build_graph')
+#print('=== build_graph')
 build_graph.build_graph(graphviz_graph, root_element, sliced_elements)
 graphviz_graph.render(outfile="test.png")
