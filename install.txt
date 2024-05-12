@@ -38,3 +38,4 @@ twine upload dist/*
   - 'parent_indices' only for nodes
   - 'children' only for nodes
   - 'slices' only for nodes
+- breadth first for better graph? 

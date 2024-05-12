@@ -198,12 +198,12 @@ class BinTree:
         return nn
 
 def test_missing_edges(fun):
-    config.max_tree_depth = 7
+    config.max_tree_depth = 6
     config.max_missing_edges = 5
     tree = BinTree()
     last_node = None
-    n = 200
-    for i in range(50):
+    n = 1000
+    for i in range(n):
         last_node = tree.insert(random.randint(0,n*10))
     fun( memory_graph.get_call_stack() )
 

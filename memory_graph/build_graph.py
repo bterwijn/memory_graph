@@ -11,7 +11,8 @@ def add_subgraph(graphviz_graph, edges, subgraphed_nodes):
     for c in new_edges:
         subgraphed_nodes.add(c)
 
-def add_to_graphviz_graph(graphviz_graph, node, slices, sliced_elements, subgraphed_nodes):
+def add_to_graphviz_graph(graphviz_graph, node, slices, sliced_elements, subgraphed_nodes, depth):
+    #print('node:',node, 'data:',node.get_data(), 'slices:',slices)
     html_table = node.get_html_table(slices, sliced_elements)
     edges = html_table.get_edges()
     # ------------ subgraph
@@ -26,7 +27,7 @@ def add_to_graphviz_graph(graphviz_graph, node, slices, sliced_elements, subgrap
     for parent,child,dashed in edges:
         graphviz_graph.edge(parent, child+':table', style='dashed' if dashed else 'solid')
 
-def build_graph_recursive(graphviz_graph, element, sliced_elements, visited_elements, subgraphed_nodes):
+def build_graph_depth_first(graphviz_graph, element, sliced_elements, visited_elements, subgraphed_nodes):
     if element in visited_elements:
         return
     visited_elements.add(element)
@@ -37,9 +38,32 @@ def build_graph_recursive(graphviz_graph, element, sliced_elements, visited_elem
         if not slices is None:
             for index in slices:
                 child = children[index]
-                build_graph_recursive(graphviz_graph, child, sliced_elements, visited_elements, subgraphed_nodes)
+                build_graph_depth_first(graphviz_graph, child, sliced_elements, visited_elements, subgraphed_nodes)
     if element.is_node() and not element.is_hidden_node() or element.is_root():
         add_to_graphviz_graph(graphviz_graph, element, slices, sliced_elements, subgraphed_nodes)
 
+def build_graph_breadth_first(graphviz_graph, all_elements, sliced_elements, visited_elements, subgraphed_nodes, depth):
+    new_children = []
+    for element in all_elements:
+        if not element in visited_elements:
+            visited_elements.add(element)
+            children = element.get_children()
+            slices = None
+            if element in sliced_elements:
+                slices = sliced_elements[element]
+                if not slices is None:
+                    for index in slices:
+                        child = children[index]
+                        new_children.append(child)
+    if len(new_children) > 0:
+        build_graph_breadth_first(graphviz_graph, new_children, sliced_elements, visited_elements, subgraphed_nodes, depth+1)
+    for element in all_elements:
+        if element.is_node() and not element.is_hidden_node() or element.is_root():
+            slices = None
+            if element in sliced_elements:
+                slices = sliced_elements[element]
+            add_to_graphviz_graph(graphviz_graph, element, slices, sliced_elements, subgraphed_nodes, depth)
+
 def build_graph(graphviz_graph, root_element, sliced_elements):
-    build_graph_recursive(graphviz_graph, root_element, sliced_elements, set(), set())
+    #build_graph_depth_first(graphviz_graph, root_element, sliced_elements, set(), set())
+    build_graph_breadth_first(graphviz_graph, [root_element], sliced_elements, set(), set(), 0)
