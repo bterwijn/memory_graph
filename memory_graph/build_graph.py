@@ -49,4 +49,3 @@ def build_graph(graphviz_graph, root_element, sliced_elements):
     depth_for_nodes = create_depth_for_nodes(elements_at_depth)
     for depth, nodes in depth_for_nodes.items():
         add_subgraph(graphviz_graph, nodes)
-        print('depth:',depth, 'nodes:',nodes)
