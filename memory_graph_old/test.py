@@ -7,7 +7,7 @@ import pandas as pd
 import memory_graph.extension_numpy
 import memory_graph.extension_pandas
 
-from memory_graph.node_table import Node_Table
+from memory_graph.element_table import Element_Table
 
 import random
 
@@ -31,10 +31,10 @@ def test_colors(fun):
         def __init__(self):
             self.var=2
     data2 = [(1,2), [3,4], {5,6}, frozenset((7,8)), {9:'9', 10:'10'} , bytes('11', 'utf-8'), bytearray('12', 'utf-8'), My_Class(), My_Class]
-    restore = config.not_node_types.copy()
-    config.not_node_types.clear()
+    restore = config.no_reference_types.copy()
+    config.no_reference_types.clear()
     fun([data1, data2])
-    config.not_node_types = restore
+    config.no_reference_types = restore
 
 def test_empty_linear(fun):
     data = [tuple(), list(), set(), frozenset(), dict() , bytes(), bytearray()]
@@ -107,8 +107,8 @@ def test_table(fun):
             self.data = [i for i in range(size[0]*size[1])]
     data = My_Table((15,15))
     config.type_to_color[My_Table] = 'plum1'
-    config.type_to_node[My_Table] = lambda data: (
-            Node_Table(data, data.data , data.size[0], 
+    config.type_to_element[My_Table] = lambda data: (
+            Element_Table(data, data.data , data.size[0], 
                         #column_names = [f'col{i}' for i in range(data.size[1])],
                         #row_names = [f'row{i}' for i in range(data.size[0])] 
             )

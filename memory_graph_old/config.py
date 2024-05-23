@@ -4,10 +4,10 @@ max_tree_depth = None
 max_missing_edges = None
 max_string_length = None
 
-not_node_types = {}
+no_reference_types = {}
 no_child_references_types = set()
 
-type_to_node = { }
+type_to_element = { }
 
 type_to_color = { }
 

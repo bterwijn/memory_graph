@@ -1,11 +1,10 @@
 #from memory_graph.graph_builder import Graph_Builder
-# import memory_graph.memory_to_elements as memory_to_elements
-# import memory_graph.print_elements as print_elements
-# import memory_graph.slice_elements as slice_elements
-# import memory_graph.add_missing_edges as add_missing_edges
-# import memory_graph.build_graph as build_graph
+import memory_graph.memory_to_elements as memory_to_elements
+import memory_graph.print_elements as print_elements
+import memory_graph.slice_elements as slice_elements
+import memory_graph.add_missing_edges as add_missing_edges
+import memory_graph.build_graph as build_graph
 
-import memory_graph.memory_to_nodes as memory_to_nodes
 import memory_graph.config as config
 import memory_graph.config_default
 import memory_graph.config_helpers as config_helper
@@ -41,7 +40,17 @@ def create_graph(data,
                  slicers = None):
     """ Creates and returns a memory graph from 'data'. """
     config_helper.set_config(colors, vertical_orientations, slicers)
-    graphviz_graph = memory_to_nodes.memory_to_nodes(data)
+    root_element = memory_to_elements.to_elements(data) 
+    sliced_elements = slice_elements.slice_elements(root_element, config.max_tree_depth)
+    sliced_elements = add_missing_edges.add_missing_edges(sliced_elements, config.max_missing_edges)
+    graphviz_graph_attr = {}
+    graphviz_node_attr = {'shape':'plaintext'}
+    graphviz_edge_attr = {}
+    graphviz_graph=graphviz.Digraph('memory_graph',
+                                    graph_attr=graphviz_graph_attr,
+                                    node_attr=graphviz_node_attr,
+                                    edge_attr=graphviz_edge_attr)
+    build_graph.build_graph(graphviz_graph, root_element, sliced_elements)
     return graphviz_graph
 
 def show(data=None ,block=False, stack_index=2,

@@ -31,7 +31,7 @@ def test_slicer():
 
     slicer = Slicer(2,2)
     slices = slicer.get_slices(0)
-    assert slices.get_slices() == [], "Slicer error"
+    assert slices.get_slices() == [[0,0]], "Slicer error"
 
     slicer = Slicer(2,2)
     slices = slicer.get_slices(5)

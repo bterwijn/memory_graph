@@ -1,5 +1,5 @@
-from memory_graph.node_base import Node_Base 
-import memory_graph.node_base
+from memory_graph.element_base import Element_Base 
+import memory_graph.element_base
 
 import memory_graph.config as config
 
@@ -67,18 +67,17 @@ class HTML_Table:
         self.html += f'<TD><font color="#505050">{str(s)}</font></TD>'
         self.col_count += 1
 
-    def add_entry(self, node, nodes, child, sliced_elements, rounded=False, border=1, dashed=False):
-        """ Add child to the inner table either as reference if it is a Node_Base or as a value otherwise. """
+    def add_entry(self, node, child, sliced_elements, rounded=False, border=1, dashed=False):
+        """ Add child to the inner table either as reference if it is a Element_Base or as a value otherwise. """
         #print('child:', child)
-        child_id = id(child)
-        if child_id in nodes:
-            child = nodes[child_id] 
-            if child_id in sliced_elements:
+        if child.is_node():
+            if child in sliced_elements:
                 self.add_reference(node, child, rounded, border, dashed)
             else:
                 self.add_value("✂", rounded, border)
         else:
-            self.add_value(child, rounded, border)
+            value = child.get_data() if isinstance(child,Element_Base) else child
+            self.add_value(str(value), rounded, border)
 
     def add_value(self, s, rounded=False, border=1):
         """ Helper function to add a value s to the inner table. """

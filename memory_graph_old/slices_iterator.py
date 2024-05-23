@@ -33,14 +33,12 @@ class Slices_Iterator2D(Slices_Iterator):
 
     def __init__(self, slices2d):
         self.slices = slices2d
-        print('slices1:', self.slices)
         self.gen = self.generate()
 
     def __iter__(self):
         return self
 
     def generate(self):
-        print('slices:', self.slices)
         row_slices = self.slices.get_row_slices().get_slices()
         col_slices = self.slices.get_col_slices().get_slices()
         for row_slice in row_slices:
