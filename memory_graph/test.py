@@ -163,8 +163,8 @@ class Node:
 
     def __init__(self, value):
         self.smaller = None
-        self.value   = value
         self.shared  = Node.shared_data
+        self.value   = value
         self.larger  = None
 
 class BinTree:
@@ -198,11 +198,12 @@ class BinTree:
         return nn
 
 def test_missing_edges(fun):
-    config.max_tree_depth = 6
+    random.seed(0)
+    config.max_tree_depth = 7
     config.max_missing_edges = 5
     tree = BinTree()
     last_node = None
-    n = 1000
+    n = 200
     for i in range(n):
         last_node = tree.insert(random.randint(0,n*10))
     fun( memory_graph.get_call_stack() )

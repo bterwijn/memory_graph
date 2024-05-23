@@ -1,7 +1,7 @@
 
 
-def slice_elements_recursive(element, sliced_elements, depth):
-    if depth <= 0 or element in sliced_elements:
+def slice_elements_recursive(element, sliced_elements, max_tree_depth):
+    if max_tree_depth == 0 or element in sliced_elements:
         return
     if element.is_node():
         children = element.get_children()
@@ -14,9 +14,9 @@ def slice_elements_recursive(element, sliced_elements, depth):
             if element.is_node():
                 sliced_elements[element] = slices
             if not element.is_hidden_node():
-                depth -= 1
+                max_tree_depth -= 1
             for index in slices:
-                slice_elements_recursive(children[index], sliced_elements, depth)
+                slice_elements_recursive(children[index], sliced_elements, max_tree_depth)
 
 def slice_elements(element, depth):
     sliced_elements = {}
