@@ -67,13 +67,13 @@ class HTML_Table:
         self.html += f'<TD><font color="#505050">{str(s)}</font></TD>'
         self.col_count += 1
 
-    def add_entry(self, node, nodes, child, sliced_elements, rounded=False, border=1, dashed=False):
+    def add_entry(self, node, nodes, child, id_to_slices, rounded=False, border=1, dashed=False):
         """ Add child to the inner table either as reference if it is a Node_Base or as a value otherwise. """
         #print('child:', child)
         child_id = id(child)
         if child_id in nodes:
             child = nodes[child_id] 
-            if child_id in sliced_elements:
+            if child_id in id_to_slices:
                 self.add_reference(node, child, rounded, border, dashed)
             else:
                 self.add_value("✂", rounded, border)

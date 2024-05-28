@@ -82,7 +82,7 @@ class Node_Base:
         """
         return f'node{self.get_id()}'
 
-    def get_html_table(self, nodes, slices, sliced_elements):
+    def get_html_table(self, nodes, slices, id_to_slices):
         """
         Return the HTML_Table object that determines how the node is visualized in the graph.
         """
@@ -92,7 +92,7 @@ class Node_Base:
         if type(self) is memory_graph.node_base.Node_Base:
             html_table.add_string(f'{self.data}')
         elif not slices is None:
-            self.fill_html_table(nodes, html_table, slices, sliced_elements)
+            self.fill_html_table(nodes, html_table, slices, id_to_slices)
         return html_table
     
     def get_slicer(self):
@@ -113,7 +113,7 @@ class Node_Base:
 
     # -------------------- Node_Base interface, overriden by subclasses --------------------
 
-    def fill_html_table(self, html_table, slices, sliced_elements):
+    def fill_html_table(self, html_table, slices, id_to_slices):
         """
         Fill the HTML_Table object with each child of the node.
         """

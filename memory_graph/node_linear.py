@@ -28,7 +28,7 @@ class Node_Linear(Node_Base):
                     return True
         return False
 
-    def is_vertical(self, nodes, slices, sliced_elements):
+    def is_vertical(self, nodes, slices, id_to_slices):
         """
         Return if the node is vertical or horizontal based on the orientation of the children.
         """
@@ -37,16 +37,16 @@ class Node_Linear(Node_Base):
             vertical = not self.has_references(nodes, slices)
         return vertical
 
-    def fill_html_table(self, nodes, html_table, slices, sliced_elements):
+    def fill_html_table(self, nodes, html_table, slices, id_to_slices):
         """
         Fill the html_table with the children of the Node_Base.
         """
-        if self.is_vertical(nodes, slices, sliced_elements):
-            self.fill_html_table_vertical(html_table, nodes, slices, sliced_elements)
+        if self.is_vertical(nodes, slices, id_to_slices):
+            self.fill_html_table_vertical(html_table, nodes, slices, id_to_slices)
         else:
-            self.fill_html_table_horizontal(html_table, nodes, slices, sliced_elements)
+            self.fill_html_table_horizontal(html_table, nodes, slices, id_to_slices)
 
-    def fill_html_table_vertical(self, html_table, nodes, slices, sliced_elements):
+    def fill_html_table_vertical(self, html_table, nodes, slices, id_to_slices):
         """
         Helper function to fill the html_table with the children of the Node_Base in vertical orientation.
         """
@@ -54,14 +54,14 @@ class Node_Linear(Node_Base):
             if index>=0:
                 html_table.add_index(index)
                 child = self.children[index]
-                html_table.add_entry(self, nodes, child, sliced_elements, dashed=slices.is_dashed(index))
+                html_table.add_entry(self, nodes, child, id_to_slices, dashed=slices.is_dashed(index))
                 html_table.add_new_line()
             else:
                 html_table.add_value('', border=0)
                 html_table.add_dots()
                 html_table.add_new_line()
 
-    def fill_html_table_horizontal(self, html_table, nodes, slices, sliced_elements):
+    def fill_html_table_horizontal(self, html_table, nodes, slices, id_to_slices):
         """
         Helper function to fill the html_table with the children of the Node_Base in horizontal orientation.
         """
@@ -74,7 +74,7 @@ class Node_Linear(Node_Base):
         for index in slices.table_iter(self.children.size()):
             if index>=0:
                 child = self.children[index]
-                html_table.add_entry(self, nodes, child, sliced_elements, dashed=slices.is_dashed(index))
+                html_table.add_entry(self, nodes, child, id_to_slices, dashed=slices.is_dashed(index))
             else:
                 html_table.add_dots()
 

@@ -18,7 +18,7 @@ class Node_Key_Value(Node_Base):
         """
         super().__init__(data, Sequence1D(children))
     
-    def has_references(self, nodes, slices, sliced_elements):
+    def has_references(self, nodes, slices, id_to_slices):
         """
         Return if the node has references to other nodes.
         """
@@ -38,69 +38,69 @@ class Node_Key_Value(Node_Base):
                     return True
         return False
 
-    def is_vertical(self, nodes, slices, sliced_elements):
+    def is_vertical(self, nodes, slices, id_to_slices):
         """
         Return if the node is vertical or horizontal based on the orientation of the children.
         """
         vertical = config_helpers.get_vertical_orientation(self, None)
         if vertical is None:
-            vertical = not self.has_references(nodes, slices, sliced_elements)
+            vertical = not self.has_references(nodes, slices, id_to_slices)
         return vertical
 
-    def fill_html_table(self, nodes, html_table, slices, sliced_elements):
+    def fill_html_table(self, nodes, html_table, slices, id_to_slices):
         """
         Fill the html_table with the children of the Node_Base.
         """
-        vertical = self.is_vertical(nodes, slices, sliced_elements)
+        vertical = self.is_vertical(nodes, slices, id_to_slices)
         if vertical:
-            self.fill_html_table_vertical(html_table, nodes, slices, sliced_elements)
+            self.fill_html_table_vertical(html_table, nodes, slices, id_to_slices)
         else:
-            self.fill_html_table_horizontal(html_table, nodes, slices, sliced_elements)
+            self.fill_html_table_horizontal(html_table, nodes, slices, id_to_slices)
 
     @staticmethod
-    def get_value_dashed(nodes, child, index, sliced_elements):
+    def get_value_dashed(nodes, child, index, id_to_slices):
         grandchild = child[index]
         child_id = id(child)
         is_dashed = False
-        if child_id in sliced_elements:
-            slices = sliced_elements[child_id]
+        if child_id in id_to_slices:
+            slices = id_to_slices[child_id]
             if not slices is None:
                 is_dashed = slices.is_dashed(index)
         return grandchild, is_dashed
 
-    def fill_html_table_vertical(self, html_table, nodes, slices, sliced_elements):
+    def fill_html_table_vertical(self, html_table, nodes, slices, id_to_slices):
         """
         Helper function to fill the html_table with the children of the Node_Base in vertical orientation.
         """
         for index in slices.table_iter(self.children.size()):
             if index>=0:
                 child = self.children[index]
-                key, is_dashed = self.get_value_dashed(nodes, child,0,sliced_elements)
-                html_table.add_entry(self, nodes, key, sliced_elements, rounded=True, dashed=is_dashed)
-                value, is_dashed = self.get_value_dashed(nodes, child,1,sliced_elements)
-                html_table.add_entry(self, nodes, value, sliced_elements, dashed=is_dashed)
+                key, is_dashed = self.get_value_dashed(nodes, child,0,id_to_slices)
+                html_table.add_entry(self, nodes, key, id_to_slices, rounded=True, dashed=is_dashed)
+                value, is_dashed = self.get_value_dashed(nodes, child,1,id_to_slices)
+                html_table.add_entry(self, nodes, value, id_to_slices, dashed=is_dashed)
             else:
                 html_table.add_dots(rounded=True)
                 html_table.add_dots()
             html_table.add_new_line()
 
-    def fill_html_table_horizontal(self, html_table, nodes, slices, sliced_elements):
+    def fill_html_table_horizontal(self, html_table, nodes, slices, id_to_slices):
         """
         Helper function to fill the html_table with the children of the Node_Base in horizontal orientation.
         """
         for index in slices.table_iter(self.children.size()):
             if index>=0:
                 child = self.children[index]
-                key, is_dashed = self.get_value_dashed(nodes, child,0,sliced_elements)
-                html_table.add_entry(self, nodes, key, sliced_elements, rounded=True, dashed=is_dashed)
+                key, is_dashed = self.get_value_dashed(nodes, child,0,id_to_slices)
+                html_table.add_entry(self, nodes, key, id_to_slices, rounded=True, dashed=is_dashed)
             else:
                 html_table.add_dots(rounded=True)
         html_table.add_new_line()
         for index in slices.table_iter(self.children.size()):
             if index>=0:
                 child = self.children[index]
-                value, is_dashed = self.get_value_dashed(nodes, child,1,sliced_elements)
-                html_table.add_entry(self, nodes, value, sliced_elements, dashed=is_dashed)
+                value, is_dashed = self.get_value_dashed(nodes, child,1,id_to_slices)
+                html_table.add_entry(self, nodes, value, id_to_slices, dashed=is_dashed)
             else:
                 html_table.add_dots()
 

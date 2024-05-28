@@ -27,7 +27,7 @@ class Node_Table(Node_Base):
         else:
             html_table.add_index(index)
 
-    def fill_html_table(self, nodes, html_table, slices, sliced_elements):
+    def fill_html_table(self, nodes, html_table, slices, id_to_slices):
         """
         Fill the html_table with the children of the Node_Base.
         """
@@ -68,7 +68,7 @@ class Node_Table(Node_Base):
                 first_col = True
             else:
                 child = children[index]
-                html_table.add_entry(self, nodes, child, sliced_elements, dashed=slices.is_dashed(index))
+                html_table.add_entry(self, nodes, child, id_to_slices, dashed=slices.is_dashed(index))
 
     def get_label(self, slices):
         """
