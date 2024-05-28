@@ -115,14 +115,15 @@ def add_missing_edges(nodes, id_to_slices, max_missing_edges=3):
 
 import memory_graph.config_helpers as config_helpers
 
-def create_depth_for_nodes(elements_at_depth):
-    depth_for_nodes = {}
-    for element,depth in elements_at_depth.items():
-        if element.is_node() and not element.is_hidden_node():
-            if not depth in depth_for_nodes:
-                depth_for_nodes[depth] = []
-            depth_for_nodes[depth].append(element)
-    return depth_for_nodes
+def create_depth_of_nodes(nodes, nodes_at_depth):
+    depth_of_nodes = {}
+    for node_id, depth in nodes_at_depth.items():
+        node = nodes[node_id]
+        if node_id in nodes and not node.is_hidden_node():
+            if not depth in depth_of_nodes:
+                depth_of_nodes[depth] = []
+            depth_of_nodes[depth].append(node)
+    return depth_of_nodes
 
 def add_subgraph(graphviz_graph, nodes_to_subgraph):
     new_node_names = [node.get_name() for node in nodes_to_subgraph]
@@ -142,11 +143,11 @@ def add_to_graphviz_graph(graphviz_graph, nodes, node, slices, id_to_slices, sub
     for parent,child,dashed in edges:
         graphviz_graph.edge(parent, child+':table', style='dashed' if dashed else 'solid')
 
-def build_graph_depth_first(graphviz_graph, nodes,  node_id, id_to_slices, elements_at_depth, subgraphed_nodes, depth):
+def build_graph_depth_first(graphviz_graph, nodes,  node_id, id_to_slices, nodes_at_depth, subgraphed_nodes, depth):
     if node_id in nodes:
-        if node_id in elements_at_depth:
+        if node_id in nodes_at_depth:
             return
-        elements_at_depth[node_id] = depth
+        nodes_at_depth[node_id] = depth
         node = nodes[node_id]
         children = node.get_children()
         slices = None
@@ -155,16 +156,17 @@ def build_graph_depth_first(graphviz_graph, nodes,  node_id, id_to_slices, eleme
             if not slices is None:
                 for index in slices:
                     child_id = id(children[index])
-                    build_graph_depth_first(graphviz_graph, nodes, child_id, id_to_slices, elements_at_depth, subgraphed_nodes, depth+1)
+                    build_graph_depth_first(graphviz_graph, nodes, child_id, id_to_slices, nodes_at_depth, subgraphed_nodes, depth+1)
         if not node.is_hidden_node():
             add_to_graphviz_graph(graphviz_graph, nodes, node, slices, id_to_slices, subgraphed_nodes, depth)
 
 def build_graph(graphviz_graph, nodes, root_id, id_to_slices):
-    elements_at_depth = {}
-    build_graph_depth_first(graphviz_graph, nodes, root_id, id_to_slices, elements_at_depth, set(), 0)
-    #depth_for_nodes = create_depth_for_nodes(elements_at_depth)
-    #for depth, nodes in depth_for_nodes.items():
-    #    add_subgraph(graphviz_graph, nodes) # TODO
+    nodes_at_depth = {}
+    build_graph_depth_first(graphviz_graph, nodes, root_id, id_to_slices, nodes_at_depth, set(), 0)
+    depth_of_nodes = create_depth_of_nodes(nodes, nodes_at_depth)
+    print('nodes_at_depth:',nodes_at_depth,'depth_of_nodes:', depth_of_nodes)
+    for depth, depth_nodes in depth_of_nodes.items():
+        add_subgraph(graphviz_graph, depth_nodes)
 
 def memory_to_nodes(data):
     nodes, root_id = read_nodes(data)
