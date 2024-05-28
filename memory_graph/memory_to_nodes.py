@@ -64,19 +64,20 @@ def slice_nodes(nodes, root_id, max_tree_depth):
 
 # --------------------------------------------------------------------------------------------
 
-def add_parent_indices(type_to_parent_indices, id_to_slices, max_missing_edges):
+def add_parent_indices(nodes, type_to_parent_indices, id_to_slices, max_missing_edges):
     #print('add_parent_indices type_to_parent_indices:',type_to_parent_indices)
     for _, parent_indices in type_to_parent_indices.items():
         dashed = len(parent_indices) > max_missing_edges
         for parent, index in parent_indices[0:max_missing_edges]:
             new_parent = False
-            if not parent in id_to_slices:
+            parent_id = parent.get_id()
+            if not parent_id in id_to_slices:
                 new_parent = True
-                id_to_slices[parent] = parent.get_children().empty_slices()
-            slices = id_to_slices[parent]
+                id_to_slices[parent_id] = parent.get_children().empty_slices()
+            slices = id_to_slices[parent_id]
             slices.add_index(index, dashed=dashed)
             if new_parent:
-                add_indices_to_parents(parent, id_to_slices, max_missing_edges)
+                add_indices_to_parents(nodes, parent_id, id_to_slices, max_missing_edges)
 
 def add_indices_to_parents(nodes, node_id, id_to_slices, max_missing_edges):
     print('add_indices_to_parents node_id:',node_id)
@@ -102,7 +103,7 @@ def add_indices_to_parents(nodes, node_id, id_to_slices, max_missing_edges):
                     break
                 else:
                     parent_indices.append((parent, index))
-    add_parent_indices(type_to_parent_indices, id_to_slices, max_missing_edges)
+    add_parent_indices(nodes, type_to_parent_indices, id_to_slices, max_missing_edges)
 
 def add_missing_edges(nodes, id_to_slices, max_missing_edges=3):
     old_id_to_slices_keys = set(id_to_slices.keys())

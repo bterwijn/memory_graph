@@ -61,6 +61,7 @@ class Node_Key_Value(Node_Base):
     def get_value_dashed(nodes, child, index, sliced_elements):
         grandchild = child[index]
         child_id = id(child)
+        is_dashed = False
         if child_id in sliced_elements:
             slices = sliced_elements[child_id]
             if not slices is None:
