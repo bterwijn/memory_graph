@@ -145,15 +145,27 @@ def example_function(a):
     return a*10
 
 class Example_Class:
-
+    class_var1 = 100
+    class_var2 = 200
     def __init__(self):
         self.a=1
         self.b=2
     def example_method(self):
         return self.a+self.b
 
+def test_function():
+    return 10
+
 def test_different_types(fun):
-    data = [1,2,type(3),type({}), example_function,lambda x: x*100, Example_Class, Example_Class.example_method]
+    object = Example_Class()
+    object_type = type(object)
+    func = test_function
+    func_type = type(func)
+    method = Example_Class.example_method
+    method_type = type(method)
+    lambda_fun = lambda x: x*10
+    lambda_fun_type = type(lambda_fun)
+    data = memory_graph.get_call_stack()
     fun(data)
 
 

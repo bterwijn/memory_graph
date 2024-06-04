@@ -34,7 +34,6 @@ config.type_to_node = {
     str: lambda data: Node_Base(data), # visit as whole string, don't iterate over characters
     types.FunctionType: lambda data: Node_Base(data.__qualname__),
     types.MethodType: lambda data: Node_Base(data.__qualname__),
-    type: lambda data: Node_Base(str(data)),
     range: lambda data: Node_Key_Value(data, {'start':data.start, 'stop':data.stop, 'step':data.step}.items()),
     dict: lambda data: (
         Node_Key_Value(data, utils.filter_dict_attributes(data.items()) )

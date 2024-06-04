@@ -1,8 +1,15 @@
 import memory_graph
-import memory_graph.utils as utils
-import memory_graph.config as config
 
-data = utils.nested_list([2,2,2,2,2,2])
+class test_class:
+    class_var = 100
 
-config.max_tree_depth = 2
-memory_graph.show(data)
+    def __init__(self) -> None:
+        self.instance_var = 200
+
+a = 10
+b = 100
+c = 1000
+
+print(locals())
+
+memory_graph.show( locals() )
