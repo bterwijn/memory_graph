@@ -144,7 +144,7 @@ def add_to_graphviz_graph(graphviz_graph, nodes, node, slices, id_to_slices, sub
         graphviz_graph.edge(parent, child+':table', style='dashed' if dashed else 'solid')
 
 def build_graph_depth_first(graphviz_graph, nodes,  node_id, id_to_slices, nodes_at_depth, subgraphed_nodes, depth):
-    if node_id in nodes:
+    if node_id in id_to_slices:
         if node_id in nodes_at_depth:
             return
         nodes_at_depth[node_id] = depth
@@ -171,9 +171,9 @@ def build_graph(graphviz_graph, nodes, root_id, id_to_slices):
 def memory_to_nodes(data):
     nodes, root_id = read_nodes(data)
     print('nodes:',nodes,'root_id:',root_id)
-    id_to_slices = slice_nodes(nodes, root_id, 5)
+    id_to_slices = slice_nodes(nodes, root_id, config.max_tree_depth)
     print('id_to_slices:',id_to_slices)
-    id_to_slices = add_missing_edges(nodes, id_to_slices,3)
+    id_to_slices = add_missing_edges(nodes, id_to_slices, config.max_missing_edges)
     print('id_to_slices:',id_to_slices)
     graphviz_graph_attr = {}
     graphviz_node_attr = {'shape':'plaintext'}

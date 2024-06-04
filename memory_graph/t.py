@@ -1,7 +1,8 @@
 import memory_graph
+import memory_graph.utils as utils
+import memory_graph.config as config
 
+data = utils.nested_list([2,2,2,2,2,2])
 
-d =  {1:100, 2:200}
-data = [[i for i in range(20)], [100,200], d]
-
+config.max_tree_depth = 2
 memory_graph.show(data)
