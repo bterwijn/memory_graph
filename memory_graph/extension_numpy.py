@@ -15,11 +15,11 @@ config.not_node_types |= {
 
 def ndarrayy_to_node(ndarrayy_data):
     if len(ndarrayy_data.shape) == 2:
-        return Node_Table(ndarrayy_data, ndarrayy_data.tolist()) # convert to list for stable id(element)
+        return Node_Table(ndarrayy_data, ndarrayy_data)
     else:
-        return Node_Linear(ndarrayy_data, ndarrayy_data.tolist()) # convert to list for stable id(element)
+        return Node_Linear(ndarrayy_data, ndarrayy_data)
     
-config.type_to_node[np.matrix] = lambda data : Node_Table(data, data.tolist()) # convert to list for stable id(element) 
+config.type_to_node[np.matrix] = lambda data : Node_Table(data, np.asarray(data)) # convert to ndarray to avoid infinite recursion due to index issue
 config.type_to_node[np.ndarray] = lambda data :  ndarrayy_to_node(data)
 
 config.type_to_color[np.ndarray] = "hotpink1"
