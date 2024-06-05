@@ -80,7 +80,7 @@ def add_parent_indices(nodes, type_to_parent_indices, id_to_slices, max_missing_
                 add_indices_to_parents(nodes, parent_id, id_to_slices, max_missing_edges)
 
 def add_indices_to_parents(nodes, node_id, id_to_slices, max_missing_edges):
-    print('add_indices_to_parents node_id:',node_id)
+    #print('add_indices_to_parents node_id:',node_id)
     type_to_parent_indices = {}
     parent_indices = nodes[node_id].get_parent_indices()
     for parent, indices in parent_indices.items():
@@ -164,17 +164,17 @@ def build_graph(graphviz_graph, nodes, root_id, id_to_slices):
     nodes_at_depth = {}
     build_graph_depth_first(graphviz_graph, nodes, root_id, id_to_slices, nodes_at_depth, set(), 0)
     depth_of_nodes = create_depth_of_nodes(nodes, nodes_at_depth)
-    print('nodes_at_depth:',nodes_at_depth,'depth_of_nodes:', depth_of_nodes)
+    #print('nodes_at_depth:',nodes_at_depth,'depth_of_nodes:', depth_of_nodes)
     for depth, depth_nodes in depth_of_nodes.items():
         add_subgraph(graphviz_graph, depth_nodes)
 
 def memory_to_nodes(data):
     nodes, root_id = read_nodes(data)
-    print('nodes:',nodes,'root_id:',root_id)
+    #print('nodes:',nodes,'root_id:',root_id)
     id_to_slices = slice_nodes(nodes, root_id, config.max_tree_depth)
-    print('id_to_slices:',id_to_slices)
+    #print('id_to_slices:',id_to_slices)
     id_to_slices = add_missing_edges(nodes, id_to_slices, config.max_missing_edges)
-    print('id_to_slices:',id_to_slices)
+    #print('id_to_slices:',id_to_slices)
     graphviz_graph_attr = {}
     graphviz_node_attr = {'shape':'plaintext'}
     graphviz_edge_attr = {}

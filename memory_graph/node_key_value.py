@@ -22,7 +22,6 @@ class Node_Key_Value(Node_Base):
         """
         Return if the node has references to other nodes.
         """
-        print('self.children:', self.children, ' slices:'   , slices)
         for index in slices:
             child_id = id(self.children[index])
             child = nodes[child_id]
