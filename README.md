@@ -283,7 +283,7 @@ def factorial(n):
     memory_graph.show( memory_graph.get_call_stack(), block=True )
     return result
 
-factorial(3)
+print(factorial(3))
 ```
 ![factorial.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial.gif)
 

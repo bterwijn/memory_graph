@@ -8,7 +8,12 @@ import memory_graph.extension_numpy
 import memory_graph.extension_pandas
 
 from memory_graph.node_table import Node_Table
+<<<<<<< HEAD:memory_graph/test.py
 from memory_graph.memory_graph import Memory_Graph
+=======
+
+import random
+>>>>>>> nodes:memory_graph_new/test.py
 
 def test_singular(fun):
     data = 100
@@ -30,10 +35,10 @@ def test_colors(fun):
         def __init__(self):
             self.var=2
     data2 = [(1,2), [3,4], {5,6}, frozenset((7,8)), {9:'9', 10:'10'} , bytes('11', 'utf-8'), bytearray('12', 'utf-8'), My_Class(), My_Class]
-    restore = config.no_reference_types.copy()
-    config.no_reference_types.clear()
+    restore = config.not_node_types.copy()
+    config.not_node_types.clear()
     fun([data1, data2])
-    config.no_reference_types = restore
+    config.not_node_types = restore
 
 def test_empty_linear(fun):
     data = [tuple(), list(), set(), frozenset(), dict() , bytes(), bytearray()]
@@ -72,7 +77,8 @@ def test_class_vars(fun):
             self.var2=20
         def my_method(self):
             return 100
-    data = [My_Class1, My_Class1()]
+    m = My_Class1()
+    data = locals()
     fun(data)
 
 def test_share_tuple(fun):
@@ -103,7 +109,7 @@ def test_table(fun):
         def __init__(self,size):
             self.size=size
             self.data = [i for i in range(size[0]*size[1])]
-    data = My_Table((10,10))
+    data = My_Table((15,15))
     config.type_to_color[My_Table] = 'plum1'
     config.type_to_node[My_Table] = lambda data: (
             Node_Table(data, data.data , data.size[0], 
@@ -114,9 +120,13 @@ def test_table(fun):
     fun(data)
 
 def test_numpy(fun):
-    data = [np.array([1.1, 2, 3, 4, 5]), 
-            np.matrix([[i*20+j for j in range(20)] for i in range(20)]), 
-            np.random.rand(20,20)]
+    a = np.array([1, 2, 3])
+    print(a, type(a))
+    data = [
+            np.array([1, 2, 3]),
+            np.matrix([[i*3+j for j in range(20)] for i in range(3)]), 
+            np.random.rand(20,20)
+            ]
     #data = np.matrix('1 2; 3 4')
     fun(data)
 
@@ -139,22 +149,79 @@ def example_function(a):
     return a*10
 
 class Example_Class:
-
+    class_var1 = 100
+    class_var2 = 200
     def __init__(self):
         self.a=1
         self.b=2
     def example_method(self):
         return self.a+self.b
 
-def test_function(fun):
-    data = [1,2,example_function,lambda x: x*100, Example_Class, Example_Class.example_method]
+def test_function():
+    return 10
+
+def test_different_types(fun):
+    object = Example_Class()
+    object_type = type(object)
+    func = test_function
+    func_type = type(func)
+    method = Example_Class.example_method
+    method_type = type(method)
+    lambda_fun = lambda x: x*10
+    lambda_fun_type = type(lambda_fun)
+    data = memory_graph.get_call_stack()
     fun(data)
 
-def test_memory_graph(fun):
-    data = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]
-    graph = Memory_Graph(data)
-    data.append(graph)
-    fun(data)
+
+class Node:
+    shared_data = [1,2,3]
+
+    def __init__(self, value):
+        self.smaller = None
+        self.shared  = Node.shared_data
+        self.value   = value
+        self.larger  = None
+
+class BinTree:
+
+    def __init__(self):
+        self.root = None
+
+    def insert_recursive(self, node, value):
+        nn = None
+        if value < node.value:
+            if node.smaller is None:
+                nn = Node(value)
+                node.smaller = nn
+            else:
+                nn = self.insert_recursive(node.smaller, value)
+        else:
+            if node.larger is None:
+                nn = Node(value)
+                node.larger = nn
+            else:
+                nn = self.insert_recursive(node.larger, value)
+        return nn
+
+    def insert(self, value):
+        nn = None
+        if self.root is None:
+            nn = Node(value)
+            self.root = nn
+        else:
+            nn = self.insert_recursive(self.root, value)
+        return nn
+
+def test_missing_edges(fun):
+    random.seed(0)
+    config.max_tree_depth = 7
+    config.max_missing_edges = 5
+    tree = BinTree()
+    last_node = None
+    n = 200
+    for i in range(n):
+        last_node = tree.insert(random.randint(0,n*10))
+    fun( memory_graph.get_call_stack() )
 
 def test_all(fun):
     pass
@@ -174,5 +241,5 @@ def test_all(fun):
     test_table(fun)
     test_numpy(fun)
     test_pandas(fun)
-    test_function(fun)
-    test_memory_graph(fun)
+    test_different_types(fun)
+    test_missing_edges(fun)

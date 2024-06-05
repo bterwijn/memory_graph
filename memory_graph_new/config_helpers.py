@@ -2,7 +2,6 @@
 from memory_graph.slicer import Slicer
 
 import memory_graph.config as config
-import memory_graph.utils as utils
 
 type_to_color = None
 type_to_vertical_orientation = None
@@ -32,39 +31,22 @@ def get_property(data_id, data_type, node_type, dictionary, default):
     return default
 
 def get_color(node, default='white'):
-    return get_property(id(node.get_data()), 
-                        type(node.get_data()),
-                        type(node), 
+    return get_property(node.get_id(),
+                        node.get_type(),
+                        type(node),
                         type_to_color, 
                         default)
     
 def get_vertical_orientation(node, default):
-    return get_property(id(node.get_data()), 
-                        type(node.get_data()),
-                        type(node),  
+    return get_property(node.get_id(),
+                        node.get_type(),
+                        type(node),
                         type_to_vertical_orientation, 
                         default)
 
-def get_slicer_1d(node, data, default=Slicer(10,5,10)):
-    slicer = get_property(id(data),
+def get_slicer(node, data, default=Slicer(3,2,3)):
+    return get_property(id(data),
                         type(data),
                         type(node), 
                         type_to_slicer, 
                         default)
-    if type(slicer) is Slicer:
-        return slicer
-    if utils.is_iterable(slicer):
-        return next(iter(slicer))
-    return default
-
-def get_slicer_2d(node, data, default=Slicer(5,5)):
-    slicer = get_property(id(data),
-                        type(data),
-                        type(node), 
-                        type_to_slicer, 
-                        default)
-    if type(slicer) is Slicer:
-        return slicer, slicer
-    if len(slicer) == 2:
-        return slicer
-    return default, default
