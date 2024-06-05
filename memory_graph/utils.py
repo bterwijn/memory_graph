@@ -29,6 +29,7 @@ def filter_dict(tuples):
         (k,v) for k, v in tuples if
         not k == "memory_graph" and
         not (type(k) is str and k.startswith('__')) and
+        not isinstance(v,types.ModuleType) and
         not is_function(v)
             ]
 
