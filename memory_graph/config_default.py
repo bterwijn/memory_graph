@@ -36,9 +36,9 @@ config.type_to_node = {
     types.MethodType: lambda data: Node_Base(data.__qualname__),
     range: lambda data: Node_Key_Value(data, {'start':data.start, 'stop':data.stop, 'step':data.step}.items()),
     dict: lambda data: (
-        Node_Key_Value(data, utils.filter_dict_attributes(data.items()) )
+        Node_Key_Value(data, utils.filter_dict(data.items()) )
             if dict in config.no_child_references_types else 
-        Node_Linear(data, utils.filter_dict_attributes(data.items()) )
+        Node_Linear(data, utils.filter_dict(data.items()) )
         ),
     }
 

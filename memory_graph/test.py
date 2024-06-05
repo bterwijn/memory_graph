@@ -169,7 +169,6 @@ def test_different_types(fun):
     fun(data)
 
 
-
 class Node:
     shared_data = [1,2,3]
 

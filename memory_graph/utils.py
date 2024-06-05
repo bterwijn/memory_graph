@@ -17,10 +17,19 @@ def is_function(obj):
 def filter_dict_attributes(tuples):
     """ Filters out the unwanted dict attributes. """
     return [
-        (k,v) for k, v in tuples 
-        if not (type(k) is str and k.startswith('__'))
-        and not isinstance(v,types.ModuleType)
-        and not is_function(v)
+        (k,v) for k, v in tuples if
+        not (type(k) is str and k.startswith('__')) and
+        not isinstance(v,types.ModuleType) and
+        not is_function(v)
+            ]
+
+def filter_dict(tuples):
+    """ Filters out the unwanted dict attributes. """
+    return [
+        (k,v) for k, v in tuples if
+        not k == "memory_graph" and
+        not (type(k) is str and k.startswith('__')) and
+        not is_function(v)
             ]
 
 def make_sliceable(data):
