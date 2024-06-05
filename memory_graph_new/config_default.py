@@ -1,17 +1,9 @@
 """ Sets the default configuration values for the memory graph. """
-<<<<<<< HEAD:memory_graph/config_default.py
-from memory_graph.node import Node
-from memory_graph.node_linear import Node_Linear
-from memory_graph.node_key_value import Node_Key_Value
-from memory_graph.node_hidden import Node_Hidden
-from memory_graph.node_table import Node_Table
-=======
 from memory_graph.node_base      import Node_Base
 from memory_graph.node_linear    import Node_Linear
 from memory_graph.node_key_value import Node_Key_Value
 from memory_graph.node_table     import Node_Table
 
->>>>>>> nodes:memory_graph_new/config_default.py
 from memory_graph.slicer import Slicer
 
 import memory_graph.config as config

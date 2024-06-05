@@ -8,12 +8,8 @@ import memory_graph.extension_numpy
 import memory_graph.extension_pandas
 
 from memory_graph.node_table import Node_Table
-<<<<<<< HEAD:memory_graph/test.py
-from memory_graph.memory_graph import Memory_Graph
-=======
 
 import random
->>>>>>> nodes:memory_graph_new/test.py
 
 def test_singular(fun):
     data = 100

@@ -1,9 +1,5 @@
-<<<<<<< HEAD:memory_graph/html_table.py
-from memory_graph.node import Node 
-=======
 from memory_graph.node_base import Node_Base 
 import memory_graph.node_base
->>>>>>> nodes:memory_graph_new/html_table.py
 
 import memory_graph.config as config
 

@@ -1,13 +1,9 @@
-<<<<<<< HEAD:memory_graph/__init__.py
-from memory_graph.memory_graph import Memory_Graph
-=======
 #from memory_graph.graph_builder import Graph_Builder
 # import memory_graph.memory_to_elements as memory_to_elements
 # import memory_graph.print_elements as print_elements
 # import memory_graph.slice_elements as slice_elements
 # import memory_graph.add_missing_edges as add_missing_edges
 # import memory_graph.build_graph as build_graph
->>>>>>> nodes:memory_graph_new/__init__.py
 
 import memory_graph.memory_to_nodes as memory_to_nodes
 import memory_graph.config as config
@@ -18,13 +14,9 @@ import memory_graph.utils as utils
 import inspect
 import sys
 
-<<<<<<< HEAD:memory_graph/__init__.py
-__version__ = "0.2.05"
-=======
 import graphviz
 
 __version__ = "0.2.04"
->>>>>>> nodes:memory_graph_new/__init__.py
 __author__ = 'Bas Terwijn'
 
 log_file=sys.stdout
