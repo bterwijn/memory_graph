@@ -30,6 +30,12 @@ class Node_Base:
             self.parent_indices[parent] = []
         self.parent_indices[parent].append(parent_index)
 
+    def is_root(self):
+        """
+        Return if the node is the root node.
+        """
+        return len(self.parent_indices) == 0
+
     def get_parent_indices(self):
         return self.parent_indices
 

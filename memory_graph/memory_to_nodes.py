@@ -31,7 +31,8 @@ def read_nodes(data):
                 for index in node.get_children().indices_all():
                     child = node.get_children()[index]
                     memory_to_nodes_recursive(nodes, child, node, index)
-            node.add_parent_index(parent, parent_index)
+            if not parent is None:
+                node.add_parent_index(parent, parent_index)
 
     nodes = {}
     memory_to_nodes_recursive(nodes, data, None, None)
@@ -135,7 +136,7 @@ def add_to_graphviz_graph(graphviz_graph, nodes, node, slices, id_to_slices, sub
     html_table = node.get_html_table(nodes, slices, id_to_slices)
     edges = html_table.get_edges()
     color = config_helpers.get_color(node)
-    border = 1 #3 if node.is_root() else 1 # TODO
+    border = 3 if node.is_root() else 1
     graphviz_graph.node(node.get_name(),
                         html_table.to_string(border, color),
                         xlabel=node.get_label(slices))
