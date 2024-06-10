@@ -28,14 +28,3 @@ python setup.py bdist_wheel --universal
 twine upload --repository-url https://test.pypi.org/legacy/ dist/*
 # - upload to pypi for real:
 twine upload dist/*
-
-
-# =====
-- no copies of all data (no data overwrite), even for numpy ndarray
-  - sequence shouldn't copy
-- use less data:
-  - 'id' only for nodes (not non_reference_types)
-  - 'parent_indices' only for nodes
-  - 'children' only for nodes
-  - 'slices' only for nodes
-- breadth first for better graph? 
