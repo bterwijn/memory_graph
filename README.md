@@ -112,7 +112,7 @@ The [Python Data Model](https://docs.python.org/3/reference/datamodel.html) make
 In the code below variable `a` and `b` both reference the same `int` value 10. An `int` is an immutable type and therefore when we change variable `a` its value can **not** be mutated in place, and thus a copy is made and `a` and `b` reference a different value afterwards.
 ```python
 import memory_graph
-memory_graph.config.no_reference_types.pop(int, None) # show references to ints
+memory_graph.config.not_node_types.remove(int) # show nodes for ints
 
 a = 10
 b = a
@@ -443,8 +443,8 @@ Different aspects of memory_graph can be configured. The default configuration i
 - ***memory_graph.config.max_string_length*** : int
   - The maximum length of strings shown in the graph. Longer strings will be truncated.
 
-- ***memory_graph.config.no_reference_types*** : dict
-  - Holds all types for which no seperate node is drawn but that instead are shown as elements in their parent Node. It maps each type to a function that determines how it is visualized.
+- ***memory_graph.config.not_node_types*** : set
+  - Holds all types for which no seperate node is drawn but that instead are shown as elements in their parent Node.
 
 - ***memory_graph.config.no_child_references_types*** : set
   - The set of key_value types that don't draw references to their direct childeren but have their children shown as elements of their node.
