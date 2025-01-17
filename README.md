@@ -244,7 +244,7 @@ as a *watchpoint* in a debugger tool and open the "my_debug_graph.pdf" output fi
 
 
 ## 3. Call Stack ##
-Function ```memory_graph.get_call_stack()``` returns the full call stack that holds for each called function all the local variables. This enables us to visualize the local variables of each of the called functions simultaneously. This helps to visualize if variables of different called functions share any data between them. Here for example we call function ```add_one()``` with arguments ```a, b, c``` that adds 1 to change each of its arguments.
+The function `memory_graph.get_call_stack()` returns the complete call stack, including all local variables for each function in the stack. This allows us to simultaneously visualize the local variables of all the called functions. By doing so, we can identify whether any local variables from different functions in the call stack share data with one another. Here for example we call function ```add_one()``` with arguments ```a, b, c``` that adds 1 to each of its arguments.
 
 ```python
 import memory_graph
