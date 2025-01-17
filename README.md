@@ -142,7 +142,7 @@ memory_graph.render(locals(), 'mutable2.png')
 | mutable1.png | mutable2.png |
 
 
-Python makes this distiction between mutable and immutable types because a value of a mutable type generally could be large and therefore it would be slow to make a copy each time we change it. On the other hand, a value of a changable immutable type generally is small and therefore fast to copy.
+Python makes this distiction between mutable and immutable types because a value of a mutable type could be large and therefore it would be slow to make a copy each time we change it. On the other hand, a value of a immutable type generally is small and therefore fast to copy.
 
 
 ### Copying ###
@@ -250,26 +250,26 @@ The function `memory_graph.get_call_stack()` returns the complete call stack, in
 import memory_graph
 
 def add_one(a, b, c):
-    a += (1,)
-    b += [1]
+    a += [1]
+    b += (1,)
     c += [1]
     memory_graph.show(memory_graph.get_call_stack())
 
-a = (4, 3, 2)
-b = [4, 3, 2]
+a = [4, 3, 2]
+b = (4, 3, 2)
 c = [4, 3, 2]
 
-add_one(a, b.copy(), c)
+add_one(a, b, c.copy())
 print(f"a:{a} b:{b} c:{c}")
 ```
 ![add_one.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/add_one.png)
 
-In the printed output only `c` is changed as a result of the function call:
+In the printed output only `a` is changed as a result of the function call:
 ```
-a:(4, 3, 2) b:[4, 3, 2] c:[4, 3, 2, 1]
+a:[4, 3, 2, 1] b:(4, 3, 2) c:[4, 3, 2]
 ```
 
-This is because `a` is of immutable type 'tuple' so its value gets copied automatically when it is changed. And because the function is called with a copy of `b`, its original value is not changed by the function. The only value of mutable type that is shared between the root stack frame **0: \<module>** and the **1: add_one** stack frame of the function is `c`, so only that values is changed as a result of the function call.
+This is because `b` is of immutable type 'tuple' so its value gets copied automatically when it is changed. And because the function is called with a copy of `c`, its original value is not changed by the function. The value of variable `a` is the only value of mutable type that is shared between the root stack frame **0: \<module>** and the **1: add_one** stack frame of the function so only that variable is affected as a result of the function call. The other changes remain confined to the local variables of the ```add_one()``` function.
 
 
 ### Recursion ###
