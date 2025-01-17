@@ -284,7 +284,7 @@ def factorial(n):
     memory_graph.show( memory_graph.get_call_stack(), block=True )
     return result
 
-factorial(3)
+print(factorial(3))
 ```
 ![factorial.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial.gif)
 
@@ -444,8 +444,8 @@ Different aspects of memory_graph can be configured. The default configuration i
 - ***memory_graph.config.max_string_length*** : int
   - The maximum length of strings shown in the graph. Longer strings will be truncated.
 
-- ***memory_graph.config.no_reference_types*** : dict
-  - Holds all types for which no seperate node is drawn but that instead are shown as elements in their parent Node. It maps each type to a function that determines how it is visualized.
+- ***memory_graph.config.not_node_types*** : set
+  - Holds all types for which no seperate node is drawn but that instead are shown as elements in their parent Node.
 
 - ***memory_graph.config.no_child_references_types*** : set
   - The set of key_value types that don't draw references to their direct childeren but have their children shown as elements of their node.

@@ -9,14 +9,36 @@ def get_dict_attributes(value):
     """ Returns the items of the '__dict__' attribute of 'value'."""
     return getattr(value,"__dict__").items()
 
+def is_function(obj):
+    if isinstance(obj, types.FunctionType) or isinstance(obj, types.MethodType):
+        return True
+    return type(obj).__name__ in {'method_descriptor', 'builtin_function_or_method', 'getset_descriptor', 'classmethod_descriptor'}
+
 def filter_dict_attributes(tuples):
     """ Filters out the unwanted dict attributes. """
     return [
-        (k,v) for k, v in tuples 
-        if not (type(k) is str and k.startswith('__'))
-        and not isinstance(v,types.ModuleType)
-        and not callable(v)
+        (k,v) for k, v in tuples if
+        not (type(k) is str and k.startswith('__')) and
+        not isinstance(v,types.ModuleType) and
+        not is_function(v)
             ]
+
+def filter_dict(tuples):
+    """ Filters out the unwanted dict attributes. """
+    return [
+        (k,v) for k, v in tuples if
+        not k == "memory_graph" and
+        not (type(k) is str and k.startswith('__')) and
+        not isinstance(v,types.ModuleType) and
+        not is_function(v)
+            ]
+
+def make_sliceable(data):
+    try:
+        data[0:0]
+        return data
+    except TypeError:
+        return list(data)
 
 def is_iterable(data):
     """ Returns 'True' if 'data' is iterable. """

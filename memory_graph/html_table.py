@@ -1,4 +1,5 @@
-from memory_graph.node import Node 
+from memory_graph.node_base import Node_Base 
+import memory_graph.node_base
 
 import memory_graph.config as config
 
@@ -59,7 +60,6 @@ class HTML_Table:
     def add_string(self, s):
         """ Add a string s to the outer table. """
         self.html += format_string(s)
-        #self.col_count += 1
 
     def add_index(self, s):
         """ Add an index s to the inner table. """
@@ -67,10 +67,16 @@ class HTML_Table:
         self.html += f'<TD><font color="#505050">{str(s)}</font></TD>'
         self.col_count += 1
 
-    def add_entry(self, node, child, rounded=False, border=1):
-        """ Add child to the inner table either as reference if it a Node or as a value otherwise. """
-        if isinstance(child, Node): 
-            self.add_reference(node, child, rounded, border)
+    def add_entry(self, node, nodes, child, id_to_slices, rounded=False, border=1, dashed=False):
+        """ Add child to the inner table either as reference if it is a Node_Base or as a value otherwise. """
+        #print('child:', child)
+        child_id = id(child)
+        if child_id in nodes:
+            child = nodes[child_id] 
+            if child_id in id_to_slices:
+                self.add_reference(node, child, rounded, border, dashed)
+            else:
+                self.add_value("✂", rounded, border)
         else:
             self.add_value(child, rounded, border)
 
@@ -81,13 +87,13 @@ class HTML_Table:
         self.html += f'<TD BORDER="{border}"{r}> {format_string(s)} </TD>'
         self.col_count += 1
 
-    def add_reference(self, node, child, rounded=False, border=1):
+    def add_reference(self, node, child, rounded=False, border=1, dashed=False):
         """ Helper function to add a reference to the inner table. """
         self.check_add_new_line()
         r = ' STYLE="ROUNDED"' if rounded else ''
         self.html += f'<TD BORDER="{border}" PORT="ref{self.ref_count}"{r}> </TD>'
         self.edges.append( (f'{node.get_name()}:ref{self.ref_count}',
-                            child.get_name()) )
+                            child.get_name(), dashed) )
         self.ref_count += 1
         self.col_count += 1
 
