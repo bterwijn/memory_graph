@@ -109,6 +109,8 @@ The [Python Data Model](https://docs.python.org/3/reference/datamodel.html) make
 
 
 ### Immutable Type ###
+In the code below variable `a` and `b` both reference the same tuple value (4, 3, 2). A tuple is an immutable type and therefore when we change variable `a` its value can not be mutated in place, and thus a copy is made and `a` and `b` reference a different value afterwards.
+
 ```python
 import memory_graph
 
