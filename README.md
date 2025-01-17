@@ -105,19 +105,17 @@ ___
 The [Python Data Model](https://docs.python.org/3/reference/datamodel.html) makes a distiction between immutable and mutable types:
 
 * **immutable**: bool, int, float, complex, str, tuple, bytes, frozenset
-* **mutable**: list, dict, set, class, ... (all other types)
+* **mutable**: list, dict, set, class, ... (most other types)
 
 
 ### Immutable Type ###
-In the code below variable `a` and `b` both reference the same `int` value 10. An `int` is an immutable type and therefore when we change variable `a` its value can **not** be mutated in place, and thus a copy is made and `a` and `b` reference a different value afterwards.
 ```python
 import memory_graph
-memory_graph.config.no_reference_types.pop(int, None) # show references to ints
 
-a = 10
+a = (4, 3, 2)
 b = a
 memory_graph.render(locals(), 'immutable1.png')
-a += 1
+a += (1,)
 memory_graph.render(locals(), 'immutable2.png')
 ```
 | ![mutable1.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/immutable1.png) | ![mutable2.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/immutable2.png) |
@@ -134,7 +132,7 @@ import memory_graph
 a = [4, 3, 2]
 b = a
 memory_graph.render(locals(), 'mutable1.png')
-a.append(1)
+a += [1] # equivalent to:  a.append(1)
 memory_graph.render(locals(), 'mutable2.png')
 ```
 | ![mutable1.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/mutable1.png) | ![mutable2.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/mutable2.png) |
@@ -244,33 +242,36 @@ as a *watchpoint* in a debugger tool and open the "my_debug_graph.pdf" output fi
 
 
 ## 3. Call Stack ##
-Function ```memory_graph.get_call_stack()``` returns the full call stack that holds for each called function all the local variables. This enables us to visualize the local variables of each of the called functions simultaneously. This helps to visualize if variables of different called functions share any data between them. Here for example we call function ```add_one()``` with arguments ```a, b, c``` that adds one to change each of its arguments.
+Function ```memory_graph.get_call_stack()``` returns the full call stack that holds for each called function all the local variables. This enables us to visualize the local variables of each of the called functions simultaneously. This helps to visualize if variables of different called functions share any data between them. Here for example we call function ```add_one()``` with arguments ```a, b, c``` that adds 1 to change each of its arguments.
 
 ```python
 import memory_graph
 
 def add_one(a, b, c):
-    a += 1
-    b.append(1)
-    c.append(1)
+    a += (1,)
+    b += [1]
+    c += [1]
     memory_graph.show(memory_graph.get_call_stack())
 
-a = 10
+a = (4, 3, 2)
 b = [4, 3, 2]
 c = [4, 3, 2]
 
-add_one(a, b, c.copy())
+add_one(a, b.copy(), c)
 print(f"a:{a} b:{b} c:{c}")
 ```
 ![add_one.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/add_one.png)
 
-As `a` is of immutable type 'int' and as we call the function with a copy of `c`, only `b` is shared so only `b` is changed in the calling stack frame as reflected in the printed output:
+In the printed output only `c` is changed as a result of the function call:
 ```
-a:10 b:[4, 3, 2, 1] c:[4, 3, 2]
+a:(4, 3, 2) b:[4, 3, 2] c:[4, 3, 2, 1]
 ```
 
+This is because `a` is of immutable type 'tuple' so its value gets copied automatically when it is changed. And because the function is called with a copy of `b`, its original value is not changed by the function. The only value of mutable type that is shared between the root stack frame **0: \<module>** and the **1: add_one** stack frame of the function is `c`, so only that values is changed as a result of the function call.
+
+
 ### Recursion ###
-The call stack also helps to visualize how recursion works. Here we show each step of how recursively ```factorial(3)``` is computed:
+The call stack can be used to visualize how recursion works. Here we show each step of how recursively ```factorial(3)``` is computed:
 
 ```python
 import memory_graph
@@ -289,7 +290,7 @@ factorial(3)
 
 and the final result is: 1 x 2 x 3 = 6
 
-### Call Stack in Watchpoint ###
+### Call Stack in Watchpoint Context ###
 The ```memory_graph.get_call_stack()``` doesn't work well in a watchpoint context in most debuggers because debuggers introduce additional stack frames that cause problems. Use these alternative functions for various debuggers to filter out these problematic stack frames:
 
 | debugger | function to get the call stack |
