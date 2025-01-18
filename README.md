@@ -105,7 +105,7 @@ ___
 The [Python Data Model](https://docs.python.org/3/reference/datamodel.html) makes a distiction between immutable and mutable types:
 
 * **immutable**: bool, int, float, complex, str, tuple, bytes, frozenset
-* **mutable**: list, dict, set, class, ... (most other types)
+* **mutable**: list, dict, set, classes, ... (most other types)
 
 
 ### Immutable Type ###
@@ -162,9 +162,9 @@ c3 = copy.deepcopy(a)
 memory_graph.show(locals())
 ```
 
-* `c1` is an **assignment**, all the data is shared, nothing is copied
-* `c2` is a **shallow copy**, only the data referenced by the first reference is copied and the underlying data is shared
-* `c3` is a **deep copy**, all the data is copied, nothing is shared
+* `c1` is an **assignment**, nothing is copied, all the values are shared
+* `c2` is a **shallow copy**, only the value referenced by the first reference is copied, all the underlying values are shared
+* `c3` is a **deep copy**, all the values are copied, nothing is shared
 
 ![copies.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copies.png)
 
