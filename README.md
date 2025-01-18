@@ -288,12 +288,15 @@ def factorial(n):
 
 print(factorial(3))
 ```
+
+Execution results in:
+
 ![factorial.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial.gif)
 
-and the final result is: 1 x 2 x 3 = 6
+and the result is: 1 x 2 x 3 = 6
 
 ### Power Set ###
-A larger more insteresting recursive example is power_set(). A power set is the set of all subsets of a collection of values.
+A more insteresting recursive example that shows sharing of data is power_set(). A power set is the set of all subsets of a collection of values.
 
 ```python
 import memory_graph
@@ -317,7 +320,7 @@ def power_set(data):
 print( power_set(['a', 'b', 'c']) )
 ```
 
-resulting in:
+Execution results in:
 
 ![power_set.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/power_set.gif)
 ```
