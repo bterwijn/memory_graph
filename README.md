@@ -292,6 +292,39 @@ print(factorial(3))
 
 and the final result is: 1 x 2 x 3 = 6
 
+### Power Set ###
+A larger more insteresting recursive example is power_set(). A power set is the set of all subsets of a collection of values.
+
+```python
+import memory_graph
+
+def get_subsets(subsets, data, i, subset):
+    memory_graph.show(memory_graph.get_call_stack(), block=True)
+    if i == len(data):
+        subsets.append(subset.copy())
+        return
+    subset.append(data[i])
+    get_subsets(subsets, data, i+1, subset) #    do include data[i]
+    subset.pop()
+    get_subsets(subsets, data, i+1, subset) # don't include data[i]
+    memory_graph.show(memory_graph.get_call_stack(), block=True)
+
+def power_set(data):
+    subsets = []
+    get_subsets(subsets, data, 0, [])
+    return subsets
+
+print( power_set(['a', 'b', 'c']) )
+```
+
+resulting in:
+
+![power_set.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/power_set.gif)
+```
+[['a', 'b', 'c'], ['a', 'b'], ['a', 'c'], ['a'], ['b', 'c'], ['b'], ['c'], []]
+```
+
+
 ### Call Stack in Watchpoint Context ###
 The ```memory_graph.get_call_stack()``` doesn't work well in a watchpoint context in most debuggers because debuggers introduce additional stack frames that cause problems. Use these alternative functions for various debuggers to filter out these problematic stack frames:
 

@@ -15,6 +15,8 @@ python copy_method.py
 python add_one.py
 python factorial.py
 bash create_gif.sh factorial
+python power_set.py
+bash create_gif.sh power_set
 
 # datastructures
 python linked_list.py
