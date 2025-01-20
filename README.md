@@ -98,6 +98,9 @@ Bas Terwijn
 ## Inspiration ##
 Inspired by [Python Tutor](https://pythontutor.com/).
 
+## Supported by ##
+<img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/uva.png" alt="University of Amsterdam" width="600">
+
 ___
 ___
 
@@ -105,7 +108,7 @@ ___
 The [Python Data Model](https://docs.python.org/3/reference/datamodel.html) makes a distiction between immutable and mutable types:
 
 * **immutable**: bool, int, float, complex, str, tuple, bytes, frozenset
-* **mutable**: list, dict, set, classes, ... (most other types)
+* **mutable**: list, set, dict, classes, ... (most other types)
 
 
 ### Immutable Type ###
