@@ -238,12 +238,12 @@ To print to a log file instead of standard output use:
 memory_graph.log_file = open("my_log_file.txt", "w")
 ```
 
-### Watchpoint in Debugger ###
+### Watch in Debugger ###
 Alternatively you get an even better debugging experience when you set expression:
 ```
 memory_graph.render(locals(), "my_debug_graph.pdf")
 ```
-as a *watchpoint* in a debugger tool and open the "my_debug_graph.pdf" output file. This continuouly shows the graph of all the local variables while debugging and avoids having to add any memory_graph `show()`, `render()`, or `d()` calls to your code.
+as a *watch* in a debugger tool and open the "my_debug_graph.pdf" output file. This continuouly shows the graph of all the local variables while debugging and avoids having to add any memory_graph `show()`, `render()`, or `d()` calls to your code.
 
 
 ## 3. Call Stack ##
@@ -331,8 +331,8 @@ Execution results in:
 ```
 
 
-### Call Stack in Watchpoint Context ###
-The ```memory_graph.get_call_stack()``` doesn't work well in a watchpoint context in most debuggers because debuggers introduce additional stack frames that cause problems. Use these alternative functions for various debuggers to filter out these problematic stack frames:
+### Call Stack in Watch Context ###
+The ```memory_graph.get_call_stack()``` doesn't work well in a *watch* context in most debuggers because debuggers introduce additional stack frames that cause problems. Use these alternative functions for various debuggers to filter out these problematic stack frames:
 
 | debugger | function to get the call stack |
 |:---|:---|
@@ -341,7 +341,7 @@ The ```memory_graph.get_call_stack()``` doesn't work well in a watchpoint contex
 | **Pycharm** | `memory_graph.get_call_stack_pycharm()` |
 
 #### Other Debuggers ####
-For other debuggers, invoke this function within the watchpoint context. Then, in the "call_stack.txt" file, identify the slice of functions you wish to include in the call stack, more specifically choise 'after' and 'up_to' what function you want to slice.
+For other debuggers, invoke this function within the *watch* context. Then, in the "call_stack.txt" file, identify the slice of functions you wish to include in the call stack, more specifically choise 'after' and 'up_to' what function you want to slice.
 ```
 memory_graph.save_call_stack("call_stack.txt")
 ```
