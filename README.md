@@ -144,9 +144,7 @@ memory_graph.render(locals(), 'mutable2.png')
 |:-----------------------------------------------------------:|:-------------------------------------------------------------:|
 | mutable1.png | mutable2.png |
 
-
-Python makes this distiction between mutable and immutable types because a value of a mutable type could be large and therefore it would be slow to make a copy each time we change it. On the other hand, a value of a immutable type generally is small and therefore fast to copy.
-
+One reason why Python makes this distiction between mutable and immutable types is because a value of a mutable type could be large and therefore it would be slow to make a copy each time we change it. On the other hand, a value of an immutable type generally is small and therefore fast to copy.
 
 ### Copying ###
 Python offers three different "copy" options that we will demonstrate using a nested list:
