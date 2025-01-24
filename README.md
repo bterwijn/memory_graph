@@ -339,11 +339,11 @@ The ```memory_graph.get_call_stack()``` doesn't work well in a *watch* context i
 | **Pycharm** | `memory_graph.get_call_stack_pycharm()` |
 
 #### Other Debuggers ####
-For other debuggers, invoke this function within the *watch* context. Then, in the "call_stack.txt" file, identify the slice of functions you wish to include in the call stack, more specifically choise 'after' and 'up_to' what function you want to slice.
+For other debuggers, invoke this function within the *watch* context. Then, in the "call_stack.txt" file, identify the slice of functions you wish to include in the call stack.
 ```
 memory_graph.save_call_stack("call_stack.txt")
 ```
-and then call this function to get the desired call stack to show in the graph:
+Choose 'after' and 'up_to' what function you want to slice and then call this function to get the desired call stack:
 ```
 memory_graph.get_call_stack_after_up_to(after_function, up_to_function="<module>")
 ```
