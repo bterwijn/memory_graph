@@ -75,21 +75,21 @@ mg.render(data, "my_graph.gv") # Graphviz DOT file
 
 # Chapters #
 
-[1. Python Data Model](#1-python-data-model)
+[Python Data Model](#python-data-model)
 
-[2. Debugging](#2-debugging)
+[Call Stack](#call-stack)
 
-[3. Call Stack](#3-call-stack)
+[Debugging](#Debugging)
 
-[4. Datastructure Examples](#4-datastructure-examples)
+[Datastructure Examples](#datastructure-examples)
 
-[5. Configuration](#5-configuration)
+[Configuration](#configuration)
 
-[6. Extensions](#6-extensions)
+[Extensions](#extensions)
 
-[7. Jupyter Notebook](#7-jupyter-notebook)
+[Jupyter Notebook](#jupyter-notebook)
 
-[8. Troubleshooting](#8-troubleshooting)
+[Troubleshooting](#troubleshooting)
 
 
 ## Author ##
@@ -104,7 +104,7 @@ Inspired by [Python Tutor](https://pythontutor.com/).
 ___
 ___
 
-## 1. Python Data Model ##
+## Python Data Model ##
 The [Python Data Model](https://docs.python.org/3/reference/datamodel.html) makes a distiction between immutable and mutable types:
 
 * **immutable**: bool, int, float, complex, str, tuple, bytes, frozenset
@@ -196,55 +196,7 @@ mg.show(locals())
 ![copy_method.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_method.png)
 
 
-## 2. Debugging ##
-Often it is useful to graph all the local variables using:
-```python
-mg.show(locals(), block=True)
-```
-
-So much so that function `d()` is available as alias for this for easier debugging. Additionally it can optionally log the data by printing them. For example:
-```python
-import memory_graph as mg
-
-squares = []
-squares_collector = []
-for i in range(1,6):
-    squares.append(i**2)
-    squares_collector.append(squares.copy())
-    mg.d(log=True)
-```
-which after pressing &lt;Enter&gt; a number of times results in:
-
-![debugging.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/debugging.gif)
-```
-squares: [1, 4, 9, 16, 25]
-squares_collector: [[1], [1, 4], [1, 4, 9], [1, 4, 9, 16], [1, 4, 9, 16, 25]]
-i: 5
-```
-
-Function `d()` has these default arguments:
-```python
-def d(data=None, graph=True, log=False, block=True):
-```
-- data: the data that is handled, defaults to `locals()` when not specified
-- graph: if True the data is visualized as a graph
-- log: if True the data is printed
-- block: if True the function blocks until the &lt;Enter&gt; key is pressed
-
-To print to a log file instead of standard output use:
-```python
-mg.log_file = open("my_log_file.txt", "w")
-```
-
-### Watch in Debugger ###
-Alternatively you get an even better debugging experience when you set expression:
-```
-mg.render(locals(), "my_debug_graph.pdf")
-```
-as a *watch* in a debugger tool and open the "my_debug_graph.pdf" output file. This continuouly shows the graph of all the local variables while debugging and avoids having to add any memory_graph `show()`, `render()`, or `d()` calls to your code.
-
-
-## 3. Call Stack ##
+## Call Stack ##
 The function `mg.get_call_stack()` returns the complete call stack, including all local variables for each function in the stack. This allows us to simultaneously visualize the local variables of all the called functions. By doing so, we can identify whether any local variables from different functions in the call stack share data with one another. Here for example we call function ```add_one()``` with arguments ```a, b, c``` that adds 1 to each of its arguments.
 
 ```python
@@ -329,8 +281,16 @@ Execution results in:
 ```
 
 
+## Debugging ##
+
+For the best debugging experience with memory_graph set for example expression:
+```
+mg.render(locals(), "my_graph.pdf")
+```
+as a *watch* in a debugger tool such as the integrated debugger in Visual Studio Code. Then open the "my_graph.pdf" output file to continuously see all the local variables while debugging. This avoids having to add any memory_graph `show()`, `render()` calls to your code.
+
 ### Call Stack in Watch Context ###
-The ```mg.get_call_stack()``` doesn't work well in a *watch* context in most debuggers because debuggers introduce additional stack frames that cause problems. Use these alternative functions for various debuggers to filter out these problematic stack frames:
+The ```mg.get_call_stack()``` doesn't work well in *watch* context in most debuggers because debuggers introduce additional stack frames that cause problems. Use these alternative functions for various debuggers to filter out these problematic stack frames:
 
 | debugger | function to get the call stack |
 |:---|:---|
@@ -348,8 +308,53 @@ Choose 'after' and 'up_to' what function you want to slice and then call this fu
 mg.get_call_stack_after_up_to(after_function, up_to_function="<module>")
 ```
 
+### Debugging without Debugger Tool ###
 
-## 4. Datastructure Examples ##
+To make debugging without a debugger tool easier we provide these alias functions that you can add to your code where you want to view a graph:
+
+| alias | function|
+|:---|:---|
+| `d()` | `mg.show(locals(), block=True)` |
+| `ds()` | `mg.show(mg.get_call_stack(), block=True)` |
+
+These functions have the following default arguments:
+```python
+def d(data=None, graph=True, log=False, block=True):
+```
+- data: defaults to locals() and mg.get_call_stack() respectively
+- graph: if True the data is visualized as a graph
+- log: if True the data is printed
+- block: if True the function blocks until the &lt;Enter&gt; key is pressed
+
+To print to a log file instead of standard output use:
+```python
+mg.log_file = open("my_log_file.txt", "w")
+```
+
+For example, executing this program:
+
+```python
+import memory_graph as mg
+from memory_graph import d, ds
+
+squares = []
+squares_collector = []
+for i in range(1, 6):
+    squares.append(i**2)
+    squares_collector.append(squares.copy())
+    d(log=True)
+```
+and pressing &lt;Enter&gt; a number of times, produces:
+
+![debugging.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/debugging.gif)
+```
+squares: [1, 4, 9, 16, 25]
+squares_collector: [[1], [1, 4], [1, 4, 9], [1, 4, 9, 16], [1, 4, 9, 16, 25]]
+i: 5
+```
+
+
+## Datastructure Examples ##
 Module memory_graph can be very useful in a course about datastructures, some examples:
 
 ### Doubly Linked List ###
@@ -474,7 +479,7 @@ for i in range(n):
 ![hash_set.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/hash_set.png)
 
 
-## 5. Configuration ##
+## Configuration ##
 Different aspects of memory_graph can be configured. The default configuration is reset by importing 'mg.config_default'.
 
 - ***mg.config.max_number_nodes*** : int
@@ -519,7 +524,7 @@ mg.show( locals(),
 ```
 ![highlight.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/highlight.png)
 
-## 6. Extensions ##
+## Extensions ##
 Different extensions are available for types from other Python packages. 
 
 ### Numpy ###
@@ -557,7 +562,7 @@ mg.show(locals(), block=True)
 ```
 ![extension_pandas.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_pandas.png)
 
-## 7. Jupyter Notebook ##
+## Jupyter Notebook ##
 
 In Jupyter Notebook `locals()` has additional variables that cause problems in the graph, use `mg.locals_jupyter()` to get the local variables with these problematic variables filtered out. Use `mg.get_call_stack_jupyter()` to get the whole call stack with these variables filtered out. 
 
@@ -565,7 +570,7 @@ See for example [jupyter_example.ipynb](https://raw.githubusercontent.com/bterwi
 ![jupyter_example.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/jupyter_example.png)
 
 
-## 8. Troubleshooting ##
+## Troubleshooting ##
 
 - Adobe Acrobat Reader [doesn't refresh a PDF file](https://superuser.com/questions/337011/windows-pdf-viewer-that-auto-refreshes-pdf-when-compiling-with-pdflatex) when it changes on disk and blocks updates which results in an `Could not open 'somefile.pdf' for writing : Permission denied` error. One solution is to install a PDF reader that does refresh ([Evince](https://www.fosshub.com/Evince.html) for example) and set it as the default PDF reader. Another solution is to `render()` the graph to a different output format and open it manually.
 

@@ -92,6 +92,34 @@ def d(data=None,graph=True,log=False,block=True,stack_index=2,
     if block:
         input(f"debugging, {get_source_location(stack_index)}, {press_enter_text}")
 
+def ds(data=None,graph=True,log=False,block=True,stack_index=2,
+                 colors = None,
+                 vertical_orientations = None,
+                 slicers = None):
+    """ 
+    Shows the graph of and optionally prints the call stack, and optionally blocks.
+    """
+    if data is None:
+        data=get_call_stack(stack_index=stack_index)
+    if graph:
+        grph=create_graph(data, colors, vertical_orientations, slicers)
+        grph.view()
+    if log:
+        if isinstance(data,dict):
+            for frame, vars in data.items():
+                print("===== stack frame",frame)
+                if isinstance(vars,dict):
+                    for key,value in utils.filter_dict_attributes(vars.items()):
+                        print(f"{to_str(key)}: {to_str(value)}", file=log_file, flush=True)
+                else:
+                    print(to_str(frame), file=log_file, flush=True)
+        else:
+            print(to_str(data), file=log_file, flush=True)
+        if not block and not log_file == sys.stdout:
+            print(f"debugging, {get_source_location(stack_index)}",file=log_file)
+    if block:
+        input(f"debugging, {get_source_location(stack_index)}, {press_enter_text}")
+
 # ------------ call stack
 
 def stack_frames_to_dict(frames):
