@@ -1,6 +1,6 @@
 import memory_graph as mg
 import pandas as pd
-import mg.extension_pandas
+import memory_graph.extension_pandas
 
 series = pd.Series( [i for i in range(20)] )
 dataframe1 = pd.DataFrame({  "calories": [420, 380, 390],

@@ -1,6 +1,6 @@
 import memory_graph as mg
 import numpy as np
-import mg.extension_numpy
+import memory_graph.extension_numpy
 np.random.seed(0) # use same random numbers each run
 
 array = np.array([1.1, 2, 3, 4, 5])
