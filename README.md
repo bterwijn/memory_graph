@@ -65,7 +65,7 @@ memory_graph.show(data, block=True)
 ```
 ![many_types.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/many_types.png)
 
-By using `block=True` the program blocks until the <Enter> key is pressed so you can view the graph before continuing program execution (and possibly viewing later graphs). Instead of showing the graph you can also render it to an output file of your choosing (see [Graphviz Output Formats](https://graphviz.org/docs/outputs/)) using for example:
+By using `block=True` the program blocks until the &lt;Enter&gt; key is pressed so you can view the graph before continuing program execution (and possibly viewing later graphs). Instead of showing the graph you can also render it to an output file of your choosing (see [Graphviz Output Formats](https://graphviz.org/docs/outputs/)) using for example:
 
 ```python
 memory_graph.render(data, "my_graph.pdf")
@@ -213,7 +213,7 @@ for i in range(1,6):
     squares_collector.append(squares.copy())
     memory_graph.d(log=True)
 ```
-which after pressing <Enter> a number of times results in:
+which after pressing &lt;Enter&gt; a number of times results in:
 
 ![debugging.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/debugging.gif)
 ```
@@ -229,7 +229,7 @@ def d(data=None, graph=True, log=False, block=True):
 - data: the data that is handled, defaults to `locals()` when not specified
 - graph: if True the data is visualized as a graph
 - log: if True the data is printed
-- block: if True the function blocks until the <Enter> key is pressed
+- block: if True the function blocks until the &lt;Enter&gt; key is pressed
 
 To print to a log file instead of standard output use:
 ```python
