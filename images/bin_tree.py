@@ -1,4 +1,4 @@
-import memory_graph
+import memory_graph as mg
 import random
 random.seed(0) # use same random numbers each run
 
@@ -26,7 +26,7 @@ class BinTree:
             else:
                 self.add_recursive(new_value, node.larger)
         if new_value == 51:
-            memory_graph.render(locals(), f"bin_tree.png")
+            mg.render(locals(), f"bin_tree.png")
             exit(0)
 
     def add(self, value):

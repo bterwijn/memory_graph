@@ -1,7 +1,7 @@
-import memory_graph
+import memory_graph as mg
 
 a = (4, 3, 2)
 b = a
-memory_graph.render(locals(), 'immutable1.png')
+mg.render(locals(), 'immutable1.png')
 a += (1,)
-memory_graph.render(locals(), 'immutable2.png')
+mg.render(locals(), 'immutable2.png')

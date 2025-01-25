@@ -1,4 +1,4 @@
-import memory_graph
+import memory_graph as mg
 import copy
 
 a = [ [1, 2], ['x', 'y'] ] # a nested list (a list containing lists)
@@ -8,4 +8,4 @@ c1 = a
 c2 = copy.copy(a) # equivalent to:  a.copy() a[:] list(a)
 c3 = copy.deepcopy(a)
 
-memory_graph.render(locals(), 'copies.png')
+mg.render(locals(), 'copies.png')

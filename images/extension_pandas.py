@@ -1,6 +1,6 @@
-import memory_graph
+import memory_graph as mg
 import pandas as pd
-import memory_graph.extension_pandas
+import mg.extension_pandas
 
 series = pd.Series( [i for i in range(20)] )
 dataframe1 = pd.DataFrame({  "calories": [420, 380, 390],
@@ -10,4 +10,4 @@ dataframe2 = pd.DataFrame({  'Name'   : [ 'Tom', 'Anna', 'Steve', 'Lisa'],
                              'Length' : [  1.70,   1.66,    1.82,   1.73] },
                             index=['one', 'two', 'three', 'four']) # with row names
 
-memory_graph.render( locals(), "extension_pandas.png")
+mg.render( locals(), "extension_pandas.png")

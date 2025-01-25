@@ -1,4 +1,4 @@
-import memory_graph
+import memory_graph as mg
 
 image=0
 def get_fac_name():
@@ -11,5 +11,5 @@ squares_collector = []
 for i in range(1,6):
     squares.append(i**2)
     squares_collector.append(squares.copy())
-    memory_graph.render(locals(), get_fac_name())
-memory_graph.d(graph=False,log=True,block=False)
+    mg.render(locals(), get_fac_name())
+mg.d(graph=False,log=True,block=False)

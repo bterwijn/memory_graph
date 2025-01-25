@@ -1,4 +1,4 @@
-import memory_graph
+import memory_graph as mg
 import random
 random.seed(0) # use same random numbers each run
 
@@ -31,5 +31,5 @@ for i in range(n):
     new_value = random.randrange(n)
     linked_list.add_front(new_value)
     if new_value == 33:
-        memory_graph.render(locals(), "linked_list.png")
+        mg.render(locals(), "linked_list.png")
         exit()

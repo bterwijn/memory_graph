@@ -1,4 +1,4 @@
-import memory_graph
+import memory_graph as mg
 import random
 random.seed(0) # use same random numbers each run
 
@@ -14,7 +14,7 @@ class HashSet:
             bucket = self.buckets[index]
             bucket.append(value)
             if value == 36:
-                memory_graph.render(locals(), "hash_set.png")
+                mg.render(locals(), "hash_set.png")
                 exit()
         
         def contains(self, value):

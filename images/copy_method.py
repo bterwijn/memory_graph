@@ -1,4 +1,4 @@
-import memory_graph
+import memory_graph as mg
 import copy
 
 class My_Class:
@@ -15,4 +15,4 @@ class My_Class:
 a = My_Class()
 b = a.copy()
 
-memory_graph.render(locals(), 'copy_method.png')
+mg.render(locals(), 'copy_method.png')
