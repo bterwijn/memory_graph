@@ -197,7 +197,7 @@ mg.show(locals())
 
 
 ## Call Stack ##
-The function `mg.get_call_stack()` returns the complete call stack, including all local variables for each function in the stack. This allows us to simultaneously visualize the local variables of all the called functions. By doing so, we can identify whether any local variables from different functions in the call stack share data with one another. Here for example we call function ```add_one()``` with arguments ```a, b, c``` that adds 1 to each of its arguments.
+The function `mg.get_call_stack()` returns the complete call stack, including all local variables for each function on the stack. This allows us to simultaneously visualize the local variables of all the called functions. By doing so, we can identify whether any local variables from different functions in the call stack share data with one another. Here for example we call function ```add_one()``` with arguments ```a, b, c``` that adds 1 to each of its arguments.
 
 ```python
 import memory_graph as mg
@@ -479,7 +479,7 @@ for i in range(n):
 
 
 ## Configuration ##
-Different aspects of memory_graph can be configured. The default configuration is reset by importing 'mg.config_default'.
+Different aspects of memory_graph can be configured. The default configuration is reset by importing 'memory_graph.config_default'.
 
 - ***mg.config.max_number_nodes*** : int
   - The maxium number of Nodes shown in the graph. When the graph gets too big set this to a smaller number. A `★` symbol indictes where the graph is cut short.
@@ -527,7 +527,7 @@ mg.show( locals(),
 Different extensions are available for types from other Python packages. 
 
 ### Numpy ###
-Numpy types `arrray` and `matrix` and `ndarray` can be graphed with the "memory_graph.extension_numpy" extension:
+Numpy types `arrray` and `matrix` and `ndarray` can be graphed with "memory_graph.extension_numpy":
 
 ```python
 import memory_graph as mg
@@ -543,7 +543,7 @@ mg.show(locals(), block=True)
 ![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_numpy.png)
 
 ### Pandas ###
-Pandas types `Series` and `DataFrame` can be graphed with the "memory_graph.extension_pandas" extension:
+Pandas types `Series` and `DataFrame` can be graphed with "memory_graph.extension_pandas":
 
 ```python
 import memory_graph as mg
