@@ -171,7 +171,7 @@ mg.show(locals())
 
 
 ### Custom Copy Method ###
-We can write our own custom copy function or method in case the three "copy" options don't do what we want. For example the copy() method of My_Class in the code below copies the `digits` but shares the `letters` between the two objects.
+We can write our own custom copy function or method in case the three "copy" options don't do what we want. For example, in the code below the copy() method of My_Class copies the `digits` but shares the `letters` between two objects.
 
 ```python
 import memory_graph as mg
@@ -197,7 +197,7 @@ mg.show(locals())
 
 
 ## Call Stack ##
-The function `mg.get_call_stack()` returns the complete call stack, including all local variables for each function on the stack. This allows us to simultaneously visualize the local variables of all the called functions. By doing so, we can identify whether any local variables from different functions in the call stack share data with one another. Here for example we call function ```add_one()``` with arguments ```a, b, c``` that adds 1 to each of its arguments.
+The `mg.get_call_stack()` function retrieves the entire call stack, including the local variables for each function on the stack. This enables us to visualize the local variables across all active functions simultaneously. Then by examining the graph, we can determine whether any local variables from different functions on the call stack share data. For instance, consider the function `add_one()` which adds the value `1` to each of its parameters, `a`, `b`, and `c`.
 
 ```python
 import memory_graph as mg
