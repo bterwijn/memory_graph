@@ -507,7 +507,7 @@ Different aspects of memory_graph can be configured. The default configuration i
   - Maps each type to a Slicer. A slicer determines how many elements of a data type are shown in the graph to prevent the graph from getting too big. 'Slicer()' does no slicing, 'Slicer(1,2,3)' shows just 1 element at the beginning, 2 in the middle, and 3 at the end.
 
 ### Temporary Configuration ###
-In addition to the global configuration, a temporary configuration can be set for a single `show()`, `render()`, or `d()` call to change the colors, orientation, and slicer. This example highlights a particular list element in red, gives it a horizontal orientation, and overwrites the default slicer for lists:
+In addition to the global configuration, a temporary configuration can be set for a single `show()`, `render()`, `d()`, `ds()` call to change the colors, orientation, and slicer. This example highlights a particular list element in red, gives it a horizontal orientation, and overwrites the default slicer for lists:
 
 ```python
 import memory_graph as mg
