@@ -249,7 +249,7 @@ Execution results in:
 and the result is: 1 x 2 x 3 = 6
 
 ### Power Set ###
-A more insteresting recursive example that shows sharing of data is power_set(). A power set is the set of all subsets of a collection of values.
+A more interesting recursive example that shows sharing of data is power_set(). A power set is the set of all subsets of a collection of values.
 
 ```python
 import memory_graph as mg
@@ -310,7 +310,7 @@ mg.get_call_stack_after_up_to(after_function, up_to_function="<module>")
 
 ### Debugging without Debugger Tool ###
 
-To make debugging without a debugger tool easier we provide these alias functions that you can add to your code where you want to view a graph:
+To simplify debugging without using a debugger tool, we offer these alias functions that you can insert into your code to visualize a graph at specific points:
 
 | alias | function|
 |:---|:---|
@@ -321,7 +321,7 @@ These functions have the following default arguments:
 ```python
 def d(data=None, graph=True, log=False, block=True):
 ```
-- data: defaults to locals() and mg.get_call_stack() respectively
+- data: defaults to `locals()` and `mg.get_call_stack()` respectively
 - graph: if True the data is visualized as a graph
 - log: if True the data is printed
 - block: if True the function blocks until the &lt;Enter&gt; key is pressed
@@ -334,7 +334,6 @@ mg.log_file = open("my_log_file.txt", "w")
 For example, executing this program:
 
 ```python
-import memory_graph as mg
 from memory_graph import d, ds
 
 squares = []
