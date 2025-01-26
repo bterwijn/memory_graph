@@ -538,7 +538,7 @@ np.random.seed(0) # use same random numbers each run
 array = np.array([1.1, 2, 3, 4, 5])
 matrix = np.matrix([[i*20+j for j in range(20)] for i in range(20)])
 ndarray = np.random.rand(20,20)
-mg.show(locals(), block=True)
+mg.show(locals())
 ```
 ![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_numpy.png)
 
@@ -557,7 +557,7 @@ dataframe2 = pd.DataFrame({  'Name'   : [ 'Tom', 'Anna', 'Steve', 'Lisa'],
                              'Age'    : [    28,     34,      29,     42],
                              'Length' : [  1.70,   1.66,    1.82,   1.73] },
                             index=['one', 'two', 'three', 'four']) # with row names
-mg.show(locals(), block=True)
+mg.show(locals())
 ```
 ![extension_pandas.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_pandas.png)
 
