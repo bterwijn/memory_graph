@@ -9,7 +9,7 @@ import sys
 
 import graphviz
 
-__version__ = "0.3.05"
+__version__ = "0.3.06"
 __author__ = 'Bas Terwijn'
 
 log_file=sys.stdout
