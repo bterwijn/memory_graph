@@ -1,0 +1,11 @@
+
+mg.block(fun, print_loc=True), update docs, stack-overflow posts
+
+check 'svg' output, center seems off
+
+Jupyter Notebook inline render using display()
+
+webassembly inline render
+
+optional max introspect depth for each type/id
+https://discuss.python.org/t/request-for-feedback-memory-graph-a-python-visualization-tool-for-education/78347
