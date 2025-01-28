@@ -34,16 +34,18 @@ def filter_dict(tuples):
             ]
 
 def make_sliceable(data):
+    """ Returns a sliceble version of data, convert to list if not yet sliceble. """
     try:
         data[0:0]
         return data
     except TypeError:
         return list(data)
 
-def is_iterable(data):
-    """ Returns 'True' if 'data' is iterable. """
+def is_finite_iterable(data):
+    """ Returns 'True' if 'data' is finite iterable. """
     try:
-        iter(data)
+        iter(data) # iterable
+        len(data)  # and not infinite (not a strong test, but what else?)
         return True
     except TypeError:
         return False

@@ -14,7 +14,7 @@ def read_nodes(data):
             return config.type_to_node[data_type](data)
         elif utils.has_dict_attributes(data): # for user defined classes
             return Node_Key_Value(data, utils.filter_dict_attributes(utils.get_dict_attributes(data)) )
-        elif utils.is_iterable(data): # for lists, tuples, sets, ...
+        elif utils.is_finite_iterable(data): # for lists, tuples, sets, ...
             return Node_Linear(data, data)
         else:
             return Node_Base(data)

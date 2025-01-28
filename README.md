@@ -552,7 +552,7 @@ In Jupyter Notebook `locals()` has additional variables that cause problems in t
 We can use `mg.show()` and `mg.render()` in a Jupyter Notebook, but alternatively we can also use `mg.create_graph()` to create a graph and the `display()` function to render it inline with for example:
 
 ```python
-display( mg.create_graph(mg.locals_jupyter()) )          # display the local variables inline
+display( mg.create_graph(mg.locals_jupyter()) ) # display the local variables inline
 mg.block(display, mg.create_graph(mg.locals_jupyter()) ) # the same but blocked
 ```
 
