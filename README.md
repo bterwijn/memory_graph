@@ -61,11 +61,11 @@ class MyClass:
         self.y = y
 
 data = [ range(1, 2), (3, 4), {5, 6}, {7:'seven', 8:'eight'},  MyClass(9, 10) ]
-mg.show(data, block=True)
+mg.show(data)
 ```
 ![many_types.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/many_types.png)
 
-By using `block=True` the program blocks until the &lt;Enter&gt; key is pressed so you can view the graph before continuing program execution (and possibly viewing later graphs). Instead of showing the graph you can also render it to an output file of your choosing (see [Graphviz Output Formats](https://graphviz.org/docs/outputs/)) using for example:
+Instead of showing the graph you can also render it to an output file of your choosing (see [Graphviz Output Formats](https://graphviz.org/docs/outputs/)) using for example:
 
 ```python
 mg.render(data, "my_graph.pdf")
@@ -224,9 +224,17 @@ a:[4, 3, 2, 1] b:(4, 3, 2) c:[4, 3, 2]
 
 This is because `b` is of immutable type 'tuple' so its value gets copied automatically when it is changed. And because the function is called with a copy of `c`, its original value is not changed by the function. The value of variable `a` is the only value of mutable type that is shared between the root stack frame **'0: \<module>'** and the **'1: add_one'** stack frame of the function so only that variable is affected as a result of the function call. The other changes remain confined to the local variables of the ```add_one()``` function.
 
+### Block ###
+It is often helpful to temporarily block program execution to inspect the graph. For this, you can use the `mg.block()` function:
+
+```python
+mg.block(fun, arg1, arg2, ..., loc=True) 
+```
+
+This function first executes `fun(arg1, arg2, ...)`, then prints the current source location in the program, and pauses execution until the &lt;Enter&gt; key is pressed. To skip printing the source location, set `loc=False`.
 
 ### Recursion ###
-The call stack can be used to visualize how recursion works. Here we show each step of how recursively ```factorial(3)``` is computed:
+The call stack is also helpful to visualize how recursion works. Here we use `mg.block()` to show each step of how recursively ```factorial(3)``` is computed:
 
 ```python
 import memory_graph as mg
@@ -234,15 +242,13 @@ import memory_graph as mg
 def factorial(n):
     if n==0:
         return 1
-    mg.show( mg.get_call_stack(), block=True )
+    mg.block(mg.show, mg.get_call_stack())
     result = n * factorial(n-1)
-    mg.show( mg.get_call_stack(), block=True )
+    mg.block(mg.show, mg.get_call_stack())
     return result
 
 print(factorial(3))
 ```
-
-Execution results in:
 
 ![factorial.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial.gif)
 
@@ -255,7 +261,7 @@ A more interesting recursive example that shows sharing of data is power_set(). 
 import memory_graph as mg
 
 def get_subsets(subsets, data, i, subset):
-    mg.show(mg.get_call_stack(), block=True)
+    mg.block(mg.show, mg.get_call_stack())
     if i == len(data):
         subsets.append(subset.copy())
         return
@@ -263,7 +269,7 @@ def get_subsets(subsets, data, i, subset):
     get_subsets(subsets, data, i+1, subset) #    do include data[i]
     subset.pop()
     get_subsets(subsets, data, i+1, subset) # don't include data[i]
-    mg.show(mg.get_call_stack(), block=True)
+    mg.block(mg.show, mg.get_call_stack())
 
 def power_set(data):
     subsets = []
@@ -272,8 +278,6 @@ def power_set(data):
 
 print( power_set(['a', 'b', 'c']) )
 ```
-
-Execution results in:
 
 ![power_set.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/power_set.gif)
 ```
@@ -310,48 +314,28 @@ mg.get_call_stack_after_up_to(after_function, up_to_function="<module>")
 
 ### Debugging without Debugger Tool ###
 
-To simplify debugging without using a debugger tool, we offer these alias functions that you can insert into your code to visualize a graph at specific points:
+To simplify debugging without a debugger tool, we offer these blocking alias functions that you can insert into your code to visualize a graph at specific points:
 
 | alias | function|
 |:---|:---|
-| `d()` | `mg.show(locals(), block=True)` |
-| `ds()` | `mg.show(mg.get_call_stack(), block=True)` |
-
-These functions have the following default arguments:
-```python
-def d(data=None, graph=True, log=False, block=True):
-```
-- data: defaults to `locals()` and `mg.get_call_stack()` respectively
-- graph: if True the data is visualized as a graph
-- log: if True the data is printed
-- block: if True the function blocks until the &lt;Enter&gt; key is pressed
-
-To print to a log file instead of standard output use:
-```python
-mg.log_file = open("my_log_file.txt", "w")
-```
+| `mg.d()` | `mg.block(mg.show, locals())` |
+| `mg.ds()` | `mg.block(mg.show, mg.get_call_stack())` |
 
 For example, executing this program:
 
 ```python
-from memory_graph import d, ds
+from memory_graph as mg
 
 squares = []
 squares_collector = []
 for i in range(1, 6):
     squares.append(i**2)
     squares_collector.append(squares.copy())
-    d(log=True)
+    mg.d()
 ```
-and pressing &lt;Enter&gt; a number of times, produces:
+and pressing &lt;Enter&gt; a number of times, results in:
 
 ![debugging.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/debugging.gif)
-```
-squares: [1, 4, 9, 16, 25]
-squares_collector: [[1], [1, 4], [1, 4, 9], [1, 4, 9, 16], [1, 4, 9, 16, 25]]
-i: 5
-```
-
 
 ## Datastructure Examples ##
 Module memory_graph can be very useful in a course about datastructures, some examples:
@@ -384,7 +368,7 @@ class LinkedList:
             new_node.next = self.head
             self.head.prev = new_node
             self.head = new_node
-        mg.show(locals(), block=True) # <--- draw graph
+        mg.block(mg.show, locals()) # <--- draw graph
 
 linked_list = LinkedList()
 n = 100
@@ -423,7 +407,7 @@ class BinTree:
                 node.larger = Node(new_value)
             else:
                 self.add_recursive(new_value, node.larger)
-        mg.show(locals(), block=True) # <--- draw graph
+        mg.block(mg.show, locals()) # <--- draw graph
 
     def add(self, value):
         if self.root is None:
@@ -456,7 +440,7 @@ class HashSet:
             self.buckets[index] = []
         bucket = self.buckets[index]
         bucket.append(value)
-        mg.show(locals(), block=True) # <--- draw graph
+        mg.block(mg.show, locals()) # <--- draw graph
 
     def contains(self, value):
         index = hash(value) % len(self.buckets)

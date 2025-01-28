@@ -12,21 +12,38 @@ import graphviz
 __version__ = "0.3.06"
 __author__ = 'Bas Terwijn'
 
-log_file=sys.stdout
-press_enter_text="press <ENTER> to continue..."
-
 def get_source_location(stack_index):
     """ Helper function to get the source location of the stack with 'stack_index' of the call stack. """
     frameInfo = inspect.stack()[stack_index] # get frameInfo of calling frame
     filename= frameInfo.filename
     line_nr= frameInfo.lineno
     function = frameInfo.function
-    return f'in {filename}:{line_nr} function:"{function}"'
+    return f'blocked at {filename}:{line_nr} function:"{function}"'
 
-def get_locals_from_calling_frame(stack_index):
-    """ Helper function to get locals of the stack with 'stack_inex' of the call stack. """
-    frameInfo = inspect.stack()[stack_index] # get frameInfo of calling frame
-    return frameInfo.frame.f_locals
+def block(fun=None, *args, **kwargs):
+    """
+    Calls the given function `fun` with specified arguments and keyword arguments,
+    waits for the user to press Enter, and returns the result of `fun`.
+    """
+    loc=True
+    stack_index=2
+    if 'loc' in kwargs:
+        loc = kwargs['loc']
+        del kwargs['loc']
+    if 'stack_index' in kwargs:
+        stack_index = kwargs['stack_index']
+        del kwargs['stack_index']
+    result = None
+    if callable(fun):
+        result = fun(*args, **kwargs)
+    if loc:
+        print(get_source_location(stack_index),end=', ')
+    input("Press <Enter> to continue...")
+    return result
+
+def block_deprecated_message():
+    print("Warning: 'block=True' deprecated, use mg.block(fun) instead.")
+    input(f"{get_source_location(3)}, Press <Enter> to continue...")
 
 def create_graph(data,
                  colors = None,
@@ -37,88 +54,49 @@ def create_graph(data,
     graphviz_graph = memory_to_nodes.memory_to_nodes(data)
     return graphviz_graph
 
-def show(data=None ,block=False, stack_index=2,
+def show(data ,block=False,
                  colors = None,
                  vertical_orientations = None,
                  slicers = None):
     """ Shows the graph of 'data' and optionally blocks. """
-    if data is None:
-        data=get_locals_from_calling_frame(stack_index)
     graph = create_graph(data, colors, vertical_orientations, slicers)
     graph.view()
     if block:
-        input(f"showing '{graph.filename}', {get_source_location(2)}, {press_enter_text}")
+        block_deprecated_message()
 
-def render(data=None, outfile=None, block=False, stack_index=2,
+def render(data, outfile=None, block=False,
                  colors = None,
                  vertical_orientations = None,
                  slicers = None):
     """ Renders the graph of 'data' to 'output_filename' and optionally blocks. """
-    if data is None:
-        data=get_locals_from_calling_frame(stack_index)
     graph = create_graph(data, colors, vertical_orientations, slicers)
     filename = outfile if outfile else graph.filename+".pdf"
     graph.render(outfile=filename)
     if block:
-        input(f"rendering '{filename}', {get_source_location(2)}, {press_enter_text}")
+        block_deprecated_message()
 
-def to_str(data):
-    try:
-        return str(data)
-    except Exception as e:
-        return f"problem printing: {type(data)}"
-
-def d(data=None,graph=True,log=False,block=True,stack_index=2,
-                 colors = None,
-                 vertical_orientations = None,
-                 slicers = None):
+def d(loc=True, stack_index=2, colors = None, vertical_orientations = None, slicers = None):
     """ 
-    Shows the graph of and optionally prints 'data', and optionally blocks.
-    When no 'data' is given, the locals of the calling frame are used as 'data'.
+    Shows the graph of 'data' or the locals of the calling frame, and blocks. 
     """
-    if data is None:
-        data=get_locals_from_calling_frame(stack_index)
-    if graph:
-        grph=create_graph(data, colors, vertical_orientations, slicers)
-        grph.view()
-    if log:
-        if isinstance(data,dict):
-            for key,value in utils.filter_dict_attributes(data.items()):
-                print(f"{to_str(key)}: {to_str(value)}", file=log_file, flush=True)
-        else:
-            print(to_str(data), file=log_file, flush=True)
-        if not block and not log_file == sys.stdout:
-            print(f"debugging, {get_source_location(stack_index)}",file=log_file)
-    if block:
-        input(f"debugging, {get_source_location(stack_index)}, {press_enter_text}")
-
-def ds(data=None,graph=True,log=False,block=True,stack_index=2,
-                 colors = None,
-                 vertical_orientations = None,
-                 slicers = None):
+    data = get_locals_from_calling_frame(stack_index=stack_index)
+    memory_graph.block(memory_graph.show, data, loc=loc, stack_index=stack_index+1, block=False, 
+                       colors=colors, vertical_orientations=vertical_orientations, slicers=slicers)
+    
+def ds(loc=True, stack_index=2, colors = None, vertical_orientations = None, slicers = None):
     """ 
     Shows the graph of and optionally prints the call stack, and optionally blocks.
     """
-    if data is None:
-        data=get_call_stack(stack_index=stack_index)
-    if graph:
-        grph=create_graph(data, colors, vertical_orientations, slicers)
-        grph.view()
-    if log:
-        if isinstance(data,dict):
-            for frame, vars in data.items():
-                print("===== stack frame",frame)
-                if isinstance(vars,dict):
-                    for key,value in utils.filter_dict_attributes(vars.items()):
-                        print(f"{to_str(key)}: {to_str(value)}", file=log_file, flush=True)
-                else:
-                    print(to_str(frame), file=log_file, flush=True)
-        else:
-            print(to_str(data), file=log_file, flush=True)
-        if not block and not log_file == sys.stdout:
-            print(f"debugging, {get_source_location(stack_index)}",file=log_file)
-    if block:
-        input(f"debugging, {get_source_location(stack_index)}, {press_enter_text}")
+    data = get_call_stack(stack_index=stack_index)
+    memory_graph.block(memory_graph.show, data, loc=loc, stack_index=stack_index+1, block=False, 
+                       colors=colors, vertical_orientations=vertical_orientations, slicers=slicers)
+
+# ------------ locals
+
+def get_locals_from_calling_frame(stack_index=1):
+    """ Helper function to get locals of the stack with 'stack_inex' of the call stack. """
+    frameInfo = inspect.stack()[stack_index] # get frameInfo of calling frame
+    return frameInfo.frame.f_locals
 
 # ------------ call stack
 
