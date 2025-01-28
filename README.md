@@ -318,8 +318,8 @@ To simplify debugging without a debugger tool, we offer these blocking alias fun
 
 | alias | purpose | function call |
 |:---|:---|:---|
-| `mg.l()` | graph local variables | `mg.block(mg.show, locals())` |
-| `mg.s()` | graph the call stack | `mg.block(mg.show, mg.get_call_stack())` |
+| `mg.l()` | graph **l**ocal variables | `mg.block(mg.show, locals())` |
+| `mg.s()` | graph the call **s**tack | `mg.block(mg.show, mg.get_call_stack())` |
 
 For example, executing this program:
 
