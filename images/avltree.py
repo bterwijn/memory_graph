@@ -8,11 +8,9 @@ tree.insert(5, "five")
 tree.insert(20, "twenty")
 tree.insert(15, "fifteen")
 
-mg.render(locals(), 'avltree_fail.png')
+# mg.render(locals(), 'avltree_fail.png') # id keeps changing
 
 mg.config.type_to_color[bintrees.avltree.Node] = "sandybrown"
-mg.render(locals(), 'avltree_color.png')
-
 mg.config.type_to_node[bintrees.avltree.Node] = lambda data: mg.node_linear.Node_Linear(data, dir(data))
 mg.config.type_to_slicer[bintrees.avltree.Node] = mg.slicer.Slicer()
 mg.render(locals(), 'avltree_dir.png')
@@ -21,10 +19,10 @@ mg.config.type_to_node[bintrees.avltree.Node] = lambda data: mg.node_base.Node_B
 mg.render(locals(), 'avltree_base.png')
 
 mg.config.type_to_node[bintrees.avltree.Node] = lambda data: mg.node_linear.Node_Linear(data,
-                                                                                        ['left', data.left,
-                                                                                         'key', data.key,
-                                                                                         'value', data.value,
-                                                                                         'right', data.right])
+                                                                                        ['left:', data.left,
+                                                                                         'key:', data.key,
+                                                                                         'value:', data.value,
+                                                                                         'right:', data.right])
 mg.render(locals(), 'avltree_linear.png')
 
 mg.config.type_to_node[bintrees.avltree.Node] = lambda data: mg.node_key_value.Node_Key_Value(data,

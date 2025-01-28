@@ -49,7 +49,7 @@ identical?: True
 A better way to understand what data is shared is to draw a graph of the data using the [memory_graph](https://pypi.org/project/memory-graph/) package.
 
 # Memory Graph #
-The [memory_graph](https://pypi.org/project/memory-graph/) package can graph many different data types.
+The [memory_graph](https://pypi.org/project/memory-graph/) package can graph many different data types, not limited to:
 
 ```python
 import memory_graph as mg
@@ -590,7 +590,7 @@ mg.show(locals())
 ```
 ![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_dir.png)
 
-Next figure out what are the attributes you want to graph and choose a Node type there are four options.
+Next figure out what are the attributes you want to graph and choose a Node type, there are four options.
 
 ### 1 Node_Base ###
 Node_base is a leaf node (with no children) and shows just a single value.
@@ -627,10 +627,10 @@ tree.insert(15, "fifteen")
 
 mg.config.type_to_color[bintrees.avltree.Node] = "sandybrown"
 mg.config.type_to_node[bintrees.avltree.Node] = lambda data: mg.node_linear.Node_Linear(data,
-                                                ['left', data.left,
-                                                 'key', data.key,
-                                                 'value', data.value,
-                                                 'right', data.right] )
+                                                ['left:', data.left,
+                                                 'key:', data.key,
+                                                 'value:', data.value,
+                                                 'right:', data.right] )
 
 mg.show(locals())
 ```

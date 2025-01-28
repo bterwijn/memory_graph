@@ -29,3 +29,6 @@ python highlight.py
 # extensions
 python extension_numpy.py
 python extension_pandas.py
+
+# introspection
+python avltree.py
