@@ -9,7 +9,7 @@ import sys
 
 import graphviz
 
-__version__ = "0.3.06"
+__version__ = "0.3.07"
 __author__ = 'Bas Terwijn'
 
 def get_source_location(stack_index):

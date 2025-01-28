@@ -69,6 +69,7 @@ Instead of showing the graph you can also render it to an output file of your ch
 
 ```python
 mg.render(data, "my_graph.pdf")
+mg.render(data, "my_graph.svg")
 mg.render(data, "my_graph.png")
 mg.render(data, "my_graph.gv") # Graphviz DOT file
 ```
@@ -318,8 +319,8 @@ To simplify debugging without a debugger tool, we offer these blocking alias fun
 
 | alias | purpose | function call |
 |:---|:---|:---|
-| `mg.l()` | graph **l**ocal variables | `mg.block(mg.show, locals())` |
-| `mg.s()` | graph the call **s**tack | `mg.block(mg.show, mg.get_call_stack())` |
+| `mg.l()` | graph **l**ocal variables and block | `mg.block(mg.show, locals())` |
+| `mg.s()` | graph the call **s**tack and block | `mg.block(mg.show, mg.get_call_stack())` |
 
 For example, executing this program:
 
@@ -546,8 +547,14 @@ mg.show(locals())
 ![extension_pandas.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_pandas.png)
 
 ## Jupyter Notebook ##
+In Jupyter Notebook `locals()` has additional variables that cause problems in the graph, use `mg.locals_jupyter()` to get the local variables with these problematic variables filtered out. Use `mg.get_call_stack_jupyter()` to get the whole call stack with these variables filtered out.
 
-In Jupyter Notebook `locals()` has additional variables that cause problems in the graph, use `mg.locals_jupyter()` to get the local variables with these problematic variables filtered out. Use `mg.get_call_stack_jupyter()` to get the whole call stack with these variables filtered out. 
+We can use `mg.show()` and `mg.render()` in a Jupyter Notebook, but alternatively we can also use `mg.create_graph()` to create a graph and the `display()` function to render it inline with for example:
+
+```python
+display( mg.create_graph(mg.locals_jupyter()) )          # display the local variables inline
+mg.block(display, mg.create_graph(mg.locals_jupyter()) ) # the same but blocked
+```
 
 See for example [jupyter_example.ipynb](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/jupyter_example.ipynb).
 ![jupyter_example.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/jupyter_example.png)

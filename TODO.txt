@@ -1,8 +1,6 @@
 
 mg.block(fun, print_loc=True), update docs, stack-overflow posts
 
-check 'svg' output, center seems off
-
 Jupyter Notebook inline render using display()
 
 webassembly inline render
