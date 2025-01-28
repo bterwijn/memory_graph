@@ -12,4 +12,4 @@ for i in range(1,6):
     squares.append(i**2)
     squares_collector.append(squares.copy())
     mg.render(locals(), get_fac_name())
-mg.d(graph=False,log=True,block=False)
+mg.render(locals(), get_fac_name())
