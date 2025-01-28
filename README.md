@@ -88,6 +88,8 @@ mg.render(data, "my_graph.gv") # Graphviz DOT file
 
 [Extensions](#extensions)
 
+[Introspection](#introspection)
+
 [Jupyter Notebook](#jupyter-notebook)
 
 [Troubleshooting](#troubleshooting)
@@ -545,6 +547,142 @@ dataframe2 = pd.DataFrame({  'Name'   : [ 'Tom', 'Anna', 'Steve', 'Lisa'],
 mg.show(locals())
 ```
 ![extension_pandas.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_pandas.png)
+
+## Introspection ##
+This section is likely to change. Sometimes the introspection fails or is not as desired. For example the `bintrees.avltree.Node` object doesn't show any attributes in the graph below:
+
+```python
+import memory_graph as mg
+import bintrees
+
+# Create an AVL tree
+tree = bintrees.AVLTree()
+tree.insert(10, "ten")
+tree.insert(5, "five")
+tree.insert(20, "twenty")
+tree.insert(15, "fifteen")
+
+mg.show(locals())
+```
+![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_fail.png)
+
+
+### dir() ###
+A usefull start is to give it some color, show the list of all its attributes using `dir()`, and setting an empty Slicer to see the attribute list in full.
+
+```python
+import memory_graph as mg
+import bintrees
+
+# Create an AVL tree
+tree = bintrees.AVLTree()
+tree.insert(10, "ten")
+tree.insert(5, "five")
+tree.insert(20, "twenty")
+tree.insert(15, "fifteen")
+
+mg.config.type_to_color[bintrees.avltree.Node] = "sandybrown"
+mg.config.type_to_node[bintrees.avltree.Node] = lambda data: mg.node_linear.Node_Linear(data, 
+                                                dir(data))
+mg.config.type_to_slicer[bintrees.avltree.Node] = mg.slicer.Slicer()
+
+mg.show(locals())
+```
+![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_dir.png)
+
+Next figure out what are the attributes you want to graph and choose a Node type there are four options.
+
+### 1 Node_Base ###
+Node_base is a leaf node (with no children) and shows just a single value.
+```python
+import memory_graph as mg
+import bintrees
+
+# Create an AVL tree
+tree = bintrees.AVLTree()
+tree.insert(10, "ten")
+tree.insert(5, "five")
+tree.insert(20, "twenty")
+tree.insert(15, "fifteen")
+
+mg.config.type_to_color[bintrees.avltree.Node] = "sandybrown"
+mg.config.type_to_node[bintrees.avltree.Node] = lambda data: mg.node_base.Node_Base(f"key:{data.key} value:{data.value}")
+
+mg.show(locals())
+```
+![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_base.png)
+
+### 2 Node_Linear ###
+Node_Linear shows all the values in a line like a list.
+```python
+import memory_graph as mg
+import bintrees
+
+# Create an AVL tree
+tree = bintrees.AVLTree()
+tree.insert(10, "ten")
+tree.insert(5, "five")
+tree.insert(20, "twenty")
+tree.insert(15, "fifteen")
+
+mg.config.type_to_color[bintrees.avltree.Node] = "sandybrown"
+mg.config.type_to_node[bintrees.avltree.Node] = lambda data: mg.node_linear.Node_Linear(data,
+                                                ['left', data.left,
+                                                 'key', data.key,
+                                                 'value', data.value,
+                                                 'right', data.right] )
+
+mg.show(locals())
+```
+![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_linear.png)
+
+### 3 Node_Key_Value ###
+Node_Key_Value shows key-value pairs like a dictionary. Note the required `items()` call at the end.
+```python
+import memory_graph as mg
+import bintrees
+
+# Create an AVL tree
+tree = bintrees.AVLTree()
+tree.insert(10, "ten")
+tree.insert(5, "five")
+tree.insert(20, "twenty")
+tree.insert(15, "fifteen")
+
+mg.config.type_to_color[bintrees.avltree.Node] = "sandybrown"
+mg.config.type_to_node[bintrees.avltree.Node] = lambda data: mg.node_key_value.Node_Key_Value(data,
+                                                {'left': data.left,
+                                                 'key': data.key,
+                                                 'value': data.value,
+                                                 'right': data.right}.items() )
+
+mg.show(locals())
+```
+![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_key_value.png)
+
+### 4 Node_Table ###
+Node_Table shows all the values as a table.
+```python
+import memory_graph as mg
+import bintrees
+
+# Create an AVL tree
+tree = bintrees.AVLTree()
+tree.insert(10, "ten")
+tree.insert(5, "five")
+tree.insert(20, "twenty")
+tree.insert(15, "fifteen")
+
+mg.config.type_to_color[bintrees.avltree.Node] = "sandybrown"
+mg.config.type_to_node[bintrees.avltree.Node] = lambda data: mg.node_table.Node_Table(data,
+                                                [[data.key, data.value],
+                                                 [data.left, data.right]] )
+
+
+mg.show(locals())
+```
+![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_table.png)
+
 
 ## Jupyter Notebook ##
 In Jupyter Notebook `locals()` has additional variables that cause problems in the graph, use `mg.locals_jupyter()` to get the local variables with these problematic variables filtered out. Use `mg.get_call_stack_jupyter()` to get the whole call stack with these variables filtered out.
