@@ -75,7 +75,7 @@ def render(data, outfile=None, block=False,
     if block:
         block_deprecated_message()
 
-def d(loc=True, stack_index=2, colors = None, vertical_orientations = None, slicers = None):
+def l(loc=True, stack_index=2, colors = None, vertical_orientations = None, slicers = None):
     """ 
     Shows the graph of 'data' or the locals of the calling frame, and blocks. 
     """
@@ -83,7 +83,7 @@ def d(loc=True, stack_index=2, colors = None, vertical_orientations = None, slic
     memory_graph.block(memory_graph.show, data, loc=loc, stack_index=stack_index+1, block=False, 
                        colors=colors, vertical_orientations=vertical_orientations, slicers=slicers)
     
-def ds(loc=True, stack_index=2, colors = None, vertical_orientations = None, slicers = None):
+def s(loc=True, stack_index=2, colors = None, vertical_orientations = None, slicers = None):
     """ 
     Shows the graph of and optionally prints the call stack, and optionally blocks.
     """

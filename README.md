@@ -231,7 +231,7 @@ It is often helpful to temporarily block program execution to inspect the graph.
 mg.block(fun, arg1, arg2, ..., loc=True) 
 ```
 
-This function first executes `fun(arg1, arg2, ...)`, then prints the current source location in the program, and pauses execution until the &lt;Enter&gt; key is pressed. To skip printing the source location, set `loc=False`.
+This function first executes `fun(arg1, arg2, ...)`, then prints the current source location in the program, and blocks execution until the &lt;Enter&gt; key is pressed. To skip printing the source location, set `loc=False`.
 
 ### Recursion ###
 The call stack is also helpful to visualize how recursion works. Here we use `mg.block()` to show each step of how recursively ```factorial(3)``` is computed:
@@ -314,12 +314,12 @@ mg.get_call_stack_after_up_to(after_function, up_to_function="<module>")
 
 ### Debugging without Debugger Tool ###
 
-To simplify debugging without a debugger tool, we offer these blocking alias functions that you can insert into your code to visualize a graph at specific points:
+To simplify debugging without a debugger tool, we offer these blocking alias functions that you can insert into your code at a specific point to visualize a graph:
 
-| alias | function|
-|:---|:---|
-| `mg.d()` | `mg.block(mg.show, locals())` |
-| `mg.ds()` | `mg.block(mg.show, mg.get_call_stack())` |
+| alias | purpose | function call |
+|:---|:---|:---|
+| `mg.l()` | graph local variables | `mg.block(mg.show, locals())` |
+| `mg.s()` | graph the call stack | `mg.block(mg.show, mg.get_call_stack())` |
 
 For example, executing this program:
 
@@ -331,7 +331,7 @@ squares_collector = []
 for i in range(1, 6):
     squares.append(i**2)
     squares_collector.append(squares.copy())
-    mg.d()
+    mg.l() # graph local variables
 ```
 and pressing &lt;Enter&gt; a number of times, results in:
 
