@@ -14,10 +14,10 @@ pip install --upgrade .
 
 
 # ===== prepare packages for upload
-# - increase version number in setup.py and memory_graph/__init__.py before each upload
+# - increase version number in: setup.py memory_graph/__init__.py 
 # - update images:
 cd images; bash create_images.sh; cd ..
-# - git commit -am "version X.X.X"
+# - git commit -am "version X.X.X" && git push
 rm -f ./dist/*
 python setup.py check
 python setup.py sdist
