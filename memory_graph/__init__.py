@@ -15,6 +15,7 @@ import graphviz
 
 __version__ = "0.3.08"
 __author__ = 'Bas Terwijn'
+render_filename = 'memory_graph.pdf'
 
 def get_source_location(stack_index):
     """ Helper function to get the source location of the stack with 'stack_index' of the call stack. """
@@ -72,37 +73,95 @@ def render(data, outfile=None, block=False,
                  colors = None,
                  vertical_orientations = None,
                  slicers = None):
-    """ Renders the graph of 'data' to 'output_filename' and optionally blocks. """
+    """ Renders the graph of 'data' to 'outfile' and optionally blocks. """
+    if outfile is None:
+        outfile = memory_graph.render_filename
     graph = create_graph(data, colors, vertical_orientations, slicers)
-    filename = outfile if outfile else graph.filename+".pdf"
-    graph.render(outfile=filename)
+    graph.render(outfile=outfile)
     if block:
         block_deprecated_message()
 
-def l(loc=True, stack_index=2, colors = None, vertical_orientations = None, slicers = None):
+# ------------ aliases
+
+def sl(loc=True, stack_index=2, colors = None, vertical_orientations = None, slicers = None):
     """ 
-    Shows the graph of 'data' or the locals of the calling frame, and blocks. 
+    Shows the graph of locals() and blocks. 
+    """
+    data = get_locals_from_calling_frame(stack_index=stack_index)
+    memory_graph.show(data, colors=colors, vertical_orientations=vertical_orientations, slicers=slicers)
+    
+def ss(loc=True, stack_index=2, colors = None, vertical_orientations = None, slicers = None):
+    """ 
+    Shows the graph of mg.get_call_stack() and blocks. 
+    """
+    data = get_call_stack(stack_index=stack_index)
+    memory_graph.show(data, colors=colors, vertical_orientations=vertical_orientations, slicers=slicers)
+
+def bsl(loc=True, stack_index=2, colors = None, vertical_orientations = None, slicers = None):
+    """ 
+    Shows the graph of locals() and blocks. 
     """
     data = get_locals_from_calling_frame(stack_index=stack_index)
     memory_graph.block(memory_graph.show, data, loc=loc, stack_index=stack_index+1, block=False, 
                        colors=colors, vertical_orientations=vertical_orientations, slicers=slicers)
     
-def s(loc=True, stack_index=2, colors = None, vertical_orientations = None, slicers = None):
+def bss(loc=True, stack_index=2, colors = None, vertical_orientations = None, slicers = None):
     """ 
-    Shows the graph of and optionally prints the call stack, and optionally blocks.
+    Shows the graph of mg.get_call_stack() and blocks. 
     """
     data = get_call_stack(stack_index=stack_index)
     memory_graph.block(memory_graph.show, data, loc=loc, stack_index=stack_index+1, block=False, 
                        colors=colors, vertical_orientations=vertical_orientations, slicers=slicers)
 
-# ------------ locals
+def rl(loc=True, stack_index=2, colors = None, vertical_orientations = None, slicers = None):
+    """ 
+    Shows the graph of locals() and blocks. 
+    """
+    data = get_locals_from_calling_frame(stack_index=stack_index)
+    memory_graph.render(data, block=False, colors=colors, vertical_orientations=vertical_orientations, slicers=slicers)
+    
+def rs(loc=True, stack_index=2, colors = None, vertical_orientations = None, slicers = None):
+    """ 
+    Shows the graph of mg.get_call_stack() and blocks. 
+    """
+    data = get_call_stack(stack_index=stack_index)
+    memory_graph.render(data, block=False, colors=colors, vertical_orientations=vertical_orientations, slicers=slicers)
+
+def brl(loc=True, stack_index=2, colors = None, vertical_orientations = None, slicers = None):
+    """ 
+    Shows the graph of locals() and blocks. 
+    """
+    data = get_locals_from_calling_frame(stack_index=stack_index)
+    memory_graph.block(memory_graph.render, data, loc=loc, stack_index=stack_index+1, block=False, 
+                       colors=colors, vertical_orientations=vertical_orientations, slicers=slicers)
+    
+def brs(loc=True, stack_index=2, colors = None, vertical_orientations = None, slicers = None):
+    """ 
+    Shows the graph of mg.get_call_stack() and blocks. 
+    """
+    data = get_call_stack(stack_index=stack_index)
+    memory_graph.block(memory_graph.render, data, loc=loc, stack_index=stack_index+1, block=False, 
+                       colors=colors, vertical_orientations=vertical_orientations, slicers=slicers)
+
+def l(loc=True, stack_index=2, colors = None, vertical_orientations = None, slicers = None):
+    """ 
+    Shows the graph of locals() and blocks. 
+    """
+    bsl(loc=loc, stack_index=stack_index+1, colors=colors, vertical_orientations=vertical_orientations, slicers=slicers)
+    
+def s(loc=True, stack_index=2, colors = None, vertical_orientations = None, slicers = None):
+    """ 
+    Shows the graph of mg.get_call_stack() and blocks. 
+    """
+    bss(loc=loc, stack_index=stack_index+1, colors=colors, vertical_orientations=vertical_orientations, slicers=slicers)
+
+
+# ------------ call stack
 
 def get_locals_from_calling_frame(stack_index=1):
     """ Helper function to get locals of the stack with 'stack_inex' of the call stack. """
     frameInfo = inspect.stack()[stack_index] # get frameInfo of calling frame
     return frameInfo.frame.f_locals
-
-# ------------ call stack
 
 def stack_frames_to_dict(frames):
     """ Returns a dictionary representing the data on the call stack. 

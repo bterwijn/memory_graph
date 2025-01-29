@@ -317,12 +317,22 @@ mg.get_call_stack_after_up_to(after_function, up_to_function="<module>")
 
 ### Debugging without Debugger Tool ###
 
-To simplify debugging without a debugger tool, we offer these blocking alias functions that you can insert into your code at a specific point to visualize a graph:
+To simplify debugging without a debugger tool, we offer these alias functions that you can insert into your code at the point where you want to visualize a graph:
 
 | alias | purpose | function call |
 |:---|:---|:---|
-| `mg.l()` | graph **l**ocal variables and block | `mg.block(mg.show, locals())` |
-| `mg.s()` | graph the call **s**tack and block | `mg.block(mg.show, mg.get_call_stack())` |
+| `mg.sl()` | **s**how **l**ocal variables | `mg.show(locals())` |
+| `mg.ss()` | **s**how the call **s**tack | `mg.show(mg.get_call_stack())` |
+| `mg.bsl()` | **b**lock while **s**howing **l**ocal variables | `mg.block(mg.show, locals())` |
+| `mg.bss()` | **b**lock while **s**howing the call **s**tack | `mg.block(mg.show, mg.get_call_stack())` |
+| `mg.rl()` | **r**ender **l**ocal variables | `mg.render(locals())` |
+| `mg.rs()` | **r**ender the call **s**tack | `mg.render(mg.get_call_stack())` |
+| `mg.brl()` | **b**lock while **r**endering **l**ocal variables | `mg.block(mg.render, locals())` |
+| `mg.brs()` | **b**lock while **r**endering the call **s**tack | `mg.block(mg.render, mg.get_call_stack())` |
+| `mg.l()` | same as `mg.bsl()` |  |
+| `mg.s()` | same as `mg.bss()` |  |
+
+The render alias functions render to file `mg.render_filename` which is set by default to 'memory_graph.pdf'.
 
 For example, executing this program:
 
@@ -334,7 +344,7 @@ squares_collector = []
 for i in range(1, 6):
     squares.append(i**2)
     squares_collector.append(squares.copy())
-    mg.l() # graph local variables
+    mg.l() # block while showing local variables
 ```
 and pressing &lt;Enter&gt; a number of times, results in:
 
@@ -549,7 +559,7 @@ mg.show(locals())
 ![extension_pandas.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_pandas.png)
 
 ## Introspection ##
-This section is likely to change. Sometimes the introspection fails or is not as desired. For example the `bintrees.avltree.Node` object doesn't show any attributes in the graph below:
+This section is likely to change. Sometimes the introspection fails or is not as desired. For example the `bintrees.avltree.Node` object doesn't show any attributes in the graph below.
 
 ```python
 import memory_graph as mg
@@ -568,7 +578,7 @@ mg.show(locals())
 
 
 ### dir() ###
-A usefull start is to give it some color, show the list of all its attributes using `dir()`, and setting an empty Slicer to see the attribute list in full.
+A useful start is to give it some color, show the list of all its attributes using `dir()`, and setting an empty Slicer to see the attribute list in full.
 
 ```python
 import memory_graph as mg
