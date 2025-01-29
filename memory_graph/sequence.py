@@ -1,3 +1,7 @@
+# This file is part of memory_graph.
+# Copyright (c) 2023, Bas Terwijn.
+# SPDX-License-Identifier: BSD-2-Clause
+
 from abc import ABC, abstractmethod
 
 from memory_graph.slices import Slices1D, Slices2D

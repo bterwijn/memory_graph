@@ -1,3 +1,7 @@
+# This file is part of memory_graph.
+# Copyright (c) 2023, Bas Terwijn.
+# SPDX-License-Identifier: BSD-2-Clause
+
 """ Extension to add the memory graph configuration for Pandas type. """
 from memory_graph.node_linear import Node_Linear
 from memory_graph.node_table import Node_Table

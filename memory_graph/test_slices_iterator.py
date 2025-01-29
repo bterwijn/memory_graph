@@ -1,3 +1,7 @@
+# This file is part of memory_graph.
+# Copyright (c) 2023, Bas Terwijn.
+# SPDX-License-Identifier: BSD-2-Clause
+
 
 from memory_graph.slices_iterator import Slices_Iterator1D, Slices_Iterator2D
 from memory_graph.slices import Slices1D, Slices2D

@@ -1,3 +1,7 @@
+# This file is part of memory_graph.
+# Copyright (c) 2023, Bas Terwijn.
+# SPDX-License-Identifier: BSD-2-Clause
+
 """ Configuration file for the graph visualizer. The configuration values are set later by the 'config_default.py' file. """
 
 max_tree_depth = None

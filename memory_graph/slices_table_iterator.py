@@ -1,3 +1,7 @@
+# This file is part of memory_graph.
+# Copyright (c) 2023, Bas Terwijn.
+# SPDX-License-Identifier: BSD-2-Clause
+
 from abc import ABC, abstractmethod
 
 class Slices_Table_Iterator(ABC):

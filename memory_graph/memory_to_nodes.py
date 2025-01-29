@@ -1,3 +1,7 @@
+# This file is part of memory_graph.
+# Copyright (c) 2023, Bas Terwijn.
+# SPDX-License-Identifier: BSD-2-Clause
+
 from memory_graph.node_base import Node_Base
 from memory_graph.node_linear import Node_Linear
 from memory_graph.node_key_value import Node_Key_Value

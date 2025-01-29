@@ -1,3 +1,7 @@
+# This file is part of memory_graph.
+# Copyright (c) 2023, Bas Terwijn.
+# SPDX-License-Identifier: BSD-2-Clause
+
 import memory_graph.utils as utils
 import memory_graph.config as config
 import memory_graph.config_helpers as config_helpers
