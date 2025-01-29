@@ -72,6 +72,7 @@ mg.render(data, "my_graph.pdf")
 mg.render(data, "my_graph.svg")
 mg.render(data, "my_graph.png")
 mg.render(data, "my_graph.gv") # Graphviz DOT file
+mg.render(data) # renders to 'mg.render_filename' (default value: 'memory_graph.pdf')
 ```
 
 # Chapters #
@@ -231,10 +232,10 @@ This is because `b` is of immutable type 'tuple' so its value gets copied automa
 It is often helpful to temporarily block program execution to inspect the graph. For this, you can use the `mg.block()` function:
 
 ```python
-mg.block(fun, arg1, arg2, ..., loc=True) 
+mg.block(fun, arg1, arg2, ...) 
 ```
 
-This function first executes `fun(arg1, arg2, ...)`, then prints the current source location in the program, and blocks execution until the &lt;Enter&gt; key is pressed. To skip printing the source location, set `loc=False`.
+This function first executes `fun(arg1, arg2, ...)`, then prints the current source location in the program, and blocks execution until the &lt;Enter&gt; key is pressed. To skip printing the source location, set `mg.block_shows_location = False`.
 
 ### Recursion ###
 The call stack is also helpful to visualize how recursion works. Here we use `mg.block()` to show each step of how recursively ```factorial(3)``` is computed:
@@ -331,8 +332,6 @@ To simplify debugging without a debugger tool, we offer these alias functions th
 | `mg.brs()` | **b**lock while **r**endering the call **s**tack | `mg.block(mg.render, mg.get_call_stack())` |
 | `mg.l()` | same as `mg.bsl()` |  |
 | `mg.s()` | same as `mg.bss()` |  |
-
-The render alias functions render to file `mg.render_filename` which is set by default to 'memory_graph.pdf'.
 
 For example, executing this program:
 
