@@ -17,6 +17,7 @@ __version__ = "0.3.08"
 __author__ = 'Bas Terwijn'
 render_filename = 'memory_graph.pdf'
 block_shows_location = True
+press_enter_message = "Press <Enter> to continue..."
 
 def get_source_location(stack_index):
     """ Helper function to get the source location of the stack with 'stack_index' of the call stack. """
@@ -24,7 +25,7 @@ def get_source_location(stack_index):
     filename= frameInfo.filename
     line_nr= frameInfo.lineno
     function = frameInfo.function
-    return f'blocked at {filename}:{line_nr} function:"{function}"'
+    return f'{filename}:{line_nr} function:"{function}"'
 
 def block(fun=None, *args, **kwargs):
     """
@@ -38,8 +39,10 @@ def block(fun=None, *args, **kwargs):
     if callable(fun):
         result = fun(*args, **kwargs)
     if memory_graph.block_shows_location:
-        print(get_source_location(stack_index),end=', ')
-    input("Press <Enter> to continue...")
+        print('blocked at ' + get_source_location(stack_index), end=', ')
+    if memory_graph.press_enter_message:
+        print(memory_graph.press_enter_message)
+    input()
     return result
 
 def block_deprecated_message():

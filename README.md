@@ -235,7 +235,9 @@ It is often helpful to temporarily block program execution to inspect the graph.
 mg.block(fun, arg1, arg2, ...) 
 ```
 
-This function first executes `fun(arg1, arg2, ...)`, then prints the current source location in the program, and blocks execution until the &lt;Enter&gt; key is pressed. To skip printing the source location, set `mg.block_shows_location = False`.
+This function first executes `fun(arg1, arg2, ...)`, then prints the current source location in the program, and blocks execution until the &lt;Enter&gt; key is pressed. 
+Set `mg.block_shows_location = False` to skip printing the source location.
+Set `mg.press_enter_message = None` to skip printing "Press <Enter> to continue...".
 
 ### Recursion ###
 The call stack is also helpful to visualize how recursion works. Here we use `mg.block()` to show each step of how recursively ```factorial(3)``` is computed:
@@ -324,12 +326,12 @@ To simplify debugging without a debugger tool, we offer these alias functions th
 |:---|:---|:---|
 | `mg.sl()` | **s**how **l**ocal variables | `mg.show(locals())` |
 | `mg.ss()` | **s**how the call **s**tack | `mg.show(mg.get_call_stack())` |
-| `mg.bsl()` | **b**lock while **s**howing **l**ocal variables | `mg.block(mg.show, locals())` |
-| `mg.bss()` | **b**lock while **s**howing the call **s**tack | `mg.block(mg.show, mg.get_call_stack())` |
+| `mg.bsl()` | **b**lock after **s**howing **l**ocal variables | `mg.block(mg.show, locals())` |
+| `mg.bss()` | **b**lock after **s**howing the call **s**tack | `mg.block(mg.show, mg.get_call_stack())` |
 | `mg.rl()` | **r**ender **l**ocal variables | `mg.render(locals())` |
 | `mg.rs()` | **r**ender the call **s**tack | `mg.render(mg.get_call_stack())` |
-| `mg.brl()` | **b**lock while **r**endering **l**ocal variables | `mg.block(mg.render, locals())` |
-| `mg.brs()` | **b**lock while **r**endering the call **s**tack | `mg.block(mg.render, mg.get_call_stack())` |
+| `mg.brl()` | **b**lock after **r**endering **l**ocal variables | `mg.block(mg.render, locals())` |
+| `mg.brs()` | **b**lock after **r**endering the call **s**tack | `mg.block(mg.render, mg.get_call_stack())` |
 | `mg.l()` | same as `mg.bsl()` |  |
 | `mg.s()` | same as `mg.bss()` |  |
 
@@ -343,7 +345,7 @@ squares_collector = []
 for i in range(1, 6):
     squares.append(i**2)
     squares_collector.append(squares.copy())
-    mg.l() # block while showing local variables
+    mg.l() # block after showing local variables
 ```
 and pressing &lt;Enter&gt; a number of times, results in:
 
