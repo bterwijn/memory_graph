@@ -72,7 +72,7 @@ mg.render(data, "my_graph.pdf")
 mg.render(data, "my_graph.svg")
 mg.render(data, "my_graph.png")
 mg.render(data, "my_graph.gv") # Graphviz DOT file
-mg.render(data) # renders to 'mg.render_filename' (default value: 'memory_graph.pdf')
+mg.render(data) # renders to 'mg.render_filename' with default value: 'memory_graph.pdf'
 ```
 
 # Chapters #
@@ -236,8 +236,8 @@ mg.block(fun, arg1, arg2, ...)
 ```
 
 This function first executes `fun(arg1, arg2, ...)`, then prints the current source location in the program, and blocks execution until the &lt;Enter&gt; key is pressed. 
-Set `mg.block_shows_location = False` to skip printing the source location.
-Set `mg.press_enter_message = None` to skip printing "Press <Enter> to continue...".
+* Set `mg.block_shows_location = False` to skip printing the source location.
+* Set `mg.press_enter_message = None` to skip printing "Press &lt;Enter&gt; to continue...".
 
 ### Recursion ###
 The call stack is also helpful to visualize how recursion works. Here we use `mg.block()` to show each step of how recursively ```factorial(3)``` is computed:
