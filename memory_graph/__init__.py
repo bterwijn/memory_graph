@@ -16,7 +16,7 @@ import graphviz
 __version__ = "0.3.09"
 __author__ = 'Bas Terwijn'
 render_filename = 'memory_graph.pdf'
-block_shows_location = True
+block_prints_location = True
 press_enter_message = "Press <Enter> to continue..."
 
 def get_source_location(stack_index):
@@ -38,7 +38,7 @@ def block(fun=None, *args, **kwargs):
     result = None
     if callable(fun):
         result = fun(*args, **kwargs)
-    if memory_graph.block_shows_location:
+    if memory_graph.block_prints_location:
         print('blocked at ' + get_source_location(stack_index), end=', ')
     if memory_graph.press_enter_message:
         print(memory_graph.press_enter_message)

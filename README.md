@@ -201,7 +201,7 @@ mg.show(locals())
 
 
 ## Call Stack ##
-The `mg.get_call_stack()` function retrieves the entire call stack, including the local variables for each function on the stack. This enables us to visualize the local variables across all active functions simultaneously. Then by examining the graph, we can determine whether any local variables from different functions on the call stack share data. For instance, consider the function `add_one()` which adds the value `1` to each of its parameters, `a`, `b`, and `c`.
+The `mg.get_call_stack()` function retrieves the entire call stack, including the local variables for each function on the stack. This enables us to visualize the local variables across all active functions simultaneously. Then by examining the graph, we can determine whether any local variables from different functions on the call stack share data. For instance, consider the function `add_one()` which adds the value `1` to each of its parameters `a`, `b`, and `c`.
 
 ```python
 import memory_graph as mg
@@ -235,8 +235,8 @@ It is often helpful to temporarily block program execution to inspect the graph.
 mg.block(fun, arg1, arg2, ...) 
 ```
 
-This function first executes `fun(arg1, arg2, ...)`, then prints the current source location in the program, and blocks execution until the &lt;Enter&gt; key is pressed. 
-* Set `mg.block_shows_location = False` to skip printing the source location.
+This function first executes `fun(arg1, arg2, ...)`, then prints the current source location in the program, and then blocks execution until the &lt;Enter&gt; key is pressed. 
+* Set `mg.block_prints_location = False` to skip printing the source location.
 * Set `mg.press_enter_message = None` to skip printing "Press &lt;Enter&gt; to continue...".
 
 ### Recursion ###
