@@ -601,9 +601,9 @@ mg.show(locals())
 ```
 ![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_dir.png)
 
-Next figure out what are the attributes you want to graph and choose a Node type, there are four options.
+Next figure out what are the attributes you want to graph and choose a Node type, there are four options:
 
-### 1 Node_Base ###
+### 1) Node_Base ###
 Node_base is a leaf node (with no children) and shows just a single value.
 ```python
 import memory_graph as mg
@@ -623,7 +623,7 @@ mg.show(locals())
 ```
 ![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_base.png)
 
-### 2 Node_Linear ###
+### 2) Node_Linear ###
 Node_Linear shows all the values in a line like a list.
 ```python
 import memory_graph as mg
@@ -647,7 +647,7 @@ mg.show(locals())
 ```
 ![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_linear.png)
 
-### 3 Node_Key_Value ###
+### 3) Node_Key_Value ###
 Node_Key_Value shows key-value pairs like a dictionary. Note the required `items()` call at the end.
 ```python
 import memory_graph as mg
@@ -671,7 +671,7 @@ mg.show(locals())
 ```
 ![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_key_value.png)
 
-### 4 Node_Table ###
+### 4) Node_Table ###
 Node_Table shows all the values as a table.
 ```python
 import memory_graph as mg
