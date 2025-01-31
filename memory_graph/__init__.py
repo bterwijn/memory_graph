@@ -198,14 +198,20 @@ def get_call_stack_pycharm(after_function="trace_dispatch",up_to_function="<modu
     return get_call_stack_after_up_to(after_function,up_to_function)
 
 def save_call_stack(filename):
-    """ Save the call stack to 'filename' for inspection to see what functions need to be 
+    """ Saves the call stack to 'filename' for inspection to see what functions need to be 
     filtered out to create the desired graph. """
     with open(filename,'w') as file:
-        for f in inspect.stack():
-            file.write(f"function:{f.function} filename:{f.filename}\n")
+        for frame in inspect.stack():
+            file.write(f"function:{frame.function} filename:{frame.filename}\n")
 
+def print_call_stack_vars(stack_index=0):
+    """ Prints all variables on the call stack. """
+    for level, frameInfo in enumerate(reversed(inspect.stack())):
+        print('=====',level,frameInfo.function)
+        print(tuple(frameInfo.frame.f_locals.keys()))
+              
 # ------------ jupyter filtering
-            
+
 jupyter_filter_keys = {'exit','quit','v','In','Out','jupyter_filter_keys'}
 def jupyter_locals_filter(jupyter_locals):
     """ Filter out the jupyter specific keys that polute the graph. """
@@ -221,4 +227,23 @@ def get_call_stack_jupyter(up_to_function="<module>",stack_index=0):
     call_stack = get_call_stack(up_to_function,1+stack_index)
     globals_frame = next(iter(call_stack))
     call_stack[globals_frame] = jupyter_locals_filter(call_stack[globals_frame])
+    return call_stack
+
+# ------------ ipython filtering
+
+ipython_filter_keys = {'sys', 'ipython', 'In', 'Out', 'get_ipython', 'exit', 'quit', 'open'}
+def ipython_locals_filter(ipython_locals):
+    """ Filter out the ipython specific keys that polute the graph. """
+    return {k:v for k,v in ipython_locals.items()
+            if k not in ipython_filter_keys and k[0] != '_'}
+
+def locals_ipython(stack_index=0):
+    """ Get the locals of the calling frame in a ipython, filtering out the ipython specific keys. """
+    return ipython_locals_filter(get_locals_from_call_stack(1+stack_index))
+
+def get_call_stack_ipython(up_to_function="<module>",stack_index=0):
+    """ Get the call stack in a ipython, filtering out the ipython specific keys. """
+    call_stack = get_call_stack(up_to_function,1+stack_index)
+    globals_frame = next(iter(call_stack))
+    call_stack[globals_frame] = ipython_locals_filter(call_stack[globals_frame])
     return call_stack
