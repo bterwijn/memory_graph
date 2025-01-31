@@ -235,7 +235,13 @@ It is often helpful to temporarily block program execution to inspect the graph.
 mg.block(fun, arg1, arg2, ...) 
 ```
 
-This function first executes `fun(arg1, arg2, ...)`, then prints the current source location in the program, and then blocks execution until the &lt;Enter&gt; key is pressed. 
+This function:
+* first executes `fun(arg1, arg2, ...)`
+* then prints the current source location in the program
+* then blocks execution until the &lt;Enter&gt; key is pressed
+* finally returns the value of the `fun()` call
+
+to change it's behavior:
 * Set `mg.block_prints_location = False` to skip printing the source location.
 * Set `mg.press_enter_message = None` to skip printing "Press &lt;Enter&gt; to continue...".
 
