@@ -19,9 +19,9 @@ render_filename = 'memory_graph.pdf'
 block_prints_location = True
 press_enter_message = "Press <Enter> to continue..."
 
-def get_source_location(stack_index):
+def get_source_location(stack_index=0):
     """ Helper function to get the source location of the stack with 'stack_index' of the call stack. """
-    frameInfo = inspect.stack()[stack_index] # get frameInfo of calling frame
+    frameInfo = inspect.stack()[1+stack_index] # get frameInfo of calling frame
     filename= frameInfo.filename
     line_nr= frameInfo.lineno
     function = frameInfo.function
@@ -32,6 +32,7 @@ def block(fun=None, *args, **kwargs):
     Calls the given function `fun` with specified arguments and keyword arguments,
     waits for the user to press Enter, and returns the result of `fun`.
     """
+    stack_index = 0
     if 'stack_index' in kwargs:
         stack_index = kwargs['stack_index']
         del kwargs['stack_index']
@@ -39,7 +40,7 @@ def block(fun=None, *args, **kwargs):
     if callable(fun):
         result = fun(*args, **kwargs)
     if memory_graph.block_prints_location:
-        print('blocked at ' + get_source_location(stack_index), end=', ')
+        print('blocked at ' + get_source_location(1+stack_index), end=', ')
     if memory_graph.press_enter_message:
         print(memory_graph.press_enter_message)
     input()
@@ -58,7 +59,7 @@ def create_graph(data,
     graphviz_graph = memory_to_nodes.memory_to_nodes(data)
     return graphviz_graph
 
-def show(data ,block=False,
+def show(data, block=False,
                  colors = None,
                  vertical_orientations = None,
                  slicers = None):
@@ -82,84 +83,84 @@ def render(data, outfile=None, block=False,
 
 # ------------ aliases
 
-def sl(stack_index=2, colors = None, vertical_orientations = None, slicers = None):
+def sl(stack_index=0, colors = None, vertical_orientations = None, slicers = None):
     """ 
     Shows the graph of locals() and blocks. 
     """
-    data = get_locals_from_calling_frame(stack_index=stack_index)
+    data = get_locals_from_call_stack(stack_index=1+stack_index)
     memory_graph.show(data, colors=colors, vertical_orientations=vertical_orientations, slicers=slicers)
     
-def ss(stack_index=2, colors = None, vertical_orientations = None, slicers = None):
+def ss(stack_index=0, colors = None, vertical_orientations = None, slicers = None):
     """ 
     Shows the graph of mg.get_call_stack() and blocks. 
     """
-    data = get_call_stack(stack_index=stack_index)
+    data = get_call_stack(stack_index=1+stack_index)
     memory_graph.show(data, colors=colors, vertical_orientations=vertical_orientations, slicers=slicers)
 
-def bsl(stack_index=2, colors = None, vertical_orientations = None, slicers = None):
+def bsl(stack_index=0, colors = None, vertical_orientations = None, slicers = None):
     """ 
     Shows the graph of locals() and blocks. 
     """
-    data = get_locals_from_calling_frame(stack_index=stack_index)
-    memory_graph.block(memory_graph.show, data, stack_index=stack_index+1, block=False, 
+    data = get_locals_from_call_stack(stack_index=1+stack_index)
+    memory_graph.block(memory_graph.show, data, stack_index=1+stack_index, block=False, 
                        colors=colors, vertical_orientations=vertical_orientations, slicers=slicers)
     
-def bss(stack_index=2, colors = None, vertical_orientations = None, slicers = None):
+def bss(stack_index=0, colors = None, vertical_orientations = None, slicers = None):
     """ 
     Shows the graph of mg.get_call_stack() and blocks. 
     """
-    data = get_call_stack(stack_index=stack_index)
-    memory_graph.block(memory_graph.show, data, stack_index=stack_index+1, block=False, 
+    data = get_call_stack(stack_index=1+stack_index)
+    memory_graph.block(memory_graph.show, data, stack_index=1+stack_index, block=False, 
                        colors=colors, vertical_orientations=vertical_orientations, slicers=slicers)
 
-def rl(stack_index=2, colors = None, vertical_orientations = None, slicers = None):
+def rl(stack_index=0, colors = None, vertical_orientations = None, slicers = None):
     """ 
     Shows the graph of locals() and blocks. 
     """
-    data = get_locals_from_calling_frame(stack_index=stack_index)
+    data = get_locals_from_call_stack(stack_index=1+stack_index)
     memory_graph.render(data, block=False, colors=colors, vertical_orientations=vertical_orientations, slicers=slicers)
     
-def rs(stack_index=2, colors = None, vertical_orientations = None, slicers = None):
+def rs(stack_index=0, colors = None, vertical_orientations = None, slicers = None):
     """ 
     Shows the graph of mg.get_call_stack() and blocks. 
     """
-    data = get_call_stack(stack_index=stack_index)
+    data = get_call_stack(stack_index=1+stack_index)
     memory_graph.render(data, block=False, colors=colors, vertical_orientations=vertical_orientations, slicers=slicers)
 
-def brl(stack_index=2, colors = None, vertical_orientations = None, slicers = None):
+def brl(stack_index=0, colors = None, vertical_orientations = None, slicers = None):
     """ 
     Shows the graph of locals() and blocks. 
     """
-    data = get_locals_from_calling_frame(stack_index=stack_index)
-    memory_graph.block(memory_graph.render, data, stack_index=stack_index+1, block=False, 
+    data = get_locals_from_call_stack(stack_index=1+stack_index)
+    memory_graph.block(memory_graph.render, data, stack_index=1+stack_index, block=False, 
                        colors=colors, vertical_orientations=vertical_orientations, slicers=slicers)
     
-def brs(stack_index=2, colors = None, vertical_orientations = None, slicers = None):
+def brs(stack_index=0, colors = None, vertical_orientations = None, slicers = None):
     """ 
     Shows the graph of mg.get_call_stack() and blocks. 
     """
-    data = get_call_stack(stack_index=stack_index)
-    memory_graph.block(memory_graph.render, data, stack_index=stack_index+1, block=False, 
+    data = get_call_stack(stack_index=1+stack_index)
+    memory_graph.block(memory_graph.render, data, stack_index=1+stack_index, block=False, 
                        colors=colors, vertical_orientations=vertical_orientations, slicers=slicers)
 
-def l(stack_index=2, colors = None, vertical_orientations = None, slicers = None):
+def l(stack_index=0, colors = None, vertical_orientations = None, slicers = None):
     """ 
     Shows the graph of locals() and blocks. 
     """
-    bsl(stack_index=stack_index+1, colors=colors, vertical_orientations=vertical_orientations, slicers=slicers)
+    bsl(stack_index=1+stack_index, colors=colors, vertical_orientations=vertical_orientations, slicers=slicers)
     
-def s(stack_index=2, colors = None, vertical_orientations = None, slicers = None):
+def s(stack_index=0, colors = None, vertical_orientations = None, slicers = None):
     """ 
     Shows the graph of mg.get_call_stack() and blocks. 
     """
-    bss(stack_index=stack_index+1, colors=colors, vertical_orientations=vertical_orientations, slicers=slicers)
+    bss(stack_index=1+stack_index, colors=colors, vertical_orientations=vertical_orientations, slicers=slicers)
 
 
 # ------------ call stack
 
-def get_locals_from_calling_frame(stack_index=1):
+def get_locals_from_call_stack(stack_index=0):
     """ Helper function to get locals of the stack with 'stack_inex' of the call stack. """
-    frameInfo = inspect.stack()[stack_index] # get frameInfo of calling frame
+    frameInfo = inspect.stack()[1+stack_index] # get frameInfo of calling frame
     return frameInfo.frame.f_locals
 
 def stack_frames_to_dict(frames):
@@ -169,10 +170,10 @@ def stack_frames_to_dict(frames):
     return {f"{level}: {frameInfo.function}" : frameInfo.frame.f_locals
             for level, frameInfo in enumerate(frames)}
 
-def get_call_stack(up_to_function="<module>",stack_index=1):
+def get_call_stack(up_to_function="<module>",stack_index=0):
     """ Gets the call stack up to the function 'up_to_function'. """
     frames = reversed(list(
-        utils.take_up_to(lambda i: i.function==up_to_function, inspect.stack()[stack_index:])
+        utils.take_up_to(lambda i: i.function==up_to_function, inspect.stack()[1+stack_index:])
         ))
     return stack_frames_to_dict(frames)
 
@@ -211,13 +212,13 @@ def jupyter_locals_filter(jupyter_locals):
     return {k:v for k,v in jupyter_locals.items()
             if k not in jupyter_filter_keys and k[0] != '_'}
 
-def locals_jupyter(stack_index=2):
+def locals_jupyter(stack_index=0):
     """ Get the locals of the calling frame in a jupyter notebook, filtering out the jupyter specific keys. """
-    return jupyter_locals_filter(get_locals_from_calling_frame(stack_index))
+    return jupyter_locals_filter(get_locals_from_call_stack(1+stack_index))
 
-def get_call_stack_jupyter(up_to_function="<module>",stack_index=2):
+def get_call_stack_jupyter(up_to_function="<module>",stack_index=0):
     """ Get the call stack in a jupyter notebook, filtering out the jupyter specific keys. """
-    call_stack = get_call_stack(up_to_function,stack_index)
+    call_stack = get_call_stack(up_to_function,1+stack_index)
     globals_frame = next(iter(call_stack))
     call_stack[globals_frame] = jupyter_locals_filter(call_stack[globals_frame])
     return call_stack
