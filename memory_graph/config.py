@@ -7,6 +7,7 @@
 max_tree_depth = None
 max_missing_edges = None
 max_string_length = None
+graph_stability = None
 
 not_node_types = {}
 no_child_references_types = set()

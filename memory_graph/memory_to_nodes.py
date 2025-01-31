@@ -133,8 +133,7 @@ def create_depth_of_nodes(nodes, nodes_at_depth):
 def add_subgraph(graphviz_graph, nodes_to_subgraph):
     new_node_names = [node.get_name() for node in nodes_to_subgraph]
     if len(new_node_names) > 1:
-        #graphviz_graph.body.append('{ rank="same"  '+(" -> ".join(new_node_names))+'  [weight=999,style=invis]; }\n')
-        graphviz_graph.body.append('{ rank="same"  '+('; '.join(new_node_names))+'; }\n')
+        graphviz_graph.body.append('subgraph { rank=same; '+ ' -> '.join(new_node_names) + '[weight='+str(config.graph_stability)+', style=invis]; }\n')
 
 def add_to_graphviz_graph(graphviz_graph, nodes, node, slices, id_to_slices, subgraphed_nodes, depth):
     html_table = node.get_html_table(nodes, slices, id_to_slices)

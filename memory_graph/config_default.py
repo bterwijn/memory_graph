@@ -23,6 +23,9 @@ config.max_missing_edges = 3
 """ The maximum length of strings shown in the graph. Longer strings will be truncated. """
 config.max_string_length = 42
 
+""" The number of references keeping child nodes in order versus other references pullen them out. """
+config.graph_stability = 10
+
 """ Types that by default will not have references pointing to them in the graph but instead will be visualized in the node of their parent. """
 config.not_node_types = {
     type(None), bool, int, float, complex, str,
