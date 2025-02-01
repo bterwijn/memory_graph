@@ -231,7 +231,7 @@ def get_call_stack_jupyter(up_to_function="<module>",stack_index=0):
 
 # ------------ ipython filtering
 
-ipython_filter_keys = {'sys', 'ipython', 'In', 'Out', 'get_ipython', 'exit', 'quit', 'open'}
+ipython_filter_keys = {'mg_visualization_status', 'sys', 'ipython', 'In', 'Out', 'get_ipython', 'exit', 'quit', 'open'}
 def ipython_locals_filter(ipython_locals):
     """ Filter out the ipython specific keys that polute the graph. """
     return {k:v for k,v in ipython_locals.items()
