@@ -93,6 +93,8 @@ mg.render(data) # renders to 'mg.render_filename' with default value: 'memory_gr
 
 [Jupyter Notebook](#jupyter-notebook)
 
+[ipython](#ipython)
+
 [Troubleshooting](#troubleshooting)
 
 
@@ -720,6 +722,7 @@ In ipython `locals()` has additional variables that cause problems in the graph,
 Additionally install file [auto_memory_graph.py](https://raw.githubusercontent.com/bterwijn/memory_graph/main/sc/auto_memory_graph.py) in the ipython startup directory:
 * Linux/Mac: ~/.ipython/profile_default/startup/
 * Windows: %USERPROFILE%\.ipython\profile_default\startup\
+
 Then after starting 'ipython' call function `mg_switch()` to turn on/off the automatic visualization of local variables after each command.
 ![jupyter_example.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/ipython.png)
 
