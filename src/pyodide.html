@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pyodide Python Runner</title>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/viz.js@2.1.2/viz.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/viz.js@2.1.2/full.render.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+	    margin: 0;
+	    padding: 0;
+	    height: 100%;
+        }
+	.container {
+	    display: grid;
+	    grid-template-columns: 1fr 1fr;
+	    grid-template-rows: 1fr 1fr;
+	    height: 100vh;
+	}
+	.part {
+	    border: 1px solid black;
+	    display: flex;
+	    flex-direction: column;
+	    justify-content: flex-start;
+	    align-items: flex-start;
+	    padding: 10px;
+	    box-sizing: border-box;
+	}
+        textarea {
+	    flex: 1;
+	    width: 100%;
+	    resize: none;
+	    margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #output {
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            white-space: pre-wrap;
+        }
+	#log {
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+  <div class="container">
+    <div class="part"><!-- ========== Top Left ========== --> <p>Log:</p>
+      <textarea id="log"></textarea>
+    </div>
+    
+    <div class="part"><!-- ========== Top Right ========== --> <p>Python Code:</p>
+    <textarea id="python-code">
+import memory_graph as mg
+import js
+
+def add_one(a, b, c):
+    a += [1]
+    b += (1,)
+    c += [1]
+    print("display the call stack")
+    js.display(mg.create_graph(mg.get_call_stack()))
+
+print("initialize test data")
+a = [4, 3, 2]
+b = (4, 3, 2)
+c = [4, 3, 2]
+print(f"a:{a} b:{b} c:{c}")
+
+print("call function add_one()")
+add_one(a, b, c.copy())
+print(f"a:{a} b:{b} c:{c}")
+    </textarea>
+    <button id="run-button" disabled>Run</button>
+    </div>
+    
+    <div class="part"><!-- ========== Bottom Left ========== --> <p>Graph:</p>
+    <div id="graph-container"></div>
+    </div>
+
+    
+    <div class="part"><!-- ========== Bottom Right ========== --> <p>Output:</p>
+      <textarea id="output"></textarea>
+    </div>
+  </div>
+  
+    
+    <script>
+    window.display = function(graph) {
+	const svgContainer = document.getElementById("graph-container");
+	try {
+            // Use Viz.js to render the DOT code into SVG
+            const viz = new Viz();
+            viz.renderSVGElement(graph.source)
+                .then(svgElement => {
+                    svgContainer.innerHTML = "";
+                    svgContainer.appendChild(svgElement);
+                })
+                .catch(error => {
+                    svgContainer.innerHTML = `Error: ${error}`;
+                });
+        } catch (error) {
+            svgContainer.innerHTML = `Error: ${error}`;
+        }
+    };
+      
+      let memory_graph_ready = false;
+      let pyodide;
+      const logDiv = document.getElementById("log");
+      logDiv.textContent = "Setting up\n";
+      
+      async function initializePyodide() {
+	  // Load Pyodide and micropip
+	  logDiv.textContent += "Loading Pyodide... "
+          pyodide = await loadPyodide();
+          logDiv.textContent +="loaded\n";
+	  logDiv.textContent += "Loading micropip... "
+          await pyodide.loadPackage("micropip");
+          logDiv.textContent += "loaded\n";
+	  const micropip = pyodide.pyimport("micropip");
+	  
+	  // Installing memory_graph
+	  try {
+	      logDiv.textContent += "Installing memory_graph... "
+	      await micropip.install("memory_graph");
+	      logDiv.textContent += "installed\n";
+	      memory_graph_ready = true;
+	      
+	      if (memory_graph_ready) {
+		  logDiv.textContent += "Setup complete, ready to Run\n";
+	          const button = document.getElementById("run-button");
+		  button.disabled = false;
+	      }
+	  } catch (error) {
+	      logDiv.textContent += `Failed to install memory_graph: ${error.message}\n`;
+	  }
+	  
+      }
+
+      initializePyodide(); // Call the initialization function.
+
+      document.getElementById("run-button").addEventListener("click", async () => {
+          const code = document.getElementById("python-code").value;
+          const outputDiv = document.getElementById("output");
+          outputDiv.textContent = ""; // Clear previous output
+
+	  try {
+              // Redirect Python stdout to capture `print()` output
+              pyodide.runPython(`
+import sys
+import io
+sys.stdout = io.StringIO()
+sys.stderr = sys.stdout
+                `);
+
+              // Execute the user-provided code
+	      logDiv.textContent += "running code\n"
+              await pyodide.runPythonAsync(code);
+	      
+              // Retrieve stdout content
+              const output = pyodide.runPython("sys.stdout.getvalue()");
+              outputDiv.textContent = `${output}`;
+          } catch (error) {
+              outputDiv.textContent = `${error}`;
+          }
+	  
+      });
+    </script>
+</body>
+</html>

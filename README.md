@@ -724,8 +724,12 @@ Additionally install file [auto_memory_graph.py](https://raw.githubusercontent.c
 * Windows: %USERPROFILE%\.ipython\profile_default\startup\
 
 Then after starting 'ipython' call function `mg_switch()` to turn on/off the automatic visualization of local variables after each command.
-![jupyter_example.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/ipython.png)
+![ipyton.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/ipython.png)
 
+## In the Browser ##
+
+We can run memory_graph in the browser using Pyodide: [pyodide-example](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/pyodide.html)
+![pyodide.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/pyodide.png)
 
 ## Troubleshooting ##
 
