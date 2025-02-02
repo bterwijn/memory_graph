@@ -95,6 +95,8 @@ mg.render(data) # renders to 'mg.render_filename' with default value: 'memory_gr
 
 [ipython](#ipython)
 
+[In the Browser](#in-the-browser)
+
 [Troubleshooting](#troubleshooting)
 
 
@@ -728,7 +730,7 @@ Then after starting 'ipython' call function `mg_switch()` to turn on/off the aut
 
 ## In the Browser ##
 
-We can run memory_graph in the browser using Pyodide: [pyodide-example](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/pyodide.html)
+We can run memory_graph in the browser using Pyodide: [pyodide-example](https://raw.githubusercontent.com/bterwijn/memory_graph/main/src/pyodide.html)
 ![pyodide.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/pyodide.png)
 
 ## Troubleshooting ##
