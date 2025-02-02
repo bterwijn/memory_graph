@@ -730,7 +730,7 @@ Then after starting 'ipython' call function `mg_switch()` to turn on/off the aut
 
 ## In the Browser ##
 
-We can run memory_graph in the browser using Pyodide: <a href="https://raw.githubusercontent.com/bterwijn/memory_graph/main/src/pyodide.html" target="_blank">pyodide-example</a>
+We can run memory_graph in the browser using Pyodide: <a href="https://bterwijn.github.io/memory_graph/src/pyodide.html" target="_blank">pyodide-example</a>
 ![pyodide.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/pyodide.png)
 
 ## Troubleshooting ##
