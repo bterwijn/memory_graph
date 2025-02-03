@@ -16,8 +16,8 @@ import memory_graph.utils as utils
 import types
 
 """ The maximum depth of nodes in the graph. When the graph gets too big set this to a small positive number. A `✂` symbol indictes where the graph is cut short. """
-config.max_tree_depth = -1
-
+config.max_graph_depth = 12
+config.graph_cut_symbol = '✂'
 config.max_missing_edges = 3
 
 """ The maximum length of strings shown in the graph. Longer strings will be truncated. """

@@ -214,7 +214,7 @@ class BinTree:
 
 def test_missing_edges(fun):
     random.seed(0)
-    config.max_tree_depth = 7
+    config.max_graph_depth = 7
     config.max_missing_edges = 5
     tree = BinTree()
     last_node = None

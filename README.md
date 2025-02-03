@@ -318,6 +318,8 @@ The ```mg.get_call_stack()``` doesn't work well in *watch* context in most debug
 | **Visual Studio Code** | `mg.get_call_stack_vscode()` |
 | **Pycharm** | `mg.get_call_stack_pycharm()` |
 
+![debug_vscode.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/debug_vscode.png)
+
 #### Other Debuggers ####
 For other debuggers, invoke this function within the *watch* context. Then, in the "call_stack.txt" file, identify the slice of functions you wish to include in the call stack.
 ```
@@ -489,8 +491,8 @@ for i in range(n):
 ## Configuration ##
 Different aspects of memory_graph can be configured. The default configuration is reset by importing 'memory_graph.config_default'.
 
-- ***mg.config.max_tree_depth*** : int
-  - The maxium depth of the graph. A `★` symbol indictes where the graph is cut short.
+- ***mg.config.max_graph_depth*** : int
+  - The maxium depth of the graph with default value 12. A `✂` (scissor) symbol indicates where the graph is cut short. Dashed references indicate that there are more references to a node than are shown.
 
 - ***mg.config.max_string_length*** : int
   - The maximum length of strings shown in the graph. Longer strings will be truncated.
@@ -535,7 +537,7 @@ mg.show( locals(),
 Different extensions are available for types from other Python packages. 
 
 ### Numpy ###
-Numpy types `arrray` and `matrix` and `ndarray` can be graphed with "memory_graph.extension_numpy":
+Numpy types `array` and `matrix` and `ndarray` can be graphed with "memory_graph.extension_numpy":
 
 ```python
 import memory_graph as mg
@@ -721,7 +723,7 @@ See for example [jupyter_example.ipynb](https://raw.githubusercontent.com/bterwi
 ## ipython ##
 In ipython `locals()` has additional variables that cause problems in the graph, use `mg.locals_ipython()` to get the local variables with these problematic variables filtered out. Use `mg.get_call_stack_ipython()` to get the whole call stack with these variables filtered out.
 
-Additionally install file [auto_memory_graph.py](https://raw.githubusercontent.com/bterwijn/memory_graph/main/sc/auto_memory_graph.py) in the ipython startup directory:
+Additionally install file [auto_memory_graph.py](https://raw.githubusercontent.com/bterwijn/memory_graph/main/src/auto_memory_graph.py) in the ipython startup directory:
 * Linux/Mac: ~/.ipython/profile_default/startup/
 * Windows: %USERPROFILE%\.ipython\profile_default\startup\
 
