@@ -318,6 +318,8 @@ The ```mg.get_call_stack()``` doesn't work well in *watch* context in most debug
 | **Visual Studio Code** | `mg.get_call_stack_vscode()` |
 | **Pycharm** | `mg.get_call_stack_pycharm()` |
 
+![debug_vscode.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/debug_vscode.png)
+
 #### Other Debuggers ####
 For other debuggers, invoke this function within the *watch* context. Then, in the "call_stack.txt" file, identify the slice of functions you wish to include in the call stack.
 ```
@@ -535,7 +537,7 @@ mg.show( locals(),
 Different extensions are available for types from other Python packages. 
 
 ### Numpy ###
-Numpy types `arrray` and `matrix` and `ndarray` can be graphed with "memory_graph.extension_numpy":
+Numpy types `array` and `matrix` and `ndarray` can be graphed with "memory_graph.extension_numpy":
 
 ```python
 import memory_graph as mg
