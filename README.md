@@ -492,7 +492,7 @@ for i in range(n):
 Different aspects of memory_graph can be configured. The default configuration is reset by importing 'memory_graph.config_default'.
 
 - ***mg.config.max_graph_depth*** : int
-  - The maxium depth of the graph with default value 12. A `✂` (scissor) symbol indicates where the graph is cut short.
+  - The maxium depth of the graph with default value 12. A `✂` (scissor) symbol indicates where the graph is cut short. Dashed references indicate that there are more references to a node than are shown.
 
 - ***mg.config.max_string_length*** : int
   - The maximum length of strings shown in the graph. Longer strings will be truncated.
