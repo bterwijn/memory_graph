@@ -45,10 +45,10 @@ def read_nodes(data):
 
 # --------------------------------------------------------------------------------------------
 
-def slice_nodes(nodes, root_id, max_tree_depth):
+def slice_nodes(nodes, root_id, max_graph_depth):
 
-    def slice_nodes_recursive(nodes, node_id, id_to_slices, max_tree_depth):
-        if max_tree_depth == 0 or node_id in id_to_slices:
+    def slice_nodes_recursive(nodes, node_id, id_to_slices, max_graph_depth):
+        if max_graph_depth == 0 or node_id in id_to_slices:
             return
         if node_id in nodes:
             node = nodes[node_id]
@@ -60,11 +60,11 @@ def slice_nodes(nodes, root_id, max_tree_depth):
                 slices = children.slice(slicer)
                 id_to_slices[node_id] = slices
                 if not node.is_hidden_node():
-                    max_tree_depth -= 1
+                    max_graph_depth -= 1
                 for index in slices:
-                    slice_nodes_recursive(nodes, id(children[index]), id_to_slices, max_tree_depth)
+                    slice_nodes_recursive(nodes, id(children[index]), id_to_slices, max_graph_depth)
     id_to_slices = {}
-    slice_nodes_recursive(nodes, root_id, id_to_slices, max_tree_depth)
+    slice_nodes_recursive(nodes, root_id, id_to_slices, max_graph_depth)
     return id_to_slices
 
 # --------------------------------------------------------------------------------------------
@@ -175,7 +175,7 @@ def build_graph(graphviz_graph, nodes, root_id, id_to_slices):
 def memory_to_nodes(data):
     nodes, root_id = read_nodes(data)
     #print('nodes:',nodes,'root_id:',root_id)
-    id_to_slices = slice_nodes(nodes, root_id, config.max_tree_depth)
+    id_to_slices = slice_nodes(nodes, root_id, config.max_graph_depth)
     #print('id_to_slices:',id_to_slices)
     id_to_slices = add_missing_edges(nodes, id_to_slices, config.max_missing_edges)
     #print('id_to_slices:',id_to_slices)

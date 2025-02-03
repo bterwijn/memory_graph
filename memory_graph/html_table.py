@@ -80,7 +80,7 @@ class HTML_Table:
             if child_id in id_to_slices:
                 self.add_reference(node, child, rounded, border, dashed)
             else:
-                self.add_value("✂", rounded, border)
+                self.add_value(config.graph_cut_symbol, rounded, border)
         else:
             self.add_value(child, rounded, border)
 
