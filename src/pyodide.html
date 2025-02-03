@@ -69,7 +69,7 @@ def add_one(a, b, c):
     a += [1]
     b += (1,)
     c += [1]
-    print("display the call stack")
+    print("display a graph of the call stack")
     js.display(mg.create_graph(mg.get_call_stack()))
 
 print("initialize test data")
@@ -78,9 +78,10 @@ b = (4, 3, 2)
 c = [4, 3, 2]
 print(f"a:{a} b:{b} c:{c}")
 
-print("call function add_one()")
+print("call function: add_one(a, b, c.copy())")
 add_one(a, b, c.copy())
 print(f"a:{a} b:{b} c:{c}")
+print("only 'a' has changed, the graph explains why")
     </textarea>
     <button id="run-button" disabled>Run</button>
     </div>
