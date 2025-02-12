@@ -167,7 +167,9 @@ def stack_frames_to_dict(frames):
     """ Returns a dictionary representing the data on the call stack. 
     Each key is the stack level and function name, each value is the locals of the frame at that level. 
     """
-    return {f"{level}: {frameInfo.function}" : frameInfo.frame.f_locals
+    def to_dict(value): #  fix by TerenceTux for Python 3.13
+        return {k: v for k, v in value.items()}
+    return {f"{level}: {frameInfo.function}" : to_dict(frameInfo.frame.f_locals)
             for level, frameInfo in enumerate(frames)}
 
 def get_call_stack(up_to_function="<module>",stack_index=0):
