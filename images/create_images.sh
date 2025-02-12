@@ -24,6 +24,7 @@ python bin_tree.py
 python hash_set.py
 
 # configuration
+python not_node_types.py
 python highlight.py
 
 # extensions

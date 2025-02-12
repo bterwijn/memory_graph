@@ -515,6 +515,27 @@ Different aspects of memory_graph can be configured. The default configuration i
 - ***mg.config.type_to_slicer*** : dict
   - Maps each type to a Slicer. A slicer determines how many elements of a data type are shown in the graph to prevent the graph from getting too big. 'Slicer()' does no slicing, 'Slicer(1,2,3)' shows just 1 element at the beginning, 2 in the middle, and 3 at the end.
 
+### Simplified Graph ###
+By default, the graph simplifies the visualization (and the viewer's mental model) by **not** creating separate nodes for immutable types like 'bool', 'int', 'float', 'complex', and str'. This simplification can sometimes be slightly misleading. In the example below, after a shallow copy, lists `a` and `b` technically share their 'int' values, but the graph makes it appear as though `a` and `b` each have their own copies. However, since 'int' is immutable, this simplification will never lead to bugs—changing `a` won’t affect `b`. 
+
+This approach strikes a balance: it keeps the graph clean and easy to understand while ensuring accuracy where it’s most critical—focusing on mutable types, where unexpected changes are more likely to occur. This is why it is the default behavior. If you do want to show separate nodes for `int` values, such as for educational purposes, you can simply remove `int` from the `mg.config.not_node_types` set:
+
+```python
+import memory_graph as mg
+
+a = [100, 200, 300]
+b = a.copy()
+mg.render(locals(), 'not_node_types1.png')
+
+mg.config.not_node_types.remove(int) # now show separate nodes for int values
+
+mg.render(locals(), 'not_node_types2.png')
+```
+| ![not_node_types1](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/'not_node_types1.png) | ![not_node_types2](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/'not_node_types2.png) |
+|:-----------------------------------------------------------:|:-------------------------------------------------------------:|
+| not_node_types1.png | not_node_types2.png |
+
+
 ### Temporary Configuration ###
 In addition to the global configuration, a temporary configuration can be set for a single `show()` or `render()` call to change the colors, orientation, and slicer. This example highlights a particular list element in red, gives it a horizontal orientation, and overwrites the default slicer for lists:
 
