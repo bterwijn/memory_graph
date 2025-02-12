@@ -534,7 +534,7 @@ mg.render(locals(), 'not_node_types2.png')
 |:-----------------------------------------------------------:|:-------------------------------------------------------------:|
 | not_node_types1.png, simplified | not_node_types2.png, technically correct |
 
-Additionally, the simplification hides the [reuse of small `int` values](https://docs.python.org/3/c-api/long.html#c.PyLong_FromLong), an optimization that might otherwise confuse beginner Python programmers.
+Additionally, the simplification hides the [reuse of small `int` values](https://docs.python.org/3/c-api/long.html#c.PyLong_FromLong), an optimization that might otherwise confuse beginner Python programmers. For example adding `a[1]+=1; b[1]+=1` to this example results in sharing the 201 value, but adding `a[2]+=1; b[2]+=1` doesn't result in sharing 301.
 
 ### Temporary Configuration ###
 In addition to the global configuration, a temporary configuration can be set for a single `show()` or `render()` call to change the colors, orientation, and slicer. This example highlights a particular list element in red, gives it a horizontal orientation, and overwrites the default slicer for lists:
