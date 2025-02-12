@@ -532,7 +532,7 @@ mg.render(locals(), 'not_node_types2.png')
 ```
 | ![not_node_types1](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/not_node_types1.png) | ![not_node_types2](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/not_node_types2.png) |
 |:-----------------------------------------------------------:|:-------------------------------------------------------------:|
-| not_node_types1.png | not_node_types2.png |
+| not_node_types1.png, simplified | not_node_types2.png, technically correct |
 
 
 ### Temporary Configuration ###
