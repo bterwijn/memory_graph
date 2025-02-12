@@ -531,7 +531,7 @@ mg.config.not_node_types.remove(int) # now show separate nodes for int values
 
 mg.render(locals(), 'not_node_types2.png')
 ```
-| ![not_node_types1](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/'not_node_types1.png) | ![not_node_types2](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/'not_node_types2.png) |
+| ![not_node_types1](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/not_node_types1.png) | ![not_node_types2](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/not_node_types2.png) |
 |:-----------------------------------------------------------:|:-------------------------------------------------------------:|
 | not_node_types1.png | not_node_types2.png |
 
