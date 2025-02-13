@@ -738,7 +738,7 @@ display( mg.create_graph(mg.locals_jupyter()) ) # display the local variables in
 mg.block(display, mg.create_graph(mg.locals_jupyter()) ) # the same but blocked
 ```
 
-See for example [jupyter_example.ipynb](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/jupyter_example.ipynb).
+See for example [jupyter_example.ipynb](https://raw.githubusercontent.com/bterwijn/memory_graph/main/src/jupyter_example.ipynb).
 ![jupyter_example.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/jupyter_example.png)
 
 ## ipython ##

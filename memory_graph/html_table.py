@@ -4,20 +4,13 @@
 
 from memory_graph.node_base import Node_Base 
 import memory_graph.node_base
-
 import memory_graph.config as config
-
 import html
 
-def outer_html_table(s, border, color):
-    """ Helper function to add the outer HTML table tags to the string s setting the 'border' and 'color'. """
-    return (f'<\n<TABLE BORDER="0" CELLBORDER="{border}" CELLSPACING="0" CELLPADDING="0" BGCOLOR="{color}"><TR><TD PORT="table">\n' +
-            s + '\n</TD></TR></TABLE>\n>')
-
-def inner_html_table(s):
-    """ Helper function to add the innner HTML table tags to the string s. """
-    return ('  <TABLE BORDER="0" CELLBORDER="0" CELLSPACING="5" CELLPADDING="0">\n    <TR>' +
-            s + '</TR>\n  </TABLE>')
+def html_table_frame(s, border, color, spacing=5):
+    """ Helper function to add the HTML table frame to the string s setting the 'border' and 'color'. """
+    return (f'<\n<TABLE BORDER="{border}" CELLBORDER="1" CELLSPACING="{spacing}" CELLPADDING="0" BGCOLOR="{color}" PORT="table">\n    <TR>' +
+            s + '</TR>\n</TABLE>\n>')
 
 def format_string(s):
     """ Helper function to format the string s to be shown in the graph. Setting the max_string_length and escaping html characters. """
@@ -37,6 +30,7 @@ class HTML_Table:
         """
         self.html = ''
         self.add_new_line_flag = False
+        self.is_empty = True
         self.col_count = 0
         self.row_count = 0
         self.ref_count = 0
@@ -61,18 +55,19 @@ class HTML_Table:
             self.html += '</TR>\n    <TR>'
             self.add_new_line_flag = False
 
-    def add_string(self, s):
-        """ Add a string s to the outer table. """
-        self.html += format_string(s)
+    def add_string(self, s, border=0):
+        """ Add a string s to the table. """
+        self.html += f'<TD BORDER="{border}">'+format_string(s)+'</TD>'
+        self.is_empty = False
 
     def add_index(self, s):
-        """ Add an index s to the inner table. """
+        """ Add an index s to the table. """
         self.check_add_new_line()
-        self.html += f'<TD><font color="#505050">{str(s)}</font></TD>'
+        self.html += f'<TD BORDER="0"><font color="#505050">{str(s)}</font></TD>'
         self.col_count += 1
 
     def add_entry(self, node, nodes, child, id_to_slices, rounded=False, border=1, dashed=False):
-        """ Add child to the inner table either as reference if it is a Node_Base or as a value otherwise. """
+        """ Add child to the table either as reference if it is a Node_Base or as a value otherwise. """
         #print('child:', child)
         child_id = id(child)
         if child_id in nodes:
@@ -85,14 +80,14 @@ class HTML_Table:
             self.add_value(child, rounded, border)
 
     def add_value(self, s, rounded=False, border=1):
-        """ Helper function to add a value s to the inner table. """
+        """ Helper function to add a value s to the table. """
         self.check_add_new_line()
         r = ' STYLE="ROUNDED"' if rounded else ''
         self.html += f'<TD BORDER="{border}"{r}> {format_string(s)} </TD>'
         self.col_count += 1
 
     def add_reference(self, node, child, rounded=False, border=1, dashed=False):
-        """ Helper function to add a reference to the inner table. """
+        """ Helper function to add a reference to the table. """
         self.check_add_new_line()
         r = ' STYLE="ROUNDED"' if rounded else ''
         self.html += f'<TD BORDER="{border}" PORT="ref{self.ref_count}"{r}> </TD>'
@@ -102,7 +97,7 @@ class HTML_Table:
         self.col_count += 1
 
     def add_dots(self, rounded=False, border=1):
-        """ Helper function to add dots to the inner table. """
+        """ Helper function to add dots to the table. """
         self.check_add_new_line()
         r = 'STYLE="ROUNDED"' if rounded else ''
         self.html += f'<TD BORDER="{border}" {r}>...</TD>'
@@ -110,26 +105,26 @@ class HTML_Table:
 
     def to_string(self, border=1, color='white'):
         """ Construct the HTML table string with the 'border' and 'color' settings. """
-        if self.col_count != 0 or self.row_count != 0:
-            self.html = inner_html_table(self.html)
-        if len(self.html) == 0:
-            self.html = ' '
-        return outer_html_table(self.html, border, color)
+        if self.col_count == 0 and self.row_count == 0:
+            if self.is_empty:
+                self.add_string(' ')
+            return html_table_frame(self.html, border, color, spacing=0)
+        return html_table_frame(self.html, border, color)
     
     def get_column(self):
-        """ Get the number of columns in the inner table. """
+        """ Get the number of columns in the table. """
         return self.col_count
     
     def get_max_column(self):
-        """ Get the maximum value of the number of columns of rows in the inner tables. """
+        """ Get the maximum value of the number of columns of rows in the table. """
         return self.max_col_count
     
     def get_row(self):
-        """ Get the number of rows in the inner table. """
+        """ Get the number of rows in the table. """
         return self.row_count
 
     def get_edges(self):
-        """ Get the edges that need to be acced t connect the table to other tables in the graph. """
+        """ Get the edges that need to be added to connect the table to other tables in the graph. """
         return self.edges
 
 if __name__ == '__main__':
@@ -138,6 +133,6 @@ if __name__ == '__main__':
     columns = 5
     for r in range(rows):
         for c in range(columns):
-            table.add_column(f'{c},{r}')
+            table.add_value(f'{c},{r}')
         table.add_new_line()
-    print(table)
+    print(table.to_string())
