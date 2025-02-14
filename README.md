@@ -5,9 +5,9 @@ pip install --upgrade memory_graph
 ```
 Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 
-# Sharing Data #
+# Sharing Values #
 
-In Python, assigning the list from variable `a` to variable `b` causes both variables to reference the same list object and therefore share the data. Consequently, any change applied through one variable will impact the other. This behavior can lead to elusive bugs if a programmer incorrectly assumes that list `a` and `b` are independent.
+In Python, assigning the list from variable `a` to variable `b` causes both variables to reference the same list value and thus share it. Consequently, any change applied through one variable will impact the other. This behavior can lead to elusive bugs if a programmer incorrectly assumes that list `a` and `b` are independent.
 
 <table><tr><td> 
 
@@ -245,7 +245,7 @@ This function:
 * then blocks execution until the &lt;Enter&gt; key is pressed
 * finally returns the value of the `fun()` call
 
-to change its behavior:
+To change its behavior:
 * Set `mg.block_prints_location = False` to skip printing the source location.
 * Set `mg.press_enter_message = None` to skip printing "Press &lt;Enter&gt; to continue...".
 
@@ -444,7 +444,7 @@ class BinTree:
 tree = BinTree()
 n = 100
 for i in range(n):
-    new_value = random.randrange(100)
+    new_value = random.randrange(n)
     tree.add(new_value)
 ```
 ![bin_tree.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_tree.png)
