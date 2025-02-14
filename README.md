@@ -516,7 +516,7 @@ Different aspects of memory_graph can be configured. The default configuration i
   - Maps each type to a Slicer. A slicer determines how many elements of a data type are shown in the graph to prevent the graph from getting too big. 'Slicer()' does no slicing, 'Slicer(1,2,3)' shows just 1 element at the beginning, 2 in the middle, and 3 at the end.
 
 ### Simplified Graph ###
-Memory_graph simplifies the visualization (and the viewer's mental model) by **not** showing separate nodes for immutable types like `bool`, `int`, `float`, `complex`, and `str` by default. This simplification can sometimes be slightly misleading. As in the example below, after a shallow copy, lists `a` and `b` technically share their `int` values, but the graph makes it appear as though `a` and `b` each have their own copies. However, since `int` is immutable, this simplification will never lead to unexpected changes or bugs—changing `a` won’t effect `b`.
+Memory_graph simplifies the visualization (and the viewer's mental model) by **not** showing separate nodes for immutable types like `bool`, `int`, `float`, `complex`, and `str` by default. This simplification can sometimes be slightly misleading. As in the example below, after a shallow copy, lists `a` and `b` technically share their `int` values, but the graph makes it appear as though `a` and `b` each have their own copies. However, since `int` is immutable, this simplification will never lead to unexpected changes—changing `a` won’t effect `b`.
 
 The simplification strikes a balance: it is slightly misleading but keeps the graph clean and easy to understand and focuses on the mutable types where unexpected changes can occur. This is why it is the default behavior. If you do want to show separate nodes for `int` values, such as for educational purposes, you can simply remove `int` from the `mg.config.not_node_types` set:
 ```python
@@ -532,9 +532,9 @@ mg.render(locals(), 'not_node_types2.png')
 ```
 | ![not_node_types1](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/not_node_types1.png) | ![not_node_types2](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/not_node_types2.png) |
 |:-----------------------------------------------------------:|:-------------------------------------------------------------:|
-| not_node_types1.png, simplified | not_node_types2.png, technically correct |
+| not_node_types1.png — simplified | not_node_types2.png — technically correct |
 
-Additionally, the simplification hides the [reuse of small `int` values](https://docs.python.org/3/c-api/long.html#c.PyLong_FromLong) in the current CPython implementation, an optimization that might otherwise confuse beginner Python programmers. For instance, after executing `a[1]+=1; b[1]+=1`, the `201` value is, maybe surprisingly, still shared between `a` and `b`, whereas executing `a[2]+=1; b[2]+=1` does not result in sharing the `301` value.
+Additionally, the simplification hides the [reuse of small int values](https://docs.python.org/3/c-api/long.html#c.PyLong_FromLong) in the current CPython implementation, an optimization that might otherwise confuse beginner Python programmers. For instance, after executing `a[1]+=1; b[1]+=1` the `201` value is, maybe surprisingly, still shared between `a` and `b`, whereas executing `a[2]+=1; b[2]+=1` does not result in sharing the `301` value.
 
 ### Temporary Configuration ###
 In addition to the global configuration, a temporary configuration can be set for a single `show()` or `render()` call to change the colors, orientation, and slicer. This example highlights a particular list element in red, gives it a horizontal orientation, and overwrites the default slicer for lists:
@@ -738,7 +738,7 @@ display( mg.create_graph(mg.locals_jupyter()) ) # display the local variables in
 mg.block(display, mg.create_graph(mg.locals_jupyter()) ) # the same but blocked
 ```
 
-See for example [jupyter_example.ipynb](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/jupyter_example.ipynb).
+See for example [jupyter_example.ipynb](https://raw.githubusercontent.com/bterwijn/memory_graph/main/src/jupyter_example.ipynb).
 ![jupyter_example.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/jupyter_example.png)
 
 ## ipython ##
