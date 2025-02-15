@@ -12,7 +12,7 @@ long_description_from_readme = (this_directory / "README.md").read_text()
 setup(
     name = 'memory_graph',
     version = '0.3.13',
-    description = 'Draws a graph of your data to analyze its structure.',
+    description = 'Generate intuitive graphs of your Python data, perfect for debugging and understanding complex relationships.',
     long_description = long_description_from_readme,
     long_description_content_type = 'text/markdown',
     readme = 'README.md',
@@ -21,7 +21,7 @@ setup(
     author_email = 'bterwijn@gmail.com',
     license = 'BSD 2-clause',
     packages = ['memory_graph'],
-    install_requires = ['graphviz',],
+    install_requires = ['graphviz'],
 
     classifiers = [
         'Development Status :: 4 - Beta',
