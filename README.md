@@ -5,8 +5,34 @@ pip install --upgrade memory_graph
 ```
 Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 
-# Sharing Values #
+# Memory Graph #
+For program understanding and debugging, the [memory_graph](https://pypi.org/project/memory-graph/) package can visualize your data, supporting many different data types, including but not limited to:
 
+```python
+import memory_graph as mg
+
+class MyClass:
+
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+data = [ range(1, 2), (3, 4), {5, 6}, {7:'seven', 8:'eight'},  MyClass(9, 10) ]
+mg.show(data)
+```
+![many_types.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/many_types.png)
+
+Instead of showing the graph on screen you can also render it to an output file of your choosing (see [Graphviz Output Formats](https://graphviz.org/docs/outputs/)) using for example:
+
+```python
+mg.render(data, "my_graph.pdf")
+mg.render(data, "my_graph.svg")
+mg.render(data, "my_graph.png")
+mg.render(data, "my_graph.gv") # Graphviz DOT file
+mg.render(data) # renders to 'mg.render_filename' with default value: 'memory_graph.pdf'
+```
+
+# Sharing Values #
 In Python, assigning the list from variable `a` to variable `b` causes both variables to reference the same list value and thus share it. Consequently, any change applied through one variable will impact the other. This behavior can lead to elusive bugs if a programmer incorrectly assumes that list `a` and `b` are independent.
 
 <table><tr><td> 
@@ -47,33 +73,6 @@ ids: 126432214913216 126432214913216
 identical?: True
 ```
 A better way to understand what data is shared is to draw a graph of the data using the [memory_graph](https://pypi.org/project/memory-graph/) package.
-
-# Memory Graph #
-The [memory_graph](https://pypi.org/project/memory-graph/) package can graph many different data types, not limited to:
-
-```python
-import memory_graph as mg
-
-class MyClass:
-
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-
-data = [ range(1, 2), (3, 4), {5, 6}, {7:'seven', 8:'eight'},  MyClass(9, 10) ]
-mg.show(data)
-```
-![many_types.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/many_types.png)
-
-Instead of showing the graph you can also render it to an output file of your choosing (see [Graphviz Output Formats](https://graphviz.org/docs/outputs/)) using for example:
-
-```python
-mg.render(data, "my_graph.pdf")
-mg.render(data, "my_graph.svg")
-mg.render(data, "my_graph.png")
-mg.render(data, "my_graph.gv") # Graphviz DOT file
-mg.render(data) # renders to 'mg.render_filename' with default value: 'memory_graph.pdf'
-```
 
 # Chapters #
 
