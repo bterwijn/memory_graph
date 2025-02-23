@@ -1,1 +1,1 @@
-recursive-include images/
+recursive-include images/ *

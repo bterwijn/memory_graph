@@ -9,7 +9,7 @@ files=$(ls -v $name*.png)
 echo "creating gif with:"
 echo "$files"
 
-largest_size=$(identify -format "%Wx%H %f\n" $name*.png | sort -nr | head -n1)
+largest_size=$(identify -format "%H %Wx%H %f\n" $name*.png | sort -nr | head -n1| awk '{print $2}')
 echo "largest_size: $largest_size"
 
 echo "resizing images"
