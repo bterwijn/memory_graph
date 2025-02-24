@@ -299,7 +299,6 @@ print( power_set(['a', 'b', 'c']) )
 [['a', 'b', 'c'], ['a', 'b'], ['a', 'c'], ['a'], ['b', 'c'], ['b'], ['c'], []]
 ```
 
-
 ## Debugging ##
 
 For the best debugging experience with memory_graph set for example expression:
@@ -361,6 +360,9 @@ for i in range(1, 6):
 and pressing &lt;Enter&gt; a number of times, results in:
 
 ![debugging.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/debugging.gif)
+
+### Invocation Tree ###
+The [memory_graph](https://pypi.org/project/memory-graph/) package usage a graph to visualizes your data. If you want to visualize function calls instead, check out the [invocation_tree](https://pypi.org/project/invocation-tree/) package.
 
 ## Datastructure Examples ##
 Module memory_graph can be very useful in a course about datastructures, some examples:
