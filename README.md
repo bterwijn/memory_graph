@@ -361,9 +361,6 @@ and pressing &lt;Enter&gt; a number of times, results in:
 
 ![debugging.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/debugging.gif)
 
-### Invocation Tree ###
-The [memory_graph](https://pypi.org/project/memory-graph/) package usage a graph to visualizes your data. If you want to visualize function calls instead, check out the [invocation_tree](https://pypi.org/project/invocation-tree/) package.
-
 ## Datastructure Examples ##
 Module memory_graph can be very useful in a course about datastructures, some examples:
 
@@ -761,3 +758,6 @@ We can also run memory_graph in the browser: <a href="https://bterwijn.github.io
 - Adobe Acrobat Reader [doesn't refresh a PDF file](https://superuser.com/questions/337011/windows-pdf-viewer-that-auto-refreshes-pdf-when-compiling-with-pdflatex) when it changes on disk and blocks updates which results in an `Could not open 'somefile.pdf' for writing : Permission denied` error. One solution is to install a PDF reader that does refresh ([Evince](https://www.fosshub.com/Evince.html), [Okular](https://okular.kde.org/), [SumatraPDF](https://www.sumatrapdfreader.org/), ...) and set it as the default PDF reader. Another solution is to `render()` the graph to a different output format and to open it manually.
 
 - When graph edges overlap it can be hard to distinguish them. Using an interactive graphviz viewer, such as [xdot](https://github.com/jrfonseca/xdot.py), on a '*.gv' DOT output file will help.
+
+### Invocation_Tree Package ###
+The [memory_graph](https://pypi.org/project/memory-graph/) package visualizes your data. If instead you want to visualize function calls, check out the [invocation_tree](https://pypi.org/project/invocation-tree/) package.
