@@ -177,7 +177,7 @@ mg.show(locals())
 ![copies.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copies.png)
 
 
-### Custom Copy Method ###
+### Custom Copy ###
 We can write our own custom copy function or method in case the three "copy" options don't do what we want. For example, in the code below the copy() method of My_Class copies the `digits` but shares the `letters` between two objects.
 
 ```python
@@ -204,7 +204,7 @@ mg.show(locals())
 
 
 ## Call Stack ##
-The `mg.get_call_stack()` function retrieves the entire call stack, including the local variables for each function on the stack. This enables us to visualize the local variables across all active functions simultaneously. Then by examining the graph, we can determine whether any local variables from different functions on the call stack share data. For instance, consider the function `add_one()` which adds the value `1` to each of its parameters `a`, `b`, and `c`.
+The `mg.get_call_stack()` function retrieves the entire call stack, including the local variables for each function on the stack. This enables us to visualize the local variables across all active functions simultaneously. By examining the graph, we can determine whether any local variables from different functions share data. For instance, consider the function `add_one()` which adds the value `1` to each of its parameters `a`, `b`, and `c`.
 
 ```python
 import memory_graph as mg
@@ -232,7 +232,7 @@ a:[4, 3, 2, 1] b:(4, 3, 2) c:[4, 3, 2]
 This is because `b` is of immutable type 'tuple' so its value gets copied automatically when it is changed. And because the function is called with a copy of `c`, its original value is not changed by the function. The value of variable `a` is the only value of mutable type that is shared between the root stack frame **'0: \<module>'** and the **'1: add_one'** stack frame of the function so only that variable is affected as a result of the function call. The other changes remain confined to the local variables of the ```add_one()``` function.
 
 ### Block ###
-It is often helpful to temporarily block program execution to inspect the graph. For this, you can use the `mg.block()` function:
+It is often helpful to temporarily block program execution to inspect the graph. For this we can use the `mg.block()` function:
 
 ```python
 mg.block(fun, arg1, arg2, ...) 
