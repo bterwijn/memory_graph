@@ -16,6 +16,7 @@ import graphviz
 __version__ = "0.3.13"
 __author__ = 'Bas Terwijn'
 render_filename = 'memory_graph.pdf'
+last_show_filename = None
 block_prints_location = True
 press_enter_message = "Press <Enter> to continue..."
 
@@ -59,27 +60,33 @@ def create_graph(data,
     graphviz_graph = memory_to_nodes.memory_to_nodes(data)
     return graphviz_graph
 
-def show(data, block=False,
+def render(data, outfile=None, view=False, block=False,
                  colors = None,
                  vertical_orientations = None,
                  slicers = None):
-    """ Shows the graph of 'data' and optionally blocks. """
-    graph = create_graph(data, colors, vertical_orientations, slicers)
-    graph.view()
-    if block:
-        block_deprecated_message()
-
-def render(data, outfile=None, block=False,
-                 colors = None,
-                 vertical_orientations = None,
-                 slicers = None):
-    """ Renders the graph of 'data' to 'outfile' and optionally blocks. """
+    """ Renders the graph of 'data' to 'outfile' or `memory_graph.render_filename` when not specified. """
     if outfile is None:
         outfile = memory_graph.render_filename
     graph = create_graph(data, colors, vertical_orientations, slicers)
-    graph.render(outfile=outfile)
+    graph.render(outfile=outfile, view=view, cleanup=True, quiet=True)
     if block:
         block_deprecated_message()
+
+def show(data, outfile=None, view=False, block=False,
+                 colors = None,
+                 vertical_orientations = None,
+                 slicers = None):
+    """ Shows the graph of 'data' by first rendering and then opening the default viewer
+    application by file extension at first call, when the outfile changes, or
+    when view is True. """
+    if outfile is None:
+        outfile = memory_graph.render_filename
+    open_view = (outfile != memory_graph.last_show_filename) or view
+    render(data=data, outfile=outfile, view=open_view, block=block,
+           colors=colors,
+           vertical_orientations=vertical_orientations,
+           slicers=slicers)
+    memory_graph.last_show_filename = outfile
 
 # ------------ aliases
 
