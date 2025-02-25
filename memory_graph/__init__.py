@@ -68,7 +68,10 @@ def render(data, outfile=None, view=False, block=False,
     if outfile is None:
         outfile = memory_graph.render_filename
     graph = create_graph(data, colors, vertical_orientations, slicers)
-    graph.render(outfile=outfile, view=view, cleanup=True, quiet=True)
+    if outfile.endswith('.gv') or outfile.endswith('.dot'):
+        graph.save(filename=outfile)
+    else:
+        graph.render(outfile=outfile, view=view, cleanup=True, quiet=True)
     if block:
         block_deprecated_message()
 
