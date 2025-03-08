@@ -12,7 +12,7 @@ long_description_from_readme = (this_directory / "README.md").read_text()
 setup(
     name = 'memory_graph',
     version = '0.3.14',
-    description = 'Generate intuitive graphs of your Python data, perfect for debugging and understanding complex relationships.',
+    description = 'Generate intuitive graphs of your Python data, great for debugging and understanding complex relationships.',
     long_description = long_description_from_readme,
     long_description_content_type = 'text/markdown',
     readme = 'README.md',
