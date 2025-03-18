@@ -127,6 +127,7 @@ import memory_graph as mg
 a = (4, 3, 2)
 b = a
 mg.render(locals(), 'immutable1.png')
+
 a += (1,)
 mg.render(locals(), 'immutable2.png')
 ```
@@ -144,6 +145,7 @@ import memory_graph as mg
 a = [4, 3, 2]
 b = a
 mg.render(locals(), 'mutable1.png')
+
 a += [1] # equivalent to:  a.append(1)
 mg.render(locals(), 'mutable2.png')
 ```
@@ -203,7 +205,7 @@ mg.show(locals())
 ![copy_method.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_method.png)
 
 ### Name Rebinding ###
-When `a` and `b` share a mutable value, then changing the value of `a` changes the value of `b` and vice versa. However, reassigning the value of `a` does not change `b`. When you reassign `a`, you rebind the name `a` to a new value without effecting other variables.
+When `a` and `b` share a mutable value, then changing the value of `a` changes the value of `b` and vice versa. However, reassigning the value of `a` does not change `b`. When you reassign `a`, you only rebind the name `a` to a new value without effecting any other variables.
 
 ```python
 import memory_graph as mg
@@ -212,7 +214,7 @@ a = [4, 3, 2]
 b = a
 mg.render(locals(), 'rebinding1.png')
 
-a += [1]        # changes value of 'a' and 'b'
+a += [1]        # changes the value of 'a' and 'b'
 a = [100, 200]  # rebinds 'a' to a new value, 'b' is uneffected
 mg.render(locals(), 'rebinding2.png')
 ```
