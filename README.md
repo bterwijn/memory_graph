@@ -202,6 +202,23 @@ mg.show(locals())
 ```
 ![copy_method.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_method.png)
 
+### Name Rebinding ###
+When `a` and `b` share a mutable value, then changing the value of `a` changes the value of `b` and vice versa. However, reassigning the value of `a` does not change `b`. When you reassign `a`, you rebind the name `a` to a new value without effecting other variables.
+
+```python
+import memory_graph as mg
+
+a = [4, 3, 2]
+b = a
+mg.render(locals(), 'rebinding1.png')
+
+a += [1]        # changes value of 'a' and 'b'
+a = [100, 200]  # rebinds 'a' to a new value, 'b' is uneffected
+mg.render(locals(), 'rebinding2.png')
+```
+| ![rebinding1.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/rebinding1.png) | ![rebinding2.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/rebinding2.png) |
+|:-----------------------------------------------------------:|:-------------------------------------------------------------:|
+| rebinding1.png | rebinding2.png |
 
 ## Call Stack ##
 The `mg.get_call_stack()` function retrieves the entire call stack, including the local variables for each function on the stack. This enables us to visualize the local variables across all active functions simultaneously. By examining the graph, we can determine whether any local variables from different functions share data. For instance, consider the function `add_one()` which adds the value `1` to each of its parameters `a`, `b`, and `c`.

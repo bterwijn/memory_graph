@@ -10,6 +10,7 @@ python immutable.py
 python mutable.py
 python copies.py
 python copy_method.py
+python name_rebinding.py
 
 # call stack
 python add_one.py
