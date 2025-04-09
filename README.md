@@ -762,8 +762,8 @@ See for example [jupyter_example.ipynb](https://raw.githubusercontent.com/bterwi
 In ipython `locals()` has additional variables that cause problems in the graph, use `mg.locals_ipython()` to get the local variables with these problematic variables filtered out. Use `mg.get_call_stack_ipython()` to get the whole call stack with these variables filtered out.
 
 Additionally install file [auto_memory_graph.py](https://raw.githubusercontent.com/bterwijn/memory_graph/main/src/auto_memory_graph.py) in the ipython startup directory:
-* Linux/Mac: ~/.ipython/profile_default/startup/
-* Windows: %USERPROFILE%\.ipython\profile_default\startup\
+* Linux/Mac: `~/.ipython/profile_default/startup/`
+* Windows: `%USERPROFILE%\.ipython\profile_default\startup\`
 
 Then after starting 'ipython' call function `mg_switch()` to turn on/off the automatic visualization of local variables after each command.
 ![ipyton.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/ipython.png)
