@@ -169,7 +169,7 @@ def test_different_types(fun):
     method_type = type(method)
     lambda_fun = lambda x: x*10
     lambda_fun_type = type(lambda_fun)
-    data = memory_graph.get_call_stack()
+    data = memory_graph.stack()
     fun(data)
 
 
@@ -221,7 +221,7 @@ def test_missing_edges(fun):
     n = 200
     for i in range(n):
         last_node = tree.insert(random.randint(0,n*10))
-    fun( memory_graph.get_call_stack() )
+    fun( memory_graph.stack() )
 
 def test_all(fun):
     pass

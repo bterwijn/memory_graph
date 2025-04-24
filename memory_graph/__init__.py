@@ -102,9 +102,9 @@ def sl(stack_index=0, colors = None, vertical_orientations = None, slicers = Non
     
 def ss(stack_index=0, colors = None, vertical_orientations = None, slicers = None):
     """ 
-    Shows the graph of mg.get_call_stack() and blocks. 
+    Shows the graph of mg.stack() and blocks. 
     """
-    data = get_call_stack(stack_index=1+stack_index)
+    data = stack(stack_index=1+stack_index)
     memory_graph.show(data, colors=colors, vertical_orientations=vertical_orientations, slicers=slicers)
 
 def bsl(stack_index=0, colors = None, vertical_orientations = None, slicers = None):
@@ -117,9 +117,9 @@ def bsl(stack_index=0, colors = None, vertical_orientations = None, slicers = No
     
 def bss(stack_index=0, colors = None, vertical_orientations = None, slicers = None):
     """ 
-    Shows the graph of mg.get_call_stack() and blocks. 
+    Shows the graph of mg.stack() and blocks. 
     """
-    data = get_call_stack(stack_index=1+stack_index)
+    data = stack(stack_index=1+stack_index)
     memory_graph.block(memory_graph.show, data, stack_index=1+stack_index, block=False, 
                        colors=colors, vertical_orientations=vertical_orientations, slicers=slicers)
 
@@ -132,9 +132,9 @@ def rl(stack_index=0, colors = None, vertical_orientations = None, slicers = Non
     
 def rs(stack_index=0, colors = None, vertical_orientations = None, slicers = None):
     """ 
-    Shows the graph of mg.get_call_stack() and blocks. 
+    Shows the graph of mg.stack() and blocks. 
     """
-    data = get_call_stack(stack_index=1+stack_index)
+    data = stack(stack_index=1+stack_index)
     memory_graph.render(data, block=False, colors=colors, vertical_orientations=vertical_orientations, slicers=slicers)
 
 def brl(stack_index=0, colors = None, vertical_orientations = None, slicers = None):
@@ -147,9 +147,9 @@ def brl(stack_index=0, colors = None, vertical_orientations = None, slicers = No
     
 def brs(stack_index=0, colors = None, vertical_orientations = None, slicers = None):
     """ 
-    Shows the graph of mg.get_call_stack() and blocks. 
+    Shows the graph of mg.stack() and blocks. 
     """
-    data = get_call_stack(stack_index=1+stack_index)
+    data = stack(stack_index=1+stack_index)
     memory_graph.block(memory_graph.render, data, stack_index=1+stack_index, block=False, 
                        colors=colors, vertical_orientations=vertical_orientations, slicers=slicers)
 
@@ -161,7 +161,7 @@ def l(stack_index=0, colors = None, vertical_orientations = None, slicers = None
     
 def s(stack_index=0, colors = None, vertical_orientations = None, slicers = None):
     """ 
-    Shows the graph of mg.get_call_stack() and blocks. 
+    Shows the graph of mg.stack() and blocks. 
     """
     bss(stack_index=1+stack_index, colors=colors, vertical_orientations=vertical_orientations, slicers=slicers)
 
@@ -182,6 +182,8 @@ def stack_frames_to_dict(frames):
     return {f"{level}: {frameInfo.function}" : to_dict(frameInfo.frame.f_locals)
             for level, frameInfo in enumerate(frames)}
 
+def stack(up_to_function="<module>",stack_index=0):
+    return get_call_stack(up_to_function, 1+stack_index)
 def get_call_stack(up_to_function="<module>",stack_index=0):
     """ Gets the call stack up to the function 'up_to_function'. """
     frames = reversed(list(
@@ -189,6 +191,8 @@ def get_call_stack(up_to_function="<module>",stack_index=0):
         ))
     return stack_frames_to_dict(frames)
 
+def stack_after_up_to(after_function,up_to_function="<module>"):
+    return get_call_stack_after_up_to(after_function, up_to_function)
 def get_call_stack_after_up_to(after_function,up_to_function="<module>"):
     """ Gets the call stack after the function 'after_function' up to the function 'up_to_function'."""
     frames = reversed(list(
@@ -197,14 +201,20 @@ def get_call_stack_after_up_to(after_function,up_to_function="<module>"):
             ))
     return stack_frames_to_dict(frames)
 
+def stack_pdb(after_function="trace_dispatch",up_to_function="<module>"):
+    return get_call_stack_pdb(after_function, up_to_function)
 def get_call_stack_pdb(after_function="trace_dispatch",up_to_function="<module>"):
     """ Get the call stack in a 'pdb' debugger session, filtering out the 'pdb' functions that polute the graph. """
     return get_call_stack_after_up_to(after_function,up_to_function)
 
+def stack_vscode(after_function="do_wait_suspend",up_to_function="<module>"):
+    return get_call_stack_vscode(after_function, up_to_function)
 def get_call_stack_vscode(after_function="do_wait_suspend",up_to_function="<module>"):
     """ Get the call stack in a 'vscode' debugger session, filtering out the 'vscode' functions that polute the graph. """
     return get_call_stack_after_up_to(after_function,up_to_function)
 
+def stack_pycharm(after_function="trace_dispatch",up_to_function="<module>"):
+    return get_call_stack_pycharm(after_function, up_to_function)
 def get_call_stack_pycharm(after_function="trace_dispatch",up_to_function="<module>"):
     """ Get the call stack in a 'pycharm' debugger session, filtering out the 'pycharm' functions that polute the graph. """
     return get_call_stack_after_up_to(after_function,up_to_function)
@@ -234,6 +244,8 @@ def locals_jupyter(stack_index=0):
     """ Get the locals of the calling frame in a jupyter notebook, filtering out the jupyter specific keys. """
     return jupyter_locals_filter(get_locals_from_call_stack(1+stack_index))
 
+def stack_jupyter(up_to_function="<module>",stack_index=0):
+    return get_call_stack_jupyter(up_to_function, 1+stack_index)
 def get_call_stack_jupyter(up_to_function="<module>",stack_index=0):
     """ Get the call stack in a jupyter notebook, filtering out the jupyter specific keys. """
     call_stack = get_call_stack(up_to_function,1+stack_index)
@@ -253,6 +265,8 @@ def locals_ipython(stack_index=0):
     """ Get the locals of the calling frame in a ipython, filtering out the ipython specific keys. """
     return ipython_locals_filter(get_locals_from_call_stack(1+stack_index))
 
+def stack_ipython(up_to_function="<module>",stack_index=0):
+    return get_call_stack_ipython(up_to_function, 1+stack_index)
 def get_call_stack_ipython(up_to_function="<module>",stack_index=0):
     """ Get the call stack in a ipython, filtering out the ipython specific keys. """
     call_stack = get_call_stack(up_to_function,1+stack_index)

@@ -13,12 +13,12 @@ def get_fac_name():
 def factorial(n):
     if n==0:
         return 1
-    #mg.show( mg.get_call_stack(), block=True ) # draw graph
-    mg.render( mg.get_call_stack(), get_fac_name())
+    #mg.show( mg.stack(), block=True ) # draw graph
+    mg.render( mg.stack(), get_fac_name())
     result = n*factorial(n-1)
-    #mg.show( mg.get_call_stack(), block=True ) # draw graph
-    mg.render( mg.get_call_stack(), get_fac_name())
+    #mg.show( mg.stack(), block=True ) # draw graph
+    mg.render( mg.stack(), get_fac_name())
     return result
 
-mg.render( mg.get_call_stack(), get_fac_name())
+mg.render( mg.stack(), get_fac_name())
 factorial(3)

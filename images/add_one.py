@@ -8,7 +8,7 @@ def add_one(a, b, c):
     a += [1]
     b += (1,)
     c += [1]
-    mg.render( mg.get_call_stack(), "add_one.png")
+    mg.render( mg.stack(), "add_one.png")
 
 a = [4, 3, 2]
 b = (4, 3, 2)

@@ -8,7 +8,7 @@ image = 1
 
 def get_subsets(subsets, data, i, subset):
     global image
-    mg.render(mg.get_call_stack(), f"power_set{image}.png")
+    mg.render(mg.stack(), f"power_set{image}.png")
     image += 1
     if i == len(data):
         subsets.append(subset.copy())
@@ -17,7 +17,7 @@ def get_subsets(subsets, data, i, subset):
     get_subsets(subsets, data, i+1, subset) #    do include data[i]
     subset.pop()
     get_subsets(subsets, data, i+1, subset) # don't include data[i]
-    mg.render(mg.get_call_stack(), f"power_set{image}.png")
+    mg.render(mg.stack(), f"power_set{image}.png")
     image += 1
 
 def power_set(data):

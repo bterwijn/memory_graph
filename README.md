@@ -223,7 +223,7 @@ mg.render(locals(), 'rebinding2.png')
 | rebinding1.png | rebinding2.png |
 
 ## Call Stack ##
-The `mg.get_call_stack()` function retrieves the entire call stack, including the local variables for each function on the stack. This enables us to visualize the local variables across all active functions simultaneously. By examining the graph, we can determine whether any local variables from different functions share data. For instance, consider the function `add_one()` which adds the value `1` to each of its parameters `a`, `b`, and `c`.
+The `mg.stack()` function retrieves the entire call stack, including the local variables for each function on the stack. This enables us to visualize the local variables across all active functions simultaneously. By examining the graph, we can determine whether any local variables from different functions share data. For instance, consider the function `add_one()` which adds the value `1` to each of its parameters `a`, `b`, and `c`.
 
 ```python
 import memory_graph as mg
@@ -232,7 +232,7 @@ def add_one(a, b, c):
     a += [1]
     b += (1,)
     c += [1]
-    mg.show(mg.get_call_stack())
+    mg.show(mg.stack())
 
 a = [4, 3, 2]
 b = (4, 3, 2)
@@ -276,9 +276,9 @@ import memory_graph as mg
 def factorial(n):
     if n==0:
         return 1
-    mg.block(mg.show, mg.get_call_stack())
+    mg.block(mg.show, mg.stack())
     result = n * factorial(n-1)
-    mg.block(mg.show, mg.get_call_stack())
+    mg.block(mg.show, mg.stack())
     return result
 
 print(factorial(3))
@@ -295,7 +295,7 @@ A more interesting recursive example that shows sharing of data is power_set(). 
 import memory_graph as mg
 
 def get_subsets(subsets, data, i, subset):
-    mg.block(mg.show, mg.get_call_stack())
+    mg.block(mg.show, mg.stack())
     if i == len(data):
         subsets.append(subset.copy())
         return
@@ -303,7 +303,7 @@ def get_subsets(subsets, data, i, subset):
     get_subsets(subsets, data, i+1, subset) #    do include data[i]
     subset.pop()
     get_subsets(subsets, data, i+1, subset) # don't include data[i]
-    mg.block(mg.show, mg.get_call_stack())
+    mg.block(mg.show, mg.stack())
 
 def power_set(data):
     subsets = []
@@ -327,13 +327,13 @@ mg.render(locals(), "my_graph.pdf")
 as a *watch* in a debugger tool such as the integrated debugger in Visual Studio Code. Then open the "my_graph.pdf" output file to continuously see all the local variables while debugging. This avoids having to add any memory_graph `show()` or `render()` calls to your code.
 
 ### Call Stack in Watch Context ###
-The ```mg.get_call_stack()``` doesn't work well in *watch* context in most debuggers because debuggers introduce additional stack frames that cause problems. Use these alternative functions for various debuggers to filter out these problematic stack frames:
+The ```mg.stack()``` doesn't work well in *watch* context in most debuggers because debuggers introduce additional stack frames that cause problems. Use these alternative functions for various debuggers to filter out these problematic stack frames:
 
 | debugger | function to get the call stack |
 |:---|:---|
-| **pdb, pudb** | `mg.get_call_stack_pdb()` |
-| **Visual Studio Code** | `mg.get_call_stack_vscode()` |
-| **Pycharm** | `mg.get_call_stack_pycharm()` |
+| **pdb, pudb** | `mg.stack_pdb()` |
+| **Visual Studio Code** | `mg.stack_vscode()` |
+| **Pycharm** | `mg.stack_pycharm()` |
 
 ![debug_vscode.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/debug_vscode.png)
 
@@ -344,7 +344,7 @@ mg.save_call_stack("call_stack.txt")
 ```
 Choose 'after' and 'up_to' what function you want to slice and then call this function to get the desired call stack:
 ```
-mg.get_call_stack_after_up_to(after_function, up_to_function="<module>")
+mg.stack_after_up_to(after_function, up_to_function="<module>")
 ```
 
 ### Debugging without Debugger Tool ###
@@ -354,13 +354,13 @@ To simplify debugging without a debugger tool, we offer these alias functions th
 | alias | purpose | function call |
 |:---|:---|:---|
 | `mg.sl()` | **s**how **l**ocal variables | `mg.show(locals())` |
-| `mg.ss()` | **s**how the call **s**tack | `mg.show(mg.get_call_stack())` |
+| `mg.ss()` | **s**how the call **s**tack | `mg.show(mg.stack())` |
 | `mg.bsl()` | **b**lock after **s**howing **l**ocal variables | `mg.block(mg.show, locals())` |
-| `mg.bss()` | **b**lock after **s**howing the call **s**tack | `mg.block(mg.show, mg.get_call_stack())` |
+| `mg.bss()` | **b**lock after **s**howing the call **s**tack | `mg.block(mg.show, mg.stack())` |
 | `mg.rl()` | **r**ender **l**ocal variables | `mg.render(locals())` |
-| `mg.rs()` | **r**ender the call **s**tack | `mg.render(mg.get_call_stack())` |
+| `mg.rs()` | **r**ender the call **s**tack | `mg.render(mg.stack())` |
 | `mg.brl()` | **b**lock after **r**endering **l**ocal variables | `mg.block(mg.render, locals())` |
-| `mg.brs()` | **b**lock after **r**endering the call **s**tack | `mg.block(mg.render, mg.get_call_stack())` |
+| `mg.brs()` | **b**lock after **r**endering the call **s**tack | `mg.block(mg.render, mg.stack())` |
 | `mg.l()` | same as `mg.bsl()` |  |
 | `mg.s()` | same as `mg.bss()` |  |
 
@@ -746,7 +746,7 @@ mg.show(locals())
 
 
 ## Jupyter Notebook ##
-In Jupyter Notebook `locals()` has additional variables that cause problems in the graph, use `mg.locals_jupyter()` to get the local variables with these problematic variables filtered out. Use `mg.get_call_stack_jupyter()` to get the whole call stack with these variables filtered out.
+In Jupyter Notebook `locals()` has additional variables that cause problems in the graph, use `mg.locals_jupyter()` to get the local variables with these problematic variables filtered out. Use `mg.stack_jupyter()` to get the whole call stack with these variables filtered out.
 
 We can use `mg.show()` and `mg.render()` in a Jupyter Notebook, but alternatively we can also use `mg.create_graph()` to create a graph and the `display()` function to render it inline with for example:
 
@@ -759,7 +759,7 @@ See for example [jupyter_example.ipynb](https://raw.githubusercontent.com/bterwi
 ![jupyter_example.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/jupyter_example.png)
 
 ## ipython ##
-In ipython `locals()` has additional variables that cause problems in the graph, use `mg.locals_ipython()` to get the local variables with these problematic variables filtered out. Use `mg.get_call_stack_ipython()` to get the whole call stack with these variables filtered out.
+In ipython `locals()` has additional variables that cause problems in the graph, use `mg.locals_ipython()` to get the local variables with these problematic variables filtered out. Use `mg.stack_ipython()` to get the whole call stack with these variables filtered out.
 
 Additionally install file [auto_memory_graph.py](https://raw.githubusercontent.com/bterwijn/memory_graph/main/src/auto_memory_graph.py) in the ipython startup directory:
 * Linux/Mac: `~/.ipython/profile_default/startup/`
