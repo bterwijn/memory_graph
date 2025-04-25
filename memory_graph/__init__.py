@@ -13,7 +13,7 @@ import sys
 
 import graphviz
 
-__version__ = "0.3.16"
+__version__ = "0.3.17"
 __author__ = 'Bas Terwijn'
 render_filename = 'memory_graph.pdf'
 last_show_filename = None
