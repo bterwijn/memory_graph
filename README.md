@@ -411,7 +411,7 @@ class LinkedList:
             new_node.next = self.head
             self.head.prev = new_node
             self.head = new_node
-        mg.block(mg.show, locals()) # <--- draw graph
+        mg.block(mg.show, locals()) # <--- draw locals
 
 linked_list = LinkedList()
 n = 100
@@ -427,42 +427,33 @@ import memory_graph as mg
 import random
 random.seed(0) # use same random numbers each run
 
-class Node:
-
-    def __init__(self, value):
-        self.smaller = None
-        self.value = value
-        self.larger = None
-
 class BinTree:
 
-    def __init__(self):
-        self.root = None
-
-    def add_recursive(self, new_value, node):
-        if new_value < node.value:
-            if node.smaller is None:
-                node.smaller = Node(new_value)
-            else:
-                self.add_recursive(new_value, node.smaller)
-        else:
-            if node.larger is None:
-                node.larger = Node(new_value)
-            else:
-                self.add_recursive(new_value, node.larger)
-        mg.block(mg.show, locals()) # <--- draw graph
+    def __init__(self, value=None, smaller=None, larger=None):
+        self.smaller = smaller
+        self.value = value
+        self.larger = larger
 
     def add(self, value):
-        if self.root is None:
-            self.root = Node(value)
+        if self.value is None:
+            self.value = value
+        elif value < self.value:
+            if self.smaller is None:
+                self.smaller = BinTree(value)
+            else:
+                self.smaller.add(value)
         else:
-            self.add_recursive(value, self.root)
+            if self.larger is None:
+                self.larger = BinTree(value)
+            else:
+                self.larger.add(value)
+        mg.block(mg.show, mg.stack()) # <--- draw stack
 
 tree = BinTree()
 n = 100
 for i in range(n):
-    new_value = random.randrange(n)
-    tree.add(new_value)
+    value = random.randrange(n)
+    tree.add(value)
 ```
 ![bin_tree.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_tree.png)
 
@@ -483,7 +474,7 @@ class HashSet:
             self.buckets[index] = []
         bucket = self.buckets[index]
         bucket.append(value)
-        mg.block(mg.show, locals()) # <--- draw graph
+        mg.block(mg.show, locals()) # <--- draw locals
 
     def contains(self, value):
         index = hash(value) % len(self.buckets)
