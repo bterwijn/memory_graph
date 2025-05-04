@@ -193,7 +193,7 @@ class My_Class:
         self.letters = ['x', 'y']
 
     def custom_copy(self): 
-	    """ Copies 'digits' but shares 'letters'. """
+        """ Copies 'digits' but shares 'letters'. """
         c = copy.copy(self)
         c.digits = copy.copy(self.digits)
         return c
