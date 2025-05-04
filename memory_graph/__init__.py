@@ -10,10 +10,11 @@ import memory_graph.utils as utils
 
 import inspect
 import sys
+from memory_graph.call_stack import call_stack
 
 import graphviz
 
-__version__ = "0.3.17"
+__version__ = "0.3.18"
 __author__ = 'Bas Terwijn'
 render_filename = 'memory_graph.pdf'
 last_show_filename = None
@@ -173,14 +174,24 @@ def get_locals_from_call_stack(stack_index=0):
     frameInfo = inspect.stack()[1+stack_index] # get frameInfo of calling frame
     return frameInfo.frame.f_locals
 
+def get_function_name(frameInfo):
+    frame = frameInfo.frame
+    func_name = frame.f_code.co_name
+    if 'self' in frame.f_locals:  # instance method
+        return f"{frame.f_locals['self'].__class__.__name__}.{func_name}"
+    elif 'cls' in frame.f_locals:  # class method
+        return f"{frame.f_locals['cls'].__name__}.{func_name}"
+    else:  # forget about static method, too complex
+        return func_name  # just the function
+
 def stack_frames_to_dict(frames):
     """ Returns a dictionary representing the data on the call stack. 
     Each key is the stack level and function name, each value is the locals of the frame at that level. 
     """
     def to_dict(value): #  fix by TerenceTux for Python 3.13
         return {k: v for k, v in value.items()}
-    return {f"{level}: {frameInfo.function}" : to_dict(frameInfo.frame.f_locals)
-            for level, frameInfo in enumerate(frames)}
+    return call_stack({f"{level}: {get_function_name(frameInfo)}" : to_dict(frameInfo.frame.f_locals)
+            for level, frameInfo in enumerate(frames)})
 
 def stack(up_to_function="<module>",stack_index=0):
     return get_call_stack(up_to_function, 1+stack_index)

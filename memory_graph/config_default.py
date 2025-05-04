@@ -8,6 +8,7 @@ from memory_graph.node_linear    import Node_Linear
 from memory_graph.node_key_value import Node_Key_Value
 from memory_graph.node_table     import Node_Table
 
+from memory_graph.call_stack import call_stack
 from memory_graph.slicer import Slicer
 
 import memory_graph.config as config
@@ -39,8 +40,11 @@ config.no_child_references_types = {dict, types.MappingProxyType}
 """ Conversion from type to Node_Base objects. """
 config.type_to_node = {
     str: lambda data: Node_Base(data), # visit as whole string, don't iterate over characters
+    call_stack: lambda data: Node_Key_Value(data, data.items()),
     types.FunctionType: lambda data: Node_Base(data.__qualname__),
     types.MethodType: lambda data: Node_Base(data.__qualname__),
+    classmethod: lambda data: Node_Base(data.__qualname__),
+    staticmethod: lambda data: Node_Base(data.__qualname__),
     range: lambda data: Node_Key_Value(data, {'start':data.start, 'stop':data.stop, 'step':data.step}.items()),
     dict: lambda data: (
         Node_Key_Value(data, utils.filter_dict(data.items()) )
@@ -67,10 +71,11 @@ config.type_to_color = {
     bytearray : "khaki2",
     # ================= key_value
     Node_Key_Value : "seagreen1", # for classes
-    type: "seagreen2",            # where class variables are stored
+    call_stack : 'khaki',
+    type: "seagreen3",            # where class variables are stored
     dict : "dodgerblue1",
     types.MappingProxyType : "dodgerblue2", # not used
-    range : "cornsilk",
+    range : "cornsilk2",
 }
 
 """ Types that will be visualized in vertical orientation if 'True', or horizontal orientation 
