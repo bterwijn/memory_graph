@@ -35,7 +35,7 @@ class Node_Table(Node_Base):
         """
         Fill the html_table with the children of the Node_Base.
         """
-        if slices.is_empty():
+        if slices is None or slices.is_empty():
             return
         children = self.children
         children_size = children.size()

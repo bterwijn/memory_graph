@@ -645,8 +645,8 @@ mg.show(locals())
 
 Next figure out what are the attributes you want to graph and choose a Node type, there are four options:
 
-### 1) Node_Base ###
-Node_base is a leaf node (with no children) and shows just a single value.
+### 1) Node_Leaf ###
+Node_Leaf is a leaf node (with no children) and shows just a single value.
 ```python
 import memory_graph as mg
 import bintrees
@@ -659,11 +659,12 @@ tree.insert(20, "twenty")
 tree.insert(15, "fifteen")
 
 mg.config.type_to_color[bintrees.avltree.Node] = "sandybrown"
-mg.config.type_to_node[bintrees.avltree.Node] = lambda data: mg.node_base.Node_Base(f"key:{data.key} value:{data.value}")
+mg.config.type_to_node[bintrees.avltree.Node] = lambda data: mg.node_leaf.Node_Leaf(data, 
+                                                f"key:{data.key} value:{data.value}")
 
 mg.show(locals())
 ```
-![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_base.png)
+![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_leaf.png)
 
 ### 2) Node_Linear ###
 Node_Linear shows all the values in a line like a list.

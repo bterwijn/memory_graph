@@ -19,8 +19,8 @@ mg.config.type_to_node[bintrees.avltree.Node] = lambda data: mg.node_linear.Node
 mg.config.type_to_slicer[bintrees.avltree.Node] = mg.slicer.Slicer()
 mg.render(locals(), 'avltree_dir.png')
 
-mg.config.type_to_node[bintrees.avltree.Node] = lambda data: mg.node_base.Node_Base(f"key:{data.key} value:{data.value}")
-mg.render(locals(), 'avltree_base.png')
+mg.config.type_to_node[bintrees.avltree.Node] = lambda data: mg.node_leaf.Node_Leaf(data, f"key:{data.key} value:{data.value}")
+mg.render(locals(), 'avltree_leaf.png')
 
 mg.config.type_to_node[bintrees.avltree.Node] = lambda data: mg.node_linear.Node_Linear(data,
                                                                                         ['left:', data.left,

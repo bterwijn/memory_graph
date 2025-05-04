@@ -2,7 +2,7 @@
 # Copyright (c) 2023, Bas Terwijn.
 # SPDX-License-Identifier: BSD-2-Clause
 
-from memory_graph.node_base import Node_Base
+from memory_graph.node_leaf import Node_Leaf
 from memory_graph.node_linear import Node_Linear
 from memory_graph.node_key_value import Node_Key_Value
 
@@ -21,7 +21,7 @@ def read_nodes(data):
         elif utils.is_finite_iterable(data): # for lists, tuples, sets, ...
             return Node_Linear(data, data)
         else:
-            return Node_Base(data)
+            return Node_Leaf(data, data)
 
     def memory_to_nodes_recursive(nodes, data, parent, parent_index):
         data_type = type(data)

@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: BSD-2-Clause
 
 """ Sets the default configuration values for the memory graph. """
-from memory_graph.node_base      import Node_Base
+from memory_graph.node_leaf      import Node_Leaf
 from memory_graph.node_linear    import Node_Linear
 from memory_graph.node_key_value import Node_Key_Value
 from memory_graph.node_table     import Node_Table
@@ -37,14 +37,14 @@ config.not_node_types = {
 """ Types that will not have references pointing to their children in the graph but instead will have their children visualized in their node. """
 config.no_child_references_types = {dict, types.MappingProxyType}
 
-""" Conversion from type to Node_Base objects. """
+""" Conversion from type to Node objects. """
 config.type_to_node = {
-    str: lambda data: Node_Base(data), # visit as whole string, don't iterate over characters
+    str: lambda data: Node_Leaf(data, data), # visit as whole string, don't iterate over characters
     call_stack: lambda data: Node_Key_Value(data, data.items()),
-    types.FunctionType: lambda data: Node_Base(data.__qualname__),
-    types.MethodType: lambda data: Node_Base(data.__qualname__),
-    classmethod: lambda data: Node_Base(data.__qualname__),
-    staticmethod: lambda data: Node_Base(data.__qualname__),
+    types.FunctionType: lambda data: Node_Leaf(data, data.__qualname__),
+    types.MethodType: lambda data: Node_Leaf(data, data.__qualname__),
+    classmethod: lambda data: Node_Leaf(data, data.__qualname__),
+    staticmethod: lambda data: Node_Leaf(data, data.__qualname__),
     range: lambda data: Node_Key_Value(data, {'start':data.start, 'stop':data.stop, 'step':data.step}.items()),
     dict: lambda data: (
         Node_Key_Value(data, utils.filter_dict(data.items()) )
@@ -79,7 +79,7 @@ config.type_to_color = {
 }
 
 """ Types that will be visualized in vertical orientation if 'True', or horizontal orientation 
-if 'False'. Otherwise the Node_Base decides based on it having references."""
+if 'False'. Otherwise the Node decides based on it having references."""
 config.type_to_vertical_orientation = {
 }
 

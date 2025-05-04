@@ -7,7 +7,9 @@ import memory_graph.config as config
 import memory_graph.config_helpers as config_helpers
 from memory_graph.sequence import Sequence1D
 
-class Node_Base:
+from abc import ABC, abstractmethod
+
+class Node_Base(ABC):
     """
     Node_Base represents a node in the memory graph. This base class has different subclasses for different types of nodes.
     """
@@ -99,10 +101,7 @@ class Node_Base:
         from memory_graph.html_table import HTML_Table
         import memory_graph.node_base
         html_table = HTML_Table()
-        if type(self) is memory_graph.node_base.Node_Base:
-            html_table.add_string(f'{self.data}')
-        elif not slices is None:
-            self.fill_html_table(nodes, html_table, slices, id_to_slices)
+        self.fill_html_table(nodes, html_table, slices, id_to_slices)
         return html_table
     
     def get_slicer(self):
@@ -123,6 +122,7 @@ class Node_Base:
 
     # -------------------- Node_Base interface, overriden by subclasses --------------------
 
+    @abstractmethod
     def fill_html_table(self, html_table, slices, id_to_slices):
         """
         Fill the HTML_Table object with each child of the node.
