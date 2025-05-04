@@ -92,6 +92,7 @@ def show(data, outfile=None, view=False, block=False,
            slicers=slicers)
     memory_graph.last_show_filename = outfile
 
+    
 # ------------ aliases
 
 def sl(stack_index=0, colors = None, vertical_orientations = None, slicers = None):
@@ -193,6 +194,10 @@ def stack_frames_to_dict(frames):
     return call_stack({f"{level}: {get_function_name(frameInfo)}" : to_dict(frameInfo.frame.f_locals)
             for level, frameInfo in enumerate(frames)})
 
+def locals():
+    """ Returns local variables. """
+    return locals()
+
 def stack(up_to_function="<module>",stack_index=0):
     return get_call_stack(up_to_function, 1+stack_index)
 def get_call_stack(up_to_function="<module>",stack_index=0):
@@ -242,7 +247,8 @@ def print_call_stack_vars(stack_index=0):
     for level, frameInfo in enumerate(reversed(inspect.stack())):
         print('=====',level,frameInfo.function)
         print(tuple(frameInfo.frame.f_locals.keys()))
-              
+
+
 # ------------ jupyter filtering
 
 jupyter_filter_keys = {'exit','quit','v','In','Out','jupyter_filter_keys'}
@@ -263,6 +269,7 @@ def get_call_stack_jupyter(up_to_function="<module>",stack_index=0):
     globals_frame = next(iter(call_stack))
     call_stack[globals_frame] = jupyter_locals_filter(call_stack[globals_frame])
     return call_stack
+
 
 # ------------ ipython filtering
 
