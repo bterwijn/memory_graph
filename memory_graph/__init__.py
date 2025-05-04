@@ -72,7 +72,7 @@ def render(data, outfile=None, view=False, block=False,
     if outfile.endswith('.gv') or outfile.endswith('.dot'):
         graph.save(filename=outfile)
     else:
-        graph.render(outfile=outfile, view=view, cleanup=True, quiet=True)
+        graph.render(outfile=outfile, view=view, cleanup=False, quiet=False, quiet_view=False)
     if block:
         block_deprecated_message()
 
