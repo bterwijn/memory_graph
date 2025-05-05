@@ -119,7 +119,7 @@ The [Python Data Model](https://docs.python.org/3/reference/datamodel.html) make
 
 
 ### Immutable Type ###
-In the code below variable `a` and `b` both reference the same tuple value (4, 3, 2). A tuple is an immutable type and therefore when we change variable `b` its value **cannot** be mutated in place, and thus a copy is made and `a` and `b` reference a different value afterwards.
+In the code below variable `a` and `b` both reference the same tuple value (4, 3, 2). A tuple is an immutable type and therefore when we change variable `b` its value **cannot** be mutated in place, and thus an automatic copy is made and `a` and `b` reference a different value afterwards.
 
 ```python
 import memory_graph as mg
@@ -206,7 +206,7 @@ mg.show(locals())
 ![copy_method.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_method.png)
 
 ### Name Rebinding ###
-When `a` and `b` share a mutable value, then changing the value of `a` changes the value of `b` and vice versa. However, reassigning the value of `a` does not change `b`. When you reassign `a`, you only rebind the name `a` to a new value without effecting any other variables.
+When `a` and `b` share a mutable value, then changing the value of `b` changes the value of `a` and vice versa. However, reassigning the value of `b` does not change `a`. When you reassign `b`, you only rebind the name `b` to a new value without effecting any other variables.
 
 ```python
 import memory_graph as mg
