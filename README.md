@@ -215,8 +215,8 @@ a = [4, 3, 2]
 b = a
 mg.render(locals(), 'rebinding1.png')
 
-a += [1]        # changes the value of 'a' and 'b'
-a = [100, 200]  # rebinds 'a' to a new value, 'b' is uneffected
+b += [1]        # changes the value of 'b' and 'a'
+b = [100, 200]  # rebinds 'b' to a new value, 'a' is uneffected
 mg.render(locals(), 'rebinding2.png')
 ```
 | ![rebinding1.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/rebinding1.png) | ![rebinding2.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/rebinding2.png) |
