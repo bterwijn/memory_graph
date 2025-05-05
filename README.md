@@ -206,7 +206,7 @@ mg.show(locals())
 ![copy_method.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_method.png)
 
 ### Name Rebinding ###
-When `a` and `b` share a mutable value, then changing the value of `b` changes the value of `a` and vice versa. However, reassigning the value of `b` does not change `a`. When you reassign `b`, you only rebind the name `b` to a new value without effecting any other variables.
+When `a` and `b` share a mutable value, then changing the value of `b` changes the value of `a` and vice versa. However, reassigning `b` does not change `a`. When you reassign `b`, you only rebind the name `b` to a new value without effecting any other variables.
 
 ```python
 import memory_graph as mg
