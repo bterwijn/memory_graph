@@ -43,7 +43,7 @@ import memory_graph as mg
 # create the lists 'a' and 'b'
 a = [4, 3, 2]
 b = a
-a.append(1) # changing 'a' changes 'b'
+b.append(1) # changing 'b' changes 'a'
 
 # print the 'a' and 'b' list
 print('a:', a)
@@ -119,7 +119,7 @@ The [Python Data Model](https://docs.python.org/3/reference/datamodel.html) make
 
 
 ### Immutable Type ###
-In the code below variable `a` and `b` both reference the same tuple value (4, 3, 2). A tuple is an immutable type and therefore when we change variable `a` its value **cannot** be mutated in place, and thus a copy is made and `a` and `b` reference a different value afterwards.
+In the code below variable `a` and `b` both reference the same tuple value (4, 3, 2). A tuple is an immutable type and therefore when we change variable `b` its value **cannot** be mutated in place, and thus a copy is made and `a` and `b` reference a different value afterwards.
 
 ```python
 import memory_graph as mg
@@ -128,7 +128,7 @@ a = (4, 3, 2)
 b = a
 mg.render(locals(), 'immutable1.png')
 
-a += (1,)
+b += (1,)
 mg.render(locals(), 'immutable2.png')
 ```
 | ![mutable1.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/immutable1.png) | ![mutable2.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/immutable2.png) |
@@ -137,7 +137,7 @@ mg.render(locals(), 'immutable2.png')
 
 
 ### Mutable Type ###
-With mutable types the result is different. In the code below variable `a` and `b` both reference the same `list` value [4, 3, 2]. A `list` is a mutable type and therefore when we change variable `a` its value **can** be mutated in place and thus `a` and `b` both reference the same new value afterwards. Thus changing `a` also changes `b` and vice versa. Sometimes we want this but other times we don't and then we will have to make a copy ourselfs so that `a` and `b` are independent.
+With mutable types the result is different. In the code below variable `a` and `b` both reference the same `list` value [4, 3, 2]. A `list` is a mutable type and therefore when we change variable `b` its value **can** be mutated in place and thus `a` and `b` both reference the same new value afterwards. Thus changing `b` also changes `a` and vice versa. Sometimes we want this but other times we don't and then we will have to make a copy ourselfs so that `a` and `b` are independent.
 
 ```python
 import memory_graph as mg
@@ -146,7 +146,7 @@ a = [4, 3, 2]
 b = a
 mg.render(locals(), 'mutable1.png')
 
-a += [1] # equivalent to:  a.append(1)
+b += [1] # equivalent to:  b.append(1)
 mg.render(locals(), 'mutable2.png')
 ```
 | ![mutable1.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/mutable1.png) | ![mutable2.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/mutable2.png) |
