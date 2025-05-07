@@ -18,7 +18,7 @@ def is_function(obj):
         return True
     return type(obj).__name__ in {'method_descriptor', 'builtin_function_or_method', 'getset_descriptor', 'classmethod_descriptor'}
 
-def filter_dict_attributes(tuples):
+def filter_class_dict(tuples):
     """ Filters out the unwanted dict attributes. """
     return [
         (k,v) for k, v in tuples if
