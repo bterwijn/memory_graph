@@ -11,31 +11,24 @@ def has_dict_attributes(value):
 
 def get_dict_attributes(value):
     """ Returns the items of the '__dict__' attribute of 'value'."""
-    return getattr(value,"__dict__").items()
+    return getattr(value,"__dict__")
 
 def is_function(obj):
     if isinstance(obj, types.FunctionType) or isinstance(obj, types.MethodType):
         return True
     return type(obj).__name__ in {'method_descriptor', 'builtin_function_or_method', 'getset_descriptor', 'classmethod_descriptor'}
 
-def filter_class_dict(tuples):
+def filter_dict(dictionary):
     """ Filters out the unwanted dict attributes. """
-    return [
-        (k,v) for k, v in tuples if
-        not (type(k) is str and k.startswith('__')) and
-        not isinstance(v,types.ModuleType) and
-        not is_function(v)
-            ]
-
-def filter_dict(tuples):
-    """ Filters out the unwanted dict attributes. """
-    return [
-        (k,v) for k, v in tuples if
-        not k == "memory_graph" and
-        not (type(k) is str and k.startswith('__')) and
-        not isinstance(v,types.ModuleType) and
-        not is_function(v)
-            ]
+    if '__name__' in dictionary: # only filter stack frames, for example locals()
+        return [
+            (k,v) for k, v in dictionary.items() if
+            not k == "memory_graph" and
+            not (type(k) is str and k.startswith('__')) and
+            not isinstance(v,types.ModuleType) and
+            not is_function(v)
+                ]
+    return dictionary.items()
 
 def filter_type_attributes(tuples):
     """ Filters out the unwanted type attributes (class/static methods). """

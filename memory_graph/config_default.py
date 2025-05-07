@@ -54,9 +54,9 @@ config.type_to_node = {
     type: lambda data: Node_Key_Value(data, utils.filter_type_attributes(vars(data).items())),
     range: lambda data: Node_Key_Value(data, {'start':data.start, 'stop':data.stop, 'step':data.step}.items()),
     dict: lambda data: (
-        Node_Key_Value(data, utils.filter_dict(data.items()) )
+        Node_Key_Value(data, utils.filter_dict(data) )
             if dict in config.no_child_references_types else 
-        Node_Linear(data, utils.filter_dict(data.items()) )
+        Node_Linear(data, utils.filter_dict(data) )
         ),
     }
 
