@@ -34,6 +34,7 @@ config.not_node_types = {
     types.MethodType,
     classmethod,
     staticmethod,
+    type(len),
 }
 
 """ Types that will not have references pointing to their children in the graph but instead will have their children visualized in their node. """
@@ -45,6 +46,7 @@ config.type_to_string = {
     types.MethodType: lambda data: data.__qualname__,
     classmethod: lambda data: data.__qualname__,
     staticmethod: lambda data: data.__qualname__,
+    type(len): lambda data: data.__qualname__,
 }
 
 """ Conversion from type to Node objects. """
