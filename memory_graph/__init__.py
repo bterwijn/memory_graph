@@ -254,7 +254,7 @@ def print_call_stack_vars(stack_index=0):
 jupyter_filter_keys = {'exit','quit','v','In','Out','jupyter_filter_keys'}
 def jupyter_locals_filter(jupyter_locals):
     """ Filter out the jupyter specific keys that polute the graph. """
-    return {k:v for k,v in jupyter_locals.items()
+    return {k:v for k,v in utils.filter_dict(jupyter_locals)
             if k not in jupyter_filter_keys and k[0] != '_'}
 
 def locals_jupyter(stack_index=0):
@@ -276,7 +276,7 @@ def get_call_stack_jupyter(up_to_function="<module>",stack_index=0):
 ipython_filter_keys = {'mg_visualization_status', 'sys', 'ipython', 'In', 'Out', 'get_ipython', 'exit', 'quit', 'open'}
 def ipython_locals_filter(ipython_locals):
     """ Filter out the ipython specific keys that polute the graph. """
-    return {k:v for k,v in ipython_locals.items()
+    return {k:v for k,v in utils.filter_dict(ipython_locals)
             if k not in ipython_filter_keys and k[0] != '_'}
 
 def locals_ipython(stack_index=0):
