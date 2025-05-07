@@ -24,7 +24,7 @@ def filter_dict(dictionary):
         return [
             (k,v) for k, v in dictionary.items() if
             not k == "memory_graph" and
-            not (type(k) is str and k.startswith('__')) and
+            not (type(k) is str and k.startswith('__') and k.endswith("__")) and
             not isinstance(v,types.ModuleType) and
             not is_function(v)
                 ]
@@ -34,7 +34,7 @@ def filter_type_attributes(tuples):
     """ Filters out the unwanted type attributes (class/static methods). """
     return [
         (k,v) for k, v in tuples if
-        not (type(k) is str and k.startswith('__')) and
+        not (type(k) is str and k.startswith('__') and k.endswith("__")) and
         not type(v) in {classmethod, staticmethod} and
         not callable(v)
             ]
