@@ -42,8 +42,8 @@ def filter_type_attributes(tuples):
     return [
         (k,v) for k, v in tuples if
         not (type(k) is str and k.startswith('__')) and
-        not isinstance(v,classmethod) and
-        not isinstance(v,staticmethod)
+        not type(v) in {classmethod, staticmethod} and
+        not callable(v)
             ]
 
 def make_sliceable(data):
