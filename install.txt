@@ -18,7 +18,7 @@ pip install --upgrade .
 # - update images:
 cd images; bash create_images.sh; cd ..
 # - git commit -am "version X.X.X" && git push
-rm -f ./dist/*
+rm -rf ./dist/* ./build/*
 python setup.py check
 python setup.py sdist
 python setup.py bdist_wheel --universal

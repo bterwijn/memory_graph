@@ -14,8 +14,7 @@ def html_table_frame(s, border, color, spacing=5):
 
 def format_string(s):
     """ Helper function to format the string s to be shown in the graph. Setting the max_string_length and escaping html characters. """
-    if not type(s) is str:
-        s = str(s)
+    s = config.to_string(s)
     s = (s[:config.max_string_length] + '...') if len(s) > config.max_string_length else s
     return html.escape(s)
 

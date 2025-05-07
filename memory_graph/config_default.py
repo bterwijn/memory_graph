@@ -32,19 +32,26 @@ config.not_node_types = {
     type(None), bool, int, float, complex, str,
     types.FunctionType,
     types.MethodType,
+    classmethod,
+    staticmethod,
 }
 
 """ Types that will not have references pointing to their children in the graph but instead will have their children visualized in their node. """
 config.no_child_references_types = {dict, types.MappingProxyType}
 
+""" Types that need an special conversion """
+config.type_to_string = {
+    types.FunctionType: lambda data: data.__qualname__,
+    types.MethodType: lambda data: data.__qualname__,
+    classmethod: lambda data: data.__qualname__,
+    staticmethod: lambda data: data.__qualname__,
+}
+
 """ Conversion from type to Node objects. """
 config.type_to_node = {
     str: lambda data: Node_Leaf(data, data), # visit as whole string, don't iterate over characters
     call_stack: lambda data: Node_Key_Value(data, data.items()),
-    types.FunctionType: lambda data: Node_Leaf(data, data.__qualname__),
-    types.MethodType: lambda data: Node_Leaf(data, data.__qualname__),
-    classmethod: lambda data: Node_Leaf(data, data.__qualname__),
-    staticmethod: lambda data: Node_Leaf(data, data.__qualname__),
+    type: lambda data: Node_Key_Value(data, utils.filter_type_attributes(vars(data).items())),
     range: lambda data: Node_Key_Value(data, {'start':data.start, 'stop':data.stop, 'step':data.step}.items()),
     dict: lambda data: (
         Node_Key_Value(data, utils.filter_dict(data.items()) )

@@ -13,6 +13,15 @@ graph_stability = None
 not_node_types = {}
 no_child_references_types = set()
 
+type_to_string = { }
+
+def to_string(data):
+    """ Convert data to string. """
+    data_type = type(data)
+    if data_type in type_to_string:
+        return type_to_string[data_type](data)
+    return str(data)
+
 type_to_node = { }
 
 type_to_color = { }

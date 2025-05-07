@@ -37,6 +37,15 @@ def filter_dict(tuples):
         not is_function(v)
             ]
 
+def filter_type_attributes(tuples):
+    """ Filters out the unwanted type attributes (class/static methods). """
+    return [
+        (k,v) for k, v in tuples if
+        not (type(k) is str and k.startswith('__')) and
+        not isinstance(v,classmethod) and
+        not isinstance(v,staticmethod)
+            ]
+
 def make_sliceable(data):
     """ Returns a sliceble version of data, convert to list if not yet sliceble. """
     try:
