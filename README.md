@@ -76,8 +76,10 @@ A better way to understand what data is shared is to draw a graph of the data us
 
 # Videos #
 
-[![Mutability](https://img.youtube.com/vi/pvIJgHCaXhU/0.jpg)](https://www.youtube.com/watch?v=pvIJgHCaXhU)
-[Mutability](https://www.youtube.com/watch?v=pvIJgHCaXhU)
+| [![Mutability](https://img.youtube.com/vi/pvIJgHCaXhU/0.jpg)](https://www.youtube.com/watch?v=pvIJgHCaXhU) |
+|:--:|
+| [Mutability](https://www.youtube.com/watch?v=pvIJgHCaXhU) |
+
 
 # Chapters #
 
