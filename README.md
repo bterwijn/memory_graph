@@ -74,6 +74,11 @@ identical?: True
 ```
 A better way to understand what data is shared is to draw a graph of the data using the [memory_graph](https://pypi.org/project/memory-graph/) package.
 
+# Videos #
+
+[![Mutability](https://img.youtube.com/vi/pvIJgHCaXhU/0.jpg)](https://www.youtube.com/watch?v=pvIJgHCaXhU)
+[Mutability](https://www.youtube.com/watch?v=pvIJgHCaXhU)
+
 # Chapters #
 
 [Python Data Model](#python-data-model)
