@@ -27,7 +27,7 @@ def get_source_location(stack_index=0):
     filename= frameInfo.filename
     line_nr= frameInfo.lineno
     function = frameInfo.function
-    return f'{filename}:{line_nr} function:"{function}"'
+    return f'{filename}:{line_nr} in "{function}"'
 
 def block(fun=None, *args, **kwargs):
     """
