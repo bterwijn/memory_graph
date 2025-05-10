@@ -118,14 +118,14 @@ Inspired by [Python Tutor](https://pythontutor.com/).
 ___
 ___
 
-## Python Data Model ##
+# Python Data Model #
 The [Python Data Model](https://docs.python.org/3/reference/datamodel.html) makes a distiction between immutable and mutable types:
 
 * **immutable**: bool, int, float, complex, str, tuple, bytes, frozenset
 * **mutable**: list, set, dict, classes, ... (most other types)
 
 
-### Immutable Type ###
+## Immutable Type ##
 In the code below variable `a` and `b` both reference the same tuple value (4, 3, 2). A tuple is an immutable type and therefore when we change variable `b` its value **cannot** be mutated in place, and thus an automatic copy is made and `a` and `b` reference a different value afterwards.
 
 ```python
@@ -143,7 +143,7 @@ mg.render(locals(), 'immutable2.png')
 | immutable1.png | immutable2.png |
 
 
-### Mutable Type ###
+## Mutable Type ##
 With mutable types the result is different. In the code below variable `a` and `b` both reference the same `list` value [4, 3, 2]. A `list` is a mutable type and therefore when we change variable `b` its value **can** be mutated in place and thus `a` and `b` both reference the same new value afterwards. Thus changing `b` also changes `a` and vice versa. Sometimes we want this but other times we don't and then we will have to make a copy ourselfs so that `a` and `b` are independent.
 
 ```python
@@ -162,7 +162,7 @@ mg.render(locals(), 'mutable2.png')
 
 One practical reason why Python makes the distinction between mutable and immutable types is that a value of a mutable type can be large, making it inefficient to copy each time we change it. Immutable values generally don't need to change as much, or are small making copying less of a concern.
 
-### Copying ###
+## Copying ##
 Python offers three different "copy" options that we will demonstrate using a nested list:
 
 ```python
@@ -186,7 +186,7 @@ mg.show(locals())
 ![copies.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copies.png)
 
 
-### Custom Copy ###
+## Custom Copy ##
 We can write our own custom copy function or method in case the three standard "copy" options don't do what we want. For example, in the code below the copy() method of My_Class copies the `digits` but shares the `letters` between two objects.
 
 ```python
@@ -212,7 +212,7 @@ mg.show(locals())
 ```
 ![copy_method.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_method.png)
 
-### Name Rebinding ###
+## Name Rebinding ##
 When `a` and `b` share a mutable value, then changing the value of `b` changes the value of `a` and vice versa. However, reassigning `b` does not change `a`. When you reassign `b`, you only rebind the name `b` to a new value without effecting any other variables.
 
 ```python
@@ -230,7 +230,7 @@ mg.render(locals(), 'rebinding2.png')
 |:-----------------------------------------------------------:|:-------------------------------------------------------------:|
 | rebinding1.png | rebinding2.png |
 
-## Call Stack ##
+# Call Stack #
 The `mg.stack()` function retrieves the entire call stack, including the local variables for each function on the stack. This enables us to visualize the local variables across all active functions simultaneously. By examining the graph, we can determine whether any local variables from different functions share data. For instance, consider the function `add_one()` which adds the value `1` to each of its parameters `a`, `b`, and `c`.
 
 ```python
@@ -258,7 +258,7 @@ a:[4, 3, 2, 1] b:(4, 3, 2) c:[4, 3, 2]
 
 This is because `b` is of immutable type 'tuple' so its value gets copied automatically when it is changed. And because the function is called with a copy of `c`, its original value is not changed by the function. The value of variable `a` is the only value of mutable type that is shared between the root stack frame **'0: \<module>'** and the **'1: add_one'** stack frame of the function so only that variable is affected as a result of the function call. The other changes remain confined to the local variables of the ```add_one()``` function.
 
-### Block ###
+## Block ##
 It is often helpful to temporarily block program execution to inspect the graph. For this we can use the `mg.block()` function:
 
 ```python
@@ -275,7 +275,7 @@ To change its behavior:
 * Set `mg.block_prints_location = False` to skip printing the source location.
 * Set `mg.press_enter_message = None` to skip printing "Press &lt;Enter&gt; to continue...".
 
-### Recursion ###
+## Recursion ##
 The call stack is also helpful to visualize how recursion works. Here we use `mg.block()` to show each step of how recursively ```factorial(3)``` is computed:
 
 ```python
@@ -296,7 +296,7 @@ print(factorial(3))
 
 and the result is: 1 x 2 x 3 = 6
 
-### Power Set ###
+## Power Set ##
 A more interesting recursive example that shows sharing of data is power_set(). A power set is the set of all subsets of a collection of values.
 
 ```python
@@ -326,7 +326,7 @@ print( power_set(['a', 'b', 'c']) )
 [['a', 'b', 'c'], ['a', 'b'], ['a', 'c'], ['a'], ['b', 'c'], ['b'], ['c'], []]
 ```
 
-## Debugging ##
+# Debugging #
 
 For the best debugging experience with memory_graph set for example expression:
 ```
@@ -334,7 +334,7 @@ mg.render(locals(), "my_graph.pdf")
 ```
 as a *watch* in a debugger tool such as the integrated debugger in Visual Studio Code. Then open the "my_graph.pdf" output file to continuously see all the local variables while debugging. This avoids having to add any memory_graph `show()` or `render()` calls to your code.
 
-### Call Stack in Watch Context ###
+## Call Stack in Watch Context ##
 The ```mg.stack()``` doesn't work well in *watch* context in most debuggers because debuggers introduce additional stack frames that cause problems. Use these alternative functions for various debuggers to filter out these problematic stack frames:
 
 | debugger | function to get the call stack |
@@ -345,7 +345,7 @@ The ```mg.stack()``` doesn't work well in *watch* context in most debuggers beca
 
 ![debug_vscode.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/debug_vscode.png)
 
-#### Other Debuggers ####
+## Other Debuggers ##
 For other debuggers, invoke this function within the *watch* context. Then, in the "call_stack.txt" file, identify the slice of functions you wish to include in the call stack.
 ```
 mg.save_call_stack("call_stack.txt")
@@ -355,7 +355,7 @@ Choose 'after' and 'up_to' what function you want to slice and then call this fu
 mg.stack_after_up_to(after_function, up_to_function="<module>")
 ```
 
-### Debugging without Debugger Tool ###
+## Debugging without Debugger Tool ##
 
 To simplify debugging without a debugger tool, we offer these alias functions that you can insert into your code at the point where you want to visualize a graph:
 
@@ -388,10 +388,10 @@ and pressing &lt;Enter&gt; a number of times, results in:
 
 ![debugging.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/debugging.gif)
 
-## Datastructure Examples ##
+# Datastructure Examples #
 Module memory_graph can be very useful in a course about datastructures, some examples:
 
-### Doubly Linked List ###
+## Doubly Linked List ##
 ```python
 import memory_graph as mg
 import random
@@ -429,7 +429,7 @@ for i in range(n):
 ```
 ![linked_list.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/linked_list.png)
 
-### Binary Tree ###
+## Binary Tree ##
 ```python
 import memory_graph as mg
 import random
@@ -465,7 +465,7 @@ for i in range(n):
 ```
 ![bin_tree.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_tree.png)
 
-### Hash Set ###
+## Hash Set ##
 ```python
 import memory_graph as mg
 import random
@@ -504,7 +504,7 @@ for i in range(n):
 ![hash_set.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/hash_set.png)
 
 
-## Configuration ##
+# Configuration #
 Different aspects of memory_graph can be configured. The default configuration is reset by importing 'memory_graph.config_default'.
 
 - ***mg.config.max_graph_depth*** : int
@@ -531,7 +531,7 @@ Different aspects of memory_graph can be configured. The default configuration i
 - ***mg.config.type_to_slicer*** : dict
   - Maps each type to a Slicer. A slicer determines how many elements of a data type are shown in the graph to prevent the graph from getting too big. 'Slicer()' does no slicing, 'Slicer(1,2,3)' shows just 1 element at the beginning, 2 in the middle, and 3 at the end.
 
-### Simplified Graph ###
+## Simplified Graph ##
 Memory_graph simplifies the visualization (and the viewer's mental model) by **not** showing separate nodes for immutable types like `bool`, `int`, `float`, `complex`, and `str` by default. This simplification can sometimes be slightly misleading. As in the example below, after a shallow copy, lists `a` and `b` technically share their `int` values, but the graph makes it appear as though `a` and `b` each have their own copies. However, since `int` is immutable, this simplification will never lead to unexpected changes (changing `a` won’t affect `b`) so will never result in bugs.
 
 The simplification strikes a balance: it is slightly misleading but keeps the graph clean and easy to understand and focuses on the mutable types where unexpected changes can occur. This is why it is the default behavior. If you do want to show separate nodes for `int` values, such as for educational purposes, you can simply remove `int` from the `mg.config.not_node_types` set:
@@ -552,7 +552,7 @@ mg.render(locals(), 'not_node_types2.png')
 
 Additionally, the simplification hides away the [reuse of small int values](https://docs.python.org/3/c-api/long.html#c.PyLong_FromLong) in the current CPython implementation, an optimization that might otherwise confuse beginner Python programmers. For instance, after executing `a[1]+=1; b[1]+=1` the `201` value is, maybe surprisingly, still shared between `a` and `b`, whereas executing `a[2]+=1; b[2]+=1` does not result in sharing the `301` value.
 
-### Temporary Configuration ###
+## Temporary Configuration ##
 In addition to the global configuration, a temporary configuration can be set for a single `show()` or `render()` call to change the colors, orientation, and slicer. This example highlights a particular list element in red, gives it a horizontal orientation, and overwrites the default slicer for lists:
 
 ```python
@@ -570,10 +570,10 @@ mg.show( locals(),
 ```
 ![highlight.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/highlight.png)
 
-## Extensions ##
+# Extensions #
 Different extensions are available for types from other Python packages. 
 
-### Numpy ###
+## Numpy ##
 Numpy types `array` and `matrix` and `ndarray` can be graphed with "memory_graph.extension_numpy":
 
 ```python
@@ -589,7 +589,7 @@ mg.show(locals())
 ```
 ![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_numpy.png)
 
-### Pandas ###
+## Pandas ##
 Pandas types `Series` and `DataFrame` can be graphed with "memory_graph.extension_pandas":
 
 ```python
@@ -608,7 +608,7 @@ mg.show(locals())
 ```
 ![extension_pandas.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_pandas.png)
 
-## Introspection ##
+# Introspection #
 This section is likely to change. Sometimes the introspection fails or is not as desired. For example the `bintrees.avltree.Node` object doesn't show any attributes in the graph below.
 
 ```python
@@ -627,7 +627,7 @@ mg.show(locals())
 ![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_fail.png)
 
 
-### dir() ###
+## All attributes using dir() ##
 A useful start is to give it some color, show the list of all its attributes using `dir()`, and setting an empty Slicer to see the attribute list in full.
 
 ```python
@@ -652,7 +652,7 @@ mg.show(locals())
 
 Next figure out what are the attributes you want to graph and choose a Node type, there are four options:
 
-### 1) Node_Leaf ###
+## 1) Node_Leaf ##
 Node_Leaf is a node with no children and shows just a single value.
 ```python
 import memory_graph as mg
@@ -673,7 +673,7 @@ mg.show(locals())
 ```
 ![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_leaf.png)
 
-### 2) Node_Linear ###
+## 2) Node_Linear ##
 Node_Linear shows multiple values in a line like a list.
 ```python
 import memory_graph as mg
@@ -697,7 +697,7 @@ mg.show(locals())
 ```
 ![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_linear.png)
 
-### 3) Node_Key_Value ###
+## 3) Node_Key_Value ##
 Node_Key_Value shows key-value pairs like a dictionary. Note the required `items()` call at the end.
 ```python
 import memory_graph as mg
@@ -721,7 +721,7 @@ mg.show(locals())
 ```
 ![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_key_value.png)
 
-### 4) Node_Table ###
+## 4) Node_Table ##
 Node_Table shows all the values as a table.
 ```python
 import memory_graph as mg
@@ -745,7 +745,7 @@ mg.show(locals())
 ![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_table.png)
 
 
-## Jupyter Notebook ##
+# Jupyter Notebook #
 In Jupyter Notebook `locals()` has additional variables that cause problems in the graph, use `mg.locals_jupyter()` to get the local variables with these problematic variables filtered out. Use `mg.stack_jupyter()` to get the whole call stack with these variables filtered out.
 
 We can use `mg.show()` and `mg.render()` in a Jupyter Notebook, but alternatively we can also use `mg.create_graph()` to create a graph and the `display()` function to render it inline with for example:
@@ -758,7 +758,7 @@ mg.block(display, mg.create_graph(mg.locals_jupyter()) ) # the same but blocked
 See for example [jupyter_example.ipynb](https://raw.githubusercontent.com/bterwijn/memory_graph/main/src/jupyter_example.ipynb).
 ![jupyter_example.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/jupyter_example.png)
 
-## ipython ##
+# ipython #
 In ipython `locals()` has additional variables that cause problems in the graph, use `mg.locals_ipython()` to get the local variables with these problematic variables filtered out. Use `mg.stack_ipython()` to get the whole call stack with these variables filtered out.
 
 Additionally install file [auto_memory_graph.py](https://raw.githubusercontent.com/bterwijn/memory_graph/main/src/auto_memory_graph.py) in the ipython startup directory:
@@ -768,15 +768,15 @@ Additionally install file [auto_memory_graph.py](https://raw.githubusercontent.c
 Then after starting 'ipython' call function `mg_switch()` to turn on/off the automatic visualization of local variables after each command.
 ![ipyton.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/ipython.png)
 
-## In the Browser ##
+# In the Browser #
 We can also run memory_graph in the browser: <a href="https://bterwijn.github.io/memory_graph/src/pyodide.html" target="_blank">Pyodide Example</a>
 ![pyodide.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/pyodide.png)
 
-## Troubleshooting ##
+# Troubleshooting #
 
 - Adobe Acrobat Reader [doesn't refresh a PDF file](https://community.adobe.com/t5/acrobat-reader-discussions/reload-refresh-pdfs/td-p/9632292) when it changes on disk and blocks updates which results in an `Could not open 'somefile.pdf' for writing : Permission denied` error. One solution is to install a PDF reader that does refresh ([SumatraPDF](https://www.sumatrapdfreader.org/), [Okular](https://okular.kde.org/),  ...) and set it as the default PDF reader. Another solution is to `render()` the graph to a different output format and to open it manually.
 
 - When graph edges overlap it can be hard to distinguish them. Using an interactive graphviz viewer, such as [xdot](https://github.com/jrfonseca/xdot.py), on a '*.gv' DOT output file will help.
 
-### Invocation_Tree Package ###
+## Invocation_Tree Package ##
 The [memory_graph](https://pypi.org/project/memory-graph/) package visualizes your data. If instead you want to visualize function calls, check out the [invocation_tree](https://pypi.org/project/invocation-tree/) package.
