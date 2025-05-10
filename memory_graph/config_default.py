@@ -82,7 +82,7 @@ config.type_to_color = {
     Node_Key_Value : "seagreen1", # for classes
     call_stack : 'khaki',
     type: "seagreen3",            # where class variables are stored
-    dict : "#80b3ff",
+    dict : "#66b3ff",
     types.MappingProxyType : "dodgerblue2", # not used
     range : "cornsilk2",
 }
