@@ -89,7 +89,7 @@ A better way to understand what data is shared is to draw a graph of the data us
 
 [Debugging](#Debugging)
 
-[Datastructure Examples](#datastructure-examples)
+[Data Structure Examples](#data-structure-examples)
 
 [Configuration](#configuration)
 
@@ -388,8 +388,8 @@ and pressing &lt;Enter&gt; a number of times, results in:
 
 ![debugging.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/debugging.gif)
 
-# Datastructure Examples #
-Module memory_graph can be very useful in a course about datastructures, some examples:
+# Data Structure Examples #
+Module memory_graph can be very useful in a course about datas tructures, some examples:
 
 ## Doubly Linked List ##
 ```python
