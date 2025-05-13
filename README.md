@@ -811,7 +811,7 @@ mg.show(locals())
 
 ## Hidden Edges ##
 
-As the value of `x` is shown in the graph, we would want to show all the references to it, but the Slicer hides references by slicing the list to keep the graph small. The `max_missing_edges` variable determines how many hidden references to `x` we show. If there are more references then we show, then theses hidden references are shown with dashed lines to indicate some references are left out.
+As the value of `x` is shown in the graph, we would want to show all the references to it, but the default list Slicer hides references by slicing the list to keep the graph small. The `max_missing_edges` variable then determines how many additional hidden references to `x` we show. If there are more references then we show, then theses hidden references are shown with dashed lines to indicate some references are left out.
 
 ```python
 import memory_graph as mg
