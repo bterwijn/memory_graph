@@ -4,9 +4,7 @@
 
 """ Configuration file for the graph visualizer. The configuration values are set later by the 'config_default.py' file. """
 
-max_graph_depth = None
-graph_cut_symbol = None
-max_missing_edges = None
+
 max_string_length = None
 graph_stability = None
 
@@ -29,3 +27,9 @@ type_to_color = { }
 type_to_vertical_orientation = { }
 
 type_to_slicer = { }
+
+max_graph_depth = None
+graph_cut_symbol = None
+max_missing_edges = None
+
+type_to_depth = { }

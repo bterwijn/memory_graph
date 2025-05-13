@@ -45,6 +45,13 @@ def read_nodes(data):
 
 # --------------------------------------------------------------------------------------------
 
+def get_max_type_depth(node_id, node):
+    if node_id in config.type_to_depth:
+        return config.type_to_depth[node_id]
+    elif node.get_type() in config.type_to_depth:
+        return config.type_to_depth[node.get_type()]
+    return None
+
 def slice_nodes(nodes, root_id, max_graph_depth):
 
     def slice_nodes_recursive(nodes, node_id, id_to_slices, max_graph_depth):
@@ -61,6 +68,9 @@ def slice_nodes(nodes, root_id, max_graph_depth):
                 id_to_slices[node_id] = slices
                 if not node.is_hidden_node():
                     max_graph_depth -= 1
+                max_type_depth = get_max_type_depth(node_id, node)
+                if max_type_depth:
+                    max_graph_depth = max_type_depth
                 for index in slices:
                     slice_nodes_recursive(nodes, id(children[index]), id_to_slices, max_graph_depth)
     id_to_slices = {}

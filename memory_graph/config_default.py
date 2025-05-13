@@ -16,15 +16,11 @@ import memory_graph.utils as utils
 
 import types
 
-""" The maximum depth of nodes in the graph. When the graph gets too big set this to a small positive number. A `✂` symbol indictes where the graph is cut short. """
-config.max_graph_depth = 12
-config.graph_cut_symbol = '✂'
-config.max_missing_edges = 3
 
 """ The maximum length of strings shown in the graph. Longer strings will be truncated. """
 config.max_string_length = 42
 
-""" The number of references keeping child nodes in order versus other references pullen them out. """
+""" The number of references keeping child nodes in order versus other references pulling them out. """
 config.graph_stability = 10
 
 """ Types that by default will not have references pointing to them in the graph but instead will be visualized in the node of their parent. """
@@ -94,7 +90,19 @@ config.type_to_vertical_orientation = {
 
 """ Slicer objects for different types. """
 config.type_to_slicer = {
-    Node_Linear: Slicer(5,5,5),
-    Node_Key_Value: Slicer(5,5,5),
-    Node_Table: (Slicer(3,3,3), Slicer(3,3)),
+    Node_Linear: Slicer(5,3,5),
+    Node_Key_Value: Slicer(5,3,5),
+    Node_Table: (Slicer(3,2,3), Slicer(3,2,3)),
 }
+
+""" The maximum depth of nodes in the graph. When the graph gets too big set this to a small positive number. A `✂` symbol indictes where the graph is cut short. """
+config.max_graph_depth = 12
+config.graph_cut_symbol = '✂'
+
+
+""" Maximum introspection depth for different types. """
+config.type_to_depth = {
+    }
+
+""" Maximum number of missing edges that are shown. """
+config.max_missing_edges = 2

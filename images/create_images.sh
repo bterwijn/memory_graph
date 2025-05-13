@@ -34,3 +34,4 @@ python extension_pandas.py
 
 # introspection
 python avltree.py
+python introspect_depth.py

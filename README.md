@@ -507,29 +507,39 @@ for i in range(n):
 # Configuration #
 Different aspects of memory_graph can be configured. The default configuration is reset by importing 'memory_graph.config_default'.
 
-- ***mg.config.max_graph_depth*** : int
-  - The maxium depth of the graph with default value 12. A `✂` (scissor) symbol indicates where the graph is cut short. Dashed references indicate that there are more references to a node than are shown.
-
 - ***mg.config.max_string_length*** : int
   - The maximum length of strings shown in the graph. Longer strings will be truncated.
 
-- ***mg.config.not_node_types*** : set
+- ***mg.config.not_node_types*** : set[type]
   - Holds all types for which no seperate node is drawn but that instead are shown as elements in their parent Node.
 
-- ***mg.config.no_child_references_types*** : set
+- ***mg.config.no_child_references_types*** : set[type]
   - The set of key_value types that don't draw references to their direct childeren but have their children shown as elements of their node.
 
-- ***mg.config.type_to_node*** : dict
+- ***mg.config.type_to_node*** : dict[type, fun(data) -> Node]
   - Determines how a data types is converted to a Node (sub)class for visualization in the graph.
 
-- ***mg.config.type_to_color*** : dict
-  - Maps each type to the [graphviz color](https://graphviz.org/doc/info/colors.html) it gets in the graph. 
+- ***mg.config.type_to_color*** : dict[type, color]
+  - Maps a type to the [graphviz color](https://graphviz.org/doc/info/colors.html) it gets in the graph. 
 
-- ***mg.config.type_to_vertical_orientation*** : dict
-  - Maps each type to its orientation. Use 'True' for vertical and 'False' for horizontal. If not specified Node_Linear and Node_Key_Value are vertical unless they have references to children.
+- ***mg.config.type_to_vertical_orientation*** : dict[type, bool]
+  - Maps a type to its orientation. Use 'True' for vertical and 'False' for horizontal. If not specified Node_Linear and Node_Key_Value are vertical unless they have references to children.
 
-- ***mg.config.type_to_slicer*** : dict
-  - Maps each type to a Slicer. A slicer determines how many elements of a data type are shown in the graph to prevent the graph from getting too big. 'Slicer()' does no slicing, 'Slicer(1,2,3)' shows just 1 element at the beginning, 2 in the middle, and 3 at the end.
+- ***mg.config.type_to_slicer*** : dict[type, int]
+  - Maps a type to a Slicer. A slicer determines how many elements of a data type are shown in the graph to prevent the graph from getting too big. 'Slicer()' does no slicing, 'Slicer(1,2,3)' shows just 1 element at the beginning, 2 in the middle, and 3 at the end.
+
+- ***mg.config.max_graph_depth*** : int
+  - The maxium depth of the graph with default value 12.
+
+- ***config.graph_cut_symbol*** : str
+  - The symbol indicating where the graph is cut short with default `✂`.
+  
+- ***mg.config.type_to_depth*** : dict[type, int]
+  - Maps a type to graph depth to limit the graph size.
+
+- ***max_missing_edges*** : int
+  - Maximum number of missing edges that are shown with default value 2. Dashed references are used to indicate that there are more references to a node than are shown.
+
 
 ## Simplified Graph ##
 Memory_graph simplifies the visualization (and the viewer's mental model) by **not** showing separate nodes for immutable types like `bool`, `int`, `float`, `complex`, and `str` by default. This simplification can sometimes be slightly misleading. As in the example below, after a shallow copy, lists `a` and `b` technically share their `int` values, but the graph makes it appear as though `a` and `b` each have their own copies. However, since `int` is immutable, this simplification will never lead to unexpected changes (changing `a` won’t affect `b`) so will never result in bugs.
@@ -743,6 +753,59 @@ mg.config.type_to_node[bintrees.avltree.Node] = lambda data: mg.node_table.Node_
 mg.show(locals())
 ```
 ![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_table.png)
+
+
+# Introspection Depth #
+To limit the size of the graph the maximum depth of the graph is set by `mg.config.max_graph_depth`. Additionally for each type a depth can be set to further limit the graph, as is done for type `B` in the example below. Scissors indicate where the graph is cut. Alternatively the `id()` of a data elements can be used to further limit the graph, as is done for variable `c`.
+
+The value of variable `x` is shown as it is at depth 1 from the root of the graph, but as it can also be reached via `b2` that path need to be shown as well, so this overwrites the depth limit set for type `B`.
+
+```python
+import memory_graph as mg
+
+class Base:
+
+    def __init__(self, n):
+        self.elements = [1]
+        iter = self.elements
+        for i in range(2,n):
+            iter.append([i])
+            iter = iter[-1]
+
+    def get_last(self):
+        iter = self.elements
+        while len(iter)>1:
+            iter = iter[-1]
+        return iter
+            
+class A(Base):
+
+    def __init__(self, n):
+        super().__init__(n)
+
+class B(Base):
+
+    def __init__(self, n):
+        super().__init__(n)
+
+class C(Base):
+
+    def __init__(self, n):
+        super().__init__(n)
+
+a = A(6)
+b1 = B(6)
+b2 = B(6)
+c = C(6)
+
+x = ['x']
+b2.get_last().append(x)
+
+mg.config.type_to_depth[B] = 3
+mg.config.type_to_depth[id(c)] = 2
+mg.show(locals())
+```
+![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/introspect_depth.png)
 
 
 # Jupyter Notebook #
