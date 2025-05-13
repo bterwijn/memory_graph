@@ -97,6 +97,8 @@ A better way to understand what data is shared is to draw a graph of the data us
 
 [Introspection](#introspection)
 
+[Introspection Depth](#introspection-depth)
+
 [Jupyter Notebook](#jupyter-notebook)
 
 [ipython](#ipython)
