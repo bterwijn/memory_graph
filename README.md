@@ -758,9 +758,9 @@ mg.show(locals())
 
 
 # Introspection Depth #
-To limit the size of the graph the maximum depth of the graph is set by `mg.config.max_graph_depth`. Additionally for each type a depth can be set to further limit the graph, as is done for type `B` in the example below. Scissors indicate where the graph is cut. Alternatively the `id()` of a data elements can be used to further limit the graph, as is done for variable `c`.
+To limit the size of the graph the maximum depth of the graph is set by `mg.config.max_graph_depth`. Additionally for each type a depth can be set to further limit the graph, as is done for type `B` in the example below. Scissors indicate where the graph is cut short. Alternatively the `id()` of a data elements can be used to limit the graph for that specific element, as is done for value referenced by variable `c`.
 
-The value of variable `x` is shown as it is at depth 1 from the root of the graph, but as it can also be reached via `b2` that path need to be shown as well, so this overwrites the depth limit set for type `B`.
+The value of variable `x` is shown as it is at depth 1 from the root of the graph, but as it can also be reached via `b2`, that path need to be shown as well to avoid confusion, so this overwrites the depth limit set for type `B`.
 
 ```python
 import memory_graph as mg
