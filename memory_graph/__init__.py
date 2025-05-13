@@ -17,6 +17,7 @@ import graphviz
 __version__ = "0.3.23"
 __author__ = 'Bas Terwijn'
 render_filename = 'memory_graph.pdf'
+render_filename_count = 0
 last_show_filename = None
 block_prints_location = True
 press_enter_message = "Press <Enter> to continue..."
@@ -61,14 +62,27 @@ def create_graph(data,
     graphviz_graph = memory_to_nodes.memory_to_nodes(data)
     return graphviz_graph
 
+def count_filename(outfile):
+    """ Returns the 'outfile' with 'render_filename_count'. """
+    global render_filename_count
+    splits = outfile.split('.')
+    if len(splits)>1:
+        splits[-2]+=str(render_filename_count)
+        render_filename_count += 1
+        return '.'.join(splits)
+    return self.filename
+
 def render(data, outfile=None, view=False, block=False,
                  colors = None,
                  vertical_orientations = None,
-                 slicers = None):
+                 slicers = None,
+                 count_file = False):
     """ Renders the graph of 'data' to 'outfile' or `memory_graph.render_filename` when not specified. """
     if outfile is None:
         outfile = memory_graph.render_filename
     graph = create_graph(data, colors, vertical_orientations, slicers)
+    if count_file:
+        outfile = count_filename(outfile)
     if outfile.endswith('.gv') or outfile.endswith('.dot'):
         graph.save(filename=outfile)
     else:
@@ -79,7 +93,8 @@ def render(data, outfile=None, view=False, block=False,
 def show(data, outfile=None, view=False, block=False,
                  colors = None,
                  vertical_orientations = None,
-                 slicers = None):
+                 slicers = None,
+                 count_file = False):
     """ Shows the graph of 'data' by first rendering and then opening the default viewer
     application by file extension at first call, when the outfile changes, or
     when view is True. """
@@ -89,7 +104,7 @@ def show(data, outfile=None, view=False, block=False,
     render(data=data, outfile=outfile, view=open_view, block=block,
            colors=colors,
            vertical_orientations=vertical_orientations,
-           slicers=slicers)
+           slicers=slicers, count_file=count_file)
     memory_graph.last_show_filename = outfile
 
     

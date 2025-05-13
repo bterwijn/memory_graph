@@ -4,21 +4,13 @@
 
 import memory_graph as mg
 
-image=0
-def get_fac_name():
-    global image
-    image+=1
-    return f"factorial{image:02d}.png"
-
 def factorial(n):
     if n==0:
         return 1
-    #mg.show( mg.stack(), block=True ) # draw graph
-    mg.render( mg.stack(), get_fac_name())
+    mg.render( mg.stack(), 'factorial.png', count_file=True)
     result = n*factorial(n-1)
-    #mg.show( mg.stack(), block=True ) # draw graph
-    mg.render( mg.stack(), get_fac_name())
+    mg.render( mg.stack(), 'factorial.png', count_file=True)
     return result
 
-mg.render( mg.stack(), get_fac_name())
+mg.render( mg.stack(), 'factorial.png', count_file=True)
 factorial(3)
