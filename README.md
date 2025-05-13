@@ -389,7 +389,7 @@ and pressing &lt;Enter&gt; a number of times, results in:
 ![debugging.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/debugging.gif)
 
 # Data Structure Examples #
-Module memory_graph can be very useful in a course about datas tructures, some examples:
+Module memory_graph can be very useful in a course about data structures, some examples:
 
 ## Doubly Linked List ##
 ```python
