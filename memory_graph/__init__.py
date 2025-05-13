@@ -14,7 +14,7 @@ from memory_graph.call_stack import call_stack
 
 import graphviz
 
-__version__ = "0.3.23"
+__version__ = "0.3.24"
 __author__ = 'Bas Terwijn'
 render_filename = 'memory_graph.pdf'
 render_filename_count = 0
