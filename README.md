@@ -809,6 +809,21 @@ mg.show(locals())
 ```
 ![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/introspect_depth.png)
 
+## Hidden Edges ##
+
+As the value of `x` is shown in the graph, we would want to show all the references to it, but the Slicer hides references by slicing the list to keep the graph small. The `max_missing_edges` variable determines how many hidden references to `x` we show. If there are more references then we show, then theses hidden references are shown with dashed lines to indicate some references are left out.
+
+```python
+import memory_graph as mg
+
+data = []
+x = ['x']
+for i in range(20):
+    data.append(x)
+
+mg.show(locals())
+```
+![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/hidden_edges.png)
 
 # Jupyter Notebook #
 In Jupyter Notebook `locals()` has additional variables that cause problems in the graph, use `mg.locals_jupyter()` to get the local variables with these problematic variables filtered out. Use `mg.stack_jupyter()` to get the whole call stack with these variables filtered out.
