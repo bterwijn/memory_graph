@@ -70,7 +70,7 @@ def slice_nodes(nodes, root_id, max_graph_depth):
                     max_graph_depth -= 1
                 max_type_depth = get_max_type_depth(node_id, node)
                 if max_type_depth:
-                    max_graph_depth = max_type_depth
+                    max_graph_depth = min(max_type_depth, max_graph_depth)
                 for index in slices:
                     slice_nodes_recursive(nodes, id(children[index]), id_to_slices, max_graph_depth)
     id_to_slices = {}
