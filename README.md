@@ -5,6 +5,11 @@ pip install --upgrade memory_graph
 ```
 Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 
+# Videos #
+| [![Quick Intro](https://img.youtube.com/vi/8csmPga6Upw/0.jpg)](https://www.youtube.com/watch?v=8csmPga6Upw) | [![Mutability](https://img.youtube.com/vi/pvIJgHCaXhU/0.jpg)](https://www.youtube.com/watch?v=pvIJgHCaXhU) |
+|:--:|:--:|
+| [Quick Intro](https://www.youtube.com/watch?v=8csmPga6Upw) | [Mutability](https://www.youtube.com/watch?v=pvIJgHCaXhU) |
+
 # Memory Graph #
 For program understanding and debugging, the [memory_graph](https://pypi.org/project/memory-graph/) package can visualize your data, supporting many different data types, including but not limited to:
 
@@ -73,13 +78,6 @@ ids: 126432214913216 126432214913216
 identical?: True
 ```
 A better way to understand what data is shared is to draw a graph of the data using the [memory_graph](https://pypi.org/project/memory-graph/) package.
-
-# Videos #
-
-| [![Mutability](https://img.youtube.com/vi/pvIJgHCaXhU/0.jpg)](https://www.youtube.com/watch?v=pvIJgHCaXhU) |
-|:--:|
-| [Mutability](https://www.youtube.com/watch?v=pvIJgHCaXhU) |
-
 
 # Chapters #
 
