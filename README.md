@@ -6,9 +6,9 @@ pip install --upgrade memory_graph
 Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 
 # Videos #
-| [![Quick Intro](https://img.youtube.com/vi/8csmPga6Upw/0.jpg)](https://www.youtube.com/watch?v=8csmPga6Upw) | [![Mutability](https://img.youtube.com/vi/pvIJgHCaXhU/0.jpg)](https://www.youtube.com/watch?v=pvIJgHCaXhU) |
+| [![Quick Intro](https://img.youtube.com/vi/23_bHcr7hqo/0.jpg)](https://www.youtube.com/watch?v=23_bHcr7hqo) | [![Mutability](https://img.youtube.com/vi/pvIJgHCaXhU/0.jpg)](https://www.youtube.com/watch?v=pvIJgHCaXhU) |
 |:--:|:--:|
-| [Quick Intro](https://www.youtube.com/watch?v=8csmPga6Upw) | [Mutability](https://www.youtube.com/watch?v=pvIJgHCaXhU) |
+| [Quick Intro](https://www.youtube.com/watch?v=23_bHcr7hqo) | [Mutability](https://www.youtube.com/watch?v=pvIJgHCaXhU) |
 
 # Memory Graph #
 For program understanding and debugging, the [memory_graph](https://pypi.org/project/memory-graph/) package can visualize your data, supporting many different data types, including but not limited to:
@@ -27,7 +27,7 @@ mg.show(data)
 ```
 ![many_types.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/many_types.png)
 
-Instead of showing the graph on screen you can also render it to an output file of your choosing (see [Graphviz Output Formats](https://graphviz.org/docs/outputs/)) using for example:
+Instead of showing the graph on screen you can also render it to an output file (see [Graphviz Output Formats](https://graphviz.org/docs/outputs/)) using for example:
 
 ```python
 mg.render(data, "my_graph.pdf")
@@ -343,7 +343,7 @@ The ```mg.stack()``` doesn't work well in *watch* context in most debuggers beca
 | **Visual Studio Code** | `mg.stack_vscode()` |
 | **Pycharm** | `mg.stack_pycharm()` |
 
-![debug_vscode.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/debug_vscode.png)
+![vscode_copying.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/vscode_copying.gif)
 
 ## Other Debuggers ##
 For other debuggers, invoke this function within the *watch* context. Then, in the "call_stack.txt" file, identify the slice of functions you wish to include in the call stack.
@@ -556,7 +556,7 @@ mg.render(locals(), 'not_node_types2.png')
 |:-----------------------------------------------------------:|:-------------------------------------------------------------:|
 | not_node_types1.png — simplified | not_node_types2.png — technically correct |
 
-Additionally, the simplification hides away the [reuse of small int values](https://docs.python.org/3/c-api/long.html#c.PyLong_FromLong) in the current CPython implementation, an optimization that might otherwise confuse beginner Python programmers. For instance, after executing `a[1]+=1; b[1]+=1` the `201` value is, maybe surprisingly, still shared between `a` and `b`, whereas executing `a[2]+=1; b[2]+=1` does not result in sharing the `301` value.
+Additionally, the simplification hides away the [reuse of small int values \[-5, 256\]](https://docs.python.org/3/c-api/long.html#c.PyLong_FromLong) in the current CPython implementation, an optimization that might otherwise confuse beginner Python programmers. For instance, after executing `a[1]+=1; b[1]+=1` the `201` value is, maybe surprisingly, still shared between `a` and `b`, whereas executing `a[2]+=1; b[2]+=1` does not result in sharing the `301` value.
 
 ## Temporary Configuration ##
 In addition to the global configuration, a temporary configuration can be set for a single `show()` or `render()` call to change the colors, orientation, and slicer. This example highlights a particular list element in red, gives it a horizontal orientation, and overwrites the default slicer for lists:
