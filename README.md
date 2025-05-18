@@ -391,37 +391,37 @@ and pressing &lt;Enter&gt; a number of times, results in:
 # Data Structure Examples #
 Module memory_graph can be very useful in a course about data structures, some examples:
 
-## Doubly Linked List ##
+## Circular Doubly Linked List ##
 ```python
 import memory_graph as mg
 import random
 random.seed(0) # use same random numbers each run
 
 class Linked_List:
+    """ Circular doubly linked list """
 
-    def __init__(self, value=None, prev=None, next=None):
-        self.prev = prev
+    def __init__(self, value=None, 
+                 prev=None, next=None):
+        self.prev = prev if prev else self
         self.value = value
-        self.next = next
+        self.next = next if next else self
 
-    def add_front(self, value):
+    def add_back(self, value):
         if self.value == None:
             self.value = value 
-        elif self.next is None:
-            new_node = Linked_List(value)
-            self.prev = new_node
-            self.next = new_node
         else:
-            new_node = Linked_List(value, self.next)
-            self.next.next = new_node
-            self.next = new_node
+            new_node = Linked_List(value,
+                                   prev=self.prev,
+                                   next=self)
+            self.prev.next = new_node
+            self.prev = new_node
 
 linked_list = Linked_List()
 n = 100
 for i in range(n):
     value = random.randrange(n)
-    linked_list.add_front(value)
-	mg.show(locals())
+    linked_list.add_back(value)
+    mg.block(mg.show, locals()) # <--- draw locals
 ```
 ![linked_list.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/linked_list.png)
 
