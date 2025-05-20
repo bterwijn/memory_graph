@@ -10,6 +10,7 @@ import memory_graph.utils as utils
 
 import inspect
 import sys
+import itertools as it
 from memory_graph.call_stack import call_stack
 
 import graphviz
@@ -224,12 +225,13 @@ def get_call_stack(up_to_function="<module>",stack_index=0):
 
 def stack_after_up_to(after_function,up_to_function="<module>"):
     return get_call_stack_after_up_to(after_function, up_to_function)
-def get_call_stack_after_up_to(after_function,up_to_function="<module>"):
-    """ Gets the call stack after the function 'after_function' up to the function 'up_to_function'."""
-    frames = reversed(list(
+def get_call_stack_after_up_to(after_function,up_to_function="<module>", drop=0):
+    """ Gets the call stack after the function 'after_function' up to the function 'up_to_function'
+        and drop the first 'drop' stack frames. """
+    frames = reversed(list(it.islice(
             utils.take_up_to(lambda i: i.function == up_to_function,
             utils.take_after(lambda i: i.function == after_function, inspect.stack()))
-            ))
+            , 1, None)))
     return stack_frames_to_dict(frames)
 
 def stack_pdb(after_function="trace_dispatch",up_to_function="<module>"):
@@ -244,11 +246,11 @@ def get_call_stack_vscode(after_function="do_wait_suspend",up_to_function="<modu
     """ Get the call stack in a 'vscode' debugger session, filtering out the 'vscode' functions that polute the graph. """
     return get_call_stack_after_up_to(after_function,up_to_function)
 
-def stack_pycharm(up_to_function="<module>",stack_index=0): # same as stack(), filtering no longer needed?
-    return get_call_stack(up_to_function, 1+stack_index)
-def get_call_stack_pycharm(up_to_function="<module>",stack_index=0): # same as get_call_stack(), filtering no longer needed?
-    """ Get the call stack in a 'pycharm' debugger session. """
-    return get_call_stack(up_to_function, 1+stack_index)
+def stack_pycharm(after_function="do_wait_suspend",up_to_function="<module>"):
+    return get_call_stack_pycharm(after_function, up_to_function)
+def get_call_stack_pycharm(after_function="do_wait_suspend",up_to_function="<module>"):
+    """ Get the call stack in a 'vscode' debugger session, filtering out the 'vscode' functions that polute the graph. """
+    return get_call_stack_after_up_to(after_function,up_to_function, 1)
 
 def save_call_stack(filename):
     """ Saves the call stack to 'filename' for inspection to see what functions need to be 
