@@ -244,11 +244,11 @@ def get_call_stack_vscode(after_function="do_wait_suspend",up_to_function="<modu
     """ Get the call stack in a 'vscode' debugger session, filtering out the 'vscode' functions that polute the graph. """
     return get_call_stack_after_up_to(after_function,up_to_function)
 
-def stack_pycharm(after_function="trace_dispatch",up_to_function="<module>"):
-    return get_call_stack_pycharm(after_function, up_to_function)
-def get_call_stack_pycharm(after_function="trace_dispatch",up_to_function="<module>"):
-    """ Get the call stack in a 'pycharm' debugger session, filtering out the 'pycharm' functions that polute the graph. """
-    return get_call_stack_after_up_to(after_function,up_to_function)
+def stack_pycharm(up_to_function="<module>",stack_index=0): # same as stack(), filtering no longer needed?
+    return get_call_stack(up_to_function, 1+stack_index)
+def get_call_stack_pycharm(up_to_function="<module>",stack_index=0): # same as get_call_stack(), filtering no longer needed?
+    """ Get the call stack in a 'pycharm' debugger session. """
+    return get_call_stack(up_to_function, 1+stack_index)
 
 def save_call_stack(filename):
     """ Saves the call stack to 'filename' for inspection to see what functions need to be 
