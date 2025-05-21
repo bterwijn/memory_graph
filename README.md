@@ -857,7 +857,7 @@ To make an animated GIF use for example:
 
 as a *watch* in a debugger so that stepping through the code generates images: 
 
-  animated0.png, animated1.png, ...
+&nbsp;&nbsp;&nbsp; animated0.png, animated1.png, animated2.png, ...
 
 Then use these images to make an animated GIF, for example using this Bash script [create_gif.sh](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/create_gif.sh):
 
