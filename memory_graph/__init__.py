@@ -63,7 +63,7 @@ def create_graph(data,
     graphviz_graph = memory_to_nodes.memory_to_nodes(data)
     return graphviz_graph
 
-def count_filename(outfile):
+def number_filename(outfile):
     """ Returns the 'outfile' with 'render_filename_count'. """
     global render_filename_count
     splits = outfile.split('.')
@@ -77,13 +77,13 @@ def render(data, outfile=None, view=False, block=False,
                  colors = None,
                  vertical_orientations = None,
                  slicers = None,
-                 count_file = False):
+                 numbered = False):
     """ Renders the graph of 'data' to 'outfile' or `memory_graph.render_filename` when not specified. """
     if outfile is None:
         outfile = memory_graph.render_filename
     graph = create_graph(data, colors, vertical_orientations, slicers)
-    if count_file:
-        outfile = count_filename(outfile)
+    if numbered:
+        outfile = number_filename(outfile)
     if outfile.endswith('.gv') or outfile.endswith('.dot'):
         graph.save(filename=outfile)
     else:
@@ -95,7 +95,7 @@ def show(data, outfile=None, view=False, block=False,
                  colors = None,
                  vertical_orientations = None,
                  slicers = None,
-                 count_file = False):
+                 numbered = False):
     """ Shows the graph of 'data' by first rendering and then opening the default viewer
     application by file extension at first call, when the outfile changes, or
     when view is True. """
@@ -105,7 +105,7 @@ def show(data, outfile=None, view=False, block=False,
     render(data=data, outfile=outfile, view=open_view, block=block,
            colors=colors,
            vertical_orientations=vertical_orientations,
-           slicers=slicers, count_file=count_file)
+           slicers=slicers, numbered=numbered)
     memory_graph.last_show_filename = outfile
 
     

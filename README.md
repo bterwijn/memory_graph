@@ -103,6 +103,8 @@ A better way to understand what data is shared is to draw a graph of the data us
 
 [In the Browser](#in-the-browser)
 
+[Animated GIF](#animated-gif)
+
 [Troubleshooting](#troubleshooting)
 
 
@@ -846,8 +848,22 @@ Then after starting 'ipython' call function `mg_switch()` to turn on/off the aut
 We can also run memory_graph in the browser: <a href="https://bterwijn.github.io/memory_graph/src/pyodide.html" target="_blank">Pyodide Example</a>
 ![pyodide.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/pyodide.png)
 
-# Troubleshooting #
 
+# Animated GIF #
+To make an animated GIF use for example:
+
+* mg.show(locals(), 'animated.png', numbered=True)
+* mg.render(locals(), 'animated.png', numbered=True)
+
+as a *watch* in a debugger so that stepping through the code generates images: animated0.png, animated1.png, ...
+
+Then use these images to create an animated GIF, for example using this Bash script [create_gif.sh](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/create_gif.sh):
+
+```bash
+$ bash create_gif.sh animated animated.gif
+```
+
+# Troubleshooting #
 - Adobe Acrobat Reader [doesn't refresh a PDF file](https://community.adobe.com/t5/acrobat-reader-discussions/reload-refresh-pdfs/td-p/9632292) when it changes on disk and blocks updates which results in an `Could not open 'somefile.pdf' for writing : Permission denied` error. One solution is to install a PDF reader that does refresh ([SumatraPDF](https://www.sumatrapdfreader.org/), [Okular](https://okular.kde.org/),  ...) and set it as the default PDF reader. Another solution is to `render()` the graph to a different output format and to open it manually.
 
 - When graph edges overlap it can be hard to distinguish them. Using an interactive graphviz viewer, such as [xdot](https://github.com/jrfonseca/xdot.py), on a '*.gv' DOT output file will help.

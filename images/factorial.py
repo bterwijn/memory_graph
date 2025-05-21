@@ -7,10 +7,10 @@ import memory_graph as mg
 def factorial(n):
     if n==0:
         return 1
-    mg.render( mg.stack(), 'factorial.png', count_file=True)
+    mg.render( mg.stack(), 'factorial.png', numbered=True)
     result = n*factorial(n-1)
-    mg.render( mg.stack(), 'factorial.png', count_file=True)
+    mg.render( mg.stack(), 'factorial.png', numbered=True)
     return result
 
-mg.render( mg.stack(), 'factorial.png', count_file=True)
+mg.render( mg.stack(), 'factorial.png', numbered=True)
 factorial(3)
