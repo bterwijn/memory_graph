@@ -231,7 +231,7 @@ def get_call_stack_after_up_to(after_function,up_to_function="<module>", drop=0)
     frames = reversed(list(it.islice(
             utils.take_up_to(lambda i: i.function == up_to_function,
             utils.take_after(lambda i: i.function == after_function, inspect.stack()))
-            , 1, None)))
+            , drop, None)))
     return stack_frames_to_dict(frames)
 
 def stack_pdb(after_function="trace_dispatch",up_to_function="<module>"):
