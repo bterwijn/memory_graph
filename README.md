@@ -855,12 +855,14 @@ To make an animated GIF use for example:
 * mg.show(locals(), 'animated.png', numbered=True)
 * mg.render(locals(), 'animated.png', numbered=True)
 
-as a *watch* in a debugger so that stepping through the code generates images: animated0.png, animated1.png, ...
+as a *watch* in a debugger so that stepping through the code generates images: 
 
-Then use these images to create an animated GIF, for example using this Bash script [create_gif.sh](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/create_gif.sh):
+  animated0.png, animated1.png, ...
+
+Then use these images to make an animated GIF, for example using this Bash script [create_gif.sh](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/create_gif.sh):
 
 ```bash
-$ bash create_gif.sh animated animated.gif
+$ bash create_gif.sh animated
 ```
 
 # Troubleshooting #
