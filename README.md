@@ -85,7 +85,9 @@ A better way to understand what data is shared is to draw a graph of the data us
 
 [Call Stack](#call-stack)
 
-[Debugging](#Debugging)
+[Global Import Trick](#global-import-trick)
+
+[Debugging](#debugging)
 
 [Data Structure Examples](#data-structure-examples)
 
@@ -328,6 +330,15 @@ print( power_set(['a', 'b', 'c']) )
 [['a', 'b', 'c'], ['a', 'b'], ['a', 'c'], ['a'], ['b', 'c'], ['b'], ['c'], []]
 ```
 
+## Global Import Trick ##
+When working across multiple files, you can use this approach to make `mg` globally available in subsequent imports, so you don't need to import it explicitly in each file:
+
+```
+import memory_graph as mg
+import builtins
+builtins.mg = mg
+```
+
 # Debugging #
 
 For the best debugging experience with memory_graph set for example expression:
@@ -348,13 +359,13 @@ The ```mg.stack()``` doesn't work well in *watch* context in most debuggers beca
 ![vscode_copying.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/vscode_copying.gif)
 
 ## Other Debuggers ##
-For other debuggers, invoke this function within the *watch* context. Then, in the "call_stack.txt" file, identify the slice of functions you wish to include in the call stack.
+For other debuggers, invoke this function within the *watch* context. Then, in the "call_stack.txt" file, identify the slice of functions you wish to include as stack frames in the call stack.
 ```
 mg.save_call_stack("call_stack.txt")
 ```
-Choose 'after' and 'up_to' what function you want to slice and then call this function to get the desired call stack:
+Choose 'after' and 'through' what function you want to slice and then call this function to get the desired call stack. The `drop` argument can optionally be used to drop a number of stack frames after the `after_function`:
 ```
-mg.stack_after_up_to(after_function, up_to_function="<module>")
+mg.stack_after_through(after_function, through_function="<module>", drop=0)
 ```
 
 ## Debugging without Debugger Tool ##
