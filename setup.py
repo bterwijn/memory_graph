@@ -11,7 +11,7 @@ long_description_from_readme = (this_directory / "README.md").read_text()
 
 setup(
     name = 'memory_graph',
-    version = '0.3.27',
+    version = '0.3.28',
     description = 'Teaching tool and debugging aid in context of references, mutable data types, and shallow and deep copy.',
     long_description = long_description_from_readme,
     long_description_content_type = 'text/markdown',
