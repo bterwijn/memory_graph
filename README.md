@@ -850,12 +850,12 @@ We can also run memory_graph in the browser: <a href="https://bterwijn.github.io
 
 
 # Animated GIF #
-To make an animated GIF use for example:
+To make an animated GIF use for example `mg.show` or `mg.render` like this:
 
 * mg.show(locals(), 'animated.png', numbered=True)
 * mg.render(locals(), 'animated.png', numbered=True)
 
-as a *watch* in a debugger so that stepping through the code generates images: 
+in your source or better as a *watch* in a debugger so that stepping through the code generates images:
 
 &nbsp;&nbsp;&nbsp; animated0.png, animated1.png, animated2.png, ...
 
