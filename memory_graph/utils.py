@@ -87,7 +87,7 @@ def generator_has_data(generator):
     except StopIteration:
         return False
 
-def take_up_to(condition, iterable):
+def take_through(condition, iterable):
     for i in iterable:
         yield i
         if condition(i):

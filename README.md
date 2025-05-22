@@ -85,7 +85,9 @@ A better way to understand what data is shared is to draw a graph of the data us
 
 [Call Stack](#call-stack)
 
-[Debugging](#Debugging)
+[Global Import Trick](#global-import-trick)
+
+[Debugging](#debugging)
 
 [Data Structure Examples](#data-structure-examples)
 
@@ -95,13 +97,15 @@ A better way to understand what data is shared is to draw a graph of the data us
 
 [Introspection](#introspection)
 
-[Introspection Depth](#introspection-depth)
+[Graph Depth](#graph-depth)
 
 [Jupyter Notebook](#jupyter-notebook)
 
 [ipython](#ipython)
 
 [In the Browser](#in-the-browser)
+
+[Animated GIF](#animated-gif)
 
 [Troubleshooting](#troubleshooting)
 
@@ -326,6 +330,15 @@ print( power_set(['a', 'b', 'c']) )
 [['a', 'b', 'c'], ['a', 'b'], ['a', 'c'], ['a'], ['b', 'c'], ['b'], ['c'], []]
 ```
 
+## Global Import Trick ##
+When working across multiple files, you can use this approach to make `mg` globally available in subsequent imports, so you don't need to import it explicitly in each file:
+
+```
+import memory_graph as mg
+import builtins
+builtins.mg = mg
+```
+
 # Debugging #
 
 For the best debugging experience with memory_graph set for example expression:
@@ -346,13 +359,13 @@ The ```mg.stack()``` doesn't work well in *watch* context in most debuggers beca
 ![vscode_copying.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/vscode_copying.gif)
 
 ## Other Debuggers ##
-For other debuggers, invoke this function within the *watch* context. Then, in the "call_stack.txt" file, identify the slice of functions you wish to include in the call stack.
+For other debuggers, invoke this function within the *watch* context. Then, in the "call_stack.txt" file, identify the slice of functions you wish to include as stack frames in the call stack.
 ```
 mg.save_call_stack("call_stack.txt")
 ```
-Choose 'after' and 'up_to' what function you want to slice and then call this function to get the desired call stack:
+Choose 'after' and 'through' what function you want to slice and then call this function to get the desired call stack. The `drop` argument can optionally be used to drop a number of stack frames after the `after_function`:
 ```
-mg.stack_after_up_to(after_function, up_to_function="<module>")
+mg.stack_after_through(after_function, through_function="<module>", drop=0)
 ```
 
 ## Debugging without Debugger Tool ##
@@ -751,7 +764,7 @@ mg.show(locals())
 ![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_table.png)
 
 
-# Introspection Depth #
+# Graph Depth #
 To limit the size of the graph the maximum depth of the graph is set by `mg.config.max_graph_depth`. Additionally for each type a depth can be set to further limit the graph, as is done for type `B` in the example below. Scissors indicate where the graph is cut short. Alternatively the `id()` of a data elements can be used to limit the graph for that specific element, as is done for the value referenced by variable `c`.
 
 The value of variable `x` is shown as it is at depth 1 from the root of the graph, but as it can also be reached via `b2`, that path need to be shown as well to avoid confusion, so this overwrites the depth limit set for type `B`.
@@ -846,8 +859,24 @@ Then after starting 'ipython' call function `mg_switch()` to turn on/off the aut
 We can also run memory_graph in the browser: <a href="https://bterwijn.github.io/memory_graph/src/pyodide.html" target="_blank">Pyodide Example</a>
 ![pyodide.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/pyodide.png)
 
-# Troubleshooting #
 
+# Animated GIF #
+To make an animated GIF use for example `mg.show` or `mg.render` like this:
+
+* mg.show(locals(), 'animated.png', numbered=True)
+* mg.render(locals(), 'animated.png', numbered=True)
+
+in your source or better as a *watch* in a debugger so that stepping through the code generates images:
+
+&nbsp;&nbsp;&nbsp; animated0.png, animated1.png, animated2.png, ...
+
+Then use these images to make an animated GIF, for example using this Bash script [create_gif.sh](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/create_gif.sh):
+
+```bash
+$ bash create_gif.sh animated
+```
+
+# Troubleshooting #
 - Adobe Acrobat Reader [doesn't refresh a PDF file](https://community.adobe.com/t5/acrobat-reader-discussions/reload-refresh-pdfs/td-p/9632292) when it changes on disk and blocks updates which results in an `Could not open 'somefile.pdf' for writing : Permission denied` error. One solution is to install a PDF reader that does refresh ([SumatraPDF](https://www.sumatrapdfreader.org/), [Okular](https://okular.kde.org/),  ...) and set it as the default PDF reader. Another solution is to `render()` the graph to a different output format and to open it manually.
 
 - When graph edges overlap it can be hard to distinguish them. Using an interactive graphviz viewer, such as [xdot](https://github.com/jrfonseca/xdot.py), on a '*.gv' DOT output file will help.
