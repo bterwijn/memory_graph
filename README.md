@@ -330,15 +330,6 @@ print( power_set(['a', 'b', 'c']) )
 [['a', 'b', 'c'], ['a', 'b'], ['a', 'c'], ['a'], ['b', 'c'], ['b'], ['c'], []]
 ```
 
-## Global Import Trick ##
-When working across multiple files, you can use this approach to make `mg` globally available in subsequent imports, so you don't need to import it explicitly in each file:
-
-```
-import memory_graph as mg
-import builtins
-builtins.mg = mg
-```
-
 # Debugging #
 
 For the best debugging experience with memory_graph set for example expression:

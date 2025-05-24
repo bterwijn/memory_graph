@@ -15,6 +15,12 @@ from memory_graph.call_stack import call_stack
 
 import graphviz
 
+# Add 'mg' to builtins so it is available in all subsequent imports
+import memory_graph as mg
+import builtins
+if not hasattr(builtins, "mg"):
+    builtins.mg = mg
+
 __version__ = "0.3.29"
 __author__ = 'Bas Terwijn'
 render_filename = 'memory_graph.pdf'
