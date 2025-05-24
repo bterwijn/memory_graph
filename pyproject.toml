@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "memory_graph"
+version = "0.3.29"
+description = "Teaching tool and debugging aid in context of references, mutable data types, and shallow and deep copy."
+authors = [
+    {name = "Bas Terwijn", email = "bterwijn@gmail.com"}
+]
+license = {text = "BSD 2-clause"}
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Education",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Education",
+    "Topic :: Software Development :: Debuggers",
+]
+dependencies = [
+    "graphviz",
+]
+
+[project.urls]
+Homepage = "https://github.com/bterwijn/memory_graph"
+Repository = "https://github.com/bterwijn/memory_graph.git"
+
+[tool.setuptools]
+packages = ["memory_graph"] 
