@@ -246,6 +246,12 @@ def get_call_stack_vscode(after_function="do_wait_suspend",through_function="<mo
     """ Get the call stack in a 'vscode' debugger session, filtering out the 'vscode' functions that polute the graph. """
     return get_call_stack_after_through(after_function,through_function)
 
+def stack_cursor(after_function="do_wait_suspend",through_function="<module>"):
+    return get_call_stack_cursor(after_function, through_function)
+def get_call_stack_cursor(after_function="do_wait_suspend",through_function="<module>"):
+    """ Get the call stack in a 'cursor' debugger session, filtering out the 'cursor' functions that polute the graph. """
+    return get_call_stack_after_through(after_function,through_function)
+
 def stack_pycharm(after_function="do_wait_suspend",through_function="<module>"):
     return get_call_stack_pycharm(after_function, through_function)
 def get_call_stack_pycharm(after_function="do_wait_suspend",through_function="<module>"):
