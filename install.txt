@@ -2,10 +2,7 @@
 
 
 # ===== pip install
-pip install setuptools
-pip install wheel
-pip install twine
-
+pip install --upgrade build twine setuptools wheel
 
 # ===== (un)install current module
 pip uninstall memory_graph
@@ -14,14 +11,12 @@ pip install --upgrade .
 
 
 # ===== prepare packages for upload
-# - increase version number in: setup.py memory_graph/__init__.py 
+# - increase version number in: pyproject.toml  memory_graph/__init__.py 
 # - update images:
 cd images; bash create_images.sh; cd ..
 # - git commit -am "version X.X.X" && git push
-rm -rf ./dist/* ./build/*
-python setup.py check
-python setup.py sdist
-python setup.py bdist_wheel --universal
+rm -rf dist/ build/ *.egg-info
+python -m build -n -s -w
 
 
 # ===== upload packages to pypi for 'pip install' purposes
