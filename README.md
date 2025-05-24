@@ -355,7 +355,7 @@ The ```mg.stack()``` doesn't work well in *watch* context in most debuggers beca
 | **pdb, pudb** | `mg.stack_pdb()` |
 | **Visual Studio Code** | `mg.stack_vscode()` |
 | **Cursor AI** | `mg.stack_cursor()` |
-| **Pycharm** | `mg.stack_pycharm()` |
+| **PyCharm** | `mg.stack_pycharm()` |
 
 ![vscode_copying.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/vscode_copying.gif)
 
