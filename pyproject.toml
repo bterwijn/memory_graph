@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "memory_graph"
+name = "memory-graph"
 version = "0.3.30"
 description = "Teaching tool and debugging aid in context of references, mutable data types, and shallow and deep copy."
 authors = [
@@ -11,7 +11,7 @@ authors = [
 ]
 license = "BSD-2-Clause"
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.10"
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Education",
@@ -29,4 +29,4 @@ Homepage = "https://github.com/bterwijn/memory_graph"
 Repository = "https://github.com/bterwijn/memory_graph.git"
 
 [tool.setuptools]
-packages = ["memory_graph"] 
+packages = ["memory_graph"]

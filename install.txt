@@ -15,8 +15,8 @@ pip install --upgrade .
 # - update images:
 cd images; bash create_images.sh; cd ..
 # - git commit -am "version X.X.X" && git push
-rm -rf dist/ build/ *.egg-info
-python -m build -n -s -w
+
+rm -rf ./dist/ ./build/ ./*.egg-info && python -m build -n -s -w
 
 
 # ===== upload packages to pypi for 'pip install' purposes
