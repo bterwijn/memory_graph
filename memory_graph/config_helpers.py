@@ -19,11 +19,11 @@ def set_config(colors=None, vertical_orientations=None, slicers=None):
     type_to_vertical_orientation = config.type_to_vertical_orientation.copy()
     type_to_slicer = config.type_to_slicer.copy()
     if colors:
-        type_to_color                |= colors
+        type_to_color.update(colors)
     if vertical_orientations:
-        type_to_vertical_orientation |= vertical_orientations
+        type_to_vertical_orientation.update(vertical_orientations)
     if slicers:
-        type_to_slicer               |= slicers
+        type_to_slicer.update(slicers)
 
 def get_property(data_id, data_type, node_type, dictionary, default):
     if data_id in dictionary:

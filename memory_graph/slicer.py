@@ -7,7 +7,7 @@ import memory_graph.utils as utils
 
 class Slicer:
 
-    def __init__(self, begin=None, end=None, middle=None, /) -> None:
+    def __init__(self, begin=None, end=None, middle=None) -> None:
         self.begin = begin
         self.end = end
         self.middle = middle
