@@ -9,7 +9,8 @@ description = "Teaching tool and debugging aid in context of references, mutable
 authors = [
     {name = "Bas Terwijn", email = "bterwijn@gmail.com"}
 ]
-license = { text = "BSD-2-Clause" }
+#license = { text = "BSD-2-Clause" } # needed for python <=3.8
+license = "BSD-2-Clause"
 readme = "README.md"
 requires-python = ">=3.7"
 classifiers = [
