@@ -103,6 +103,8 @@ A better way to understand what data is shared is to draw a graph of the data us
 
 [ipython](#ipython)
 
+[Google Colab](#google-colab)
+
 [In the Browser](#in-the-browser)
 
 [Animated GIF](#animated-gif)
@@ -848,6 +850,12 @@ Additionally install file [auto_memory_graph.py](https://raw.githubusercontent.c
 
 Then after starting 'ipython' call function `mg_switch()` to turn on/off the automatic visualization of local variables after each command.
 ![ipyton.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/ipython.png)
+
+# Google Colab #
+In Google Colab `locals()` has additional variables that cause problems in the graph, use `mg.locals_colab()` to get the local variables with these problematic variables filtered out. Use `mg.stack_colab()` to get the whole call stack with these variables filtered out.
+
+See for example [colab_example.ipynb](https://raw.githubusercontent.com/bterwijn/memory_graph/main/src/colab_example.ipynb).
+![colab_example.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/colab_example.png)
 
 # In the Browser #
 We can also run memory_graph in the browser: <a href="https://bterwijn.github.io/memory_graph/src/pyodide.html" target="_blank">Pyodide Example</a>
