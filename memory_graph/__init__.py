@@ -56,10 +56,6 @@ def block(fun=None, *args, **kwargs):
     input()
     return result
 
-def block_deprecated_message():
-    print("Warning: 'block=True' deprecated, use mg.block(fun) instead.")
-    input(f"{get_source_location(3)}, Press <Enter> to continue...")
-
 def create_graph(data,
                  colors = None,
                  vertical_orientations = None,
@@ -79,7 +75,7 @@ def number_filename(outfile):
         return '.'.join(splits)
     return self.filename
 
-def render(data, outfile=None, view=False, block=False,
+def render(data, outfile=None, view=False,
                  colors = None,
                  vertical_orientations = None,
                  slicers = None,
@@ -94,10 +90,8 @@ def render(data, outfile=None, view=False, block=False,
         graph.save(filename=outfile)
     else:
         graph.render(outfile=outfile, view=view, cleanup=False, quiet=False, quiet_view=False)
-    if block:
-        block_deprecated_message()
 
-def show(data, outfile=None, view=False, block=False,
+def show(data, outfile=None, view=False,
                  colors = None,
                  vertical_orientations = None,
                  slicers = None,
@@ -108,13 +102,13 @@ def show(data, outfile=None, view=False, block=False,
     if outfile is None:
         outfile = memory_graph.render_filename
     open_view = (outfile != memory_graph.last_show_filename) or view
-    render(data=data, outfile=outfile, view=open_view, block=block,
+    render(data=data, outfile=outfile, view=open_view,
            colors=colors,
            vertical_orientations=vertical_orientations,
            slicers=slicers, numbered=numbered)
     memory_graph.last_show_filename = outfile
 
-    
+
 # ------------ aliases
 
 def sl(stack_index=0, colors = None, vertical_orientations = None, slicers = None):
@@ -221,48 +215,44 @@ def locals():
     return locals()
 
 def stack(through_function="<module>",stack_index=0):
-    return get_call_stack(through_function, 1+stack_index)
-def get_call_stack(through_function="<module>",stack_index=0):
     """ Gets the call stack up to and including the function 'through_function'. """
     frames = reversed(list(
         utils.take_through(lambda i: i.function==through_function, inspect.stack()[1+stack_index:])
         ))
     return stack_frames_to_dict(frames)
 
-def stack_after_through(after_function,through_function="<module>"):
-    return get_call_stack_after_through(after_function, through_function)
-def get_call_stack_after_through(after_function,through_function="<module>", drop=0):
-    """ Gets the call stack after the function 'after_function' up to and includeing the function 'through_function'
-        and drops the first 'drop' stack frames. """
+def stack_after_through(after_functions : list[str],
+                        through_function : str = "<module>",
+                        drop : int = 0):
+    """ Gets the call stack after any of the 'after_functions' function up to
+    and including the function 'through_function' and drops the first 'drop'
+    stack frames. """
     frames = reversed(list(it.islice(
             utils.take_through(lambda i: i.function == through_function,
-            utils.take_after(lambda i: i.function == after_function, inspect.stack()))
+            utils.take_after(lambda i: i.function in after_functions, inspect.stack()))
             , drop, None)))
     return stack_frames_to_dict(frames)
 
-def stack_pdb(after_function="trace_dispatch",through_function="<module>"):
-    return get_call_stack_pdb(after_function, through_function)
-def get_call_stack_pdb(after_function="trace_dispatch",through_function="<module>"):
+def stack_pdb(after_functions=["trace_dispatch"],through_function="<module>"):
     """ Get the call stack in a 'pdb' debugger session, filtering out the 'pdb' functions that polute the graph. """
-    return get_call_stack_after_through(after_function,through_function)
+    return stack_after_through(after_functions,through_function)
 
-def stack_vscode(after_function="do_wait_suspend",through_function="<module>"):
-    return get_call_stack_vscode(after_function, through_function)
-def get_call_stack_vscode(after_function="do_wait_suspend",through_function="<module>"):
+def stack_vscode(after_functions=["do_wait_suspend"],through_function="<module>"):
     """ Get the call stack in a 'vscode' debugger session, filtering out the 'vscode' functions that polute the graph. """
-    return get_call_stack_after_through(after_function,through_function)
+    return stack_after_through(after_functions,through_function)
 
-def stack_cursor(after_function="do_wait_suspend",through_function="<module>"):
-    return get_call_stack_cursor(after_function, through_function)
-def get_call_stack_cursor(after_function="do_wait_suspend",through_function="<module>"):
+def stack_cursor(after_functions=["do_wait_suspend"],through_function="<module>"):
     """ Get the call stack in a 'cursor' debugger session, filtering out the 'cursor' functions that polute the graph. """
-    return get_call_stack_after_through(after_function,through_function)
+    return stack_after_through(after_functions,through_function)
 
-def stack_pycharm(after_function="do_wait_suspend",through_function="<module>"):
-    return get_call_stack_pycharm(after_function, through_function)
-def get_call_stack_pycharm(after_function="do_wait_suspend",through_function="<module>"):
-    """ Get the call stack in a 'vscode' debugger session, filtering out the 'vscode' functions that polute the graph. """
-    return get_call_stack_after_through(after_function,through_function, 1)
+def stack_pycharm(after_functions=["do_wait_suspend"],through_function="<module>"):
+    """ Get the call stack in a 'pycharm' debugger session, filtering out the 'pycharm' functions that polute the graph. """
+    return stack_after_through(after_functions,through_function, 1)
+
+def stack_wing(after_functions=["_py_line_event","_py_return_event"],through_function="<module>"):
+    """ Get the call stack in a 'wing' debugger session, filtering out the 'wing' functions that polute the graph. """
+    return stack_after_through(after_functions,through_function, 0)
+
 
 def save_call_stack(filename):
     """ Saves the call stack to 'filename' for inspection to see what functions need to be 
@@ -291,10 +281,8 @@ def locals_jupyter(stack_index=0):
     return jupyter_locals_filter(get_locals_from_call_stack(1+stack_index))
 
 def stack_jupyter(through_function="<module>",stack_index=0):
-    return get_call_stack_jupyter(through_function, 1+stack_index)
-def get_call_stack_jupyter(through_function="<module>",stack_index=0):
     """ Get the call stack in a jupyter notebook, filtering out the jupyter specific keys. """
-    call_stack = get_call_stack(through_function,1+stack_index)
+    call_stack = stack(through_function,1+stack_index)
     globals_frame = next(iter(call_stack))
     call_stack[globals_frame] = jupyter_locals_filter(call_stack[globals_frame])
     return call_stack
@@ -302,7 +290,7 @@ def get_call_stack_jupyter(through_function="<module>",stack_index=0):
 
 # ------------ ipython filtering
 
-ipython_filter_keys = {'mg_visualization_status', 'sys', 'ipython', 'In', 'Out', 'get_ipython', 'exit', 'quit', 'open'}
+ipython_filter_keys = {'sys', 'ipython', 'In', 'Out', 'get_ipython', 'exit', 'quit', 'open'}
 def ipython_locals_filter(ipython_locals):
     """ Filter out the ipython specific keys that polute the graph. """
     return {k:v for k,v in utils.filter_dict(ipython_locals)
@@ -312,11 +300,28 @@ def locals_ipython(stack_index=0):
     """ Get the locals of the calling frame in a ipython, filtering out the ipython specific keys. """
     return ipython_locals_filter(get_locals_from_call_stack(1+stack_index))
 
-def stack_ipython(through_function="<module>",stack_index=0):
-    return get_call_stack_ipython(through_function, 1+stack_index)
-def get_call_stack_ipython(through_function="<module>",stack_index=0):
+def stack_ipython(through_function="<module>", stack_index=0):
     """ Get the call stack in a ipython, filtering out the ipython specific keys. """
-    call_stack = get_call_stack(through_function,1+stack_index)
+    call_stack = stack(through_function,1+stack_index)
     globals_frame = next(iter(call_stack))
     call_stack[globals_frame] = ipython_locals_filter(call_stack[globals_frame])
+    return call_stack
+
+# ------------ google colab filtering
+
+colab_filter_keys = {'In', 'Out', 'exit', 'quit'}
+def colab_locals_filter(colab_locals):
+    """ Filter out the colab specific keys that polute the graph. """
+    return {k:v for k,v in utils.filter_dict(colab_locals)
+            if k not in colab_filter_keys and k[0] != '_'}
+
+def locals_colab(stack_index=0):
+    """ Get the locals of the calling frame in a colab, filtering out the colab specific keys. """
+    return colab_locals_filter(get_locals_from_call_stack(1+stack_index))
+
+def stack_colab(through_function="<cell line: 0>", stack_index=0):
+    """ Get the call stack in a colab, filtering out the colab specific keys. """
+    call_stack = stack(through_function,1+stack_index)
+    globals_frame = next(iter(call_stack))
+    call_stack[globals_frame] = colab_locals_filter(call_stack[globals_frame])
     return call_stack

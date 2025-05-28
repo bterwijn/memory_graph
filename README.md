@@ -355,9 +355,11 @@ For other debuggers, invoke this function within the *watch* context. Then, in t
 ```
 mg.save_call_stack("call_stack.txt")
 ```
-Choose 'after' and 'through' what function you want to slice and then call this function to get the desired call stack. The `drop` argument can optionally be used to drop a number of stack frames after the `after_function`:
+Choose the list of `after_functions` after any of which the slice start. Then choose the `through_function` at which the slice ends. The optional `drop` argument can be used to drop a number of stack frames at the start:
 ```
-mg.stack_after_through(after_function, through_function="<module>", drop=0)
+mg.stack_after_through(after_functions : list[str],
+                       through_function : str = "<module>",
+					   drop : int = 0)
 ```
 
 ## Debugging without Debugger Tool ##
