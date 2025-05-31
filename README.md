@@ -345,11 +345,11 @@ The ```mg.stack()``` doesn't work well in *watch* context in most debuggers beca
 
 | debugger | function to get the call stack |
 |:---|:---|
-| **pdb, pudb** | `mg.stack_pdb()` |
-| **Visual Studio Code** | `mg.stack_vscode()` |
-| **Cursor AI** | `mg.stack_cursor()` |
-| **PyCharm** | `mg.stack_pycharm()` |
-| **Wing** | `mg.stack_wing()` |
+| [pdb](https://docs.python.org/3/library/pdb.html), [pudb](https://pypi.org/project/pudb/) | `mg.stack_pdb()` |
+| [Visual Studio Code](https://code.visualstudio.com/docs/languages/python) | `mg.stack_vscode()` |
+| [Cursor AI](https://www.cursor.com/) | `mg.stack_cursor()` |
+| [PyCharm](https://www.jetbrains.com/pycharm/) | `mg.stack_pycharm()` |
+| [Wing](https://wingware.com/) | `mg.stack_wing()` |
 
 ![vscode_copying.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/vscode_copying.gif)
 
