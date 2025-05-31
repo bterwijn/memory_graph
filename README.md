@@ -362,7 +362,7 @@ Choose the list of `after_functions` after any of which the slice start. Then ch
 ```
 mg.stack_after_through(after_functions : list[str],
                        through_function : str = "<module>",
-					   drop : int = 0)
+                       drop : int = 0)
 ```
 
 ## Debugging without Debugger Tool ##
