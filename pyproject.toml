@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "memory-graph"
+name = "memory_graph"
 version = "0.3.33"
 description = "Teaching tool and debugging aid in context of references, mutable data types, and shallow and deep copy."
 authors = [
