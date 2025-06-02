@@ -6,9 +6,9 @@ pip install --upgrade memory_graph
 Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 
 # Videos #
-| [![Quick Intro (3:49)](https://img.youtube.com/vi/23_bHcr7hqo/0.jpg)](https://www.youtube.com/watch?v=23_bHcr7hqo) | [![Mutability (17:29)](https://img.youtube.com/vi/pvIJgHCaXhU/0.jpg)](https://www.youtube.com/watch?v=pvIJgHCaXhU) |
+| [![Quick Intro](https://img.youtube.com/vi/23_bHcr7hqo/0.jpg)](https://www.youtube.com/watch?v=23_bHcr7hqo) | [![Mutability](https://img.youtube.com/vi/pvIJgHCaXhU/0.jpg)](https://www.youtube.com/watch?v=pvIJgHCaXhU) |
 |:--:|:--:|
-| [Quick Intro](https://www.youtube.com/watch?v=23_bHcr7hqo) | [Mutability](https://www.youtube.com/watch?v=pvIJgHCaXhU) |
+| [Quick Intro (3:49)](https://www.youtube.com/watch?v=23_bHcr7hqo) | [Mutability (17:29)](https://www.youtube.com/watch?v=pvIJgHCaXhU) |
 
 # Memory Graph #
 For program understanding and debugging, the [memory_graph](https://pypi.org/project/memory-graph/) package can visualize your data, supporting many different data types, including but not limited to:
