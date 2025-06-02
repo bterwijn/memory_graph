@@ -6,7 +6,7 @@ pip install --upgrade memory_graph
 Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 
 # Videos #
-| [![Quick Intro](https://img.youtube.com/vi/23_bHcr7hqo/0.jpg)](https://www.youtube.com/watch?v=23_bHcr7hqo) | [![Mutability](https://img.youtube.com/vi/pvIJgHCaXhU/0.jpg)](https://www.youtube.com/watch?v=pvIJgHCaXhU) |
+| [![Quick Intro (3:49)](https://img.youtube.com/vi/23_bHcr7hqo/0.jpg)](https://www.youtube.com/watch?v=23_bHcr7hqo) | [![Mutability (17:29)](https://img.youtube.com/vi/pvIJgHCaXhU/0.jpg)](https://www.youtube.com/watch?v=pvIJgHCaXhU) |
 |:--:|:--:|
 | [Quick Intro](https://www.youtube.com/watch?v=23_bHcr7hqo) | [Mutability](https://www.youtube.com/watch?v=pvIJgHCaXhU) |
 
