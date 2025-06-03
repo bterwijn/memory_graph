@@ -5,6 +5,9 @@ pip install --upgrade memory_graph
 ```
 Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 
+# Highlight #
+![vscode_copying.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/vscode_copying.gif)
+
 # Videos #
 | [![Quick Intro](https://img.youtube.com/vi/23_bHcr7hqo/0.jpg)](https://www.youtube.com/watch?v=23_bHcr7hqo) | [![Mutability](https://img.youtube.com/vi/pvIJgHCaXhU/0.jpg)](https://www.youtube.com/watch?v=pvIJgHCaXhU) |
 |:--:|:--:|
