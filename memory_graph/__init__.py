@@ -21,7 +21,7 @@ import builtins
 if not hasattr(builtins, "mg"):
     builtins.mg = mg
 
-__version__ = "0.3.33"
+__version__ = "0.3.34"
 __author__ = 'Bas Terwijn'
 render_filename = 'memory_graph.pdf'
 render_filename_count = 0
