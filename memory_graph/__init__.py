@@ -73,12 +73,14 @@ def number_filename(outfile):
         return '.'.join(splits)
     return self.filename
 
-def render(data, outfile=None, view=False, block=False,
+def render(data=None, outfile=None, view=False, block=False,
                  colors = None,
                  vertical_orientations = None,
                  slicers = None,
                  numbered = False):
     """ Renders the graph of 'data' to 'outfile' or `memory_graph.render_filename` when not specified. """
+    if data is None:
+        data = locals()
     if outfile is None:
         outfile = memory_graph.render_filename
     graph = create_graph(data, colors, vertical_orientations, slicers)
@@ -91,7 +93,7 @@ def render(data, outfile=None, view=False, block=False,
     if block:
         block_deprecated_message()
 
-def show(data, outfile=None, view=False, block=False,
+def show(data=None, outfile=None, view=False, block=False,
                  colors = None,
                  vertical_orientations = None,
                  slicers = None,
@@ -99,6 +101,8 @@ def show(data, outfile=None, view=False, block=False,
     """ Shows the graph of 'data' by first rendering and then opening the default viewer
     application by file extension at first call, when the outfile changes, or
     when view is True. """
+    if data is None:
+        data = locals()
     if outfile is None:
         outfile = memory_graph.render_filename
     open_view = (outfile != memory_graph.last_show_filename) or view
