@@ -5,10 +5,13 @@ pip install --upgrade memory_graph
 ```
 Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 
+# Highlight #
+![vscode_copying.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/vscode_copying.gif)
+
 # Videos #
 | [![Quick Intro](https://img.youtube.com/vi/23_bHcr7hqo/0.jpg)](https://www.youtube.com/watch?v=23_bHcr7hqo) | [![Mutability](https://img.youtube.com/vi/pvIJgHCaXhU/0.jpg)](https://www.youtube.com/watch?v=pvIJgHCaXhU) |
 |:--:|:--:|
-| [Quick Intro](https://www.youtube.com/watch?v=23_bHcr7hqo) | [Mutability](https://www.youtube.com/watch?v=pvIJgHCaXhU) |
+| [Quick Intro (3:49)](https://www.youtube.com/watch?v=23_bHcr7hqo) | [Mutability (17:29)](https://www.youtube.com/watch?v=pvIJgHCaXhU) |
 
 # Memory Graph #
 For program understanding and debugging, the [memory_graph](https://pypi.org/project/memory-graph/) package can visualize your data, supporting many different data types, including but not limited to:
@@ -102,6 +105,8 @@ A better way to understand what data is shared is to draw a graph of the data us
 [Jupyter Notebook](#jupyter-notebook)
 
 [ipython](#ipython)
+
+[Google Colab](#google-colab)
 
 [In the Browser](#in-the-browser)
 
@@ -330,15 +335,6 @@ print( power_set(['a', 'b', 'c']) )
 [['a', 'b', 'c'], ['a', 'b'], ['a', 'c'], ['a'], ['b', 'c'], ['b'], ['c'], []]
 ```
 
-## Global Import Trick ##
-When working across multiple files, you can use this approach to make `mg` globally available in subsequent imports, so you don't need to import it explicitly in each file:
-
-```
-import memory_graph as mg
-import builtins
-builtins.mg = mg
-```
-
 # Debugging #
 
 For the best debugging experience with memory_graph set for example expression:
@@ -352,9 +348,11 @@ The ```mg.stack()``` doesn't work well in *watch* context in most debuggers beca
 
 | debugger | function to get the call stack |
 |:---|:---|
-| **pdb, pudb** | `mg.stack_pdb()` |
-| **Visual Studio Code** | `mg.stack_vscode()` |
-| **Pycharm** | `mg.stack_pycharm()` |
+| [pdb](https://docs.python.org/3/library/pdb.html), [pudb](https://pypi.org/project/pudb/) | `mg.stack_pdb()` |
+| [Visual Studio Code](https://code.visualstudio.com/docs/languages/python) | `mg.stack_vscode()` |
+| [Cursor AI](https://www.cursor.com/) | `mg.stack_cursor()` |
+| [PyCharm](https://www.jetbrains.com/pycharm/) | `mg.stack_pycharm()` |
+| [Wing](https://wingware.com/) | `mg.stack_wing()` |
 
 ![vscode_copying.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/vscode_copying.gif)
 
@@ -363,9 +361,11 @@ For other debuggers, invoke this function within the *watch* context. Then, in t
 ```
 mg.save_call_stack("call_stack.txt")
 ```
-Choose 'after' and 'through' what function you want to slice and then call this function to get the desired call stack. The `drop` argument can optionally be used to drop a number of stack frames after the `after_function`:
+Choose the list of `after_functions` after any of which the slice start. Then choose the `through_function` at which the slice ends. The optional `drop` argument can be used to drop a number of stack frames at the start:
 ```
-mg.stack_after_through(after_function, through_function="<module>", drop=0)
+mg.stack_after_through(after_functions : list[str],
+                       through_function : str = "<module>",
+                       drop : int = 0)
 ```
 
 ## Debugging without Debugger Tool ##
@@ -402,7 +402,7 @@ and pressing &lt;Enter&gt; a number of times, results in:
 ![debugging.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/debugging.gif)
 
 # Data Structure Examples #
-Module memory_graph can be very useful in a course about data structures, some examples:
+Package memory_graph can be very useful in a data structures course, some examples:
 
 ## Circular Doubly Linked List ##
 ```python
@@ -854,6 +854,12 @@ Additionally install file [auto_memory_graph.py](https://raw.githubusercontent.c
 
 Then after starting 'ipython' call function `mg_switch()` to turn on/off the automatic visualization of local variables after each command.
 ![ipyton.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/ipython.png)
+
+# Google Colab #
+In Google Colab `locals()` has additional variables that cause problems in the graph, use `mg.locals_colab()` to get the local variables with these problematic variables filtered out. Use `mg.stack_colab()` to get the whole call stack with these variables filtered out.
+
+See for example [colab_example.ipynb](https://raw.githubusercontent.com/bterwijn/memory_graph/main/src/colab_example.ipynb).
+![colab_example.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/colab_example.png)
 
 # In the Browser #
 We can also run memory_graph in the browser: <a href="https://bterwijn.github.io/memory_graph/src/pyodide.html" target="_blank">Pyodide Example</a>
