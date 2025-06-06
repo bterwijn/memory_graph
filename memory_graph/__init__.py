@@ -21,7 +21,7 @@ import builtins
 if not hasattr(builtins, "mg"):
     builtins.mg = mg
 
-__version__ = "0.3.34"
+__version__ = "0.3.35"
 __author__ = 'Bas Terwijn'
 render_filename = 'memory_graph.pdf'
 render_filename_count = 0
@@ -217,7 +217,7 @@ def stack_frames_to_dict(frames):
 
 def locals():
     """ Returns local variables. """
-    return locals()
+    return builtins.locals()
 
 def stack_begin_index(stack_functions : list[str], after_functions : list[str, int]):
     """ Returns the index of stack_functions that matches the first name in
@@ -258,7 +258,7 @@ def stack_after_through(after_functions : list[str, int] = [],
     return stack_frames_to_dict(reversed(stack[begin_index+stack_index:end_index+1]))
 
 def stack(through_functions=["<module>"], stack_index=0):
-    stack_after_through([], through_functions, stack_index)
+    return stack_after_through([], through_functions, stack_index+2)
 
 def stack_pdb(after_functions=[("trace_dispatch",1)],
               through_functions=["<module>"],
