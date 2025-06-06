@@ -361,12 +361,16 @@ For other debuggers, invoke this function within the *watch* context. Then, in t
 ```
 mg.save_call_stack("call_stack.txt")
 ```
-Choose the list of `after_functions` after any of which the slice start. Then choose the `through_function` at which the slice ends. The optional `drop` argument can be used to drop a number of stack frames at the start:
+Then to get the call stack use:
 ```
-mg.stack_after_through(after_functions : list[str],
-                       through_function : str = "<module>",
-                       drop : int = 0)
+mg.stack_after_through(after_functions : list[(str,int)],
+                       through_functions : list[str] = ["<module>"],
+					   stack_index: int = 0)
 ```
+with:
+* after_functions: list of (function-name, offset), the call stack begins 'offset' frames after the first frame that has 'function-name'
+* through_functions: list of function-names, the call stack ends at first frame that has 'function-name', inclusive
+* stack_index: number of frames removed from the beginning 
 
 ## Debugging without Debugger Tool ##
 

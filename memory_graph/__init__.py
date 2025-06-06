@@ -219,44 +219,76 @@ def locals():
     """ Returns local variables. """
     return locals()
 
-def stack(through_function="<module>",stack_index=0):
-    """ Gets the call stack up to and including the function 'through_function'. """
-    frames = reversed(list(
-        utils.take_through(lambda i: i.function==through_function, inspect.stack()[1+stack_index:])
-        ))
-    return stack_frames_to_dict(frames)
+def stack_begin_index(stack_functions : list[str], after_functions : list[str, int]):
+    """ Returns the index of stack_functions that matches the first name in
+    'after_functions' and adds corresponding 'offset'. """
+    for func, offset in after_functions:
+        try:
+            return stack_functions.index(func) + offset
+        except ValueError:
+            pass
+    return 0
 
-def stack_after_through(after_functions : list[str],
-                        through_function : str = "<module>",
-                        drop : int = 0):
-    """ Gets the call stack after any of the 'after_functions' function up to
-    and including the function 'through_function' and drops the first 'drop'
-    stack frames. """
-    frames = reversed(list(it.islice(
-            utils.take_through(lambda i: i.function == through_function,
-            utils.take_after(lambda i: i.function in after_functions, inspect.stack()))
-            , drop, None)))
-    return stack_frames_to_dict(frames)
+def stack_end_index(stack_functions : list[str], begin_index : int, through_functions : list[str]):
+    """ Returns the index starting from 'begin_index' of stack_functions that
+    matches the first name in through_functions. """
+    for func in through_functions:
+        try:
+            return stack_functions.index(func, begin_index)
+        except ValueError:
+            pass
+    return len(stack_functions)-1
 
-def stack_pdb(after_functions=["trace_dispatch"],through_function="<module>"):
+def stack_after_through(after_functions : list[str, int] = [],
+                        through_functions : list[str] = ["<module>"],
+                        stack_index : int = 0):
+    """
+    Returns a part of the call stack.
+    Parameters:
+      after_functions - list of (function-name, offset), the call stack begins
+                        'offset' frames after the first frame that has 'function-name'
+      through_functions - list of function-names, the call stack ends at first
+                          frame that has 'function-name', inclusive
+      stack_index - number of frames removed from the beginning
+    """
+    stack = inspect.stack()
+    stack_functions = [s.function for s in stack]
+    begin_index = stack_begin_index(stack_functions, after_functions)
+    end_index = stack_end_index(stack_functions, begin_index, through_functions)
+    return stack_frames_to_dict(reversed(stack[begin_index+stack_index:end_index+1]))
+
+def stack(through_functions=["<module>"], stack_index=0):
+    stack_after_through([], through_functions, stack_index)
+
+def stack_pdb(after_functions=[("trace_dispatch",1)],
+              through_functions=["<module>"],
+              stack_index=0):
     """ Get the call stack in a 'pdb' debugger session, filtering out the 'pdb' functions that polute the graph. """
-    return stack_after_through(after_functions,through_function)
+    return stack_after_through(after_functions, through_functions, stack_index)
 
-def stack_vscode(after_functions=["do_wait_suspend"],through_function="<module>"):
+def stack_vscode(after_functions=[("_line_event",1), ("_return_event",1), ("do_wait_suspend",1)],
+                 through_functions=["<module>"],
+                 stack_index=0):
     """ Get the call stack in a 'vscode' debugger session, filtering out the 'vscode' functions that polute the graph. """
-    return stack_after_through(after_functions,through_function)
+    return stack_after_through(after_functions, through_functions, stack_index)
 
-def stack_cursor(after_functions=["do_wait_suspend"],through_function="<module>"):
+def stack_cursor(after_functions=[("do_wait_suspend",1)],
+                 through_functions=["<module>"],
+                 stack_index=0):
     """ Get the call stack in a 'cursor' debugger session, filtering out the 'cursor' functions that polute the graph. """
-    return stack_after_through(after_functions,through_function)
+    return stack_after_through(after_functions, through_functions, stack_index)
 
-def stack_pycharm(after_functions=["do_wait_suspend"],through_function="<module>"):
+def stack_pycharm(after_functions=[("do_wait_suspend",2)],
+                  through_functions=["<module>"],
+                  stack_index=0):
     """ Get the call stack in a 'pycharm' debugger session, filtering out the 'pycharm' functions that polute the graph. """
-    return stack_after_through(after_functions,through_function, 1)
+    return stack_after_through(after_functions, through_functions, stack_index)
 
-def stack_wing(after_functions=["_py_line_event","_py_return_event"],through_function="<module>"):
+def stack_wing(after_functions=[("_py_line_event",1), ("_py_return_event",1)],
+               through_functions=["<module>"],
+               stack_index=0):
     """ Get the call stack in a 'wing' debugger session, filtering out the 'wing' functions that polute the graph. """
-    return stack_after_through(after_functions,through_function, 0)
+    return stack_after_through(after_functions, through_functions, stack_index)
 
 
 def save_call_stack(filename):
