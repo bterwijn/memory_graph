@@ -215,10 +215,6 @@ def stack_frames_to_dict(frames):
     return call_stack({f"{level}: {get_function_name(frameInfo)}" : to_dict(frameInfo.frame.f_locals)
             for level, frameInfo in enumerate(frames)})
 
-def locals():
-    """ Returns local variables. """
-    return builtins.locals()
-
 def stack_begin_index(stack_functions : list[str], after_functions : list[str, int]):
     """ Returns the index of stack_functions that matches the first name in
     'after_functions' and adds corresponding 'offset'. """
