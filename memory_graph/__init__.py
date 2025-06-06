@@ -245,10 +245,10 @@ def stack_after_through(after_functions : list[str, int] = [],
     """
     Returns a part of the call stack.
     Parameters:
-      after_functions - list of (function-name, offset), the call stack begins
-                        'offset' frames after the first frame that has 'function-name'
-      through_functions - list of function-names, the call stack ends at first
-                          frame that has 'function-name', inclusive
+      after_functions - list of (function-name, offset), begins at the index of the first
+                        'function-name' that is found in the call stack with additional 'offset'
+      through_functions - list of function-names, ends at the index of the first 'function-name'
+                          that is found in the call stack after begin index, inclusive
       stack_index - number of frames removed from the beginning
     """
     stack = inspect.stack()
