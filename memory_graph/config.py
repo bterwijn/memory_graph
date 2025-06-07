@@ -4,6 +4,11 @@
 
 """ Configuration file for the graph visualizer. The configuration values are set later by the 'config_default.py' file. """
 
+render_filename = None
+
+block_prints_location = None
+press_enter_message = None
+
 max_string_length = None
 graph_stability = None
 

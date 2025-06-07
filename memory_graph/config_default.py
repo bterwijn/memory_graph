@@ -17,6 +17,16 @@ import memory_graph.utils as utils
 import types
 
 def reset():
+
+    """ The default filename to render to. """
+    config.render_filename = 'memory_graph.pdf'
+    
+    """ Determines if the filename, line number and functions name is printed on mg.block(). """
+    config.block_prints_location = True
+
+    """ The messages asking user toe press <Enter> on block(), set to None to disable.  """
+    config.press_enter_message = "Press <Enter> to continue..."
+
     """ The maximum length of strings shown in the graph. Longer strings will be truncated. """
     config.max_string_length = 42
 

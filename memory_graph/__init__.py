@@ -23,11 +23,9 @@ if not hasattr(builtins, "mg"):
 
 __version__ = "0.3.37"
 __author__ = 'Bas Terwijn'
-render_filename = 'memory_graph.pdf'
-render_filename_count = 0
+
 last_show_filename = None
-block_prints_location = True
-press_enter_message = "Press <Enter> to continue..."
+render_filename_count = 0
 
 def get_source_location(stack_index=0):
     """ Helper function to get the source location of the stack with 'stack_index' of the call stack. """
@@ -49,10 +47,10 @@ def block(fun=None, *args, **kwargs):
     result = None
     if callable(fun):
         result = fun(*args, **kwargs)
-    if memory_graph.block_prints_location:
+    if memory_graph.config.block_prints_location:
         print('blocked at ' + get_source_location(1+stack_index), end=', ')
-    if memory_graph.press_enter_message:
-        print(memory_graph.press_enter_message)
+    if memory_graph.config.press_enter_message:
+        print(memory_graph.config.press_enter_message)
     input()
     return result
 
@@ -82,7 +80,7 @@ def render(data, outfile=None, view=False,
            numbered = False):
     """ Renders the graph of 'data' to 'outfile' or `memory_graph.render_filename` when not specified. """
     if outfile is None:
-        outfile = memory_graph.render_filename
+        outfile = memory_graph.config.render_filename
     graph = create_graph(data, colors, vertical_orientations, slicers)
     if numbered:
         outfile = number_filename(outfile)
@@ -101,7 +99,7 @@ def show(data, outfile=None, view=False,
     application by file extension at first call, when the outfile changes, or
     when view is True. """
     if outfile is None:
-        outfile = memory_graph.render_filename
+        outfile = memory_graph.config.render_filename
     open_view = (outfile != memory_graph.last_show_filename) or view
     render(data=data, outfile=outfile, view=open_view,
            colors=colors,

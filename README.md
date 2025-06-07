@@ -37,7 +37,7 @@ mg.render(data, "my_graph.pdf")
 mg.render(data, "my_graph.svg")
 mg.render(data, "my_graph.png")
 mg.render(data, "my_graph.gv") # Graphviz DOT file
-mg.render(data) # renders to 'mg.render_filename' with default value: 'memory_graph.pdf'
+mg.render(data) # renders to default: 'memory_graph.pdf'
 ```
 
 # Sharing Values #
@@ -279,10 +279,6 @@ This function:
 * then prints the current source location in the program
 * then blocks execution until the &lt;Enter&gt; key is pressed
 * finally returns the value of the `fun()` call
-
-To change its behavior:
-* Set `mg.block_prints_location = False` to skip printing the source location.
-* Set `mg.press_enter_message = None` to skip printing "Press &lt;Enter&gt; to continue...".
 
 ## Recursion ##
 The call stack is also helpful to visualize how recursion works. Here we use `mg.block()` to show each step of how recursively ```factorial(3)``` is computed:
@@ -529,9 +525,17 @@ for i in range(n):
 Here we show values being inserted in a HashSet in PyCharm. When inserting the last value '44' we "Step Into" the code to show more of the details.
 ![images/hash_set.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/hash_set.gif)
 
-
 # Configuration #
 Different aspects of memory_graph can be configured. The default configuration can be reset by calling 'mg.config_default.reset()'.
+
+- *** mg.config.render_filename *** : str
+  - The default filename to render to, default 'memory_graph.pdf'.
+
+- *** mg.config.block_prints_location *** : bool
+  - If True the source location is printed in block(), default True.
+  
+- *** mg.config.press_enter_message *** : str
+  - Message to ask user to press &lt;Enter&gt; in block(), set to None to disable.
 
 - ***mg.config.max_string_length*** : int
   - The maximum length of strings shown in the graph. Longer strings will be truncated.
