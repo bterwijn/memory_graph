@@ -528,13 +528,13 @@ Here we show values being inserted in a HashSet in PyCharm. When inserting the l
 # Configuration #
 Different aspects of memory_graph can be configured. The default configuration can be reset by calling 'mg.config_default.reset()'.
 
-- *** mg.config.render_filename *** : str
+- ***mg.config.render_filename*** : str
   - The default filename to render to, default 'memory_graph.pdf'.
 
-- *** mg.config.block_prints_location *** : bool
+- ***mg.config.block_prints_location*** : bool
   - If True the source location is printed in block(), default True.
   
-- *** mg.config.press_enter_message *** : str
+- ***mg.config.press_enter_message*** : str
   - Message to ask user to press &lt;Enter&gt; in block(), set to None to disable.
 
 - ***mg.config.max_string_length*** : int
