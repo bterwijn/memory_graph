@@ -484,7 +484,7 @@ for i in range(n):
 
 ### Binary Tree in Visual Studio Code ###
 Here we show values being inserted in a Binary Tree in Visual Studio Code. When inserting the last value '29' we "Step Into" the code to show the recursive implementation.
-![images/bin_tree.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/images/bin_tree.gif)
+![images/bin_tree.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_tree.gif)
 
 
 ## Hash Set ##
