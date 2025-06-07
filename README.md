@@ -783,7 +783,7 @@ mg.show(locals())
 ```
 ![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_table.png)
 
-# Binary Search #
+## Binary Search ##
 For binary search we can use a List_View class to represent a particular sublist without making a list copy.
 
 ```python
