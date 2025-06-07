@@ -826,7 +826,7 @@ print(f'{index=} {data[index]=}')
 ```
 ![bin_search.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_search.png)
 
-But arguable the visualization is more clear when we show a List_View object as Node_linear.
+Arguably the visualization is then more clear when we show a List_View object as an actual sublist using a Node_linear node:
 
 ```python
 mg.config.type_to_color[List_View] = 'hotpink'
