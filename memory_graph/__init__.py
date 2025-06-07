@@ -301,7 +301,7 @@ def print_call_stack_vars(stack_index=0):
 
 # ------------ jupyter filtering
 
-jupyter_filter_keys = {'exit','quit','v','In','Out','jupyter_filter_keys'}
+jupyter_filter_keys = {'mg_visualization_status', 'exit','quit','v','In','Out','jupyter_filter_keys'}
 def jupyter_locals_filter(jupyter_locals):
     """ Filter out the jupyter specific keys that polute the graph. """
     return {k:v for k,v in utils.filter_dict(jupyter_locals)
