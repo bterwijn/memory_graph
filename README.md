@@ -531,7 +531,7 @@ Here we show values being inserted in a HashSet in PyCharm. When inserting the l
 
 
 # Configuration #
-Different aspects of memory_graph can be configured. The default configuration is reset by importing 'memory_graph.config_default'.
+Different aspects of memory_graph can be configured. The default configuration can be reset by calling 'mg.config_default.reset()'.
 
 - ***mg.config.max_string_length*** : int
   - The maximum length of strings shown in the graph. Longer strings will be truncated.
