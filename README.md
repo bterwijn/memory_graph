@@ -779,10 +779,61 @@ mg.config.type_to_node[bintrees.avltree.Node] = lambda data: mg.node_table.Node_
                                                 [[data.key, data.value],
                                                  [data.left, data.right]] )
 
-
 mg.show(locals())
 ```
 ![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_table.png)
+
+# Binary Search #
+For binary search we can use a List_View class to represent a particular sublist without making a list copy.
+
+```python
+import memory_graph as mg
+import random
+random.seed(2) # same random numbers each run
+
+class List_View:
+
+    def __init__(self, lst, begin, end):
+        self.lst = lst
+        self.begin = begin
+        self.end = end
+
+    def __getitem__(self, index):
+        return self.lst[index]
+
+    def get_mid(self):
+        return (self.begin + self.end) // 2
+
+def bin_search(view, value):
+    mid = view.get_mid()
+    if view.begin == mid:
+        mg.render(mg.stack(), 'bin_search.png')
+        return view.begin
+    if value < view[mid]:
+        return bin_search(List_View(view.lst, view.begin, mid), value)
+    else:
+        return bin_search(List_View(view.lst, mid, view.end), value)
+
+# create sorted list
+n = 15
+data = [random.randrange(1000) for _ in range(n)]
+data.sort()
+
+# search 'value'
+value = data[random.randrange(n)]
+index = bin_search(List_View(data, 0, len(data)), value)
+print(f'{index=} {data[index]=}')
+```
+![bin_search.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_search.png)
+
+But arguable the visualization is more clear when we show a List_View object as Node_linear.
+
+```python
+mg.config.type_to_color[List_View] = 'hotpink'
+mg.config.type_to_node[List_View] = lambda data: mg.node_linear.Node_Linear(data,
+                                                    data.lst[data.begin:data.end])
+```
+![bin_search_linear.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_search_linear.png)
 
 
 # Graph Depth #
@@ -807,7 +858,7 @@ class Base:
         while len(iter)>1:
             iter = iter[-1]
         return iter
-            
+
 class A(Base):
 
     def __init__(self, n):
