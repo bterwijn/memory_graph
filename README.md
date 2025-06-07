@@ -442,6 +442,10 @@ for i in range(n):
 ```
 ![linked_list.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/linked_list.png)
 
+### Linked List in Cursor AI ###
+Here we show values being added to a Linked List in Cursor AI. When adding the last value '5' we "Step Into" the code to show more of the details.
+![linked_list.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/linked_list.gif)
+
 ## Binary Tree ##
 ```python
 import memory_graph as mg
@@ -477,6 +481,11 @@ for i in range(n):
     tree.add(value)
 ```
 ![bin_tree.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_tree.png)
+
+### Binary Tree in Visual Studio Code ###
+Here we show values being inserted in a Binary Tree in Visual Studio Code. When inserting the last value '29' we "Step Into" the code to show the recursive implementation.
+![images/bin_tree.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/images/bin_tree.gif)
+
 
 ## Hash Set ##
 ```python
