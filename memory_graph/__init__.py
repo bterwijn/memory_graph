@@ -266,13 +266,13 @@ def stack_vscode(begin_functions=[("_line_event",1), ("_return_event",1), ("do_w
     """ Get the call stack in a 'vscode' debugger session, filtering out the 'vscode' functions that polute the graph. """
     return stack_slice(begin_functions, end_functions, stack_index)
 
-def stack_cursor(begin_functions=[("do_wait_suspend",1)],
+def stack_cursor(begin_functions=[("do_wait_suspend",1), ("_do_wait_suspend",2)],
                  end_functions=["<module>"],
                  stack_index=0):
     """ Get the call stack in a 'cursor' debugger session, filtering out the 'cursor' functions that polute the graph. """
     return stack_slice(begin_functions, end_functions, stack_index)
 
-def stack_pycharm(begin_functions=[("do_wait_suspend",2)],
+def stack_pycharm(begin_functions=[("py_line_callback",1), ("py_return_callback",1), ("do_wait_suspend",2)],
                   end_functions=["<module>"],
                   stack_index=0):
     """ Get the call stack in a 'pycharm' debugger session, filtering out the 'pycharm' functions that polute the graph. """
