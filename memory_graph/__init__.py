@@ -211,76 +211,78 @@ def stack_frames_to_dict(frames):
     return call_stack({f"{level}: {get_function_name(frameInfo)}" : to_dict(frameInfo.frame.f_locals)
             for level, frameInfo in enumerate(frames)})
 
-def stack_begin_index(stack_functions : list[str], after_functions : list[str, int]):
+def stack_begin_index(stack_functions : list[str], begin_functions : list[str, int]):
     """ Returns the index of stack_functions that matches the first name in
-    'after_functions' and adds corresponding 'offset'. """
-    for func, offset in after_functions:
+    'begin_functions' and adds corresponding 'offset'. """
+    for func, offset in begin_functions:
         try:
             return stack_functions.index(func) + offset
         except ValueError:
             pass
     return 0
 
-def stack_end_index(stack_functions : list[str], begin_index : int, through_functions : list[str]):
+def stack_end_index(stack_functions : list[str], begin_index : int, end_functions : list[str]):
     """ Returns the index starting from 'begin_index' of stack_functions that
-    matches the first name in through_functions. """
-    for func in through_functions:
+    matches the first name in end_functions. """
+    for func in end_functions:
         try:
             return stack_functions.index(func, begin_index)
         except ValueError:
             pass
     return len(stack_functions)-1
 
-def stack_after_through(after_functions : list[str, int] = [],
-                        through_functions : list[str] = ["<module>"],
-                        stack_index : int = 0):
+def stack_slice(begin_functions : list[str, int] = [],
+                end_functions : list[str] = ["<module>"],
+                stack_index : int = 0):
     """
-    Returns a part of the call stack.
+    Returns a slice of the call stack.
     Parameters:
-      after_functions - list of (function-name, offset), begins at the index of the first
-                        'function-name' that is found in the call stack with additional 'offset'
-      through_functions - list of function-names, ends at the index of the first 'function-name'
-                          that is found in the call stack after begin index, inclusive
+      begin_functions - list of (function-name, offset), begins at the index of the first
+                        'function-name' that is found in the call stack with additional 'offset',
+                        otherwise begins at index 0
+      end_functions - list of function-names, ends at the index of the first 'function-name'
+                          that is found in the call stack after begin index (inclusive),
+                          otherwise ends at the last index
       stack_index - number of frames removed from the beginning
     """
     stack = inspect.stack()
     stack_functions = [s.function for s in stack]
-    begin_index = stack_begin_index(stack_functions, after_functions)
-    end_index = stack_end_index(stack_functions, begin_index, through_functions)
+    begin_index = stack_begin_index(stack_functions, begin_functions)
+    end_index = stack_end_index(stack_functions, begin_index, end_functions)
     return stack_frames_to_dict(reversed(stack[begin_index+stack_index:end_index+1]))
 
-def stack(through_functions=["<module>"], stack_index=0):
-    return stack_after_through([], through_functions, stack_index+2)
+def stack(end_functions=["<module>"], stack_index=0):
+    return stack_slice([], end_functions, stack_index+2)
 
-def stack_pdb(after_functions=[("trace_dispatch",1)],
-              through_functions=["<module>"],
+def stack_pdb(begin_functions=[("trace_dispatch",1)],
+              end_functions=["<module>"],
               stack_index=0):
     """ Get the call stack in a 'pdb' debugger session, filtering out the 'pdb' functions that polute the graph. """
-    return stack_after_through(after_functions, through_functions, stack_index)
+    return stack_slice(begin_functions, end_functions, stack_index)
 
-def stack_vscode(after_functions=[("_line_event",1), ("_return_event",1), ("do_wait_suspend",1)],
-                 through_functions=["<module>"],
+def stack_vscode(begin_functions=[("_line_event",1), ("_return_event",1), ("do_wait_suspend",1)],
+                 end_functions=["<module>"],
                  stack_index=0):
     """ Get the call stack in a 'vscode' debugger session, filtering out the 'vscode' functions that polute the graph. """
-    return stack_after_through(after_functions, through_functions, stack_index)
+    return stack_slice(begin_functions, end_functions, stack_index)
 
-def stack_cursor(after_functions=[("do_wait_suspend",1)],
-                 through_functions=["<module>"],
+def stack_cursor(begin_functions=[("do_wait_suspend",1)],
+                 end_functions=["<module>"],
                  stack_index=0):
     """ Get the call stack in a 'cursor' debugger session, filtering out the 'cursor' functions that polute the graph. """
-    return stack_after_through(after_functions, through_functions, stack_index)
+    return stack_slice(begin_functions, end_functions, stack_index)
 
-def stack_pycharm(after_functions=[("do_wait_suspend",2)],
-                  through_functions=["<module>"],
+def stack_pycharm(begin_functions=[("do_wait_suspend",2)],
+                  end_functions=["<module>"],
                   stack_index=0):
     """ Get the call stack in a 'pycharm' debugger session, filtering out the 'pycharm' functions that polute the graph. """
-    return stack_after_through(after_functions, through_functions, stack_index)
+    return stack_slice(begin_functions, end_functions, stack_index)
 
-def stack_wing(after_functions=[("_py_line_event",1), ("_py_return_event",1)],
-               through_functions=["<module>"],
+def stack_wing(begin_functions=[("_py_line_event",1), ("_py_return_event",1)],
+               end_functions=["<module>"],
                stack_index=0):
     """ Get the call stack in a 'wing' debugger session, filtering out the 'wing' functions that polute the graph. """
-    return stack_after_through(after_functions, through_functions, stack_index)
+    return stack_slice(begin_functions, end_functions, stack_index)
 
 
 def save_call_stack(filename):
@@ -309,9 +311,9 @@ def locals_jupyter(stack_index=0):
     """ Get the locals of the calling frame in a jupyter notebook, filtering out the jupyter specific keys. """
     return jupyter_locals_filter(get_locals_from_call_stack(1+stack_index))
 
-def stack_jupyter(through_function="<module>",stack_index=0):
+def stack_jupyter(end_functions=["<module>"],stack_index=0):
     """ Get the call stack in a jupyter notebook, filtering out the jupyter specific keys. """
-    call_stack = stack(through_function,1+stack_index)
+    call_stack = stack(end_functions,1+stack_index)
     globals_frame = next(iter(call_stack))
     call_stack[globals_frame] = jupyter_locals_filter(call_stack[globals_frame])
     return call_stack
@@ -329,9 +331,9 @@ def locals_ipython(stack_index=0):
     """ Get the locals of the calling frame in a ipython, filtering out the ipython specific keys. """
     return ipython_locals_filter(get_locals_from_call_stack(1+stack_index))
 
-def stack_ipython(through_function="<module>", stack_index=0):
+def stack_ipython(end_functions=["<module>"], stack_index=0):
     """ Get the call stack in a ipython, filtering out the ipython specific keys. """
-    call_stack = stack(through_function,1+stack_index)
+    call_stack = stack(end_functions,1+stack_index)
     globals_frame = next(iter(call_stack))
     call_stack[globals_frame] = ipython_locals_filter(call_stack[globals_frame])
     return call_stack
@@ -348,9 +350,9 @@ def locals_colab(stack_index=0):
     """ Get the locals of the calling frame in a colab, filtering out the colab specific keys. """
     return colab_locals_filter(get_locals_from_call_stack(1+stack_index))
 
-def stack_colab(through_function="<cell line: 0>", stack_index=0):
+def stack_colab(end_functions=["<cell line: 0>", "<module>"], stack_index=0):
     """ Get the call stack in a colab, filtering out the colab specific keys. """
-    call_stack = stack(through_function,1+stack_index)
+    call_stack = stack(end_functions,1+stack_index)
     globals_frame = next(iter(call_stack))
     call_stack[globals_frame] = colab_locals_filter(call_stack[globals_frame])
     return call_stack

@@ -363,13 +363,13 @@ mg.save_call_stack("call_stack.txt")
 ```
 Then to get the call stack use:
 ```
-mg.stack_after_through(after_functions : list[(str,int)],
-                       through_functions : list[str] = ["<module>"],
-                       stack_index: int = 0)
+mg.stack_slice(begin_functions : list[(str,int)] = [],
+               end_functions : list[str] = ["<module>"],
+               stack_index: int = 0)
 ```
-with parameters:
-* after_functions: list of (function-name, offset), begins at the index of the first 'function-name' that is found in the call stack with additional 'offset'
-* through_functions: list of function-names, ends at the index of the first 'function-name' that is found in the call stack after begin index, inclusive
+with these parameters that determine the begin and end index of the slice of stack frames in the call stack:
+* begin_functions: list of (function-name, offset), begins at the index of the first 'function-name' that is found in the call stack with additional 'offset', otherwise begins at index 0
+* end_functions: list of function-names, ends at the index of the first 'function-name' that is found in the call stack after begin index (inclusive), otherwise ends at the last index
 * stack_index: number of frames removed at the beginning
 
 ## Debugging without Debugger Tool ##
