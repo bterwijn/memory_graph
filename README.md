@@ -351,6 +351,7 @@ The ```mg.stack()``` doesn't work well in *watch* context in most debuggers beca
 | [Wing](https://wingware.com/) | `mg.stack_wing()` |
 
 ![vscode_copying.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/vscode_copying.gif)
+See the [Quick Intro (3:49)](https://www.youtube.com/watch?v=23_bHcr7hqo) video for the setup.
 
 ## Other Debuggers ##
 For other debuggers, invoke this function within the *watch* context. Then, in the "call_stack.txt" file, identify the slice of functions you wish to include as stack frames in the call stack.
