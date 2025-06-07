@@ -807,7 +807,7 @@ class List_View:
 def bin_search(view, value):
     mid = view.get_mid()
     if view.begin == mid:
-        mg.render(mg.stack(), 'bin_search.png')
+        mg.show(mg.stack()) # <--- show stack
         return view.begin
     if value < view[mid]:
         return bin_search(List_View(view.lst, view.begin, mid), value)
