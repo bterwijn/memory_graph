@@ -525,6 +525,10 @@ for i in range(n):
 ```
 ![hash_set.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/hash_set.png)
 
+### Hash Set in PyCharm ###
+Here we show values being inserted in a HashSet in PyCharm. When inserting the last value '44' we "Step Into" the code to show more of the details.
+![images/hash_set.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/hash_set.gif)
+
 
 # Configuration #
 Different aspects of memory_graph can be configured. The default configuration is reset by importing 'memory_graph.config_default'.
