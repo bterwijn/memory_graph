@@ -96,11 +96,11 @@ A better way to understand what data is shared is to draw a graph of the data us
 
 [Configuration](#configuration)
 
-[Extensions](#extensions)
-
 [Introspection](#introspection)
 
 [Graph Depth](#graph-depth)
+
+[Extensions](#extensions)
 
 [Jupyter Notebook](#jupyter-notebook)
 
@@ -611,44 +611,6 @@ mg.show( locals(),
 ```
 ![highlight.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/highlight.png)
 
-# Extensions #
-Different extensions are available for types from other Python packages. 
-
-## Numpy ##
-Numpy types `array` and `matrix` and `ndarray` can be graphed with "memory_graph.extension_numpy":
-
-```python
-import memory_graph as mg
-import numpy as np
-import memory_graph.extension_numpy
-np.random.seed(0) # use same random numbers each run
-
-array = np.array([1.1, 2, 3, 4, 5])
-matrix = np.matrix([[i*20+j for j in range(20)] for i in range(20)])
-ndarray = np.random.rand(20,20)
-mg.show(locals())
-```
-![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_numpy.png)
-
-## Pandas ##
-Pandas types `Series` and `DataFrame` can be graphed with "memory_graph.extension_pandas":
-
-```python
-import memory_graph as mg
-import pandas as pd
-import memory_graph.extension_pandas
-
-series = pd.Series( [i for i in range(20)] )
-dataframe1 = pd.DataFrame({  "calories": [420, 380, 390],
-                             "duration": [50, 40, 45] })
-dataframe2 = pd.DataFrame({  'Name'   : [ 'Tom', 'Anna', 'Steve', 'Lisa'],
-                             'Age'    : [    28,     34,      29,     42],
-                             'Length' : [  1.70,   1.66,    1.82,   1.73] },
-                            index=['one', 'two', 'three', 'four']) # with row names
-mg.show(locals())
-```
-![extension_pandas.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_pandas.png)
-
 # Introspection #
 This section is likely to change. Sometimes the introspection fails or is not as desired. For example the `bintrees.avltree.Node` object doesn't show any attributes in the graph below.
 
@@ -904,6 +866,44 @@ for i in range(20):
 mg.show(locals())
 ```
 ![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/hidden_edges.png)
+
+# Extensions #
+Different extensions are available for types from other Python packages. 
+
+## Numpy ##
+Numpy types `array` and `matrix` and `ndarray` can be graphed with "memory_graph.extension_numpy":
+
+```python
+import memory_graph as mg
+import numpy as np
+import memory_graph.extension_numpy
+np.random.seed(0) # use same random numbers each run
+
+array = np.array([1.1, 2, 3, 4, 5])
+matrix = np.matrix([[i*20+j for j in range(20)] for i in range(20)])
+ndarray = np.random.rand(20,20)
+mg.show(locals())
+```
+![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_numpy.png)
+
+## Pandas ##
+Pandas types `Series` and `DataFrame` can be graphed with "memory_graph.extension_pandas":
+
+```python
+import memory_graph as mg
+import pandas as pd
+import memory_graph.extension_pandas
+
+series = pd.Series( [i for i in range(20)] )
+dataframe1 = pd.DataFrame({  "calories": [420, 380, 390],
+                             "duration": [50, 40, 45] })
+dataframe2 = pd.DataFrame({  'Name'   : [ 'Tom', 'Anna', 'Steve', 'Lisa'],
+                             'Age'    : [    28,     34,      29,     42],
+                             'Length' : [  1.70,   1.66,    1.82,   1.73] },
+                            index=['one', 'two', 'three', 'four']) # with row names
+mg.show(locals())
+```
+![extension_pandas.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_pandas.png)
 
 # Jupyter Notebook #
 In Jupyter Notebook `locals()` has additional variables that cause problems in the graph, use `mg.locals_jupyter()` to get the local variables with these problematic variables filtered out. Use `mg.stack_jupyter()` to get the whole call stack with these variables filtered out.
