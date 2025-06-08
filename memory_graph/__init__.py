@@ -71,7 +71,7 @@ def number_filename(outfile):
         splits[-2]+=str(render_filename_count)
         render_filename_count += 1
         return '.'.join(splits)
-    return self.filename
+    return outfile
 
 def render(data, outfile=None, view=False,
            colors = None,
