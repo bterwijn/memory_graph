@@ -15,14 +15,14 @@ class List_View:
     def get_mid(self):
         return (self.begin + self.end) // 2
 
-#mg.config.type_to_color[List_View] = 'hotpink'
-#mg.config.type_to_node[List_View] = lambda data: mg.node_linear.Node_Linear(data,
-#                                              data.lst[data.begin:data.end] )
-
 def bin_search(view, value):
     mid = view.get_mid()
     if view.begin == mid:
         mg.render(mg.stack(), 'bin_search.png')
+        mg.config.type_to_color[List_View] = 'hotpink'
+        mg.config.type_to_node[List_View] = lambda data: mg.node_linear.Node_Linear(data,
+                                                            data.lst[data.begin:data.end] )
+        mg.render(mg.stack(), 'bin_search_linear.png')
         return view.begin
     if value < view[mid]:
         return bin_search(List_View(view.lst, view.begin, mid), value)

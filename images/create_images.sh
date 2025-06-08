@@ -35,5 +35,4 @@ python extension_pandas.py
 # introspection
 python avltree.py
 python bin_search.py
-python bin_search_linear.py
 python introspect_depth.py
