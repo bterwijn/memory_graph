@@ -41,7 +41,7 @@ mg.render(data) # renders to default: 'memory_graph.pdf'
 ```
 
 # Sharing Values #
-In Python, assigning the list from variable `a` to variable `b` causes both variables to reference the same list value and thus share it. Consequently, any change applied through one variable will impact the other. This behavior can lead to elusive bugs if a programmer incorrectly assumes that list `a` and `b` are independent.
+In Python, assigning a list from variable `a` to variable `b` causes both variables to reference the same list value and thus share it. Consequently, any change applied through one variable will impact the other. This behavior can lead to elusive bugs if a programmer incorrectly assumes that list `a` and `b` are independent.
 
 <table><tr><td> 
 
@@ -80,15 +80,13 @@ b: 4, 3, 2, 1
 ids: 126432214913216 126432214913216
 identical?: True
 ```
-A better way to understand what data is shared is to draw a graph of the data using the [memory_graph](https://pypi.org/project/memory-graph/) package.
+A better way to understand what data is shared is to draw a graph using [memory_graph](https://pypi.org/project/memory-graph/).
 
 # Chapters #
 
 [Python Data Model](#python-data-model)
 
 [Call Stack](#call-stack)
-
-[Global Import Trick](#global-import-trick)
 
 [Debugging](#debugging)
 
