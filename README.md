@@ -160,7 +160,7 @@ a = [4, 3, 2]
 b = a
 mg.render(locals(), 'mutable1.png')
 
-b += [1] # equivalent to:  b.append(1)
+b += [1]  # equivalent to:  b.append(1)
 mg.render(locals(), 'mutable2.png')
 ```
 | ![mutable1.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/mutable1.png) | ![mutable2.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/mutable2.png) |
@@ -176,11 +176,11 @@ Python offers three different "copy" options that we will demonstrate using a ne
 import memory_graph as mg
 import copy
 
-a = [ [1, 2], ['x', 'y'] ] # a nested list (a list containing lists)
+a = [ [1, 2], ['x', 'y'] ]  # a nested list (a list containing lists)
 
 # three different ways to make a "copy" of 'a':
 c1 = a
-c2 = copy.copy(a) # equivalent to:  a.copy() a[:] list(a)
+c2 = copy.copy(a)  # equivalent to:  a.copy() a[:] list(a)
 c3 = copy.deepcopy(a)
 
 mg.show(locals())
@@ -311,9 +311,9 @@ def get_subsets(subsets, data, i, subset):
         subsets.append(subset.copy())
         return
     subset.append(data[i])
-    get_subsets(subsets, data, i+1, subset) #    do include data[i]
+    get_subsets(subsets, data, i+1, subset)  #    do include data[i]
     subset.pop()
-    get_subsets(subsets, data, i+1, subset) # don't include data[i]
+    get_subsets(subsets, data, i+1, subset)  # don't include data[i]
     mg.block(mg.show, mg.stack())
 
 def power_set(data):
@@ -407,7 +407,7 @@ Package memory_graph can be very useful in a data structures course, some exampl
 ```python
 import memory_graph as mg
 import random
-random.seed(0) # use same random numbers each run
+random.seed(0)  # use same random numbers each run
 
 class Linked_List:
     """ Circular doubly linked list """
@@ -433,7 +433,7 @@ n = 100
 for i in range(n):
     value = random.randrange(n)
     linked_list.add_back(value)
-    mg.block(mg.show, locals()) # <--- draw locals
+    mg.block(mg.show, locals())  # <--- draw locals
 ```
 ![linked_list.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/linked_list.png)
 
@@ -467,7 +467,7 @@ class BinTree:
                 self.larger = BinTree(value)
             else:
                 self.larger.add(value)
-        mg.block(mg.show, mg.stack()) # <--- draw stack
+        mg.block(mg.show, mg.stack())  # <--- draw stack
 
 tree = BinTree()
 n = 100
@@ -486,7 +486,7 @@ Here we show values being inserted in a Binary Tree in Visual Studio Code. When 
 ```python
 import memory_graph as mg
 import random
-random.seed(0) # use same random numbers each run
+random.seed(0)  # use same random numbers each run
 
 class HashSet:
 
@@ -499,7 +499,7 @@ class HashSet:
             self.buckets[index] = []
         bucket = self.buckets[index]
         bucket.append(value)
-        mg.block(mg.show, locals()) # <--- draw locals
+        mg.block(mg.show, locals())  # <--- draw locals
 
     def contains(self, value):
         index = hash(value) % len(self.buckets)
@@ -581,7 +581,7 @@ a = [100, 200, 300]
 b = a.copy()
 mg.render(locals(), 'not_node_types1.png')
 
-mg.config.not_node_types.remove(int) # now show separate nodes for int values
+mg.config.not_node_types.remove(int)  # now show separate nodes for int values
 
 mg.render(locals(), 'not_node_types2.png')
 ```
@@ -602,9 +602,9 @@ data = [ list(range(20)) for i in range(1,5)]
 highlight = data[2]
 
 mg.show( locals(),
-    colors                = {id(highlight): "red"   }, # set color to red
-    vertical_orientations = {id(highlight): False   }, # set horizontal orientation
-    slicers               = {id(highlight): Slicer()}  # set no slicing 
+    colors                = {id(highlight): "red"   },  # set color to red
+    vertical_orientations = {id(highlight): False   },  # set horizontal orientation
+    slicers               = {id(highlight): Slicer()}   # set no slicing
 )
 ```
 ![highlight.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/highlight.png)
@@ -750,7 +750,7 @@ For binary search we can use a List_View class to represent a particular sublist
 ```python
 import memory_graph as mg
 import random
-random.seed(2) # same random numbers each run
+random.seed(2)  # same random numbers each run
 
 class List_View:
 
@@ -768,7 +768,7 @@ class List_View:
 def bin_search(view, value):
     mid = view.get_mid()
     if view.begin == mid:
-        mg.show(mg.stack()) # <--- show stack
+        mg.show(mg.stack())  # <--- show stack
         return view.begin
     if value < view[mid]:
         return bin_search(List_View(view.lst, view.begin, mid), value)
