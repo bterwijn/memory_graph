@@ -18,6 +18,9 @@ import types
 
 def reset():
 
+    """ Reopen viewer each time show() is called, this might change window focus. """
+    config.reopen_viewer = True
+    
     """ The default filename to render to. """
     config.render_filename = 'memory_graph.pdf'
     

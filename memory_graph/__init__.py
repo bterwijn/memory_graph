@@ -100,7 +100,7 @@ def show(data, outfile=None, view=False,
     when view is True. """
     if outfile is None:
         outfile = memory_graph.config.render_filename
-    open_view = (outfile != memory_graph.last_show_filename) or view
+    open_view = (outfile != memory_graph.last_show_filename) or view or config.reopen_viewer
     render(data=data, outfile=outfile, view=open_view,
            colors=colors,
            vertical_orientations=vertical_orientations,

@@ -527,6 +527,9 @@ Here we show values being inserted in a HashSet in PyCharm. When inserting the l
 # Configuration #
 Different aspects of memory_graph can be configured. The default configuration can be reset by calling 'mg.config_default.reset()'.
 
+- ***mg.reopen_viewer*** : bool
+  - If True the viewer is reopened each time show() is called, this might change window focus, default True.
+
 - ***mg.config.render_filename*** : str
   - The default filename to render to, default 'memory_graph.pdf'.
 
