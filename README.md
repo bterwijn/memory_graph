@@ -5,7 +5,7 @@ pip install --upgrade memory_graph
 ```
 Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 
-# Highlight #
+# Highlights #
 ![vscode_copying.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/vscode_copying.gif)
 - learn the right **mental model** to think about Python data (references, mutability, shallow vs deep copy)
 - **visualize the structure of your data** to easily understand and debug any data structure
