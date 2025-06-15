@@ -7,6 +7,8 @@ Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 
 # Highlight #
 ![vscode_copying.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/vscode_copying.gif)
+- learn the right **mental model** to think about Python data (references, mutability, shallow vs deep copy)
+- **visualize the structure of your data** to easily understand and debug any data structure
 
 # Videos #
 | [![Quick Intro](https://img.youtube.com/vi/23_bHcr7hqo/0.jpg)](https://www.youtube.com/watch?v=23_bHcr7hqo) | [![Mutability](https://img.youtube.com/vi/pvIJgHCaXhU/0.jpg)](https://www.youtube.com/watch?v=pvIJgHCaXhU) |
@@ -126,7 +128,7 @@ ___
 ___
 
 # Python Data Model #
-The [Python Data Model](https://docs.python.org/3/reference/datamodel.html) makes a distiction between immutable and mutable types:
+Learn the right **mental model** to think about Python data. The [Python Data Model](https://docs.python.org/3/reference/datamodel.html) makes a distiction between immutable and mutable types:
 
 * **immutable**: bool, int, float, complex, str, tuple, bytes, frozenset
 * **mutable**: list, set, dict, classes, ... (most other types)
@@ -401,7 +403,7 @@ and pressing &lt;Enter&gt; a number of times, results in:
 ![debugging.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/debugging.gif)
 
 # Data Structure Examples #
-Package memory_graph can be very useful in a data structures course, some examples:
+Package memory_graph can **visualize the structure of your data** to easily understand and debug data structures, some examples:
 
 ## Circular Doubly Linked List ##
 ```python
