@@ -9,6 +9,7 @@ Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 ![vscode_copying.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/vscode_copying.gif)
 - learn the right **mental model** to think about Python data (references, mutability, shallow vs deep copy)
 - **visualize the structure of your data** to easily understand and debug any data structure
+- understand function calls, variable scopes, and the **complete program state** through call stack visualization
 
 # Videos #
 | [![Quick Intro](https://img.youtube.com/vi/23_bHcr7hqo/0.jpg)](https://www.youtube.com/watch?v=23_bHcr7hqo) | [![Mutability](https://img.youtube.com/vi/pvIJgHCaXhU/0.jpg)](https://www.youtube.com/watch?v=pvIJgHCaXhU) |
@@ -240,7 +241,7 @@ mg.render(locals(), 'rebinding2.png')
 | rebinding1.png | rebinding2.png |
 
 # Call Stack #
-The `mg.stack()` function retrieves the entire call stack, including the local variables for each function on the stack. This enables us to visualize the local variables across all active functions simultaneously. By examining the graph, we can determine whether any local variables from different functions share data. For instance, consider the function `add_one()` which adds the value `1` to each of its parameters `a`, `b`, and `c`.
+The `mg.stack()` function retrieves the entire call stack, including the local variables for each function on the stack. This enables us to understand function calls, variable scopes, and the **complete program state** through call stack visualization. By examining the graph, we can determine whether any local variables from different functions share data. For instance, consider the function `add_one()` which adds the value `1` to each of its parameters `a`, `b`, and `c`.
 
 ```python
 import memory_graph as mg
