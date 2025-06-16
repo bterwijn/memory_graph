@@ -288,7 +288,7 @@ The call stack is also helpful to visualize how recursion works. Here we use `mg
 import memory_graph as mg
 
 def factorial(n):
-	mg.block(mg.show, mg.stack())
+    mg.block(mg.show, mg.stack())
     if n==0:
         return 1
     result = n * factorial(n-1)
@@ -325,7 +325,7 @@ print( binary(100) )
 ```
 
 ## Power Set ##
-A more complex recursive example is function `power_set()`. A power set is the set of all subsets of a collection of values.
+A more complex recursive example is function `power_set()` where lists are shared by different function calls. A power set is the set of all subsets of a collection of values.
 
 ```python
 import memory_graph as mg
