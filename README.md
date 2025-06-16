@@ -5,8 +5,11 @@ pip install --upgrade memory_graph
 ```
 Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 
-# Highlight #
+# Highlights #
 ![vscode_copying.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/vscode_copying.gif)
+- learn the right **mental model** to think about Python data (references, mutability, shallow vs deep copy)
+- **visualize the structure of your data** to easily understand and debug any data structure
+- understand function calls, variable scope, and the **complete program state** through call stack visualization
 
 # Videos #
 | [![Quick Intro](https://img.youtube.com/vi/23_bHcr7hqo/0.jpg)](https://www.youtube.com/watch?v=23_bHcr7hqo) | [![Mutability](https://img.youtube.com/vi/pvIJgHCaXhU/0.jpg)](https://www.youtube.com/watch?v=pvIJgHCaXhU) |
@@ -37,11 +40,11 @@ mg.render(data, "my_graph.pdf")
 mg.render(data, "my_graph.svg")
 mg.render(data, "my_graph.png")
 mg.render(data, "my_graph.gv") # Graphviz DOT file
-mg.render(data) # renders to 'mg.render_filename' with default value: 'memory_graph.pdf'
+mg.render(data) # renders to default: 'memory_graph.pdf'
 ```
 
 # Sharing Values #
-In Python, assigning the list from variable `a` to variable `b` causes both variables to reference the same list value and thus share it. Consequently, any change applied through one variable will impact the other. This behavior can lead to elusive bugs if a programmer incorrectly assumes that list `a` and `b` are independent.
+In Python, assigning a list from variable `a` to variable `b` causes both variables to reference the same list value and thus share it. Consequently, any change applied through one variable will impact the other. This behavior can lead to elusive bugs if a programmer incorrectly assumes that list `a` and `b` are independent.
 
 <table><tr><td> 
 
@@ -80,7 +83,7 @@ b: 4, 3, 2, 1
 ids: 126432214913216 126432214913216
 identical?: True
 ```
-A better way to understand what data is shared is to draw a graph of the data using the [memory_graph](https://pypi.org/project/memory-graph/) package.
+A better way to understand what data is shared is to draw a graph using [memory_graph](https://pypi.org/project/memory-graph/).
 
 # Chapters #
 
@@ -88,19 +91,17 @@ A better way to understand what data is shared is to draw a graph of the data us
 
 [Call Stack](#call-stack)
 
-[Global Import Trick](#global-import-trick)
-
 [Debugging](#debugging)
 
 [Data Structure Examples](#data-structure-examples)
 
 [Configuration](#configuration)
 
-[Extensions](#extensions)
-
 [Introspection](#introspection)
 
 [Graph Depth](#graph-depth)
+
+[Extensions](#extensions)
 
 [Jupyter Notebook](#jupyter-notebook)
 
@@ -128,7 +129,7 @@ ___
 ___
 
 # Python Data Model #
-The [Python Data Model](https://docs.python.org/3/reference/datamodel.html) makes a distiction between immutable and mutable types:
+Learn the right **mental model** to think about Python data. The [Python Data Model](https://docs.python.org/3/reference/datamodel.html) makes a distiction between immutable and mutable types:
 
 * **immutable**: bool, int, float, complex, str, tuple, bytes, frozenset
 * **mutable**: list, set, dict, classes, ... (most other types)
@@ -162,7 +163,7 @@ a = [4, 3, 2]
 b = a
 mg.render(locals(), 'mutable1.png')
 
-b += [1] # equivalent to:  b.append(1)
+b += [1]  # equivalent to:  b.append(1)
 mg.render(locals(), 'mutable2.png')
 ```
 | ![mutable1.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/mutable1.png) | ![mutable2.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/mutable2.png) |
@@ -178,11 +179,11 @@ Python offers three different "copy" options that we will demonstrate using a ne
 import memory_graph as mg
 import copy
 
-a = [ [1, 2], ['x', 'y'] ] # a nested list (a list containing lists)
+a = [ [1, 2], ['x', 'y'] ]  # a nested list (a list containing lists)
 
 # three different ways to make a "copy" of 'a':
 c1 = a
-c2 = copy.copy(a) # equivalent to:  a.copy() a[:] list(a)
+c2 = copy.copy(a)  # equivalent to:  a.copy() a[:] list(a)
 c3 = copy.deepcopy(a)
 
 mg.show(locals())
@@ -240,7 +241,7 @@ mg.render(locals(), 'rebinding2.png')
 | rebinding1.png | rebinding2.png |
 
 # Call Stack #
-The `mg.stack()` function retrieves the entire call stack, including the local variables for each function on the stack. This enables us to visualize the local variables across all active functions simultaneously. By examining the graph, we can determine whether any local variables from different functions share data. For instance, consider the function `add_one()` which adds the value `1` to each of its parameters `a`, `b`, and `c`.
+The `mg.stack()` function retrieves the entire call stack, including the local variables for each function on the stack. This enables us to understand function calls, variable scope, and the **complete program state** through call stack visualization. By examining the graph, we can determine whether any local variables from different functions share data. For instance, consider the function `add_one()` which adds the value `1` to each of its parameters `a`, `b`, and `c`.
 
 ```python
 import memory_graph as mg
@@ -279,10 +280,6 @@ This function:
 * then prints the current source location in the program
 * then blocks execution until the &lt;Enter&gt; key is pressed
 * finally returns the value of the `fun()` call
-
-To change its behavior:
-* Set `mg.block_prints_location = False` to skip printing the source location.
-* Set `mg.press_enter_message = None` to skip printing "Press &lt;Enter&gt; to continue...".
 
 ## Recursion ##
 The call stack is also helpful to visualize how recursion works. Here we use `mg.block()` to show each step of how recursively `factorial(4)` is computed:
@@ -339,9 +336,9 @@ def get_subsets(subsets, data, i, subset):
         subsets.append(subset.copy())
         return
     subset.append(data[i])
-    get_subsets(subsets, data, i+1, subset) #    do include data[i]
+    get_subsets(subsets, data, i+1, subset)  #    do include data[i]
     subset.pop()
-    get_subsets(subsets, data, i+1, subset) # don't include data[i]
+    get_subsets(subsets, data, i+1, subset)  # don't include data[i]
     mg.block(mg.show, mg.stack())
 
 def power_set(data):
@@ -377,18 +374,23 @@ The ```mg.stack()``` doesn't work well in *watch* context in most debuggers beca
 | [Wing](https://wingware.com/) | `mg.stack_wing()` |
 
 ![vscode_copying.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/vscode_copying.gif)
+See the [Quick Intro (3:49)](https://www.youtube.com/watch?v=23_bHcr7hqo) video for the setup.
 
 ## Other Debuggers ##
 For other debuggers, invoke this function within the *watch* context. Then, in the "call_stack.txt" file, identify the slice of functions you wish to include as stack frames in the call stack.
 ```
 mg.save_call_stack("call_stack.txt")
 ```
-Choose the list of `after_functions` after any of which the slice start. Then choose the `through_function` at which the slice ends. The optional `drop` argument can be used to drop a number of stack frames at the start:
+Then to get the call stack use:
 ```
-mg.stack_after_through(after_functions : list[str],
-                       through_function : str = "<module>",
-                       drop : int = 0)
+mg.stack_slice(begin_functions : list[(str,int)] = [],
+               end_functions : list[str] = ["<module>"],
+               stack_index: int = 0)
 ```
+with these parameters that determine the begin and end index of the slice of stack frames in the call stack:
+* begin_functions: list of (function-name, offset), begins at the index of the first 'function-name' that is found in the call stack with additional 'offset', otherwise begins at index 0
+* end_functions: list of function-names, ends at the index of the first 'function-name' that is found in the call stack after begin index (inclusive), otherwise ends at the last index
+* stack_index: number of frames removed at the beginning
 
 ## Debugging without Debugger Tool ##
 
@@ -424,13 +426,13 @@ and pressing &lt;Enter&gt; a number of times, results in:
 ![debugging.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/debugging.gif)
 
 # Data Structure Examples #
-Package memory_graph can be very useful in a data structures course, some examples:
+Package memory_graph can **visualize the structure of your data** to easily understand and debug data structures, some examples:
 
 ## Circular Doubly Linked List ##
 ```python
 import memory_graph as mg
 import random
-random.seed(0) # use same random numbers each run
+random.seed(0)  # use same random numbers each run
 
 class Linked_List:
     """ Circular doubly linked list """
@@ -456,9 +458,13 @@ n = 100
 for i in range(n):
     value = random.randrange(n)
     linked_list.add_back(value)
-    mg.block(mg.show, locals()) # <--- draw locals
+    mg.block(mg.show, locals())  # <--- draw locals
 ```
 ![linked_list.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/linked_list.png)
+
+### Linked List in Cursor AI ###
+Here we show values being added to a Linked List in Cursor AI. When adding the last value '5' we "Step Into" the code to show more of the details.
+![linked_list.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/linked_list.gif)
 
 ## Binary Tree ##
 ```python
@@ -486,7 +492,7 @@ class BinTree:
                 self.larger = BinTree(value)
             else:
                 self.larger.add(value)
-        mg.block(mg.show, mg.stack()) # <--- draw stack
+        mg.block(mg.show, mg.stack())  # <--- draw stack
 
 tree = BinTree()
 n = 100
@@ -496,11 +502,16 @@ for i in range(n):
 ```
 ![bin_tree.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_tree.png)
 
+### Binary Tree in Visual Studio Code ###
+Here we show values being inserted in a Binary Tree in Visual Studio Code. When inserting the last value '29' we "Step Into" the code to show the recursive implementation.
+![images/bin_tree.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_tree.gif)
+
+
 ## Hash Set ##
 ```python
 import memory_graph as mg
 import random
-random.seed(0) # use same random numbers each run
+random.seed(0)  # use same random numbers each run
 
 class HashSet:
 
@@ -513,7 +524,7 @@ class HashSet:
             self.buckets[index] = []
         bucket = self.buckets[index]
         bucket.append(value)
-        mg.block(mg.show, locals()) # <--- draw locals
+        mg.block(mg.show, locals())  # <--- draw locals
 
     def contains(self, value):
         index = hash(value) % len(self.buckets)
@@ -534,9 +545,24 @@ for i in range(n):
 ```
 ![hash_set.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/hash_set.png)
 
+### Hash Set in PyCharm ###
+Here we show values being inserted in a HashSet in PyCharm. When inserting the last value '44' we "Step Into" the code to show more of the details.
+![images/hash_set.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/hash_set.gif)
 
 # Configuration #
-Different aspects of memory_graph can be configured. The default configuration is reset by importing 'memory_graph.config_default'.
+Different aspects of memory_graph can be configured. The default configuration can be reset by calling 'mg.config_default.reset()'.
+
+- ***mg.config.reopen_viewer*** : bool
+  - If True the viewer is reopened each time show() is called, this might change window focus, default True.
+
+- ***mg.config.render_filename*** : str
+  - The default filename to render to, default 'memory_graph.pdf'.
+
+- ***mg.config.block_prints_location*** : bool
+  - If True the source location is printed in block(), default True.
+  
+- ***mg.config.press_enter_message*** : str
+  - Message to ask user to press &lt;Enter&gt; in block(), set to None to disable.
 
 - ***mg.config.max_string_length*** : int
   - The maximum length of strings shown in the graph. Longer strings will be truncated.
@@ -583,7 +609,7 @@ a = [100, 200, 300]
 b = a.copy()
 mg.render(locals(), 'not_node_types1.png')
 
-mg.config.not_node_types.remove(int) # now show separate nodes for int values
+mg.config.not_node_types.remove(int)  # now show separate nodes for int values
 
 mg.render(locals(), 'not_node_types2.png')
 ```
@@ -604,50 +630,12 @@ data = [ list(range(20)) for i in range(1,5)]
 highlight = data[2]
 
 mg.show( locals(),
-    colors                = {id(highlight): "red"   }, # set color to red
-    verticals = {id(highlight): False   }, # set horizontal orientation
-    slicers               = {id(highlight): Slicer()}  # set no slicing 
+    colors    = {id(highlight): "red"   },  # set color to red
+    verticals = {id(highlight): False   },  # set horizontal orientation
+    slicers   = {id(highlight): Slicer()}   # set no slicing 
 )
 ```
 ![highlight.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/highlight.png)
-
-# Extensions #
-Different extensions are available for types from other Python packages. 
-
-## Numpy ##
-Numpy types `array` and `matrix` and `ndarray` can be graphed with "memory_graph.extension_numpy":
-
-```python
-import memory_graph as mg
-import numpy as np
-import memory_graph.extension_numpy
-np.random.seed(0) # use same random numbers each run
-
-array = np.array([1.1, 2, 3, 4, 5])
-matrix = np.matrix([[i*20+j for j in range(20)] for i in range(20)])
-ndarray = np.random.rand(20,20)
-mg.show(locals())
-```
-![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_numpy.png)
-
-## Pandas ##
-Pandas types `Series` and `DataFrame` can be graphed with "memory_graph.extension_pandas":
-
-```python
-import memory_graph as mg
-import pandas as pd
-import memory_graph.extension_pandas
-
-series = pd.Series( [i for i in range(20)] )
-dataframe1 = pd.DataFrame({  "calories": [420, 380, 390],
-                             "duration": [50, 40, 45] })
-dataframe2 = pd.DataFrame({  'Name'   : [ 'Tom', 'Anna', 'Steve', 'Lisa'],
-                             'Age'    : [    28,     34,      29,     42],
-                             'Length' : [  1.70,   1.66,    1.82,   1.73] },
-                            index=['one', 'two', 'three', 'four']) # with row names
-mg.show(locals())
-```
-![extension_pandas.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_pandas.png)
 
 # Introspection #
 This section is likely to change. Sometimes the introspection fails or is not as desired. For example the `bintrees.avltree.Node` object doesn't show any attributes in the graph below.
@@ -780,10 +768,61 @@ mg.config.type_to_node[bintrees.avltree.Node] = lambda data: mg.node_table.Node_
                                                 [[data.key, data.value],
                                                  [data.left, data.right]] )
 
-
 mg.show(locals())
 ```
 ![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_table.png)
+
+## Binary Search ##
+For binary search we can use a List_View class to represent a particular sublist without making a list copy.
+
+```python
+import memory_graph as mg
+import random
+random.seed(2)  # same random numbers each run
+
+class List_View:
+
+    def __init__(self, lst, begin, end):
+        self.lst = lst
+        self.begin = begin
+        self.end = end
+
+    def __getitem__(self, index):
+        return self.lst[index]
+
+    def get_mid(self):
+        return (self.begin + self.end) // 2
+
+def bin_search(view, value):
+    mid = view.get_mid()
+    if view.begin == mid:
+        mg.show(mg.stack())  # <--- show stack
+        return view.begin
+    if value < view[mid]:
+        return bin_search(List_View(view.lst, view.begin, mid), value)
+    else:
+        return bin_search(List_View(view.lst, mid, view.end), value)
+
+# create sorted list
+n = 15
+data = [random.randrange(1000) for _ in range(n)]
+data.sort()
+
+# search 'value'
+value = data[random.randrange(n)]
+index = bin_search(List_View(data, 0, len(data)), value)
+print(f'{index=} {data[index]=}')
+```
+![bin_search.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_search.png)
+
+Arguably the visualization is then more clear when we show a List_View object as an actual sublist using a Node_linear node:
+
+```python
+mg.config.type_to_color[List_View] = 'hotpink'
+mg.config.type_to_node[List_View] = lambda data: mg.node_linear.Node_Linear(data,
+                                                    data.lst[data.begin:data.end])
+```
+![bin_search_linear.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_search_linear.png)
 
 
 # Graph Depth #
@@ -808,7 +847,7 @@ class Base:
         while len(iter)>1:
             iter = iter[-1]
         return iter
-            
+
 class A(Base):
 
     def __init__(self, n):
@@ -853,6 +892,44 @@ for i in range(20):
 mg.show(locals())
 ```
 ![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/hidden_edges.png)
+
+# Extensions #
+Different extensions are available for types from other Python packages. 
+
+## Numpy ##
+Numpy types `array` and `matrix` and `ndarray` can be graphed with "memory_graph.extension_numpy":
+
+```python
+import memory_graph as mg
+import numpy as np
+import memory_graph.extension_numpy
+np.random.seed(0) # use same random numbers each run
+
+array = np.array([1.1, 2, 3, 4, 5])
+matrix = np.matrix([[i*20+j for j in range(20)] for i in range(20)])
+ndarray = np.random.rand(20,20)
+mg.show(locals())
+```
+![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_numpy.png)
+
+## Pandas ##
+Pandas types `Series` and `DataFrame` can be graphed with "memory_graph.extension_pandas":
+
+```python
+import memory_graph as mg
+import pandas as pd
+import memory_graph.extension_pandas
+
+series = pd.Series( [i for i in range(20)] )
+dataframe1 = pd.DataFrame({  "calories": [420, 380, 390],
+                             "duration": [50, 40, 45] })
+dataframe2 = pd.DataFrame({  'Name'   : [ 'Tom', 'Anna', 'Steve', 'Lisa'],
+                             'Age'    : [    28,     34,      29,     42],
+                             'Length' : [  1.70,   1.66,    1.82,   1.73] },
+                            index=['one', 'two', 'three', 'four']) # with row names
+mg.show(locals())
+```
+![extension_pandas.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_pandas.png)
 
 # Jupyter Notebook #
 In Jupyter Notebook `locals()` has additional variables that cause problems in the graph, use `mg.locals_jupyter()` to get the local variables with these problematic variables filtered out. Use `mg.stack_jupyter()` to get the whole call stack with these variables filtered out.
