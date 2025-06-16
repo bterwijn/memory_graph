@@ -285,28 +285,50 @@ To change its behavior:
 * Set `mg.press_enter_message = None` to skip printing "Press &lt;Enter&gt; to continue...".
 
 ## Recursion ##
-The call stack is also helpful to visualize how recursion works. Here we use `mg.block()` to show each step of how recursively ```factorial(3)``` is computed:
+The call stack is also helpful to visualize how recursion works. Here we use `mg.block()` to show each step of how recursively `factorial(4)` is computed:
 
 ```python
 import memory_graph as mg
 
 def factorial(n):
+	mg.block(mg.show, mg.stack())
     if n==0:
         return 1
-    mg.block(mg.show, mg.stack())
     result = n * factorial(n-1)
     mg.block(mg.show, mg.stack())
     return result
 
-print(factorial(3))
+print( factorial(4) )
 ```
 
 ![factorial.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial.gif)
 
-and the result is: 1 x 2 x 3 = 6
+and the result is: 1 x 2 x 3 x 4 = 24
+
+## Binary ##
+A more interesting recursive example is function `binary()` that converts an integer to binary representation. 
+```python
+import memory_graph as mg
+mg.config.type_to_vertical[list] = False  # horizontal lists
+
+def binary(value: int) -> list[int]:
+    mg.block(mg.show(), mg.stack())
+    if value == 0:
+        return []
+    quotient, remainder = divmod(value, 2)
+    result = binary(quotient) + [remainder]
+    mg.block(mg.show(), mg.stack())
+    return result
+
+print( binary(100) )
+```
+![factorial.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/binary.gif)
+```
+1100100
+```
 
 ## Power Set ##
-A more interesting recursive example that shows sharing of data is power_set(). A power set is the set of all subsets of a collection of values.
+A more complex recursive example is function `power_set()`. A power set is the set of all subsets of a collection of values.
 
 ```python
 import memory_graph as mg
@@ -531,7 +553,7 @@ Different aspects of memory_graph can be configured. The default configuration i
 - ***mg.config.type_to_color*** : dict[type, color]
   - Maps a type to the [graphviz color](https://graphviz.org/doc/info/colors.html) it gets in the graph. 
 
-- ***mg.config.type_to_vertical_orientation*** : dict[type, bool]
+- ***mg.config.type_to_vertical*** : dict[type, bool]
   - Maps a type to its orientation. Use 'True' for vertical and 'False' for horizontal. If not specified Node_Linear and Node_Key_Value are vertical unless they have references to children.
 
 - ***mg.config.type_to_slicer*** : dict[type, int]
@@ -583,7 +605,7 @@ highlight = data[2]
 
 mg.show( locals(),
     colors                = {id(highlight): "red"   }, # set color to red
-    vertical_orientations = {id(highlight): False   }, # set horizontal orientation
+    verticals = {id(highlight): False   }, # set horizontal orientation
     slicers               = {id(highlight): Slicer()}  # set no slicing 
 )
 ```

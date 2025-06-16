@@ -10,6 +10,6 @@ highlight = data[2]
 
 mg.render( locals(), "highlight.png",
     colors                = {id(highlight): "red"   }, # set color to "red"
-    vertical_orientations = {id(highlight): False   }, # set horizontal orientation
+    verticals = {id(highlight): False   }, # set horizontal orientation
     slicers               = {id(highlight): Slicer()}  # set no slicing
 )
