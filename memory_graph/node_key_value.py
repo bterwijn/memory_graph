@@ -45,7 +45,7 @@ class Node_Key_Value(Node_Base):
         """
         Return if the node is vertical or horizontal based on the orientation of the children.
         """
-        vertical = config_helpers.get_vertical_orientation(self, None)
+        vertical = config_helpers.get_vertical(self, None)
         if vertical is None:
             vertical = not self.has_references(nodes, slices, id_to_slices)
         return vertical
