@@ -17,14 +17,17 @@ config.not_node_types |= {
     np.bool_, np.bytes_, np.str_, np.datetime64, np.timedelta64
 }
 
-def ndarrayy_to_node(ndarrayy_data):
-    if len(ndarrayy_data.shape) == 2:
-        return Node_Table(ndarrayy_data, ndarrayy_data)
+def ndarray_to_node(data, ndarray_data):
+    dim = len(ndarray_data.shape)
+    if dim > 2:
+        return Node_Linear(data, [i for i in ndarray_data])
+    elif dim == 2:
+        return Node_Table(data, ndarray_data)
     else:
-        return Node_Linear(ndarrayy_data, ndarrayy_data)
-    
+        return Node_Linear(data, ndarray_data)
+
 config.type_to_node[np.matrix] = lambda data : Node_Table(data, np.asarray(data)) # convert to ndarray to avoid infinite recursion due to index issue
-config.type_to_node[np.ndarray] = lambda data :  ndarrayy_to_node(data)
+config.type_to_node[np.ndarray] = lambda data : ndarray_to_node(data, data)
 
 config.type_to_color[np.ndarray] = "hotpink1"
 config.type_to_color[np.matrix] = "hotpink2"

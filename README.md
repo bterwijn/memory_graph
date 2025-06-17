@@ -887,9 +887,11 @@ import numpy as np
 import memory_graph.extension_numpy
 np.random.seed(0) # use same random numbers each run
 
-array = np.array([1.1, 2, 3, 4, 5])
-matrix = np.matrix([[i*20+j for j in range(20)] for i in range(20)])
-ndarray = np.random.rand(20,20)
+matrix = np.matrix([[i*5+j for j in range(4)] for i in range(5)])
+ndarray_1d = np.array([1.1, 2, 3, 4, 5])
+ndarray_2d = np.random.rand(3,2)
+ndarray_3d = np.random.rand(2,2,2)
+
 mg.show(locals())
 ```
 ![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_numpy.png)
@@ -912,6 +914,23 @@ dataframe2 = pd.DataFrame({  'Name'   : [ 'Tom', 'Anna', 'Steve', 'Lisa'],
 mg.show(locals())
 ```
 ![extension_pandas.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_pandas.png)
+
+## PyTorch ##
+Torch type `tensor` can be graphed with "memory_graph.extension_torch":
+
+```python
+import memory_graph as mg
+import torch
+import memory_graph.extension_torch
+torch.manual_seed(0) # same random numbers each run
+
+tensor_1d = torch.rand(3)
+tensor_2d = torch.rand(3, 2)
+tensor_3d = torch.rand(2, 2, 2)
+
+mg.show(locals())
+```
+![extension_torch.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_torch.png)
 
 # Jupyter Notebook #
 In Jupyter Notebook `locals()` has additional variables that cause problems in the graph, use `mg.locals_jupyter()` to get the local variables with these problematic variables filtered out. Use `mg.stack_jupyter()` to get the whole call stack with these variables filtered out.
