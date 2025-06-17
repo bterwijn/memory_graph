@@ -546,7 +546,7 @@ Different aspects of memory_graph can be configured. The default configuration c
   - The maximum length of strings shown in the graph. Longer strings will be truncated.
 
 - ***mg.config.not_node_types*** : set[type]
-  - Holds all types for which no seperate node is drawn but that instead are shown as elements in their parent Node.
+  - Holds all types for which no separate node is drawn but that instead are shown as elements in their parent Node.
 
 - ***mg.config.no_child_references_types*** : set[type]
   - The set of key_value types that don't draw references to their direct childeren but have their children shown as elements of their node.
