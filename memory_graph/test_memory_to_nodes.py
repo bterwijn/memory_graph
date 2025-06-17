@@ -6,8 +6,6 @@
 import memory_graph.memory_to_nodes as memory_to_nodes
 import memory_graph.config_helpers as config_helper
 
-config_helper.set_config()
-
 l1 = [1,2]
 l2 = [3,4]
 data = [l1,l2,l1,[5,l2]]

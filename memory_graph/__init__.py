@@ -5,7 +5,6 @@
 import memory_graph.memory_to_nodes as memory_to_nodes
 import memory_graph.config as config
 import memory_graph.config_default
-import memory_graph.config_helpers as config_helper
 import memory_graph.utils as utils
 
 import inspect
@@ -54,14 +53,9 @@ def block(fun=None, *args, **kwargs):
     input()
     return result
 
-def create_graph(data,
-                 colors = None,
-                 verticals = None,
-                 slicers = None):
+def create_graph(data):
     """ Creates and returns a memory graph from 'data'. """
-    config_helper.set_config(colors, verticals, slicers)
-    graphviz_graph = memory_to_nodes.memory_to_nodes(data)
-    return graphviz_graph
+    return memory_to_nodes.memory_to_nodes(data)
 
 def number_filename(outfile):
     """ Returns the 'outfile' with 'render_filename_count'. """
@@ -73,15 +67,11 @@ def number_filename(outfile):
         return '.'.join(splits)
     return outfile
 
-def render(data, outfile=None, view=False,
-           colors = None,
-           verticals = None,
-           slicers = None,
-           numbered = False):
+def render(data, outfile=None, view=False, numbered = False):
     """ Renders the graph of 'data' to 'outfile' or `memory_graph.render_filename` when not specified. """
     if outfile is None:
         outfile = memory_graph.config.render_filename
-    graph = create_graph(data, colors, verticals, slicers)
+    graph = create_graph(data)
     if numbered:
         outfile = number_filename(outfile)
     if outfile.endswith('.gv') or outfile.endswith('.dot'):
@@ -90,97 +80,86 @@ def render(data, outfile=None, view=False,
         graph.render(outfile=outfile, view=view, cleanup=False, quiet=False, quiet_view=False)
 
 
-def show(data, outfile=None, view=False,
-         colors = None,
-         verticals = None,
-         slicers = None,
-         numbered = False):
+def show(data, outfile=None, view=False, numbered = False):
     """ Shows the graph of 'data' by first rendering and then opening the default viewer
     application by file extension at first call, when the outfile changes, or
     when view is True. """
     if outfile is None:
         outfile = memory_graph.config.render_filename
     open_view = (outfile != memory_graph.last_show_filename) or view or config.reopen_viewer
-    render(data=data, outfile=outfile, view=open_view,
-           colors=colors,
-           verticals=verticals,
-           slicers=slicers, numbered=numbered)
+    render(data=data, outfile=outfile, view=open_view, numbered=numbered)
     memory_graph.last_show_filename = outfile
 
 
 # ------------ aliases
 
-def sl(stack_index=0, colors = None, verticals = None, slicers = None):
+def sl(stack_index=0):
     """ 
     Shows the graph of locals() and blocks. 
     """
     data = get_locals_from_call_stack(stack_index=1+stack_index)
-    memory_graph.show(data, colors=colors, verticals=verticals, slicers=slicers)
+    memory_graph.show(data)
     
-def ss(stack_index=0, colors = None, verticals = None, slicers = None):
+def ss(stack_index=0):
     """ 
     Shows the graph of mg.stack() and blocks. 
     """
     data = stack(stack_index=1+stack_index)
-    memory_graph.show(data, colors=colors, verticals=verticals, slicers=slicers)
+    memory_graph.show(data)
 
-def bsl(stack_index=0, colors = None, verticals = None, slicers = None):
+def bsl(stack_index=0):
     """ 
     Shows the graph of locals() and blocks. 
     """
     data = get_locals_from_call_stack(stack_index=1+stack_index)
-    memory_graph.block(memory_graph.show, data, stack_index=1+stack_index, block=False, 
-                       colors=colors, verticals=verticals, slicers=slicers)
+    memory_graph.block(memory_graph.show, data, stack_index=1+stack_index)
     
-def bss(stack_index=0, colors = None, verticals = None, slicers = None):
+def bss(stack_index=0):
     """ 
     Shows the graph of mg.stack() and blocks. 
     """
     data = stack(stack_index=1+stack_index)
-    memory_graph.block(memory_graph.show, data, stack_index=1+stack_index, block=False, 
-                       colors=colors, verticals=verticals, slicers=slicers)
+    memory_graph.block(memory_graph.show, data, stack_index=1+stack_index)
 
-def rl(stack_index=0, colors = None, verticals = None, slicers = None):
+def rl(stack_index=0):
     """ 
     Shows the graph of locals() and blocks. 
     """
     data = get_locals_from_call_stack(stack_index=1+stack_index)
-    memory_graph.render(data, block=False, colors=colors, verticals=verticals, slicers=slicers)
+    memory_graph.render(data)
     
-def rs(stack_index=0, colors = None, verticals = None, slicers = None):
+def rs(stack_index=0):
     """ 
     Shows the graph of mg.stack() and blocks. 
     """
     data = stack(stack_index=1+stack_index)
-    memory_graph.render(data, block=False, colors=colors, verticals=verticals, slicers=slicers)
+    memory_graph.render(data)
 
-def brl(stack_index=0, colors = None, verticals = None, slicers = None):
+def brl(stack_index=0):
     """ 
     Shows the graph of locals() and blocks. 
     """
     data = get_locals_from_call_stack(stack_index=1+stack_index)
-    memory_graph.block(memory_graph.render, data, stack_index=1+stack_index, block=False, 
-                       colors=colors, verticals=verticals, slicers=slicers)
+    memory_graph.block(memory_graph.render, data, stack_index=1+stack_index)
     
-def brs(stack_index=0, colors = None, verticals = None, slicers = None):
+def brs(stack_index=0):
     """ 
     Shows the graph of mg.stack() and blocks. 
     """
     data = stack(stack_index=1+stack_index)
-    memory_graph.block(memory_graph.render, data, stack_index=1+stack_index, block=False, 
-                       colors=colors, verticals=verticals, slicers=slicers)
+    memory_graph.block(memory_graph.render, data, stack_index=1+stack_index)
 
-def l(stack_index=0, colors = None, verticals = None, slicers = None):
+def l(stack_index=0):
     """ 
     Shows the graph of locals() and blocks. 
     """
-    bsl(stack_index=1+stack_index, colors=colors, verticals=verticals, slicers=slicers)
+    bsl(stack_index=1+stack_index)
     
-def s(stack_index=0, colors = None, verticals = None, slicers = None):
+def s(stack_index=0):
     """ 
     Shows the graph of mg.stack() and blocks. 
     """
-    bss(stack_index=1+stack_index, colors=colors, verticals=verticals, slicers=slicers)
+    bss(stack_index=1+stack_index)
 
 
 # ------------ call stack

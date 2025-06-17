@@ -28,13 +28,12 @@ python hash_set.py
 
 # configuration
 python not_node_types.py
-python highlight.py
-
-# extensions
-python extension_numpy.py
-python extension_pandas.py
 
 # introspection
 python avltree.py
 python bin_search.py
 python introspect_depth.py
+
+# extensions
+python extension_numpy.py
+python extension_pandas.py

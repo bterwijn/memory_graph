@@ -574,7 +574,7 @@ Different aspects of memory_graph can be configured. The default configuration c
   - The set of key_value types that don't draw references to their direct childeren but have their children shown as elements of their node.
 
 - ***mg.config.type_to_node*** : dict[type, fun(data) -> Node]
-  - Determines how a data types is converted to a Node (sub)class for visualization in the graph.
+  - Determines how a data type is converted to a Node subclass for visualization in the graph.
 
 - ***mg.config.type_to_color*** : dict[type, color]
   - Maps a type to the [graphviz color](https://graphviz.org/doc/info/colors.html) it gets in the graph. 
@@ -619,24 +619,6 @@ mg.render(locals(), 'not_node_types2.png')
 
 Additionally, the simplification hides away the [reuse of small int values \[-5, 256\]](https://docs.python.org/3/c-api/long.html#c.PyLong_FromLong) in the current CPython implementation, an optimization that might otherwise confuse beginner Python programmers. For instance, after executing `a[1]+=1; b[1]+=1` the `201` value is, maybe surprisingly, still shared between `a` and `b`, whereas executing `a[2]+=1; b[2]+=1` does not result in sharing the `301` value.
 
-## Temporary Configuration ##
-In addition to the global configuration, a temporary configuration can be set for a single `show()` or `render()` call to change the colors, orientation, and slicer. This example highlights a particular list element in red, gives it a horizontal orientation, and overwrites the default slicer for lists:
-
-```python
-import memory_graph as mg
-from memory_graph.slicer import Slicer
-
-data = [ list(range(20)) for i in range(1,5)]
-highlight = data[2]
-
-mg.show( locals(),
-    colors    = {id(highlight): "red"   },  # set color to red
-    verticals = {id(highlight): False   },  # set horizontal orientation
-    slicers   = {id(highlight): Slicer()}   # set no slicing 
-)
-```
-![highlight.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/highlight.png)
-
 # Introspection #
 This section is likely to change. Sometimes the introspection fails or is not as desired. For example the `bintrees.avltree.Node` object doesn't show any attributes in the graph below.
 
@@ -679,7 +661,7 @@ mg.show(locals())
 ```
 ![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_dir.png)
 
-Next figure out what are the attributes you want to graph and choose a Node type, there are four options:
+Next figure out what the attributes are you want to graph and choose a Node type, there are four options:
 
 ## 1) Node_Leaf ##
 Node_Leaf is a node with no children and shows just a single value.
