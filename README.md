@@ -279,7 +279,7 @@ This function:
 * first executes `fun(arg1, arg2, ...)`
 * then prints the current source location in the program
 * then blocks execution until the &lt;Enter&gt; key is pressed
-* finally returns the value of the `fun()` call
+* finally returns the return value of the `fun()` call
 
 ## Recursion ##
 The call stack is also helpful to visualize how recursion works. Here we use `mg.block()` to show each step of how recursively `factorial(4)` is computed:
