@@ -365,7 +365,7 @@ as a *watch* in a debugger tool such as the integrated debugger in Visual Studio
 ## Call Stack in Watch Context ##
 The ```mg.stack()``` doesn't work well in *watch* context in most debuggers because debuggers introduce additional stack frames that cause problems. Use these alternative functions for various debuggers to filter out these problematic stack frames:
 
-| debugger | function to get the call stack |
+| debugger | function to get the call stack in 'watch' context |
 |:---|:---|
 | [pdb](https://docs.python.org/3/library/pdb.html), [pudb](https://pypi.org/project/pudb/) | `mg.stack_pdb()` |
 | [Visual Studio Code](https://code.visualstudio.com/docs/languages/python) | `mg.stack_vscode()` |
