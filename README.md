@@ -303,7 +303,7 @@ print( factorial(4) )
 and the result is: 1 x 2 x 3 x 4 = 24
 
 ## Binary ##
-A more interesting recursive example is function `binary()` that converts an integer to binary representation. 
+A more interesting recursive example is function `binary()` that converts a decimal integer to binary representation. 
 ```python
 import memory_graph as mg
 mg.config.type_to_vertical[list] = False  # horizontal lists
