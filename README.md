@@ -172,7 +172,7 @@ mg.render(locals(), 'mutable2.png')
 
 One practical reason why Python makes the distinction between mutable and immutable types is that a value of a mutable type can be large, making it inefficient to copy each time we change it. Immutable values generally don't need to change as much, or are small making copying less of a concern.
 
-## Copying ##
+## Copying Values of Mutable Type ##
 Python offers three different "copy" options that we will demonstrate using a nested list:
 
 ```python
@@ -222,7 +222,7 @@ mg.show(locals())
 ```
 ![copy_method.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_method.png)
 
-## Copying values of Immutable type ## 
+## Copying Values of Immutable Type ## 
 Because a value of immutable type will be copied automatically when it is changed, there is no need to copy it beforehand. Therefore, a shallow or deep copy of a value of immutable type will just result in an assignment to save time.
 
 ```python
@@ -240,7 +240,7 @@ mg.render(locals(), 'copy_immutable.png')
 ```
 ![copy_immutbale.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_immutable.png)
 
-## Copying a mix of Mutable and Immutable values ##
+## Copying a Mix of Mutable and Immutable Values ##
 When copying a mix of values of mutable and immutable type, to save time, a deep copy will try to copy as few values of immutable type as possible in order to copy each value of mutable type.
 ```python
 import memory_graph as mg
