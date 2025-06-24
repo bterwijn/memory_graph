@@ -223,7 +223,7 @@ mg.show(locals())
 ![copy_method.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_method.png)
 
 ## Copying Values of Immutable Type ## 
-Because a value of immutable type will be copied automatically when it is changed, there is no need to copy it beforehand. Therefore, a shallow or deep copy of a value of immutable type will just result in an assignment to save time.
+Because a value of immutable type will be copied automatically when it is changed, there is no need to copy it beforehand. Therefore, a shallow or deep copy of a value of immutable type will just result in just an assignment to save on the time needed to make the copy and the space (=memory) needed to store the values.
 
 ```python
 import memory_graph as mg
@@ -241,7 +241,7 @@ mg.render(locals(), 'copy_immutable.png')
 ![copy_immutbale.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_immutable.png)
 
 ## Copying a Mix of Mutable and Immutable Values ##
-When copying a mix of values of mutable and immutable type, to save time, a deep copy will try to copy as few values of immutable type as possible in order to copy each value of mutable type.
+When copying a mix of values of mutable and immutable type, to save on time and space, a deep copy will try to copy as few values of immutable type as possible in order to copy each value of mutable type.
 ```python
 import memory_graph as mg
 import copy
