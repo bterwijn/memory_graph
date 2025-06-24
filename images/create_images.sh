@@ -8,8 +8,10 @@ bash create_gif.sh debugging
 # data model
 python immutable.py
 python mutable.py
-python copies.py
+python copy_mutable.py
 python copy_method.py
+python copy_immutable.py
+python copy_mix.py
 python name_rebinding.py
 
 # call stack

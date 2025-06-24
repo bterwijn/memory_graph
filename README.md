@@ -193,7 +193,7 @@ mg.show(locals())
 * `c2` is a **shallow copy**, only the value referenced by the first reference is copied, all the underlying values are shared
 * `c3` is a **deep copy**, all the values are copied, nothing is shared
 
-![copies.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copies.png)
+![copy_mutbale.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_mutable.png)
 
 
 ## Custom Copy ##
@@ -221,6 +221,41 @@ b = a.custom_copy()
 mg.show(locals())
 ```
 ![copy_method.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_method.png)
+
+## Copying values of Immutable type ## 
+Because a value of immutable type will be copied automatically when it is changed, there is no need to copy it beforehand. Therefore, a shallow or deep copy of a value of immutable type will just result in an assignment to save time.
+
+```python
+import memory_graph as mg
+import copy
+
+a = ( (1, 2), ('x', 'y') ) # a nested tuple
+
+# three different ways to make a "copy" of 'a':
+c1 = a
+c2 = copy.copy(a)
+c3 = copy.deepcopy(a)
+
+mg.render(locals(), 'copy_immutable.png')
+```
+![copy_immutbale.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_immutable.png)
+
+## Copying a mix of Mutable and Immutable values ##
+When copying a mix of values of mutable and immutable type, a deep copy will try to copy as few values of immutable as possible in order to copy all values of mutable type.
+```python
+import memory_graph as mg
+import copy
+
+a = ( [1, 2], ('x', 'y') ) # mix mutable and immutable
+
+# three different ways to make a "copy" of 'a':
+c1 = a
+c2 = copy.copy(a)
+c3 = copy.deepcopy(a)
+
+mg.render(locals(), 'copy_mix.png')
+```
+![copy_mix.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_mix.png)
 
 ## Name Rebinding ##
 When `a` and `b` share a mutable value, then changing the value of `b` changes the value of `a` and vice versa. However, reassigning `b` does not change `a`. When you reassign `b`, you only rebind the name `b` to a new value without effecting any other variables.
