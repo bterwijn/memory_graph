@@ -236,7 +236,7 @@ c1 = a
 c2 = copy.copy(a)
 c3 = copy.deepcopy(a)
 
-mg.render(locals(), 'copy_immutable.png')
+mg.show(locals())
 ```
 ![copy_immutbale.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_immutable.png)
 
@@ -253,7 +253,7 @@ c1 = a
 c2 = copy.copy(a)
 c3 = copy.deepcopy(a)
 
-mg.render(locals(), 'copy_mix.png')
+mg.show(locals())
 ```
 ![copy_mix.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_mix.png)
 
