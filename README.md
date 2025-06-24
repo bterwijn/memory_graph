@@ -241,7 +241,7 @@ mg.render(locals(), 'copy_immutable.png')
 ![copy_immutbale.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_immutable.png)
 
 ## Copying a mix of Mutable and Immutable values ##
-When copying a mix of values of mutable and immutable type, a deep copy will try to copy as few values of immutable type as possible in order to copy each value of mutable type.
+When copying a mix of values of mutable and immutable type, to save time, a deep copy will try to copy as few values of immutable type as possible in order to copy each value of mutable type.
 ```python
 import memory_graph as mg
 import copy
