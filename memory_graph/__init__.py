@@ -237,13 +237,13 @@ def stack_pdb(begin_functions=[("trace_dispatch",1)],
     """ Get the call stack in a 'pdb' debugger session, filtering out the 'pdb' functions that polute the graph. """
     return stack_slice(begin_functions, end_functions, stack_index)
 
-def stack_vscode(begin_functions=[("_line_event",1), ("_return_event",1), ("do_wait_suspend",1)],
+def stack_vscode(begin_functions=[("_line_event",1), ("_return_event",1), ("do_wait_suspend",1), ("_do_wait_suspend",2)],
                  end_functions=["<module>"],
                  stack_index=0):
     """ Get the call stack in a 'vscode' debugger session, filtering out the 'vscode' functions that polute the graph. """
     return stack_slice(begin_functions, end_functions, stack_index)
 
-def stack_cursor(begin_functions=[("do_wait_suspend",1), ("_do_wait_suspend",2)],
+def stack_cursor(begin_functions=[("_line_event",1), ("_return_event",1), ("do_wait_suspend",1), ("_do_wait_suspend",2)],
                  end_functions=["<module>"],
                  stack_index=0):
     """ Get the call stack in a 'cursor' debugger session, filtering out the 'cursor' functions that polute the graph. """
@@ -274,6 +274,28 @@ def print_call_stack_vars(stack_index=0):
     for level, frameInfo in enumerate(reversed(inspect.stack())):
         print('=====',level,frameInfo.function)
         print(tuple(frameInfo.frame.f_locals.keys()))
+
+# ------------ IDE aliases 
+
+def vscode(filename=None, data=None):
+    if data is None:
+        data = stack_vscode()
+    render(data, filename)
+
+def cursor(filename=None, data=None):
+    if data is None:
+        data = stack_cursor()
+    render(data, filename)
+
+def pycharm(filename=None, data=None):
+    if data is None:
+        data = stack_pycharm()
+    render(data, filename)
+
+def wing(filename=None, data=None):
+    if data is None:
+        data = stack_wing()
+    render(data, filename)
 
 
 # ------------ jupyter filtering

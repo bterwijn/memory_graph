@@ -997,7 +997,7 @@ See for example [colab_example.ipynb](https://raw.githubusercontent.com/bterwijn
 ![colab_example.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/colab_example.png)
 
 # In the Browser #
-We can also run memory_graph in the browser: <a href="https://bterwijn.github.io/memory_graph/src/pyodide.html" target="_blank">Pyodide Example</a>
+We can also use memory_graph in the browser: <a href="https://bterwijn.github.io/memory_graph/src/pyodide.html" target="_blank">Pyodide Example</a>
 ![pyodide.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/pyodide.png)
 
 
