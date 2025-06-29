@@ -37,4 +37,4 @@ data.sort()
 # search 'value'
 value = data[random.randrange(n)]
 index = bin_search(List_View(data, 0, len(data)), value)
-print(f'{index=} {data[index]=}')
+print('index:', index, 'data[index]:', data[index])
