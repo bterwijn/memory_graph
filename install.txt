@@ -24,3 +24,12 @@ rm -rf ./dist/ ./build/ ./*.egg-info && python -m build -n -s -w
 twine upload --repository-url https://test.pypi.org/legacy/ dist/*
 # - upload to pypi for real:
 twine upload dist/*
+
+
+# ===== conda
+# in staged-recipes/recipes/memory_graph/meta.yaml
+# update:
+#  - version
+#  - sha256:
+curl -L  https://files.pythonhosted.org/packages/source/m/memory_graph/memory_graph-VERSION.tar.gz | sha256sum
+# git push

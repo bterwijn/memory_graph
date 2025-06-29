@@ -13,6 +13,7 @@ import itertools as it
 from memory_graph.call_stack import call_stack
 
 import graphviz
+from typing import List, Tuple
 
 # Add 'mg' to builtins so it is available in all subsequent imports
 import memory_graph as mg
@@ -188,7 +189,7 @@ def stack_frames_to_dict(frames):
     return call_stack({f"{level}: {get_function_name(frameInfo)}" : to_dict(frameInfo.frame.f_locals)
             for level, frameInfo in enumerate(frames)})
 
-def stack_begin_index(stack_functions : list[str], begin_functions : list[str, int]):
+def stack_begin_index(stack_functions : List[str], begin_functions : List[Tuple[str, int]]):
     """ Returns the index of stack_functions that matches the first name in
     'begin_functions' and adds corresponding 'offset'. """
     for func, offset in begin_functions:
@@ -198,7 +199,7 @@ def stack_begin_index(stack_functions : list[str], begin_functions : list[str, i
             pass
     return 0
 
-def stack_end_index(stack_functions : list[str], begin_index : int, end_functions : list[str]):
+def stack_end_index(stack_functions : List[str], begin_index : int, end_functions : List[str]):
     """ Returns the index starting from 'begin_index' of stack_functions that
     matches the first name in end_functions. """
     for func in end_functions:
@@ -208,8 +209,8 @@ def stack_end_index(stack_functions : list[str], begin_index : int, end_function
             pass
     return len(stack_functions)-1
 
-def stack_slice(begin_functions : list[str, int] = [],
-                end_functions : list[str] = ["<module>"],
+def stack_slice(begin_functions : List[Tuple[str, int]] = [],
+                end_functions : List[str] = ["<module>"],
                 stack_index : int = 0):
     """
     Returns a slice of the call stack.
