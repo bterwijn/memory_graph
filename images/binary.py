@@ -1,7 +1,8 @@
 import memory_graph as mg
+from typing import List
 mg.config.type_to_vertical[list] = False  # horizontal lists
 
-def binary(value: int) -> list[int]:
+def binary(value: int) -> List[int]:
     mg.render(mg.stack(), 'binary.png', numbered=True)
     if value == 0:
         return []
