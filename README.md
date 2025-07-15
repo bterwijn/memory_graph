@@ -60,7 +60,7 @@ b.append(1) # changing 'b' changes 'a'
 print('a:', a)
 print('b:', b)
 
-# check if 'a' and 'b' share data
+# check if 'a' and 'b' share values
 print('ids:', id(a), id(b))
 print('identical?:', a is b)
 
@@ -72,18 +72,18 @@ mg.show( locals() )
 
 ![mutable2.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/mutable2.png)
 
-a graph showing `a` and `b` share data
+a graph showing `a` and `b` share values
 
 </td></tr></table>
 
-The fact that `a` and `b` share data can not be verified by printing the lists. It can be verified by comparing the identity of both variables using the `id()` function or by using the `is` comparison operator as shown in the program output below, but this quickly becomes impractical for larger programs. 
+The fact that `a` and `b` share values can not be verified by printing the lists. It can be verified by comparing the identity of both variables using the `id()` function or by using the `is` comparison operator as shown in the program output below, but this quickly becomes impractical for larger programs.
 ```{verbatim}
 a: 4, 3, 2, 1
 b: 4, 3, 2, 1
 ids: 126432214913216 126432214913216
 identical?: True
 ```
-A better way to understand what data is shared is to draw a graph using [memory_graph](https://pypi.org/project/memory-graph/).
+A better way to understand what values are shared is to draw a graph using [memory_graph](https://pypi.org/project/memory-graph/).
 
 # Chapters #
 
@@ -197,7 +197,7 @@ mg.show(locals())
 
 
 ## Custom Copy ##
-We can write our own custom copy function or method in case the three standard "copy" options don't do what we want. For example, in the code below the copy() method of My_Class copies the `digits` but shares the `letters` between two objects.
+We can write our own custom copy function or method in case the three standard "copy" options don't do what we want. For example, in the code below the `custom_copy()` method of My_Class copies the `digits` but shares the `letters` between two objects.
 
 ```python
 import memory_graph as mg
@@ -290,8 +290,8 @@ def add_one(a, b, c):
 a = [4, 3, 2]
 b = (4, 3, 2)
 c = [4, 3, 2]
-
 add_one(a, b, c.copy())
+
 print(f"a:{a} b:{b} c:{c}")
 ```
 ![add_one.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/add_one.png)
