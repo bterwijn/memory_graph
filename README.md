@@ -125,6 +125,13 @@ Inspired by [Python Tutor](https://pythontutor.com/).
 ## Supported by ##
 <img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/uva.png" alt="University of Amsterdam" width="600">
 
+## Social Media ##
+
+* LinkedIn: https://www.linkedin.com/groups/13244150/
+* Reddit: https://www.reddit.com/r/Python_memory_graph/
+* X/Twitter: https://x.com/basterwijn/
+* SubStack: https://basterwijn.substack.com/
+
 ___
 ___
 
