@@ -26,7 +26,7 @@ class Node_Base(ABC):
         """
         Return a string representation of the node showing the original data represented by the node.
         """
-        return f'{self.get_type_name()}'
+        return f'Node with {self.get_type_name()}'
 
     def add_parent_index(self, parent, parent_index):
         """
