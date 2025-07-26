@@ -12,8 +12,12 @@ import memory_graph.config as config
 import graphviz
 
 def read_nodes(data):
+    """ Returns a dictionary that maps the each id found in 'data' to a Node,
+    and returns the id of 'data' as root node.
+    """
 
     def data_to_node(data_type, data):
+        """ Returns the Node for 'data' based on it's type. """
         if data_type in config.type_to_node: # for predefined types
             return config.type_to_node[data_type](data)
         elif utils.has_dict_attributes(data): # for user defined classes
@@ -24,6 +28,9 @@ def read_nodes(data):
             return Node_Leaf(data, data)
 
     def memory_to_nodes_recursive(nodes, data, parent, parent_index):
+        """ Recursively reads through each reference found in 'data', creates a node for
+        it and adds, and adds it to 'nodes'.
+        """
         data_type = type(data)
         if not data_type in config.not_node_types or parent is None:
             data_id = id(data)
@@ -53,8 +60,13 @@ def get_max_type_depth(node_id, node):
     return None
 
 def slice_nodes(nodes, root_id, max_graph_depth):
-
+    """ Returns for nodes in nodes their slices that determines if and what part of
+    a node is shown in the graph.
+    """
+    
     def slice_nodes_recursive(nodes, node_id, id_to_slices, max_graph_depth):
+        """ Recursively start at the root and slice all children until 'max_graph_depth'
+        is reached. """
         if max_graph_depth == 0 or node_id in id_to_slices:
             return
         if node_id in nodes:
@@ -73,6 +85,7 @@ def slice_nodes(nodes, root_id, max_graph_depth):
                     max_graph_depth = min(max_type_depth, max_graph_depth)
                 for index in slices:
                     slice_nodes_recursive(nodes, id(children[index]), id_to_slices, max_graph_depth)
+                    
     id_to_slices = {}
     slice_nodes_recursive(nodes, root_id, id_to_slices, max_graph_depth)
     return id_to_slices
@@ -106,9 +119,7 @@ def add_indices_to_parents(nodes, node_id, id_to_slices, max_missing_edges):
         if (parent_type in type_to_parent_indices and 
             len(type_to_parent_indices[parent_type]) > max_missing_edges): # early stop
             continue
-        parent_slices = None
-        if parent_id in id_to_slices:
-            parent_slices = id_to_slices[parent_id]
+        parent_slices = id_to_slices.get(parent_id, None)
         for index in indices:
             if parent_slices is None or not parent_slices.has_index(index):
                 if not parent_type in type_to_parent_indices:
@@ -121,6 +132,9 @@ def add_indices_to_parents(nodes, node_id, id_to_slices, max_missing_edges):
     add_parent_indices(nodes, type_to_parent_indices, id_to_slices, max_missing_edges)
 
 def add_missing_edges(nodes, id_to_slices, max_missing_edges=3):
+    """ Add missing edges to each visible node in the graph by addding slices to 'id_to_slices'.
+    It either shows all edges to a node, or uses dashed edges to indicate some edges are missing.
+    """
     old_id_to_slices_keys = set(id_to_slices.keys())
     for node_id in old_id_to_slices_keys:
         add_indices_to_parents(nodes, node_id, id_to_slices, max_missing_edges)
@@ -183,6 +197,7 @@ def build_graph(graphviz_graph, nodes, root_id, id_to_slices):
         add_subgraph(graphviz_graph, depth_nodes)
 
 def memory_to_nodes(data):
+    """ Returnd a graph starting at 'data'. """
     nodes, root_id = read_nodes(data)
     #print('nodes:',nodes,'root_id:',root_id)
     id_to_slices = slice_nodes(nodes, root_id, config.max_graph_depth)
