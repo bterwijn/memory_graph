@@ -5,6 +5,7 @@
 from memory_graph.node_base import Node_Base
 from memory_graph.sequence import Sequence1D
 
+import memory_graph.config as config
 import memory_graph.config_helpers as config_helpers
 
 class Node_Key_Value(Node_Base):
@@ -73,6 +74,10 @@ class Node_Key_Value(Node_Base):
                 is_dashed = slices.is_dashed(index)
         return grandchild, is_dashed
 
+    @staticmethod
+    def embed_key(key):
+        return type(key) in config.embedded_key_types
+
     def fill_html_table_vertical(self, html_table, nodes, slices, id_to_slices):
         """
         Helper function to fill the html_table with the children of the Node_Base in vertical orientation.
@@ -81,7 +86,8 @@ class Node_Key_Value(Node_Base):
             if index>=0:
                 child = self.children[index]
                 key, is_dashed = self.get_value_dashed(nodes, child,0,id_to_slices)
-                html_table.add_entry(self, nodes, key, id_to_slices, rounded=True, dashed=is_dashed)
+                embed = self.embed_key(key)
+                html_table.add_entry(self, nodes, key, id_to_slices, rounded=True, dashed=is_dashed, embed=embed)
                 value, is_dashed = self.get_value_dashed(nodes, child,1,id_to_slices)
                 html_table.add_entry(self, nodes, value, id_to_slices, dashed=is_dashed)
             else:
@@ -97,7 +103,8 @@ class Node_Key_Value(Node_Base):
             if index>=0:
                 child = self.children[index]
                 key, is_dashed = self.get_value_dashed(nodes, child,0,id_to_slices)
-                html_table.add_entry(self, nodes, key, id_to_slices, rounded=True, dashed=is_dashed)
+                embed = self.embed_key(key)
+                html_table.add_entry(self, nodes, key, id_to_slices, rounded=True, dashed=is_dashed, embed=embed)
             else:
                 html_table.add_dots(rounded=True)
         html_table.add_new_line()

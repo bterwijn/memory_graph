@@ -214,21 +214,24 @@ def embed_keys_in_key_value_nodes(nodes, nodes_key_value, id_to_slices):
     if config.embedded_key_types.issubset(config.embedded_types):
         return # all keys are embedded anyway, nothing to do
     for node_id in nodes_key_value:
-        node = nodes[node_id]
-        for child in node.get_children():
-            if isinstance(child,tuple) and len(child) == 2: # tuple of (key, value)
-                key = child[0]
+        nodekv = nodes[node_id]
+        for tuplekv in nodekv.get_children():
+            if isinstance(tuplekv,tuple) and len(tuplekv) == 2: # tuple of (key, value)
+                key = tuplekv[0]
                 if type(key) in config.embedded_key_types:
                     key_id = id(key)
                     if key_id in nodes:
                         node = nodes[key_id]
                         parent_indices = node.get_parent_indices()
-                        if len(parent_indices) == 1:
-                            parent, indices = next(iter(parent_indices.items()))
-                            if len(indices) == 1: # node_key_value is single parent node
-                                del nodes[key_id] # remove the key as node
-                                if key_id in id_to_slices:
-                                    del id_to_slices[key_id]
+                        node_tuplekv = nodes[id(tuplekv)]
+                        indices = parent_indices[node_tuplekv]
+                        indices.remove(0) 
+                        if len(indices) == 0:
+                            del parent_indices[node_tuplekv]
+                        if len(parent_indices) == 0: # no more parents, remove node
+                            del nodes[key_id] # remove the key as node
+                            if key_id in id_to_slices:
+                                del id_to_slices[key_id]
 
 def memory_to_nodes(data):
     """ Returnd a graph starting at 'data'. """
