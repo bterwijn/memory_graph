@@ -654,7 +654,7 @@ mg.config.embedded_types.remove(int)  # now show separate nodes for int values
 
 mg.render(locals(), 'embedded2.png')
 ```
-| ![embedded1](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/embedded1.png) | ![embedded2](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/embedded_types2.png) |
+| ![embedded1](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/embedded1.png) | ![embedded2](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/embedded.png) |
 |:-----------------------------------------------------------:|:-------------------------------------------------------------:|
 | embedded1.png — simplified | embedded2.png — technically correct |
 
