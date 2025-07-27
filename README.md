@@ -193,7 +193,7 @@ mg.show(locals())
 ```
 
 * `c1` is an **assignment**, nothing is copied, all the values are shared
-* `c2` is a **shallow copy**, only the value referenced by the first reference is copied, all the underlying values are shared
+* `c2` is a **shallow copy**, only the first value is copied, all the underlying values are shared
 * `c3` is a **deep copy**, all the values are copied, nothing is shared
 
 ![copy_mutbale.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_mutable.png)
