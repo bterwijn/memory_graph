@@ -36,8 +36,8 @@ def reset():
     """ The number of references keeping child nodes in order versus other references pulling them out. """
     config.graph_stability = 10
 
-    """ Types that by default will not have references pointing to them in the graph but instead will be visualized in the node of their parent. """
-    config.not_node_types = {
+    """ Types that by default will be embedded in the node of their parent. """
+    config.embedded_types = {
         type(None), bool, int, float, complex, str,
         types.FunctionType,
         types.MethodType,
@@ -46,8 +46,11 @@ def reset():
         type(len),
     }
 
-    """ Types that will not have references pointing to their children in the graph but instead will have their children visualized in their node. """
-    config.no_child_references_types = {dict, types.MappingProxyType}
+    """ Types that are embedded as key in a Node_Key_Value node. """
+    config.embedded_key_types = {type(None), bool, int, float, complex, str}
+
+    """ Types that will embed their children. """
+    config.embedding_types = {dict, types.MappingProxyType}
 
     """ Types that need an special conversion """
     config.type_to_string = {
@@ -66,7 +69,7 @@ def reset():
         range: lambda data: Node_Key_Value(data, {'start':data.start, 'stop':data.stop, 'step':data.step}.items()),
         dict: lambda data: (
             Node_Key_Value(data, utils.filter_dict(data) )
-            if dict in config.no_child_references_types else 
+            if dict in config.embedding_types else 
             Node_Linear(data, utils.filter_dict(data) )
         ),
     }

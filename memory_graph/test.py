@@ -35,10 +35,10 @@ def test_colors(fun):
         def __init__(self):
             self.var=2
     data2 = [(1,2), [3,4], {5,6}, frozenset((7,8)), {9:'9', 10:'10'} , bytes('11', 'utf-8'), bytearray('12', 'utf-8'), My_Class(), My_Class]
-    restore = config.not_node_types.copy()
-    config.not_node_types.clear()
+    restore = config.embedded_types.copy()
+    config.embedded_types.clear()
     fun([data1, data2])
-    config.not_node_types = restore
+    config.embedded_types = restore
 
 def test_empty_linear(fun):
     data = [tuple(), list(), set(), frozenset(), dict() , bytes(), bytearray()]

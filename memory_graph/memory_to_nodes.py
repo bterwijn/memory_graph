@@ -14,8 +14,10 @@ import graphviz
 
 
 def read_nodes(data):
-    """ Returns a dictionary that maps the each id found in 'data' to a Node,
-    and returns the id of 'data' as root node.
+    """ Returns 
+    - a dictionary that maps the each id found in 'data' to a Node,
+    - the ids of node_key_value
+    - the id of 'data' as root node.
     """
 
     def data_to_node(data_type, data):
@@ -29,28 +31,31 @@ def read_nodes(data):
         else:
             return Node_Leaf(data, data)
 
-    def memory_to_nodes_recursive(nodes, data, parent, parent_index):
+    def memory_to_nodes_recursive(nodes, nodes_key_value, data, parent, parent_index):
         """ Recursively reads through each reference found in 'data', creates a node for
         it and adds, and adds it to 'nodes'.
         """
         data_type = type(data)
-        if not data_type in config.not_node_types or parent is None:
+        if not data_type in config.embedded_types or parent is None:
             data_id = id(data)
             if data_id in nodes:
                 node = nodes[data_id]
             else:
                 node = data_to_node(data_type, data)
+                if isinstance(node, Node_Key_Value):
+                    nodes_key_value.append(data_id)
                 nodes[data_id] = node
                 for index in node.get_children().indices_all():
                     child = node.get_children()[index]
-                    memory_to_nodes_recursive(nodes, child, node, index)
+                    memory_to_nodes_recursive(nodes, nodes_key_value, child, node, index)
             if not parent is None:
                 node.add_parent_index(parent, parent_index)
 
     nodes = {}
-    memory_to_nodes_recursive(nodes, data, None, None)
+    nodes_key_value = []
+    memory_to_nodes_recursive(nodes, nodes_key_value, data, None, None)
     root_id = id(data)
-    return nodes, root_id
+    return nodes, nodes_key_value,root_id
 
 
 def slice_nodes(nodes, root_id, max_graph_depth):
@@ -204,14 +209,31 @@ def build_graph(graphviz_graph, nodes, root_id, id_to_slices):
     for depth, depth_nodes in depth_of_nodes.items():
         add_subgraph(graphviz_graph, depth_nodes)
 
+def embed_key_in_key_value_nodes(nodes, nodes_key_value, id_to_slices):
+    """ Embed keys in Node_Key_Value nodes, so that the keys are not shown as separate nodes. """
+    for node_id in nodes_key_value:
+        node = nodes[node_id]
+        for child in node.get_children():
+            if isinstance(child,tuple) and len(child) == 2: # tuple of (key, value)
+                key = child[0]
+                if type(key) in config.embedded_key_types:
+                    key_id = id(key)
+                    if key_id in nodes:
+                        node = nodes[key_id]
+                        if len(node.get_parent_indices()) == 1: # node_key_value is singe parent
+                            del nodes[key_id] # remove the key as node
+                            if key_id in id_to_slices:
+                                del id_to_slices[key_id]
+
 def memory_to_nodes(data):
     """ Returnd a graph starting at 'data'. """
-    nodes, root_id = read_nodes(data)
+    nodes, nodes_key_value, root_id = read_nodes(data)
     #print('nodes:',nodes,'root_id:',root_id)
     id_to_slices = slice_nodes(nodes, root_id, config.max_graph_depth)
     #print('id_to_slices:',id_to_slices)
     id_to_slices = add_missing_edges(nodes, id_to_slices, config.max_missing_edges)
     #print('id_to_slices:',id_to_slices)
+    embed_key_in_key_value_nodes(nodes, nodes_key_value, id_to_slices)
     graphviz_graph_attr = {}
     graphviz_node_attr = {'shape':'plaintext'}
     graphviz_edge_attr = {}

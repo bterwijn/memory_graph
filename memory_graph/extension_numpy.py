@@ -10,7 +10,7 @@ import memory_graph.config as config
 
 import numpy as np
 
-config.not_node_types |= {
+config.embedded_types |= {
     np.int8, np.int16, np.int32, np.int64, np.uint8, np.uint16, np.uint32, np.uint64, 
     np.float16, np.float32, np.float64,
     np.complex64, np.complex128,

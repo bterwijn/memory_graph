@@ -13,8 +13,13 @@ press_enter_message = None
 max_string_length = None
 graph_stability = None
 
-not_node_types = {}
-no_child_references_types = set()
+embedded_types = set()
+not_node_types = embedded_types # deprecated
+
+embedded_key_types = {}
+
+embedding_types = set()
+no_child_references_types = embedding_types # deprecated
 
 type_to_string = { }
 

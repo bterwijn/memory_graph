@@ -605,11 +605,14 @@ Different aspects of memory_graph can be configured. The default configuration c
 - ***mg.config.max_string_length*** : int
   - The maximum length of strings shown in the graph. Longer strings will be truncated.
 
-- ***mg.config.not_node_types*** : set[type]
-  - Holds all types for which no separate node is drawn but that instead are shown as elements in their parent Node.
+- ***mg.config.embedded_types*** : set[type]
+  - Holds all types for which no separate node is drawn but that are embedded in their parent Node.
 
-- ***mg.config.no_child_references_types*** : set[type]
-  - The set of key_value types that don't draw references to their direct childeren but have their children shown as elements of their node.
+- ***mg.config.embedded_key_types*** : set[type]
+  - Holds all types that are embedded as key in a Node_Key_Value node, even when not in 'embedded_types'.
+
+- ***mg.config.embedding_types*** : set[type]
+  - Holds all dictionary types that embed their key-value tuple children.
 
 - ***mg.config.type_to_node*** : dict[type, fun(data) -> Node]
   - Determines how a data type is converted to a Node subclass for visualization in the graph.
@@ -639,23 +642,23 @@ Different aspects of memory_graph can be configured. The default configuration c
 ## Simplified Graph ##
 Memory_graph simplifies the visualization (and the viewer's mental model) by **not** showing separate nodes for immutable types like `bool`, `int`, `float`, `complex`, and `str` by default. This simplification can sometimes be slightly misleading. As in the example below, after a shallow copy, lists `a` and `b` technically share their `int` values, but the graph makes it appear as though `a` and `b` each have their own copies. However, since `int` is immutable, this simplification will never lead to unexpected changes (changing `a` won’t affect `b`) so will never result in bugs.
 
-The simplification strikes a balance: it is slightly misleading but keeps the graph clean and easy to understand and focuses on the mutable types where unexpected changes can occur. This is why it is the default behavior. If you do want to show separate nodes for `int` values, such as for educational purposes, you can simply remove `int` from the `mg.config.not_node_types` set:
+The simplification strikes a balance: it is slightly misleading but keeps the graph clean and easy to understand and focuses on the mutable types where unexpected changes can occur. This is why it is the default behavior. If you do want to show separate nodes for `int` values, such as for educational purposes, you can simply remove `int` from the `mg.config.embedded_types` set:
 ```python
 import memory_graph as mg
 
 a = [100, 200, 300]
 b = a.copy()
-mg.render(locals(), 'not_node_types1.png')
+mg.render(locals(), 'embedded1.png')
 
-mg.config.not_node_types.remove(int)  # now show separate nodes for int values
+mg.config.embedded_types.remove(int)  # now show separate nodes for int values
 
-mg.render(locals(), 'not_node_types2.png')
+mg.render(locals(), 'embedded2.png')
 ```
-| ![not_node_types1](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/not_node_types1.png) | ![not_node_types2](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/not_node_types2.png) |
+| ![embedded1](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/embedded1.png) | ![embedded2](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/embedded_types2.png) |
 |:-----------------------------------------------------------:|:-------------------------------------------------------------:|
-| not_node_types1.png — simplified | not_node_types2.png — technically correct |
+| embedded1.png — simplified | embedded2.png — technically correct |
 
-Additionally, the simplification hides away the [reuse of small int values \[-5, 256\]](https://docs.python.org/3/c-api/long.html#c.PyLong_FromLong) in the current CPython implementation, an optimization that might otherwise confuse beginner Python programmers. For instance, after executing `a[1]+=1; b[1]+=1` the `201` value is, maybe surprisingly, still shared between `a` and `b`, whereas executing `a[2]+=1; b[2]+=1` does not result in sharing the `301` value.
+Additionally, the simplification hides away the [reuse of small int values \[-5, 256\]](https://docs.python.org/3/c-api/long.html#c.PyLong_FromLong) in the current CPython implementation, an optimization that might otherwise confuse beginner Python programmers. For instance, after executing `a[1]+=1; b[1]+=1` the `201` value is, maybe surprisingly, still shared between `a` and `b`, whereas executing `a[2]+=1; b[2]+=1` does not result in sharing the `301` value. Similarly [String Interning](https://python-reference.readthedocs.io/en/latest/docs/functions/intern.html) is a mechanism that reuses small strings.
 
 # Introspection #
 This section is likely to change. Sometimes the introspection fails or is not as desired. For example the `bintrees.avltree.Node` object doesn't show any attributes in the graph below.
