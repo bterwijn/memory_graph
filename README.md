@@ -225,6 +225,24 @@ mg.show(locals())
 ```
 ![copy_method.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_method.png)
 
+## Name Rebinding ##
+When `a` and `b` share a mutable value, then changing the value of `b` changes the value of `a` and vice versa. However, reassigning `b` does not change `a`. When you reassign `b`, you only rebind the name `b` to a new value without effecting any other variables.
+
+```python
+import memory_graph as mg
+
+a = [4, 3, 2]
+b = a
+mg.render(locals(), 'rebinding1.png')
+
+b += [1]        # changes the value of 'b' and 'a'
+b = [100, 200]  # rebinds 'b' to a new value, 'a' is uneffected
+mg.render(locals(), 'rebinding2.png')
+```
+| ![rebinding1.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/rebinding1.png) | ![rebinding2.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/rebinding2.png) |
+|:-----------------------------------------------------------:|:-------------------------------------------------------------:|
+| rebinding1.png | rebinding2.png |
+
 ## Copying Values of Immutable Type ## 
 Because a value of immutable type will be copied automatically when it is changed, there is no need to copy it beforehand. Therefore, a shallow or deep copy of a value of immutable type will result in just an assignment to save on the time needed to make the copy and the space (=memory) needed to store the values.
 
@@ -259,24 +277,6 @@ c3 = copy.deepcopy(a)
 mg.show(locals())
 ```
 ![copy_mix.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_mix.png)
-
-## Name Rebinding ##
-When `a` and `b` share a mutable value, then changing the value of `b` changes the value of `a` and vice versa. However, reassigning `b` does not change `a`. When you reassign `b`, you only rebind the name `b` to a new value without effecting any other variables.
-
-```python
-import memory_graph as mg
-
-a = [4, 3, 2]
-b = a
-mg.render(locals(), 'rebinding1.png')
-
-b += [1]        # changes the value of 'b' and 'a'
-b = [100, 200]  # rebinds 'b' to a new value, 'a' is uneffected
-mg.render(locals(), 'rebinding2.png')
-```
-| ![rebinding1.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/rebinding1.png) | ![rebinding2.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/rebinding2.png) |
-|:-----------------------------------------------------------:|:-------------------------------------------------------------:|
-| rebinding1.png | rebinding2.png |
 
 # Call Stack #
 The `mg.stack()` function retrieves the entire call stack, including the local variables for each function on the stack. This enables us to understand function calls, variable scope, and the **complete program state** through call stack visualization. By examining the graph, we can determine whether any local variables from different functions share data. For instance, consider the function `add_one()` which adds the value `1` to each of its parameters `a`, `b`, and `c`.
@@ -1028,8 +1028,6 @@ $ bash create_gif.sh animated
 # Social Media #
 * LinkedIn: https://www.linkedin.com/groups/13244150/
 * Reddit: https://www.reddit.com/r/Python_memory_graph/
-* X/Twitter: https://x.com/basterwijn/
-* SubStack: https://basterwijn.substack.com/
 
 # Other Packages #
 The [memory_graph](https://pypi.org/project/memory-graph/) package visualizes your data. If instead you want to visualize function calls, check out the [invocation_tree](https://pypi.org/project/invocation-tree/) package.
