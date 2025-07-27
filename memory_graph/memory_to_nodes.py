@@ -209,8 +209,10 @@ def build_graph(graphviz_graph, nodes, root_id, id_to_slices):
     for depth, depth_nodes in depth_of_nodes.items():
         add_subgraph(graphviz_graph, depth_nodes)
 
-def embed_key_in_key_value_nodes(nodes, nodes_key_value, id_to_slices):
+def embed_keys_in_key_value_nodes(nodes, nodes_key_value, id_to_slices):
     """ Embed keys in Node_Key_Value nodes, so that the keys are not shown as separate nodes. """
+    if config.embedded_key_types.issubset(config.embedded_types):
+        return # all keys are embedded anyway, nothing to do
     for node_id in nodes_key_value:
         node = nodes[node_id]
         for child in node.get_children():
@@ -220,10 +222,13 @@ def embed_key_in_key_value_nodes(nodes, nodes_key_value, id_to_slices):
                     key_id = id(key)
                     if key_id in nodes:
                         node = nodes[key_id]
-                        if len(node.get_parent_indices()) == 1: # node_key_value is singe parent
-                            del nodes[key_id] # remove the key as node
-                            if key_id in id_to_slices:
-                                del id_to_slices[key_id]
+                        parent_indices = node.get_parent_indices()
+                        if len(parent_indices) == 1:
+                            parent, indices = next(iter(parent_indices.items()))
+                            if len(indices) == 1: # node_key_value is single parent node
+                                del nodes[key_id] # remove the key as node
+                                if key_id in id_to_slices:
+                                    del id_to_slices[key_id]
 
 def memory_to_nodes(data):
     """ Returnd a graph starting at 'data'. """
@@ -233,7 +238,7 @@ def memory_to_nodes(data):
     #print('id_to_slices:',id_to_slices)
     id_to_slices = add_missing_edges(nodes, id_to_slices, config.max_missing_edges)
     #print('id_to_slices:',id_to_slices)
-    embed_key_in_key_value_nodes(nodes, nodes_key_value, id_to_slices)
+    embed_keys_in_key_value_nodes(nodes, nodes_key_value, id_to_slices)
     graphviz_graph_attr = {}
     graphviz_node_attr = {'shape':'plaintext'}
     graphviz_edge_attr = {}

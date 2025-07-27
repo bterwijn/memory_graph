@@ -658,10 +658,10 @@ mg.render(locals(), 'embedded2.png')
 |:-----------------------------------------------------------:|:-------------------------------------------------------------:|
 | embedded1.png — simplified | embedded2.png — technically correct |
 
-Additionally, the simplification hides away the [reuse of small int values \[-5, 256\]](https://docs.python.org/3/c-api/long.html#c.PyLong_FromLong) in the current CPython implementation, an optimization that might otherwise confuse beginner Python programmers. For instance, after executing `a[1]+=1; b[1]+=1` the `201` value is, maybe surprisingly, still shared between `a` and `b`, whereas executing `a[2]+=1; b[2]+=1` does not result in sharing the `301` value. Similarly [String Interning](https://python-reference.readthedocs.io/en/latest/docs/functions/intern.html) is a mechanism that reuses small strings.
+Additionally, the simplification hides away the [reuse of small int values \[-5, 256\]](https://docs.python.org/3/c-api/long.html#c.PyLong_FromLong) in the current CPython implementation, an optimization that might otherwise confuse beginner Python programmers. For instance, after executing `a[1]+=1; b[1]+=1` the `201` value is, maybe surprisingly, still shared between `a` and `b`, whereas executing `a[2]+=1; b[2]+=1` does not result in sharing the `301` value. Similarly CPython uses [String Interning](https://python-reference.readthedocs.io/en/latest/docs/functions/intern.html) to reuse small strings.
 
 # Introspection #
-This section is likely to change. Sometimes the introspection fails or is not as desired. For example the `bintrees.avltree.Node` object doesn't show any attributes in the graph below.
+Sometimes the introspection fails or is not as desired. For example the `bintrees.avltree.Node` object doesn't show any attributes in the graph below.
 
 ```python
 import memory_graph as mg
