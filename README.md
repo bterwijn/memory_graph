@@ -139,7 +139,7 @@ Learn the right **mental model** to think about Python data. The [Python Data Mo
 
 
 ## Immutable Type ##
-In the code below variable `a` and `b` both reference the same tuple value (4, 3, 2). A tuple is an immutable type and therefore when we change variable `b` its value **cannot** be mutated in place, and thus an automatic copy is made and `a` and `b` reference a different value afterwards.
+In the code below variable `a` and `b` both reference the same tuple value (4, 3, 2). A tuple is an immutable type and therefore when we change variable `b` its value **cannot** be mutated in place, and thus an automatic copy is made and `a` and `b` reference their own value afterwards.
 
 ```python
 import memory_graph as mg
@@ -629,13 +629,13 @@ Different aspects of memory_graph can be configured. The default configuration c
 - ***mg.config.max_graph_depth*** : int
   - The maxium depth of the graph with default value 12.
 
-- ***config.graph_cut_symbol*** : str
+- ***mg.config.graph_cut_symbol*** : str
   - The symbol indicating where the graph is cut short with default `✂`.
   
 - ***mg.config.type_to_depth*** : dict[type, int]
   - Maps a type to graph depth to limit the graph size.
 
-- ***max_missing_edges*** : int
+- ***mg.config.max_missing_edges*** : int
   - Maximum number of missing edges that are shown with default value 2. Dashed references are used to indicate that there are more references to a node than are shown.
 
 
