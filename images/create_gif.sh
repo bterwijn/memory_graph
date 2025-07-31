@@ -16,5 +16,5 @@ echo "resizing images"
 mogrify -resize $largest_size -background white -gravity center -extent $largest_size $files
 
 echo "creating file: $name.gif"
-convert -delay 150 -loop 0 $files $name.gif
+convert -delay 150 -dither None -loop 0 $files $name.gif
 echo "done"
