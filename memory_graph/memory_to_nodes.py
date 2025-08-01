@@ -70,30 +70,36 @@ def slice_nodes(nodes, root_id, max_graph_depth):
             return config.type_to_depth[node.get_type()]
         return None
     
-    def slice_nodes_recursive(nodes, node_id, id_to_slices, max_graph_depth):
+    def slice_nodes_recursive(nodes, node_id, id_to_slices, id_to_depth, max_graph_depth):
         """ Recursively start at the root and slice all children until 'max_graph_depth'
         is reached. """
-        if max_graph_depth == 0 or node_id in id_to_slices:
+        if max_graph_depth == 0:
             return
+        if node_id in id_to_depth:
+            if max_graph_depth <= id_to_depth[node_id]:
+                return # already reached with shorter path
         if node_id in nodes:
             node = nodes[node_id]
             children = node.get_children()
             if children.is_empty():
                 id_to_slices[node_id] = None
+                id_to_depth[node_id] = max_graph_depth
             else:
                 slicer = node.get_slicer()
                 slices = children.slice(slicer)
                 id_to_slices[node_id] = slices
+                id_to_depth[node_id] = max_graph_depth
                 if not node.is_hidden_node():
                     max_graph_depth -= 1
                 max_type_depth = get_max_type_depth(node_id, node)
                 if max_type_depth:
                     max_graph_depth = min(max_type_depth, max_graph_depth)
                 for index in slices:
-                    slice_nodes_recursive(nodes, id(children[index]), id_to_slices, max_graph_depth)
+                    slice_nodes_recursive(nodes, id(children[index]), id_to_slices, id_to_depth, max_graph_depth)
                     
     id_to_slices = {}
-    slice_nodes_recursive(nodes, root_id, id_to_slices, max_graph_depth)
+    id_to_depth = {} # more efficient to make these two one dict
+    slice_nodes_recursive(nodes, root_id, id_to_slices, id_to_depth, max_graph_depth)
     return id_to_slices
 
 
@@ -149,6 +155,32 @@ def add_missing_edges(nodes, id_to_slices, max_missing_edges=3):
     for node_id in old_id_to_slices_keys:
         add_indices_to_parents(nodes, node_id, id_to_slices, max_missing_edges)
     return id_to_slices
+
+
+def embed_keys_in_key_value_nodes(nodes, nodes_key_value, id_to_slices):
+    """ Embed keys in Node_Key_Value nodes, so that the keys are not shown as separate nodes. """
+    if config.embedded_key_types.issubset(config.embedded_types):
+        return # all keys are embedded anyway, nothing to do
+    for node_id in nodes_key_value:
+        nodekv = nodes[node_id]
+        for tuplekv in nodekv.get_children():
+            if isinstance(tuplekv,tuple) and len(tuplekv) == 2: # tuple of (key, value)
+                key = tuplekv[0]
+                if type(key) in config.embedded_key_types:
+                    key_id = id(key)
+                    if key_id in nodes:
+                        node = nodes[key_id]
+                        parent_indices = node.get_parent_indices()
+                        node_tuplekv = nodes[id(tuplekv)]
+                        indices = parent_indices[node_tuplekv]
+                        indices.remove(0) 
+                        if len(indices) == 0:
+                            del parent_indices[node_tuplekv]
+                        if len(parent_indices) == 0: # no more parents, remove node
+                            del nodes[key_id] # remove the key as node
+                            if key_id in id_to_slices:
+                                del id_to_slices[key_id]
+                                
 
 def build_graph(graphviz_graph, nodes, root_id, id_to_slices):
     """ Builds the graph of 'nodes' in 'graphviz_graph' starting at 'root_id' where 
@@ -208,30 +240,6 @@ def build_graph(graphviz_graph, nodes, root_id, id_to_slices):
     #print('nodes_at_depth:',nodes_at_depth,'depth_of_nodes:', depth_of_nodes)
     for depth, depth_nodes in depth_of_nodes.items():
         add_subgraph(graphviz_graph, depth_nodes)
-
-def embed_keys_in_key_value_nodes(nodes, nodes_key_value, id_to_slices):
-    """ Embed keys in Node_Key_Value nodes, so that the keys are not shown as separate nodes. """
-    if config.embedded_key_types.issubset(config.embedded_types):
-        return # all keys are embedded anyway, nothing to do
-    for node_id in nodes_key_value:
-        nodekv = nodes[node_id]
-        for tuplekv in nodekv.get_children():
-            if isinstance(tuplekv,tuple) and len(tuplekv) == 2: # tuple of (key, value)
-                key = tuplekv[0]
-                if type(key) in config.embedded_key_types:
-                    key_id = id(key)
-                    if key_id in nodes:
-                        node = nodes[key_id]
-                        parent_indices = node.get_parent_indices()
-                        node_tuplekv = nodes[id(tuplekv)]
-                        indices = parent_indices[node_tuplekv]
-                        indices.remove(0) 
-                        if len(indices) == 0:
-                            del parent_indices[node_tuplekv]
-                        if len(parent_indices) == 0: # no more parents, remove node
-                            del nodes[key_id] # remove the key as node
-                            if key_id in id_to_slices:
-                                del id_to_slices[key_id]
 
 def memory_to_nodes(data):
     """ Returnd a graph starting at 'data'. """
