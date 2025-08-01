@@ -74,7 +74,7 @@ def slice_nodes(nodes, root_id, max_graph_depth):
         """ Recursively start at the root and slice all children until 'max_graph_depth'
         is reached. """
         if max_graph_depth == 0:
-            return
+            return # ran out of depth
         if node_id in id_to_depth:
             if max_graph_depth <= id_to_depth[node_id]:
                 return # already reached with shorter path
@@ -85,9 +85,12 @@ def slice_nodes(nodes, root_id, max_graph_depth):
                 id_to_slices[node_id] = None
                 id_to_depth[node_id] = max_graph_depth
             else:
-                slicer = node.get_slicer()
-                slices = children.slice(slicer)
-                id_to_slices[node_id] = slices
+                if node_id in id_to_slices: # set slices just once, same every time
+                    slices = id_to_slices[node_id]
+                else:
+                    slicer = node.get_slicer()
+                    slices = children.slice(slicer)
+                    id_to_slices[node_id] = slices
                 id_to_depth[node_id] = max_graph_depth
                 if not node.is_hidden_node():
                     max_graph_depth -= 1
