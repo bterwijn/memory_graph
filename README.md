@@ -1005,7 +1005,7 @@ See for example [colab_example.ipynb](https://raw.githubusercontent.com/bterwijn
 ![colab_example.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/colab_example.png)
 
 # Marimo #
-In Marimo `locals()` has additional variables that cause problems in the graph, use `mg.locals_marimo()` to get the local variables with these problematic variables filtered out. Use `mg.stack_marimo()` to get the whole call stack with these variables filtered out.
+In Marimo `locals()` has additional variables that cause problems in the graph, use `mg.locals_marimo()` to get the local variables with these problematic variables filtered out. Use `mg.stack_marimo()` to get the whole call stack with these variables filtered out. Memory_graph only works when running Marimo locally, not in the playground.
 
 See for example [marimo_example.py](https://raw.githubusercontent.com/bterwijn/memory_graph/main/src/marimo_example.py).
 ![marimo_example.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/marimo_example.png)
