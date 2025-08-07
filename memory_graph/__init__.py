@@ -356,3 +356,22 @@ def stack_colab(end_functions=["<cell line: 0>", "<module>"], stack_index=0):
     globals_frame = next(iter(call_stack))
     call_stack[globals_frame] = colab_locals_filter(call_stack[globals_frame])
     return call_stack
+
+# ------------ marimo filtering
+
+marimo_filter_keys = {'spec_from_loader', '__marimo__', '__builtin__', '_MicropipLoader', '_MicropipFinder'}
+def marimo_locals_filter(marimo_locals):
+    """ Filter out the marimo specific keys that polute the graph. """
+    return {k:v for k,v in utils.filter_dict(marimo_locals)
+            if k not in marimo_filter_keys and k[0] != '_'}
+
+def locals_marimo(stack_index=0):
+    """ Get the locals of the calling frame in a marimo, filtering out the marimo specific keys. """
+    return marimo_locals_filter(get_locals_from_call_stack(1+stack_index))
+
+def stack_marimo(end_functions=["<cell line: 0>", "<module>"], stack_index=0):
+    """ Get the call stack in a marimo, filtering out the marimo specific keys. """
+    call_stack = stack(end_functions,1+stack_index)
+    globals_frame = next(iter(call_stack))
+    call_stack[globals_frame] = marimo_locals_filter(call_stack[globals_frame])
+    return call_stack

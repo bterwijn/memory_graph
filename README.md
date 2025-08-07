@@ -1002,6 +1002,12 @@ In Google Colab `locals()` has additional variables that cause problems in the g
 See for example [colab_example.ipynb](https://raw.githubusercontent.com/bterwijn/memory_graph/main/src/colab_example.ipynb).
 ![colab_example.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/colab_example.png)
 
+# Marimo #
+In Marimo `locals()` has additional variables that cause problems in the graph, use `mg.locals_marimo()` to get the local variables with these problematic variables filtered out. Use `mg.stack_marimo()` to get the whole call stack with these variables filtered out.
+
+See for example [colab_example.ipynb](https://raw.githubusercontent.com/bterwijn/memory_graph/main/src/marimo_example.py).
+![colab_example.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/marimo_example.png)
+
 # In the Browser #
 We can also use memory_graph in the browser: <a href="https://bterwijn.github.io/memory_graph/src/pyodide.html" target="_blank">Pyodide Example</a>
 ![pyodide.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/pyodide.png)
