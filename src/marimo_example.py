@@ -6,6 +6,7 @@ app = marimo.App(width="medium")
 
 @app.cell
 def _():
+    import marimo as mo
     import memory_graph as mg
     import copy
 
@@ -13,7 +14,6 @@ def _():
         c = a.copy()
         c[1] = a[1].copy()
         mg.show(mg.stack_marimo())
-        breakpoint()
         return c
 
     a = [ [1, 2], ['x', 'y'] ]
@@ -21,6 +21,8 @@ def _():
     c2 = copy.copy(a)
     c3 = custom_copy(a)
     c3 = copy.deepcopy(a)
+
+    mo.Html(mg.create_graph(mg.locals_marimo())._repr_image_svg_xml())
 
     return
 
