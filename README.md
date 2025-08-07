@@ -109,6 +109,8 @@ A better way to understand what values are shared is to draw a graph using [memo
 
 [Google Colab](#google-colab)
 
+[Marimo](#marimo)
+
 [In the Browser](#in-the-browser)
 
 [Animated GIF](#animated-gif)
