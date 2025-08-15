@@ -209,9 +209,12 @@ def stack_end_index(stack_functions : List[str], begin_index : int, end_function
             pass
     return len(stack_functions)-1
 
+
+
 def stack_slice(begin_functions : List[Tuple[str, int]] = [],
                 end_functions : List[str] = ["<module>"],
-                stack_index : int = 0):
+                stack_index : int = 0,
+                frameInfos : List[inspect.FrameInfo] = None):
     """
     Returns a slice of the call stack.
     Parameters:
@@ -223,11 +226,12 @@ def stack_slice(begin_functions : List[Tuple[str, int]] = [],
                           otherwise ends at the last index
       stack_index - number of frames removed from the beginning
     """
-    stack = inspect.stack()
-    stack_functions = [s.function for s in stack]
+    if frameInfos == None:
+        frameInfos = inspect.stack()
+    stack_functions = [s.function for s in frameInfos]
     begin_index = stack_begin_index(stack_functions, begin_functions)
     end_index = stack_end_index(stack_functions, begin_index, end_functions)
-    return stack_frames_to_dict(reversed(stack[begin_index+stack_index:end_index+1]))
+    return stack_frames_to_dict(reversed(frameInfos[begin_index+stack_index:end_index+1]))
 
 def stack(end_functions=["<module>"], stack_index=0):
     return stack_slice([], end_functions, stack_index+2)
