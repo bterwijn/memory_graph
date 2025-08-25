@@ -7,7 +7,7 @@ Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 
 # Highlights #
 ![vscode_copying.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/vscode_copying.gif)
-Or use the <a href="https://memory-graph.com/#play" target="_blank"><b><font size="10">Memory Graph Web Debugger</font></b></a> now, no install required!
+Or use the <a href="https://memory-graph.com/#play" target="_blank"><b><font size="12">Memory Graph Web Debugger</font></b></a> now, no install required!
 - learn the right **mental model** to think about Python data (references, mutability, shallow vs deep copy)
 - **visualize the structure of your data** to easily understand and debug any data structure
 - understand function calls, variable scope, and the **complete program state** through call stack visualization
