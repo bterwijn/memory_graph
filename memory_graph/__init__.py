@@ -302,6 +302,10 @@ def wing(filename=None, data=None):
         data = stack_wing()
     render(data, filename)
 
+def locals_filter(locals, keys):
+    """ Filter out the jupyter specific keys that polute the graph. """
+    return {k:v for k,v in utils.filter_dict(jupyter_locals)
+            if k not in jupyter_filter_keys}
 
 # ------------ jupyter filtering
 

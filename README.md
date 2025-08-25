@@ -7,6 +7,7 @@ Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 
 # Highlights #
 ![vscode_copying.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/vscode_copying.gif)
+Or use the <a href="https://memory-graph.com/#play" target="_blank"><b>Memory Graph Web Debugger</b></a> now, no install required!
 - learn the right **mental model** to think about Python data (references, mutability, shallow vs deep copy)
 - **visualize the structure of your data** to easily understand and debug any data structure
 - understand function calls, variable scope, and the **complete program state** through call stack visualization
@@ -103,6 +104,8 @@ A better way to understand what values are shared is to draw a graph using [memo
 
 [Extensions](#extensions)
 
+[Memory Graph Web Debugger](#memory-graph-web-debugger)
+
 [Jupyter Notebook](#jupyter-notebook)
 
 [ipython](#ipython)
@@ -110,8 +113,6 @@ A better way to understand what values are shared is to draw a graph using [memo
 [Google Colab](#google-colab)
 
 [Marimo](#marimo)
-
-[In the Browser](#in-the-browser)
 
 [Animated GIF](#animated-gif)
 
@@ -975,6 +976,10 @@ mg.show(locals())
 ```
 ![extension_torch.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_torch.png)
 
+# Memory Graph Web Debugger #
+The <a href="https://memory-graph.com/#play" target="_blank">Memory Graph Web Debugger</a> lets us use memory_graph without any installation.
+![memory_graph_web_debugger.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/memory_graph_web_debugger.png)
+
 # Jupyter Notebook #
 In Jupyter Notebook `locals()` has additional variables that cause problems in the graph, use `mg.locals_jupyter()` to get the local variables with these problematic variables filtered out. Use `mg.stack_jupyter()` to get the whole call stack with these variables filtered out.
 
@@ -1009,10 +1014,6 @@ In Marimo `locals()` has additional variables that cause problems in the graph, 
 
 See for example [marimo_example.py](https://raw.githubusercontent.com/bterwijn/memory_graph/main/src/marimo_example.py).
 ![marimo_example.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/marimo_example.png)
-
-# In the Browser #
-We can also use memory_graph in the browser: <a href="https://bterwijn.github.io/memory_graph/src/pyodide.html" target="_blank">Pyodide Example</a>
-![pyodide.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/pyodide.png)
 
 
 # Animated GIF #
