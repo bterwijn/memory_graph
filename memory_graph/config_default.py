@@ -116,7 +116,7 @@ def reset():
     }
 
     """ The maximum depth of nodes in the graph. When the graph gets too big set this to a small positive number. A `✂` symbol indictes where the graph is cut short. """
-    config.max_graph_depth = 12
+    config.max_graph_depth = 1000
     config.graph_cut_symbol = '✂'
     
 

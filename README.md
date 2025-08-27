@@ -634,7 +634,7 @@ Different aspects of memory_graph can be configured. The default configuration c
   - Maps a type to a Slicer. A slicer determines how many elements of a data type are shown in the graph to prevent the graph from getting too big. 'Slicer()' does no slicing, 'Slicer(1,2,3)' shows just 1 element at the beginning, 2 in the middle, and 3 at the end.
 
 - ***mg.config.max_graph_depth*** : int
-  - The maxium depth of the graph with default value 12.
+  - The maxium depth of the graph with default value 1000.
 
 - ***mg.config.graph_cut_symbol*** : str
   - The symbol indicating where the graph is cut short with default `✂`.
