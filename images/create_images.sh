@@ -3,7 +3,7 @@ python many_types.py
 
 # debugging
 python debugging.py
-bash create_gif.sh debugging
+bash create_gif.sh debugging -d
 
 # data model
 python immutable.py
@@ -17,11 +17,11 @@ python name_rebinding.py
 # call stack
 python add_one.py
 python factorial.py
-bash create_gif.sh factorial
+bash create_gif.sh factorial -d
 python binary.py
-bash create_gif.sh binary
+bash create_gif.sh binary -d
 python power_set.py
-bash create_gif.sh power_set
+bash create_gif.sh power_set -d
 
 # datastructures
 python linked_list.py
@@ -40,3 +40,6 @@ python hidden_edges.py
 # extensions
 python extension_numpy.py
 python extension_pandas.py
+
+# clean up the graphviz files
+rm *.gv
