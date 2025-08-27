@@ -110,9 +110,9 @@ def reset():
     
     """ Slicer objects for different types. """
     config.type_to_slicer = {
-        Node_Linear: Slicer(5,3,5),
-        Node_Key_Value: Slicer(5,3,5),
-        Node_Table: (Slicer(3,2,3), Slicer(3,2,3)),
+        Node_Linear: Slicer(10, 5, 10),
+        Node_Key_Value: Slicer(10, 5, 10),
+        Node_Table: (Slicer(3, 2, 3), Slicer(3, 2, 3)),
     }
 
     """ The maximum depth of nodes in the graph. When the graph gets too big set this to a small positive number. A `✂` symbol indictes where the graph is cut short. """
