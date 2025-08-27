@@ -21,7 +21,7 @@ import builtins
 if not hasattr(builtins, "mg"):
     builtins.mg = mg
 
-__version__ = "0.3.51"
+__version__ = "0.3.52"
 __author__ = 'Bas Terwijn'
 
 last_show_filename = None
