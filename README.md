@@ -618,6 +618,9 @@ Different aspects of memory_graph can be configured. The default configuration c
 - ***mg.config.embedding_types*** : set[type]
   - Holds all dictionary types that embed their key-value tuple children.
 
+- ***mg.config.no_index_types*** : set[type]
+  - Holds all types like 'set' and 'frozenset' that should not have indices as Node_Linear.
+
 - ***mg.config.type_to_node*** : dict[type, fun(data) -> Node]
   - Determines how a data type is converted to a Node subclass for visualization in the graph.
 

@@ -6,6 +6,7 @@ from memory_graph.node_base import Node_Base
 from memory_graph.sequence import Sequence1D
 
 import memory_graph.config_helpers as config_helpers
+import memory_graph.config as config
 
 class Node_Linear(Node_Base):
     """
@@ -56,9 +57,11 @@ class Node_Linear(Node_Base):
         """
         Helper function to fill the html_table with the children of the Node_Base in vertical orientation.
         """
+        show_index = not self.get_type() in config.no_index_types
         for index in slices.table_iter(self.children.size()):
             if index>=0:
-                html_table.add_index(index)
+                if show_index:
+                    html_table.add_index(index)
                 child = self.children[index]
                 html_table.add_entry(self, nodes, child, id_to_slices, dashed=slices.is_dashed(index))
                 html_table.add_new_line()
@@ -71,9 +74,11 @@ class Node_Linear(Node_Base):
         """
         Helper function to fill the html_table with the children of the Node_Base in horizontal orientation.
         """
+        show_index = not self.get_type() in config.no_index_types
         for index in slices.table_iter(self.children.size()):
             if index>=0:
-                html_table.add_index(index)
+                if show_index:
+                    html_table.add_index(index)
             else:
                 html_table.add_value('', border=0)
         html_table.add_new_line()

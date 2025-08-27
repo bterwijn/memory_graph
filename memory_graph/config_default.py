@@ -52,7 +52,10 @@ def reset():
     """ Types that will embed their children. """
     config.embedding_types = {dict, types.MappingProxyType}
 
-    """ Types that need an special conversion """
+    """ Types that should not show an index """
+    config.no_index_types = {set, frozenset}
+
+    """ Types that need a special conversion """
     config.type_to_string = {
         types.FunctionType: lambda data: data.__qualname__,
         types.MethodType: lambda data: data.__qualname__,

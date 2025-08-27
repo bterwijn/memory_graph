@@ -21,6 +21,8 @@ embedded_key_types = {}
 embedding_types = set()
 no_child_references_types = embedding_types # deprecated
 
+no_index_types = {}
+
 type_to_string = { }
 
 def to_string(data):
