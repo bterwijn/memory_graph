@@ -149,8 +149,12 @@ def add_missing_edges(nodes, id_to_slices, max_missing_edges=3):
             for index in indices:
                 if parent_slices is None or not parent_slices.has_index(index):
                     type_to_parent_indices.setdefault(parent_type, [])
+                    #if not parent_type in type_to_parent_indices:
+                    #    type_to_parent_indices[parent_type] = []
                     parent_indices = type_to_parent_indices[parent_type]
-                    if len(parent_indices) < max_missing_edges:
+                    if len(parent_indices) > max_missing_edges:
+                        break
+                    else:
                         parent_indices.append((parent, index))
         add_parent_indices(nodes, type_to_parent_indices, id_to_slices, max_missing_edges)    
     
