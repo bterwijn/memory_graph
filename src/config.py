@@ -14,7 +14,9 @@ mg.config_default.reset()
 
 a = [True, 42, 1.234, complex(3, 5), "hello world!", ]
 print(f'{mg.config.embedded_types=}')
-mg.config.embedded_types -= {bool, float, str}  # show separate nodes
+mg.config.embedded_types -= {bool, float, str}  # show separate nodes for types
+mg.config_default.reset()
+mg.config.embedded_types -= {int, complex}      # show separate nodes for types
 mg.config_default.reset()
 
 
@@ -52,6 +54,3 @@ mg.config.type_to_slicer[list] = mg.slicer.Slicer(3)        # 3 element at start
 mg.config.type_to_slicer[list] = mg.slicer.Slicer(3, 5)     # 5 at the end
 mg.config.type_to_slicer[list] = mg.slicer.Slicer(3, 4, 5)  # 4 in the middle
 mg.config.type_to_slicer[id(c)] = mg.slicer.Slicer()        # 'c' shows all
-
-
-
