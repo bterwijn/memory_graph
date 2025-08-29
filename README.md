@@ -508,7 +508,7 @@ for i in range(n):
 Here we show values being added to a Linked List in Cursor AI. When adding the last value '5' we "Step Into" the code to show more of the details.
 ![linked_list.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/linked_list.gif)
 
-Or use the [Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/linked_list.py&timestep=0.2&play).
+Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/linked_list.py&timestep=0.2&play).
 
 ## Binary Tree ##
 ```python
@@ -550,7 +550,7 @@ for i in range(n):
 Here we show values being inserted in a Binary Tree in Visual Studio Code. When inserting the last value '29' we "Step Into" the code to show the recursive implementation.
 ![images/bin_tree.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_tree.gif)
 
-Or use the [Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/bin_tree.py&timestep=0.2&play).
+Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/bin_tree.py&timestep=0.2&play).
 
 ## Hash Set ##
 ```python
@@ -594,7 +594,7 @@ for i in range(n):
 Here we show values being inserted in a HashSet in PyCharm. When inserting the last value '44' we "Step Into" the code to show more of the details.
 ![images/hash_set.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/hash_set.gif)
 
-Or use the [Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/hash_set.py&timestep=0.2&play).
+Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/hash_set.py&timestep=0.2&play).
 
 # Configuration #
 Different aspects of memory_graph can be configured. The default configuration can be reset by calling 'mg.config_default.reset()'.
