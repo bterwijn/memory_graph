@@ -15,7 +15,7 @@ class Slicer:
             self.end, self.middle = self.middle, self.end
 
     def __repr__(self) -> str:
-        return f"Slicer({self.begin},{self.middle},{self.end})"
+        return f"Slicer({self.begin}, {self.middle}, {self.end})"
 
     def get_slices(self, length):
         slices1d = Slices1D()

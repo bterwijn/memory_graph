@@ -21,6 +21,13 @@ import builtins
 if not hasattr(builtins, "mg"):
     builtins.mg = mg
 
+# re-exports for shorter names
+from .slicer          import Slicer
+from .node_leaf       import Node_Leaf
+from .node_linear     import Node_Linear
+from .node_key_value  import Node_Key_Value
+from .node_table      import Node_Table
+
 __version__ = "0.3.52"
 __author__ = 'Bas Terwijn'
 

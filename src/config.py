@@ -42,10 +42,10 @@ a = [1, 2, 3] * 10
 b = [4, 5, 6] * 10
 c = [7, 8, 9] * 10
 print(f'{mg.config.type_to_slicer=}')
-mg.config.type_to_slicer[list] = mg.slicer.Slicer(3)        # 3 element at start
-mg.config.type_to_slicer[list] = mg.slicer.Slicer(3, 5)     # 5 at the end
-mg.config.type_to_slicer[list] = mg.slicer.Slicer(3, 4, 5)  # 4 in the middle
-mg.config.type_to_slicer[id(c)] = mg.slicer.Slicer()        # 'c' shows all
+mg.config.type_to_slicer[list] = mg.Slicer(3)        # 3 element at start
+mg.config.type_to_slicer[list] = mg.Slicer(3, 5)     # 5 at the end
+mg.config.type_to_slicer[list] = mg.Slicer(3, 4, 5)  # 4 in the middle
+mg.config.type_to_slicer[id(c)] = mg.Slicer()        # 'c' shows all
 mg.config_default.reset()
 
 
@@ -82,16 +82,16 @@ class MyClass:
 a = MyClass()
 
 # show an object of type 'MyClass' as single value
-mg.config.type_to_node[MyClass] = lambda data: mg.node_leaf.Node_Leaf(data,
+mg.config.type_to_node[MyClass] = lambda data: mg.Node_Leaf(data,
                                          f'{data.x} {data.y} {data.z}')
 # show an object of type  'MyClass' as a line of indexed values like a list
-mg.config.type_to_node[MyClass] = lambda data: mg.node_linear.Node_Linear(data,
+mg.config.type_to_node[MyClass] = lambda data: mg.Node_Linear(data,
                                          [data.x, data.y, data.z])
 # show an object of type  'MyClass' as key-value pairs like a dict
-mg.config.type_to_node[MyClass] = lambda data: mg.node_key_value.Node_Key_Value(data,
+mg.config.type_to_node[MyClass] = lambda data: mg.Node_Key_Value(data,
                                          {data.x:'x', data.y:'y', data.z:'z'}.items())
 # show an object of type 'MyClass' as a table
-mg.config.type_to_node[MyClass] = lambda data: mg.node_table.Node_Table(data,
+mg.config.type_to_node[MyClass] = lambda data: mg.Node_Table(data,
                                          [[data.x, data.y],
                                           [data.z, 'X']])
 mg.config_default.reset()
