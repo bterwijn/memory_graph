@@ -12,4 +12,4 @@ c1 = a
 c2 = copy.copy(a) # equivalent to:  a.copy() a[:] list(a)
 c3 = copy.deepcopy(a)
 
-mg.render(locals(), 'copies.png')
+mg.render(locals(), 'copy_mutable.png')
