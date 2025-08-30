@@ -71,7 +71,7 @@ b = [c]
 a = [b]
 del b, c
 mg.config.type_to_depth[dict] = 2  # cut 2 levels below type 'dict'
-c = a[0][0]                        # but now 'c' causes it to be a level 1
+c = a[0][0]                        # but now 'c' is at level 1
 mg.config_default.reset()
 del a, c
 
