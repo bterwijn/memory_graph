@@ -10,14 +10,15 @@ mg.config.max_string_length = 100  # set different max length
 mg.config_default.reset()
 
 
-# Color
+# Color (names: https://graphviz.org/doc/info/colors.html)
 
 a = [1, 2, 3]
 b = [4, 5, 6]
 c = [7, 8, 9]
 print(f'{mg.config.type_to_color=}')
-mg.config.type_to_color[list] = "red"     # set list color for type
-mg.config.type_to_color[id(c)] = "green"  # set list color for id
+mg.config.type_to_color[list] = "red"       # set color for list type
+mg.config.type_to_color[id(b)] = "green"    # set color for id
+mg.config.type_to_color[id(c)] = "#1177FF"  # set RGB color for id
 mg.config_default.reset()
 
 
@@ -45,6 +46,7 @@ mg.config.type_to_slicer[list] = mg.slicer.Slicer(3)        # 3 element at start
 mg.config.type_to_slicer[list] = mg.slicer.Slicer(3, 5)     # 5 at the end
 mg.config.type_to_slicer[list] = mg.slicer.Slicer(3, 4, 5)  # 4 in the middle
 mg.config.type_to_slicer[id(c)] = mg.slicer.Slicer()        # 'c' shows all
+mg.config_default.reset()
 
 
 # Embedded Types
@@ -66,6 +68,7 @@ del b, c
 mg.config.type_to_depth[dict] = 2  # cut 2 levels below type 'dict'
 c = a[0][0]                        # but now 'c' causes it to be a level 1
 del a, c
+mg.config_default.reset()
 
 
 # Node Type
@@ -90,4 +93,5 @@ mg.config.type_to_node[MyClass] = lambda data: mg.node_key_value.Node_Key_Value(
 # show an object of type 'MyClass' as a table
 mg.config.type_to_node[MyClass] = lambda data: mg.node_table.Node_Table(data,
                                          [[data.x, data.y],
-                                          [data.z, 'X']] )
+                                          [data.z, 'X']])
+mg.config_default.reset()
