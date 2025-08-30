@@ -100,5 +100,5 @@ mg.config.type_to_node[MyClass] = lambda data: mg.Node_Table(data,
                                          [[data.x, data.y],
                                           [data.z, 'X']])
 mg.config_default.reset()
-del a, MyClass
+del MyClass, a
 
