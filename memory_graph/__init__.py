@@ -2,6 +2,9 @@
 # Copyright (c) 2023, Bas Terwijn.
 # SPDX-License-Identifier: BSD-2-Clause
 
+__version__ = "0.3.53"
+__author__ = 'Bas Terwijn'
+
 import memory_graph.memory_to_nodes as memory_to_nodes
 import memory_graph.config as config
 import memory_graph.config_default
@@ -28,8 +31,6 @@ from .node_linear     import Node_Linear
 from .node_key_value  import Node_Key_Value
 from .node_table      import Node_Table
 
-__version__ = "0.3.52"
-__author__ = 'Bas Terwijn'
 
 last_show_filename = None
 render_filename_count = 0
