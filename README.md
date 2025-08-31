@@ -597,7 +597,7 @@ Here we show values being inserted in a HashSet in PyCharm. When inserting the l
 Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/hash_set.py&timestep=0.2&play).
 
 # Configuration #
-Different aspects of memory_graph can be configured. The default configuration can be reset by calling 'mg.config_default.reset()'.
+Different aspects of memory_graph can be configured. The default configuration can be reset by calling 'mg.config_default.reset()'. The Memory Graph Web Debugger gives examples of the [most important configurations](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/config.py&play).
 
 - ***mg.config.reopen_viewer*** : bool
   - If True the viewer is reopened each time show() is called, this might change window focus, default True.
