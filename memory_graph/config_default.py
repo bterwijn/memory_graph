@@ -105,7 +105,7 @@ def reset():
 
     """ Types that will be visualized in vertical orientation if 'True', or horizontal orientation 
     if 'False'. Otherwise the Node decides based on it having references."""
-    config.type_to_vertical_orientation = {
+    config.type_to_vertical = {
     }
     
     """ Slicer objects for different types. """
