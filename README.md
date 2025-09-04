@@ -596,7 +596,7 @@ for i in range(n):
 Here we show values being inserted in a HashSet in PyCharm. When inserting the last value '44' we "Step Into" the code to show more of the details.
 ![images/hash_set.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/hash_set.gif)
 
-Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/hash_set.py&timestep=0.2&play).
+Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/hash_set.py&breakpoints=32&continues=1&timestep=0.5&play).
 
 # Configuration #
 Different aspects of memory_graph can be configured. The default configuration can be reset by calling 'mg.config_default.reset()'. The Memory Graph Web Debugger gives examples of the [most important configurations](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/config.py&play).

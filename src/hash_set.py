@@ -2,7 +2,7 @@ import random
 
 class Hash_Set:
     
-        def __init__(self, capacity=10):
+        def __init__(self, capacity):
             self.buckets = [None] * capacity
     
         def add(self, value):
@@ -24,16 +24,17 @@ class Hash_Set:
             if self.buckets[index] is not None:
                 self.buckets[index].remove(value)
         
-hash_set = Hash_Set()
+hash_set = Hash_Set(10)
 n = 15
 max_rand_value = int(n * 1.5)
 values = [random.randrange(max_rand_value) for _ in range(n)]
 
-random.shuffle(values)
-for value in values: # add values
+print('adding value: ', values)
+for value in values:
     hash_set.add(value)
 
 random.shuffle(values)
-for value in values: # remove values
+print('removing value: ', values)
+for value in values:
     if hash_set.contains(value):
         hash_set.remove(value)
