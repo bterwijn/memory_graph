@@ -127,7 +127,7 @@ Bas Terwijn
 ## Inspiration ##
 Inspired by [Python Tutor](https://pythontutor.com/).
 
-# Social Media #
+## Social Media #
 * LinkedIn: https://www.linkedin.com/groups/13244150/
 * Reddit: https://www.reddit.com/r/Python_memory_graph/
 
