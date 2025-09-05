@@ -346,7 +346,7 @@ print( factorial(4) )
 
 and the result is: 1 x 2 x 3 x 4 = 24
 
-## Binary ##
+## Binary Convert ##
 A more interesting recursive example is function `binary()` that converts a decimal integer to binary representation. 
 ```python
 import memory_graph as mg
@@ -367,6 +367,8 @@ print( binary(100) )
 ```
 1100100
 ```
+
+Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/binary_convert.py&timestep=1.0&play).
 
 ## Power Set ##
 A more complex recursive example is function `power_set()` where lists are shared by different function calls. A power set is the set of all subsets of a collection of values.
