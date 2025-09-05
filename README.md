@@ -119,8 +119,6 @@ A better way to understand what values are shared is to draw a graph using [memo
 
 [Troubleshooting](#troubleshooting)
 
-[Social Media](#social-media)
-
 [Other Packages](#other-packages)
 
 ## Author ##
@@ -128,6 +126,10 @@ Bas Terwijn
 
 ## Inspiration ##
 Inspired by [Python Tutor](https://pythontutor.com/).
+
+# Social Media #
+* LinkedIn: https://www.linkedin.com/groups/13244150/
+* Reddit: https://www.reddit.com/r/Python_memory_graph/
 
 ## Supported by ##
 <img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/uva.png" alt="University of Amsterdam" width="600">
@@ -1049,10 +1051,6 @@ $ bash create_gif.sh animated
 - Adobe Acrobat Reader [doesn't refresh a PDF file](https://community.adobe.com/t5/acrobat-reader-discussions/reload-refresh-pdfs/td-p/9632292) when it changes on disk and blocks updates which results in an `Could not open 'somefile.pdf' for writing : Permission denied` error. One solution is to install a PDF reader that does refresh ([SumatraPDF](https://www.sumatrapdfreader.org/), [Okular](https://okular.kde.org/),  ...) and set it as the default PDF reader. Another solution is to `render()` the graph to a different output format and to open it manually.
 
 - When graph edges overlap it can be hard to distinguish them. Using an interactive graphviz viewer, such as [xdot](https://github.com/jrfonseca/xdot.py), on a '*.gv' DOT output file will help.
-
-# Social Media #
-* LinkedIn: https://www.linkedin.com/groups/13244150/
-* Reddit: https://www.reddit.com/r/Python_memory_graph/
 
 # Other Packages #
 The [memory_graph](https://pypi.org/project/memory-graph/) package visualizes your data. If instead you want to visualize function calls, check out the [invocation_tree](https://pypi.org/project/invocation-tree/) package.
