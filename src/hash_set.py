@@ -29,12 +29,12 @@ n = 15
 max_rand_value = int(n * 1.5)
 values = [random.randrange(max_rand_value) for _ in range(n)]
 
-print('adding value: ', values)
+print('adding values: ', values)
 for value in values:
     hash_set.add(value)
 
 random.shuffle(values)
-print('removing value: ', values)
+print('removing values: ', values)
 for value in values:
     if hash_set.contains(value):
         hash_set.remove(value)
