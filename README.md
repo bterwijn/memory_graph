@@ -696,7 +696,6 @@ mg.show(locals())
 ```
 ![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_fail.png)
 
-
 ## All attributes using dir() ##
 A useful start is to give it some color, show the list of all its attributes using `dir()`, and setting an empty Slicer to see the attribute list in full.
 
@@ -718,7 +717,7 @@ mg.config.type_to_slicer[bintrees.avltree.Node] = mg.Slicer()
 
 mg.show(locals())
 ```
-![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_dir.png)
+![avltree_dir.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_dir.png)
 
 Next figure out what the attributes are you want to graph and choose a Node type, there are four options:
 
@@ -741,7 +740,7 @@ mg.config.type_to_node[bintrees.avltree.Node] = lambda data: mg.Node_Leaf(data,
 
 mg.show(locals())
 ```
-![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_leaf.png)
+![avltree_leaf.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_leaf.png)
 
 ## 2) Node_Linear ##
 Node_Linear shows multiple values in a line like a list.
@@ -765,7 +764,7 @@ mg.config.type_to_node[bintrees.avltree.Node] = lambda data: mg.Node_Linear(data
 
 mg.show(locals())
 ```
-![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_linear.png)
+![avltree_linear.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_linear.png)
 
 ## 3) Node_Key_Value ##
 Node_Key_Value shows key-value pairs like a dictionary. Note the required `items()` call at the end.
@@ -789,7 +788,7 @@ mg.config.type_to_node[bintrees.avltree.Node] = lambda data: mg.Node_Key_Value(d
 
 mg.show(locals())
 ```
-![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_key_value.png)
+![avltree_key_value.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_key_value.png)
 
 ## 4) Node_Table ##
 Node_Table shows all the values as a table.
@@ -811,7 +810,7 @@ mg.config.type_to_node[bintrees.avltree.Node] = lambda data: mg.Node_Table(data,
 
 mg.show(locals())
 ```
-![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_table.png)
+![avltree_table.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_table.png)
 
 ## Binary Search ##
 For binary search we can use a List_View class to represent a particular sublist without making a list copy.
@@ -916,7 +915,7 @@ mg.config.type_to_depth[B] = 3
 mg.config.type_to_depth[id(c)] = 2
 mg.show(locals())
 ```
-![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/introspect_depth.png)
+![introspect_depth.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/introspect_depth.png)
 
 ## Hidden Edges ##
 
@@ -932,7 +931,7 @@ for i in range(20):
 
 mg.show(locals())
 ```
-![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/hidden_edges.png)
+![hidden_edges.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/hidden_edges.png)
 
 # Extensions #
 Different extensions are available for types from other Python packages. 
@@ -955,6 +954,8 @@ mg.show(locals())
 ```
 ![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_numpy.png)
 
+Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/mg_numpy.py&continues=1).
+
 ## Pandas ##
 Pandas types `Series` and `DataFrame` can be graphed with "memory_graph.extension_pandas":
 
@@ -973,6 +974,8 @@ dataframe2 = pd.DataFrame({  'Name'   : [ 'Tom', 'Anna', 'Steve', 'Lisa'],
 mg.show(locals())
 ```
 ![extension_pandas.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_pandas.png)
+
+Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/mg_pandas.py&continues=1).
 
 ## PyTorch ##
 Torch type `tensor` can be graphed with "memory_graph.extension_torch":
