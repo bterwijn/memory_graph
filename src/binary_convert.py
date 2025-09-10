@@ -1,4 +1,3 @@
-import memory_graph as mg
 mg.config.type_to_horizontal[list] = True  # horizontal lists
 
 def binary(value: int) -> list[int]:
