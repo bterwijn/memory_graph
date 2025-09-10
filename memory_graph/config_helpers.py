@@ -23,10 +23,17 @@ def get_color(node, default='white'):
                         default)
     
 def get_vertical(node, default):
+    horizontal = get_property(node.get_id(),
+                              node.get_type(),
+                              type(node),
+                              config.type_to_horizontal,
+                              None)
+    if isinstance(horizontal, bool):
+        return not horizontal
     return get_property(node.get_id(),
                         node.get_type(),
                         type(node),
-                        config.type_to_vertical, 
+                        config.type_to_vertical,
                         default)
 
 def get_slicer(node, data, default=Slicer(3,2,3)):

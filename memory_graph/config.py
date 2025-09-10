@@ -36,6 +36,7 @@ type_to_node = { }
 
 type_to_color = { }
 
+type_to_horizontal = { }
 type_to_vertical = { }
 
 type_to_slicer = { }

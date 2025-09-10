@@ -356,7 +356,7 @@ and the result is: 1 x 2 x 3 x 4 = 24
 A more interesting recursive example is function `binary()` that converts a decimal integer to binary representation. 
 ```python
 import memory_graph as mg
-mg.config.type_to_vertical[list] = False  # horizontal lists
+mg.config.type_to_horizontal[list] = True  # horizontal lists
 
 def binary(value: int) -> list[int]:
     mg.block(mg.show(), mg.stack())
@@ -642,8 +642,8 @@ Different aspects of memory_graph can be configured. The default configuration c
 - ***mg.config.type_to_color*** : dict[type, color]
   - Maps a type to the [graphviz color](https://graphviz.org/doc/info/colors.html) it gets in the graph. 
 
-- ***mg.config.type_to_vertical*** : dict[type, bool]
-  - Maps a type to its orientation. Use 'True' for vertical and 'False' for horizontal. If not specified Node_Linear and Node_Key_Value are vertical unless they have references to children.
+- ***mg.config.type_to_horizontal*** : dict[type, bool]
+  - Maps a type to its orientation for Node_Linear and Node_Key_Value. Use 'True' for horizontal and 'False' for vertical. If not specified these nodes vertical unless they have references to children.
 
 - ***mg.config.type_to_slicer*** : dict[type, int]
   - Maps a type to a Slicer. A slicer determines how many elements of a data type are shown in the graph to prevent the graph from getting too big. 'Slicer()' does no slicing, 'Slicer(1,2,3)' shows just 1 element at the beginning, 2 in the middle, and 3 at the end.

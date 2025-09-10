@@ -30,11 +30,11 @@ a = [1, 2, 3]
 b = [4, 5, 6]
 c = [7, 8, 9]
 b.append([10, 11, 12])                     # vertical unless it has a reference
-print(f'{mg.config.type_to_vertical=}')
-mg.config.type_to_vertical[list] = False   # all lists horizontal
-mg.config.type_to_vertical[list] = True    # all lists vertical
-mg.config.type_to_vertical[list] = None    # back to vertical unless it has a reference
-mg.config.type_to_vertical[id(c)] = False  # 'c' horizontal
+print(f'{mg.config.type_to_horizontal=}')
+mg.config.type_to_horizontal[list] = True    # all lists horizontal
+mg.config.type_to_horizontal[list] = False   # all lists vertical
+mg.config.type_to_horizontal[list] = None    # back to vertical unless it has a reference
+mg.config.type_to_horizontal[id(c)] = True  # 'c' horizontal
 mg.config_default.reset()
 del a, b, c
 
