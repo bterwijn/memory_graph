@@ -34,7 +34,7 @@ print(f'{mg.config.type_to_horizontal=}')
 mg.config.type_to_horizontal[list] = True    # all lists horizontal
 mg.config.type_to_horizontal[list] = False   # all lists vertical
 mg.config.type_to_horizontal[list] = None    # back to vertical unless it has a reference
-mg.config.type_to_horizontal[id(c)] = True  # 'c' horizontal
+mg.config.type_to_horizontal[id(c)] = True   # 'c' horizontal
 mg.config_default.reset()
 del a, b, c
 
