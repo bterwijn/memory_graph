@@ -347,10 +347,8 @@ def factorial(n):
 
 print( factorial(4) )
 ```
-
-and the result is: 1 x 2 x 3 x 4 = 24
-
 ![factorial.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial.gif)
+and the result is: 1 x 2 x 3 x 4 = 24
 
 Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/factorial.py&timestep=1.0&play).
 
@@ -371,10 +369,10 @@ def binary(value: int) -> list[int]:
 
 print( binary(100) )
 ```
+![factorial.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/binary.gif)
 ```
 1100100
 ```
-![factorial.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/binary.gif)
 
 Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/binary_convert.py&timestep=1.0&play).
 
