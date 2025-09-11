@@ -376,7 +376,7 @@ print( binary(100) )
 ```
 ![factorial.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/binary.gif)
 ```
-1100100
+[1, 1, 0, 0, 1, 0, 0]
 ```
 
 Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/binary_convert.py&timestep=1.0&play).
