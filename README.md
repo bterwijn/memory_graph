@@ -132,8 +132,8 @@ Bas Terwijn
 Inspired by [Python Tutor](https://pythontutor.com/).
 
 ## Social Media #
-* LinkedIn: https://www.linkedin.com/groups/13244150/
-* Reddit: https://www.reddit.com/r/Python_memory_graph/
+* [LinkedIn](https://www.linkedin.com/groups/13244150/)
+* [Reddit](https://www.reddit.com/r/Python_memory_graph/)
 
 ## Supported by ##
 <img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/uva.png" alt="University of Amsterdam" width="600">
