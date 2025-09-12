@@ -357,8 +357,8 @@ and the result is: 1 x 2 x 3 x 4 = 24
 
 Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/factorial.py&timestep=1.0&play).
 
-## Binary Convert ##
-A more interesting recursive example is function `binary()` that converts a decimal integer to binary representation. 
+## Binary Conversion ##
+A more interesting recursive example is function `binary()` that converts a integer from decimal to binary representation. 
 ```python
 import memory_graph as mg
 mg.config.type_to_horizontal[list] = True  # horizontal lists
@@ -376,7 +376,7 @@ print( binary(100) )
 ```
 ![factorial.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/binary.gif)
 ```
-1100100
+[1, 1, 0, 0, 1, 0, 0]
 ```
 
 Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/binary_convert.py&timestep=1.0&play).
