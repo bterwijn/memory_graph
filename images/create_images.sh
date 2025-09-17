@@ -16,6 +16,7 @@ python name_rebinding.py
 
 # call stack
 python add_one.py
+python wrap_int.py
 python factorial.py
 bash create_gif.sh factorial -d
 python binary.py

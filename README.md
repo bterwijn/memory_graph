@@ -317,8 +317,33 @@ In the printed output only `a` is changed as a result of the function call:
 ```
 a:[4, 3, 2, 1] b:(4, 3, 2) c:[4, 3, 2]
 ```
-
 This is because `b` is of immutable type 'tuple' so its value gets copied automatically when it is changed. And because the function is called with a copy of `c`, its original value is not changed by the function. The value of variable `a` is the only value of mutable type that is shared between the root stack frame **'0: \<module>'** and the **'1: add_one'** stack frame of the function so only that variable is affected as a result of the function call. The other changes remain confined to the local variables of the ```add_one()``` function.
+
+## Function Call Changes 'int' Value ##
+Eventhough `int` is an immutable type, so an `int` value can not be changed by directly passing it to a function, we can still change it by wrapping it in a mutable container.
+
+```python
+import memory_graph as mg
+
+def add_one(a, b):
+    a += 1     # change remains confined to 'a' in the add_one function
+    b[0] += 1  # change also effects 'b' outside of the add_one function
+    mg.render( mg.stack(), "wrap_int.png")
+
+a = 10
+b = [10]  # wrap in a value of mutable type list
+add_one(a, b)
+
+print(f"a:{a} b:{b[0]}")
+```
+![wap_int.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/wrap_int.png)
+
+Calling `add_one()` does not effect the `int` value of `a` but does effect the `int` value of `b` because it's wrapped in a mutable container.
+```
+a:10 b:11
+```
+
+## Exercises ##
 
 Now is a good time to practice the Python Data Model. Here are [some exercises](https://github.com/bterwijn/memory_graph_videos/blob/main/exercises/exercises.md) on references, mutability, copies, and function calls.
 
