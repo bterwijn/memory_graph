@@ -328,7 +328,7 @@ import memory_graph as mg
 def add_one(a, b):
     a += 1     # change remains confined to 'a' in the add_one function
     b[0] += 1  # change also effects 'b' outside of the add_one function
-    mg.render( mg.stack(), "wrap_int.png")
+    mg.show(mg.stack())
 
 a = 10
 b = [10]  # wrap in a value of mutable type list
