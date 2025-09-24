@@ -319,7 +319,7 @@ a:[4, 3, 2, 1] b:(4, 3, 2) c:[4, 3, 2]
 ```
 This is because `b` is of immutable type 'tuple' so its value gets copied automatically when it is changed. And because the function is called with a copy of `c`, its original value is not changed by the function. The value of variable `a` is the only value of mutable type that is shared between the root stack frame **'0: \<module>'** and the **'1: add_one'** stack frame of the function so only that variable is affected as a result of the function call. The other changes remain confined to the local variables of the ```add_one()``` function.
 
-## Function Call Changes 'int' Value ##
+## Function Call That Changes 'int' Value ##
 Even though `int` is an immutable type, so an `int` value can not be changed by directly passing it to a function, we can still change it by wrapping it in a mutable container.
 
 ```python
@@ -337,11 +337,10 @@ add_one(a, b)
 print(f"a:{a} b:{b[0]}")
 ```
 ![wap_int.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/wrap_int.png)
-
-Calling `add_one()` does not effect the `int` value of `a` but does effect the `int` value of `b` because it's wrapped in a mutable container.
 ```
 a:10 b:11
 ```
+Calling `add_one()` does not effect the `int` value of `a` but does effect the `int` value of `b` because it's wrapped in a mutable container.
 
 ## Exercises ##
 
