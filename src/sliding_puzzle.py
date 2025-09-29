@@ -3,7 +3,7 @@ import copy
 import random 
 random.seed(0)  # use same random numbers each run, feel free to remove
 
-EMPTY_TILE = '⬛'
+EMPTY_TILE = '█'
 RANDOM_MOVES = 20  # measure of difficulty
 
 def main():
