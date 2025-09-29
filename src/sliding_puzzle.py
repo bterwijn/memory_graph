@@ -25,7 +25,7 @@ def main():
         
     print('now show all visited boards, can get too big:')
     mg.config.type_to_slicer[id(visited_boards)] = mg.Slicer() # show full dict
-    print('the end')
+    return solution_path
 
 def solve(board, goal):
     """ Solve the sliding puzzle using breadth-first search. """
@@ -127,4 +127,4 @@ mg.config.type_to_color[Sliding_Puzzle] = 'magenta'
 mg.config.type_to_node[Sliding_Puzzle] = lambda s : mg.Node_Table(s, s.tiles)
 
 if __name__ == "__main__":
-    main()
+    solution_path = main()
