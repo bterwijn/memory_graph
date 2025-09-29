@@ -1,28 +1,37 @@
 import memory_graph as mg
 import copy
 import random 
+random.seed(0)  # use same random numbers each run, feel free to remove
+
+EMPTY_TILE = '⬛'
+RANDOM_MOVES = 20  # measure of difficulty
 
 def main():
-    goal = Sliding_Puzzle("1,2,3;4,5,6;7,8,#")
+    goal = Sliding_Puzzle(f"1,2,3;4,5,6;7,8,{EMPTY_TILE}")
     print('=== goal:')
     print(goal)
     board = goal.copy()
-    board.random_move(40) # make random moves to shuffle the board
+    board.random_move(RANDOM_MOVES) # make random moves to shuffle the board
     print('=== starting board:')
     print(board)
-    solution, closed_dict = solve(board, goal)
-    solution_path = get_solution_path(solution, closed_dict)
+    solution, visited_boards = solve(board, goal)
+    solution_path = get_solution_path(solution, visited_boards)
+    
+    mg.config.type_to_slicer[id(solution_path)] = mg.Slicer() # show full list
     print('===== solution_path:')
     for s in solution_path:
         print(s)
         print()
+        
+    print('now show all visited boards, can get too big:')
+    mg.config.type_to_slicer[id(visited_boards)] = mg.Slicer() # show full dict
     print('the end')
 
 def solve(board, goal):
     """ Solve the sliding puzzle using breadth-first search. """
-    closed_dict = {repr(board): None}
+    visited_boards = {repr(board): None}
     if board == goal:
-        return board, closed_dict
+        return board, visited_boards
     generation = [board]
     generation_count = 0
     while True:
@@ -32,18 +41,18 @@ def solve(board, goal):
             board_repr = repr(board)
             for child in board.get_childeren():
                 child_repr = repr(child)
-                if child_repr not in closed_dict:
-                    closed_dict[child_repr] = board_repr
+                if child_repr not in visited_boards:
+                    visited_boards[child_repr] = board_repr
                     next_generation.append(child)
                     if child == goal:
-                        return child, closed_dict
+                        return child, visited_boards
         generation = next_generation
         generation_count += 1
         if not generation:
             print("No solution found.")
-            return None, closed_dict
+            return None, visited_boards
 
-def get_solution_path(solution, closed_dict):
+def get_solution_path(solution, visited_boards):
     """ Reconstruct the path from the initial state to the solution. """
     if solution is None:
         print("No solution exists.")
@@ -54,7 +63,7 @@ def get_solution_path(solution, closed_dict):
         if not current:
             break
         path.append(Sliding_Puzzle(current))
-        current = closed_dict[current]
+        current = visited_boards[current]
     path.reverse()
     return path
 
@@ -77,10 +86,10 @@ class Sliding_Puzzle:
         return '\n'.join([' '.join(row) for row in self.tiles])
     
     def get_empty_position(self):
-        """ Return the (row, col) of the empty space ('#'). """
+        """ Return the (row, col) of the empty space (EMPTY_TILE). """
         for r in range(self.rows):
             for c in range(self.cols):
-                if self.tiles[r][c] == '#':
+                if self.tiles[r][c] == EMPTY_TILE:
                     return (r, c)
         return None
     
