@@ -22,8 +22,9 @@ def main():
     for s in solution_path:
         print(s)
         print()
+    print('SOLVED!')
         
-    print('now show all visited boards, can get too big:')
+    print('Now show all visited boards, this can get too big.')
     mg.config.type_to_slicer[id(visited_boards)] = mg.Slicer() # show full dict
     return solution_path
 
@@ -35,7 +36,7 @@ def solve(board, goal):
     generation = [board]
     generation_count = 0
     while True:
-        print(f"Generation {generation_count}: {len(generation)} states")
+        print(f"Generation {generation_count}: {len(generation)} boards")
         next_generation = []
         for board in generation:
             board_repr = repr(board)
@@ -53,7 +54,7 @@ def solve(board, goal):
             return None, visited_boards
 
 def get_solution_path(solution, visited_boards):
-    """ Reconstruct the path from the initial state to the solution. """
+    """ Reconstruct the path from the initial board to the solution. """
     if solution is None:
         print("No solution exists.")
         return
@@ -78,7 +79,7 @@ class Sliding_Puzzle:
         self.cols = len(self.tiles[0]) if self.rows > 0 else 0
 
     def __repr__(self):
-        """ Provide a unique string representation of the board state."""
+        """ Provide a unique string representation of the board."""
         return ';'.join([','.join(row) for row in self.tiles])
 
     def __str__(self):
@@ -94,11 +95,11 @@ class Sliding_Puzzle:
         return None
     
     def copy(self):
-        """ Return a deep copy of the current board state. """
+        """ Return a deep copy of the current board. """
         return copy.deepcopy(self)
 
     def get_childeren(self):
-        """ Generate all possible board states from the current state by sliding 
+        """ Generate all possible chils boardd from the current board by sliding 
             each possible tile into the empty space. 
         """
         children = []
@@ -114,7 +115,7 @@ class Sliding_Puzzle:
         return children
 
     def __eq__(self, other):
-        """ Check if two board states are equal. """
+        """ Check if two boards are equal. """
         return self.tiles == other.tiles
     
     def random_move(self, moves=100):
