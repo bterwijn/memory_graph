@@ -99,8 +99,8 @@ class Sliding_Puzzle:
         return copy.deepcopy(self)
 
     def get_childeren(self):
-        """ Generate all possible chils boardd from the current board by sliding 
-            each possible tile into the empty space. 
+        """ Generate all possible child boards from the current board by sliding
+            each possible tile into the empty space.
         """
         children = []
         empty_r, empty_c = self.get_empty_position()
