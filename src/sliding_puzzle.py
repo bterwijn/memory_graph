@@ -109,8 +109,8 @@ class Sliding_Puzzle:
             new_r, new_c = empty_r + dr, empty_c + dc
             if 0 <= new_r < self.rows and 0 <= new_c < self.cols:
                 child = self.copy()
-                cb = child.tiles
-                cb[empty_r][empty_c], cb[new_r][new_c] = cb[new_r][new_c], cb[empty_r][empty_c]
+                ct = child.tiles
+                ct[empty_r][empty_c], ct[new_r][new_c] = ct[new_r][new_c], ct[empty_r][empty_c]
                 children.append(child)
         return children
 
@@ -123,7 +123,7 @@ class Sliding_Puzzle:
         for _ in range(moves):
             self.tiles = random.choice(self.get_childeren()).tiles
 
-# show Sliding_Puzzle instances as magenta tables
+# show Sliding_Puzzle instance as magenta table
 mg.config.type_to_color[Sliding_Puzzle] = 'magenta'
 mg.config.type_to_node[Sliding_Puzzle] = lambda s : mg.Node_Table(s, s.tiles)
 
