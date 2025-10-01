@@ -114,10 +114,16 @@ punctuation = string.punctuation
 
 print(f'{mg.config.fontname=}')
 print(f'{mg.config.fontsize=}')
-mg.config.fontname = 'Helvetica'   # change font
+
+# These might do well in SVG on the web, it varies per system:
+webfonts = ['Courier', 'Monaco', 'Arial', 'Helvetica', 'Verdana', 'Tahoma', 'Geneva', 'Times', 'Times-Roman', 'Georgia', 'Palatino']
+for font in webfonts:
+    print('Trying font:', font)
+    mg.config.fontname = font      # change font name
+# If not, right-click the graph to save and view it locally.
+
 mg.config.fontsize = '32'          # change font size
-# Not all fonts work well on the web.
-# Right-click the graph to save and view it locally.
+
 
 mg.config_default.reset()
 del lower, upper, punctuation
