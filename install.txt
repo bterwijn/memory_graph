@@ -16,7 +16,8 @@ pip install --upgrade .
 cd images; bash create_images.sh; cd ..
 # - git commit -am "version X.X.X" && git push
 
-git status | grep -E 'images|src|memory_graph\/'
+git status | grep -E 'images\/|src\/|memory_graph\/'
+
 rm -rf ./dist/ ./build/ ./*.egg-info && python -m build -n -s -w
 
 
