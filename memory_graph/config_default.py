@@ -130,7 +130,7 @@ def reset():
     config.max_missing_edges = 2
 
     """ Font name and size used in the graph. """
-    config.fontname = 'Courier'
+    config.fontname = 'Times-Roman'
     config.fontsize = '14'
 
 reset()

@@ -692,7 +692,7 @@ Different aspects of memory_graph can be configured. The default configuration c
   - Maximum number of missing edges that are shown with default value 2. Dashed references are used to indicate that there are more references to a node than are shown.
 
 - ***mg.config.fontname*** : str
-  - The font used in the graph, default 'Courier' (as widely available monospace).
+  - The font used in the graph, default 'Times-Roman' (widely available on the web).
 
 - ***mg.config.fontsize*** : str
   - The font size used in the graph, default '14'.
