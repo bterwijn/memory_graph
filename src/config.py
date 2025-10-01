@@ -1,6 +1,8 @@
 # Some useful memory_graph configuration examples.
 # Step through this file to see the effects.
 
+print('memory_graph version:', mg.__version__)
+
 
 # String Length
 
@@ -102,3 +104,17 @@ mg.config.type_to_node[MyClass] = lambda data: mg.Node_Table(data,
 mg.config_default.reset()
 del MyClass, a
 
+
+# Font
+
+import string
+lower = string.ascii_lowercase
+upper = string.ascii_uppercase
+punctuation = '!@#$%^&*(){}[];:"\\\',./<>|?'
+
+mg.config.fontname = 'Helvetica'   # change font
+mg.config.fontsize = '32'          # change font size
+# Not all fonts work well on the web.
+# Right click the graph to save and view it locally.
+
+mg.config_default.reset()
