@@ -112,6 +112,8 @@ lower = string.ascii_lowercase
 upper = string.ascii_uppercase
 punctuation = '!@#$%^&*(){}[];:"\\\',./<>|?'
 
+print(f'{mg.config.fontname=}')
+print(f'{mg.config.fontsize=}')
 mg.config.fontname = 'Helvetica'   # change font
 mg.config.fontsize = '32'          # change font size
 # Not all fonts work well on the web.
