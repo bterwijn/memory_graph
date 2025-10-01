@@ -110,7 +110,7 @@ del MyClass, a
 import string
 lower = string.ascii_lowercase
 upper = string.ascii_uppercase
-punctuation = '!@#$%^&*(){}[]_+-=;:"\\\',./<>|?'
+punctuation = '!@#$%^&*(){}[]_+-=;:"\\\'~`,./<>|?'
 
 print(f'{mg.config.fontname=}')
 print(f'{mg.config.fontsize=}')
