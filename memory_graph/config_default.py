@@ -129,5 +129,8 @@ def reset():
     """ Maximum number of missing edges that are shown. """
     config.max_missing_edges = 2
 
+    """ Font name and size used in the graph. """
+    config.fontname = 'Courier'
+    config.fontsize = '14'
 
 reset()

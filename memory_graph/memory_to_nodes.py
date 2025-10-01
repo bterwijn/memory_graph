@@ -257,9 +257,9 @@ def memory_to_nodes(data):
     id_to_slices = add_missing_edges(nodes, id_to_slices, config.max_missing_edges)
     #print('id_to_slices:',id_to_slices)
     embed_keys_in_key_value_nodes(nodes, nodes_key_value, id_to_slices)
-    graphviz_graph_attr = {'fontname': 'Courier', 'fontsize': '14'}
-    graphviz_node_attr = {'fontname': 'Courier', 'fontsize': '14', 'shape': 'plaintext'}
-    graphviz_edge_attr = {'fontname': 'Courier', 'fontsize': '14'}
+    graphviz_graph_attr = {'fontname': config.fontname, 'fontsize': config.fontsize}
+    graphviz_node_attr = {'fontname': config.fontname, 'fontsize': config.fontsize, 'shape': 'plaintext'}
+    graphviz_edge_attr = {'fontname': config.fontname, 'fontsize': config.fontsize}
     graphviz_graph=graphviz.Digraph('memory_graph',
                                     graph_attr=graphviz_graph_attr,
                                     node_attr=graphviz_node_attr,

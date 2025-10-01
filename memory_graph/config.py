@@ -46,3 +46,6 @@ graph_cut_symbol = None
 max_missing_edges = None
 
 type_to_depth = { }
+
+fontname = 'Courier'
+fontsize = '14'
