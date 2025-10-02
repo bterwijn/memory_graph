@@ -149,7 +149,7 @@ Learn the right **mental model** to think about Python data. The [Python Data Mo
 
 
 ## Immutable Type ##
-In the code below variable `a` and `b` both reference the same tuple value (4, 3, 2). A tuple is an immutable type and therefore when we change variable `b` its value **cannot** be mutated in place, and thus an automatic copy is made and `a` and `b` reference their own value afterwards.
+In the code below variable `a` and `b` both reference the same tuple value (4, 3, 2). A tuple is an immutable type and therefore when we change variable `b` its value **cannot** be mutated in place, and thus an automatic copy is made and `a` and `b` each reference their own value afterwards.
 
 ```python
 import memory_graph as mg
