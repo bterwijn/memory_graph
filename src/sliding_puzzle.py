@@ -35,7 +35,7 @@ def solve(board, goal):
         return board, visited_boards
     generation = [board]
     generation_count = 0
-    while True:
+    while generation:
         print(f"Generation {generation_count}: {len(generation)} boards")
         next_generation = []
         for board in generation:
@@ -49,9 +49,8 @@ def solve(board, goal):
                         return child, visited_boards
         generation = next_generation
         generation_count += 1
-        if not generation:
-            print("No solution found.")
-            return None, visited_boards
+    print("No solution found.")
+    return None, visited_boards
 
 def get_solution_path(solution, visited_boards):
     """ Reconstruct the path from the initial board to the solution. """

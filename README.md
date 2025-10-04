@@ -183,7 +183,7 @@ mg.render(locals(), 'mutable2.png')
 |:-----------------------------------------------------------:|:-------------------------------------------------------------:|
 | mutable1.png | mutable2.png |
 
-One practical reason why Python makes the distinction between mutable and immutable types is that a value of a mutable type can be large, making it inefficient to copy each time we change it. Immutable values generally don't need to change as much, or are small making copying less of a concern.
+One practical reason why Python makes the distinction between mutable and immutable types is that a value of a mutable type can be large, making it inefficient to copy each time we change it. Values of immutable type generally don't need to change as much, or are small, making copying less of a concern.
 
 ## Copying Values of Mutable Type ##
 Python offers three different "copy" options that we will demonstrate using a nested list:
