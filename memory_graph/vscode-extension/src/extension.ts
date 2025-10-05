@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { checkPythonEnvironment, showInstallationInstructions, PythonEnvironment } from './pythonUtils';
+import { MemoryGraphPanel } from './webviewPanel';
 
 let pythonEnv: PythonEnvironment | null = null;
 
@@ -185,14 +186,13 @@ Python Environment Status:
         }
     );
 
-    // Register command: Open Panel
-    const openPanelCommand = vscode.commands.registerCommand(
-        'memoryGraph.openPanel',
-        () => {
-            vscode.window.showInformationMessage('Memory Graph Panel - Coming soon in Phase 2!');
-            // TODO: Phase 2.2 - We'll create the webview panel here
-        }
-    );
+        // Register command: Open Panel
+        const openPanelCommand = vscode.commands.registerCommand(
+            'memoryGraph.openPanel',
+            () => {
+                MemoryGraphPanel.createOrShow(context.extensionUri);
+            }
+        );
 
     // Add commands to subscriptions for cleanup
     context.subscriptions.push(checkEnvCommand);
