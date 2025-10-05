@@ -1,0 +1,89 @@
+{
+  "name": "memory-graph",
+  "displayName": "Memory Graph",
+  "description": "Visualize Python data structures, references, and call stacks",
+  "version": "0.0.1",
+  "publisher": "your-publisher-name",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Debuggers",
+    "Visualization",
+    "Programming Languages"
+  ],
+  "keywords": [
+    "python",
+    "visualization",
+    "debugger",
+    "data structures",
+    "memory"
+  ],
+  "activationEvents": [
+    "onLanguage:python"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "memoryGraph.visualize",
+        "title": "Memory Graph: Visualize Selection",
+        "category": "Memory Graph"
+      },
+      {
+        "command": "memoryGraph.openPanel",
+        "title": "Memory Graph: Open Visualization Panel",
+        "category": "Memory Graph"
+      },
+      {
+        "command": "memoryGraph.checkEnvironment",
+        "title": "Memory Graph: Check Environment",
+        "category": "Memory Graph"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "when": "editorHasSelection && resourceLangId == python",
+          "command": "memoryGraph.visualize",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Memory Graph",
+      "properties": {
+        "memoryGraph.pythonPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to Python interpreter (leave empty to use workspace Python)"
+        },
+        "memoryGraph.outputFormat": {
+          "type": "string",
+          "enum": ["svg", "png"],
+          "default": "svg",
+          "description": "Output format for graphs"
+        },
+        "memoryGraph.autoVisualize": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically visualize on debug breakpoints"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "node build.js",
+    "watch": "node build.js --watch",
+    "package": "vsce package",
+    "lint": "eslint src --ext ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^2.22.0",
+    "esbuild": "^0.19.0",
+    "typescript": "^5.3.0"
+  }
+}
