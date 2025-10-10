@@ -646,6 +646,9 @@ Different aspects of memory_graph can be configured. The default configuration c
 - ***mg.config.render_filename*** : str
   - The default filename to render to, default 'memory_graph.pdf'.
 
+- ***mg.config.type_labels*** : bool
+  - If True the type of each node is shown as label, default True.
+
 - ***mg.config.block_prints_location*** : bool
   - If True the source location is printed in block(), default True.
   

@@ -210,16 +210,20 @@ def build_graph(graphviz_graph, nodes, root_id, id_to_slices):
         if len(new_node_names) > 1:
             graphviz_graph.body.append('subgraph { rank=same; '+ ' -> '.join(new_node_names) + '[weight='+str(config.graph_stability)+', style=invis]; }\n')
 
-    def add_to_graphviz_graph(graphviz_graph, nodes, node, slices, id_to_slices, subgraphed_nodes, depth):
+    def add_to_graphviz_graph(graphviz_graph, nodes, node, slices, id_to_slices):
         """ Adds 'node' to 'graphviz_graph' with its children and edges. """
         html_table = node.get_html_table(nodes, slices, id_to_slices)
         edges = html_table.get_edges()
         color = config_helpers.get_color(node)
         border = 3 if node.is_root() else 1
-        graphviz_graph.node(node.get_name(),
-                            html_table.to_string(border, color),
-                            xlabel=node.get_label(slices))
-        # ------------ edges
+        if config.type_labels:
+            graphviz_graph.node(node.get_name(),
+                                html_table.to_string(border, color),
+                                xlabel=node.get_label(slices))
+        else:
+            graphviz_graph.node(node.get_name(),
+                                html_table.to_string(border, color))
+            # ------------ edges
         for parent,child,dashed in edges:
             graphviz_graph.edge(parent, child+':table', style='dashed' if dashed else 'solid')
 
@@ -239,7 +243,7 @@ def build_graph(graphviz_graph, nodes, root_id, id_to_slices):
                         child_id = id(children[index])
                         build_graph_depth_first(graphviz_graph, nodes, child_id, id_to_slices, nodes_at_depth, subgraphed_nodes, depth+1)
             if not node.is_hidden_node():
-                add_to_graphviz_graph(graphviz_graph, nodes, node, slices, id_to_slices, subgraphed_nodes, depth)
+                add_to_graphviz_graph(graphviz_graph, nodes, node, slices, id_to_slices)
 
     nodes_at_depth = {}
     build_graph_depth_first(graphviz_graph, nodes, root_id, id_to_slices, nodes_at_depth, set(), 0)
