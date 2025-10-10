@@ -13,6 +13,17 @@ mg.config_default.reset()
 del a
 
 
+# Type Labels
+
+a = [1, 2]
+b = (3, 4)
+c = {5, 6}
+print(f'{mg.config.type_labels=}')
+mg.config.type_labels = False  # no type labels
+mg.config_default.reset()
+del a, b, c
+
+
 # Color (names: https://graphviz.org/doc/info/colors.html)
 
 a = [1, 2, 3]
