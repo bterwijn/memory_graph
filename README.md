@@ -149,7 +149,7 @@ Learn the right **mental model** to think about Python data. The [Python Data Mo
 
 
 ## Immutable Type ##
-In the code below variable `a` and `b` both reference the same tuple value (4, 3, 2). A tuple is an immutable type and therefore when we change variable `b` its value **cannot** be mutated in place, and thus an automatic copy is made and `a` and `b` each reference their own value afterwards.
+In the code below variable `a` and `b` both reference the same tuple value (4, 3, 2). A tuple is an **immutable** type and therefore when we change variable `b` its value **cannot** be mutated in place, and thus an automatic copy is made and `a` and `b` each reference their own value afterwards.
 
 ```python
 import memory_graph as mg
@@ -167,7 +167,7 @@ mg.render(locals(), 'immutable2.png')
 
 
 ## Mutable Type ##
-With mutable types the result is different. In the code below variable `a` and `b` both reference the same `list` value [4, 3, 2]. A `list` is a mutable type and therefore when we change variable `b` its value **can** be mutated in place and thus `a` and `b` both reference the same new value afterwards. Thus changing `b` also changes `a` and vice versa. Sometimes we want this but other times we don't and then we will have to make a copy ourselfs so that `a` and `b` are independent.
+With mutable types the result is different. In the code below variable `a` and `b` both reference the same `list` value [4, 3, 2]. A `list` is a **mutable** type and therefore when we change variable `b` its value **can** be mutated in place and thus `a` and `b` both reference the same new value afterwards. Thus changing `b` also changes `a` and vice versa. Sometimes we want this but other times we don't and then we will have to make a copy ourselfs so that `a` and `b` are independent.
 
 ```python
 import memory_graph as mg
