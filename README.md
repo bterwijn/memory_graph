@@ -327,7 +327,7 @@ import memory_graph as mg
 
 def add_one(a, b):
     a += 1     # change remains confined to 'a' in the add_one function
-    b[0] += 1  # change also effects 'b' outside of the add_one function
+    b[0] += 1  # change also affects 'b' outside of the add_one function
     mg.show(mg.stack())
 
 a = 10
@@ -340,7 +340,7 @@ print(f"a:{a} b:{b[0]}")
 ```
 a:10 b:11
 ```
-Calling `add_one()` does not effect the `int` value of `a` but does effect the `int` value of `b` because it's wrapped in a mutable container.
+The effect of calling `add_one()` is that `b[0]` increases by 1, while `a` is unaffected.
 
 ## Exercises ##
 
