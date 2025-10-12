@@ -440,6 +440,8 @@ Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=ht
 ## Invocation Tree ##
 The memory_graph package visualizes data at the currect time, but to better understand recursion it can also be helpful to visualize different function calls over time. This is what the [invocation_tree](https://github.com/bterwijn/invocation_tree?tab=readme-ov-file#installation) package does.
 
+See the power_set example in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/power_set.py&timestep=1.0&play).
+
 # Debugging #
 
 For the best debugging experience with memory_graph set for example expression:
