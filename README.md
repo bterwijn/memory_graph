@@ -437,16 +437,19 @@ print( power_set(['a', 'b', 'c']) )
 
 Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/power_set.py&timestep=1.0&play).
 
+## Invocation Tree ##
+The memory_graph package visualizes data at the currect time, but to better understand recursion it can also be helpful to visualize different function calls over time. This is what the [invocation_tree](https://github.com/bterwijn/invocation_tree?tab=readme-ov-file#installation) package does.
+
 # Debugging #
 
 For the best debugging experience with memory_graph set for example expression:
 ```
 mg.render(locals(), "my_graph.pdf")
 ```
-as a *watch* in a debugger tool such as the integrated debugger in Visual Studio Code. Then open the "my_graph.pdf" output file to continuously see all the local variables while debugging. This avoids having to add any memory_graph `show()` or `render()` calls to your code.
+as a **watch** in a debugger tool such as the integrated debugger in Visual Studio Code. Then open the "my_graph.pdf" output file to continuously see all the local variables while debugging. This avoids having to add any memory_graph `show()` or `render()` calls to your code.
 
 ## Call Stack in Watch Context ##
-The ```mg.stack()``` doesn't work well in *watch* context in most debuggers because debuggers introduce additional stack frames that cause problems. Use these alternative functions for various debuggers to filter out these problematic stack frames:
+The ```mg.stack()``` doesn't work well in **watch** context in most debuggers because debuggers introduce additional stack frames that cause problems. Use these alternative functions for various debuggers to filter out these problematic stack frames:
 
 | debugger | function to get the call stack in 'watch' context |
 |:---|:---|
@@ -460,7 +463,7 @@ The ```mg.stack()``` doesn't work well in *watch* context in most debuggers beca
 See the [Quick Intro (3:49)](https://www.youtube.com/watch?v=23_bHcr7hqo) video for the setup.
 
 ## Other Debuggers ##
-For other debuggers, invoke this function within the *watch* context. Then, in the "call_stack.txt" file, identify the slice of functions you wish to include as stack frames in the call stack.
+For other debuggers, invoke this function within the **watch** context. Then, in the "call_stack.txt" file, identify the slice of functions you wish to include as stack frames in the call stack.
 ```
 mg.save_call_stack("call_stack.txt")
 ```
