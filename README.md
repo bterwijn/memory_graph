@@ -313,7 +313,7 @@ print(f"a:{a} b:{b} c:{c}")
 
 Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/function_call.py&play).
 
-In the printed output only `a` is changed as a result of the function call:
+In the printed output we see that only `a` is changed as a result of the function call:
 ```
 a:[4, 3, 2, 1] b:(4, 3, 2) c:[4, 3, 2]
 ```
