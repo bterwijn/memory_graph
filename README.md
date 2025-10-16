@@ -131,6 +131,8 @@ Bas Terwijn
 ## Inspiration ##
 Inspired by [Python Tutor](https://pythontutor.com/).
 
+A key driver behind memory_graph is avoiding Python Tutor’s [unsupported features](https://github.com/pythontutor-dev/pythontutor/blob/master/unsupported-features.md#unsupported-features).
+
 ## Social Media #
 * LinkedIn: https://www.linkedin.com/groups/13244150/
 * Reddit: https://www.reddit.com/r/Python_memory_graph/
