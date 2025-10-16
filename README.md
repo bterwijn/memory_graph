@@ -131,7 +131,7 @@ Bas Terwijn
 ## Inspiration ##
 Inspired by [Python Tutor](https://pythontutor.com/).
 
-A key driver behind memory_graph was supporting Python Tutor’s [unsupported features](https://github.com/pythontutor-dev/pythontutor/blob/master/unsupported-features.md#unsupported-features).
+Running memory_graph locally is a key design choice to support Python Tutor’s [unsupported features](https://github.com/pythontutor-dev/pythontutor/blob/master/unsupported-features.md#unsupported-features).
 
 ## Social Media #
 * [LinkedIn](https://www.linkedin.com/groups/13244150/)
