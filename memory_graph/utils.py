@@ -20,7 +20,7 @@ def is_function(obj):
 
 def filter_dict(dictionary):
     """ Filters out the unwanted dict attributes. """
-    if '__name__' in dictionary: # only filter stack frames, for example locals()
+    if '__name__' in dictionary: # filter stack frames in global scope
         return [
             (k,v) for k, v in dictionary.items() if
             not (type(k) is str and k.startswith('__')) and

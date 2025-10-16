@@ -4,13 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "memory_graph"
-version = "0.3.54"
+version = "0.3.59"
 description = "Teaching tool and debugging aid in context of references, mutable data types, and shallow and deep copy."
 authors = [
     {name = "Bas Terwijn", email = "bterwijn@gmail.com"}
 ]
-#license = { text = "BSD-2-Clause" } # needed for python <=3.8
-license = { file = "LICENSE.txt" }
+license = "BSD-2-Clause"
+license-files = ["LICENSE.txt"]
 readme = "README.md"
 requires-python = ">=3.7"
 classifiers = [

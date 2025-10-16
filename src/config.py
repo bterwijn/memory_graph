@@ -1,6 +1,8 @@
 # Some useful memory_graph configuration examples.
 # Step through this file to see the effects.
 
+print('memory_graph version:', mg.__version__)
+
 
 # String Length
 
@@ -9,6 +11,17 @@ print(f'{mg.config.max_string_length=}')
 mg.config.max_string_length = 100  # set different max length 
 mg.config_default.reset()
 del a
+
+
+# Type Labels
+
+a = [1, 2]
+b = (3, 4)
+c = {5, 6}
+print(f'{mg.config.type_labels=}')
+mg.config.type_labels = False  # no type labels
+mg.config_default.reset()
+del a, b, c
 
 
 # Color (names: https://graphviz.org/doc/info/colors.html)
@@ -102,3 +115,26 @@ mg.config.type_to_node[MyClass] = lambda data: mg.Node_Table(data,
 mg.config_default.reset()
 del MyClass, a
 
+
+# Font
+
+import string
+lower = string.ascii_lowercase
+upper = string.ascii_uppercase
+punctuation = string.punctuation
+
+print(f'{mg.config.fontname=}')
+print(f'{mg.config.fontsize=}')
+
+# These might do well in SVG on the web, it varies per system:
+webfonts = ['Courier', 'Monaco', 'Arial', 'Helvetica', 'Verdana', 'Tahoma', 'Geneva', 'Times', 'Times-Roman', 'Georgia', 'Palatino']
+for font in webfonts:
+    print('Trying font:', font)
+    mg.config.fontname = font      # change font name
+# If not, right-click the graph to save and view it locally.
+
+mg.config.fontsize = '32'          # change font size
+
+
+mg.config_default.reset()
+del lower, upper, punctuation

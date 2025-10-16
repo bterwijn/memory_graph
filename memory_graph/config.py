@@ -7,6 +7,8 @@
 reopen_viewer = None
 render_filename = None
 
+type_lables = None
+
 block_prints_location = None
 press_enter_message = None
 
@@ -46,3 +48,6 @@ graph_cut_symbol = None
 max_missing_edges = None
 
 type_to_depth = { }
+
+fontname = 'Courier'
+fontsize = '14'

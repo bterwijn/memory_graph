@@ -91,7 +91,7 @@ identical?: True
 ```
 A better way to understand what values are shared is to draw a graph using [memory_graph](https://pypi.org/project/memory-graph/).
 
-# Chapters #
+# Topics #
 
 [Python Data Model](#python-data-model)
 
@@ -134,8 +134,8 @@ Inspired by [Python Tutor](https://pythontutor.com/).
 A key driver behind memory_graph is avoiding Python Tutor’s [unsupported features](https://github.com/pythontutor-dev/pythontutor/blob/master/unsupported-features.md#unsupported-features).
 
 ## Social Media #
-* LinkedIn: https://www.linkedin.com/groups/13244150/
-* Reddit: https://www.reddit.com/r/Python_memory_graph/
+* [LinkedIn](https://www.linkedin.com/groups/13244150/)
+* [Reddit](https://www.reddit.com/r/Python_memory_graph/)
 
 ## Supported by ##
 <img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/uva.png" alt="University of Amsterdam" width="600">
@@ -151,7 +151,7 @@ Learn the right **mental model** to think about Python data. The [Python Data Mo
 
 
 ## Immutable Type ##
-In the code below variable `a` and `b` both reference the same tuple value (4, 3, 2). A tuple is an immutable type and therefore when we change variable `b` its value **cannot** be mutated in place, and thus an automatic copy is made and `a` and `b` reference their own value afterwards.
+In the code below variable `a` and `b` both reference the same tuple value (4, 3, 2). A tuple is an **immutable** type and therefore when we change variable `b` its value **cannot** be mutated in place, and thus an automatic copy is made and `a` and `b` each reference their own value afterwards.
 
 ```python
 import memory_graph as mg
@@ -169,7 +169,7 @@ mg.render(locals(), 'immutable2.png')
 
 
 ## Mutable Type ##
-With mutable types the result is different. In the code below variable `a` and `b` both reference the same `list` value [4, 3, 2]. A `list` is a mutable type and therefore when we change variable `b` its value **can** be mutated in place and thus `a` and `b` both reference the same new value afterwards. Thus changing `b` also changes `a` and vice versa. Sometimes we want this but other times we don't and then we will have to make a copy ourselfs so that `a` and `b` are independent.
+With mutable types the result is different. In the code below variable `a` and `b` both reference the same `list` value [4, 3, 2]. A `list` is a **mutable** type and therefore when we change variable `b` its value **can** be mutated in place and thus `a` and `b` both reference the same new value afterwards. Thus changing `b` also changes `a` and vice versa. Sometimes we want this but other times we don't and then we will have to make a copy ourselfs so that `a` and `b` are independent.
 
 ```python
 import memory_graph as mg
@@ -185,7 +185,7 @@ mg.render(locals(), 'mutable2.png')
 |:-----------------------------------------------------------:|:-------------------------------------------------------------:|
 | mutable1.png | mutable2.png |
 
-One practical reason why Python makes the distinction between mutable and immutable types is that a value of a mutable type can be large, making it inefficient to copy each time we change it. Immutable values generally don't need to change as much, or are small making copying less of a concern.
+One practical reason why Python makes the distinction between mutable and immutable types is that a value of a mutable type can be large, making it inefficient to copy each time we change it. Values of immutable type generally don't need to change as much, or are small, making copying less of a concern.
 
 ## Copying Values of Mutable Type ##
 Python offers three different "copy" options that we will demonstrate using a nested list:
@@ -240,7 +240,7 @@ mg.show(locals())
 Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/custom_copy.py&breakpoints=15&continues=1&play).
 
 ## Name Rebinding ##
-When `a` and `b` share a mutable value, then changing the value of `b` changes the value of `a` and vice versa. However, reassigning `b` does not change `a`. When you reassign `b`, you only rebind the name `b` to another value without effecting any other variables.
+When `a` and `b` share a mutable value, then changing the value of `b` changes the value of `a` and vice versa. However, reassigning `b` does not change `a`. When you reassign `b`, you only **rebind** the name `b` to another value without affecting any other variables.
 
 ```python
 import memory_graph as mg
@@ -250,7 +250,7 @@ b = a
 mg.render(locals(), 'rebinding1.png')
 
 b += [1]        # changes the value of 'b' and 'a'
-b = [100, 200]  # rebinds 'b' to another value, 'a' is uneffected
+b = [100, 200]  # rebinds 'b' to another value, 'a' is unaffected
 mg.render(locals(), 'rebinding2.png')
 ```
 | ![rebinding1.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/rebinding1.png) | ![rebinding2.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/rebinding2.png) |
@@ -315,14 +315,38 @@ print(f"a:{a} b:{b} c:{c}")
 
 Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/function_call.py&play).
 
-In the printed output only `a` is changed as a result of the function call:
+In the printed output we see that only `a` is changed as a result of the function call:
 ```
 a:[4, 3, 2, 1] b:(4, 3, 2) c:[4, 3, 2]
 ```
-
 This is because `b` is of immutable type 'tuple' so its value gets copied automatically when it is changed. And because the function is called with a copy of `c`, its original value is not changed by the function. The value of variable `a` is the only value of mutable type that is shared between the root stack frame **'0: \<module>'** and the **'1: add_one'** stack frame of the function so only that variable is affected as a result of the function call. The other changes remain confined to the local variables of the ```add_one()``` function.
 
-Now is a good time to practice the Python Data Model. Here are [some exercises](https://github.com/bterwijn/memory_graph_videos/blob/main/exercises/exercises.md) on references, mutability, copies, and function calls.
+## Function Call That Changes 'int' Value ##
+Even though `int` is an immutable type, so an `int` value can not be changed by directly passing it to a function, we can still change it by wrapping it in a mutable container.
+
+```python
+import memory_graph as mg
+
+def add_one(a, b):
+    a += 1     # change remains confined to 'a' in the add_one function
+    b[0] += 1  # change also affects 'b' outside of the add_one function
+    mg.show(mg.stack())
+
+a = 10
+b = [10]  # wrap in a value of mutable type list
+add_one(a, b)
+
+print(f"a:{a} b:{b[0]}")
+```
+![wap_int.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/wrap_int.png)
+```
+a:10 b:11
+```
+The effect of calling `add_one()` is that `b[0]` increases by 1, while `a` is unaffected.
+
+## Exercises ##
+
+Now is a good time to practice with the Python Data Model. Here are [some exercises](https://github.com/bterwijn/memory_graph_videos/blob/main/exercises/exercises.md) on references, mutability, copies, and function calls.
 
 ## Block ##
 It is often helpful to temporarily block program execution to inspect the graph. For this we can use the `mg.block()` function:
@@ -413,16 +437,23 @@ print( power_set(['a', 'b', 'c']) )
 [['a', 'b', 'c'], ['a', 'b'], ['a', 'c'], ['a'], ['b', 'c'], ['b'], ['c'], []]
 ```
 
+Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/power_set.py&timestep=1.0&play).
+
+## Invocation Tree ##
+The memory_graph package visualizes data at the currect time, but to better understand recursion it can also be helpful to visualize different function calls over time. This is what the [invocation_tree](https://github.com/bterwijn/invocation_tree?tab=readme-ov-file#installation) package does.
+
+See the power_set example in the [Invocation Tree Web Debugger](https://www.invocation-tree.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/power_set.py&timestep=1.0&play).
+
 # Debugging #
 
 For the best debugging experience with memory_graph set for example expression:
 ```
 mg.render(locals(), "my_graph.pdf")
 ```
-as a *watch* in a debugger tool such as the integrated debugger in Visual Studio Code. Then open the "my_graph.pdf" output file to continuously see all the local variables while debugging. This avoids having to add any memory_graph `show()` or `render()` calls to your code.
+as a **watch** in a debugger tool such as the integrated debugger in Visual Studio Code. Then open the "my_graph.pdf" output file to continuously see all the local variables while debugging. This avoids having to add any memory_graph `show()` or `render()` calls to your code.
 
 ## Call Stack in Watch Context ##
-The ```mg.stack()``` doesn't work well in *watch* context in most debuggers because debuggers introduce additional stack frames that cause problems. Use these alternative functions for various debuggers to filter out these problematic stack frames:
+The ```mg.stack()``` doesn't work well in **watch** context in most debuggers because debuggers introduce additional stack frames that cause problems. Use these alternative functions for various debuggers to filter out these problematic stack frames:
 
 | debugger | function to get the call stack in 'watch' context |
 |:---|:---|
@@ -436,7 +467,7 @@ The ```mg.stack()``` doesn't work well in *watch* context in most debuggers beca
 See the [Quick Intro (3:49)](https://www.youtube.com/watch?v=23_bHcr7hqo) video for the setup.
 
 ## Other Debuggers ##
-For other debuggers, invoke this function within the *watch* context. Then, in the "call_stack.txt" file, identify the slice of functions you wish to include as stack frames in the call stack.
+For other debuggers, invoke this function within the **watch** context. Then, in the "call_stack.txt" file, identify the slice of functions you wish to include as stack frames in the call stack.
 ```
 mg.save_call_stack("call_stack.txt")
 ```
@@ -622,6 +653,9 @@ Different aspects of memory_graph can be configured. The default configuration c
 - ***mg.config.render_filename*** : str
   - The default filename to render to, default 'memory_graph.pdf'.
 
+- ***mg.config.type_labels*** : bool
+  - If True the type of each node is shown as label, default True.
+
 - ***mg.config.block_prints_location*** : bool
   - If True the source location is printed in block(), default True.
   
@@ -666,6 +700,12 @@ Different aspects of memory_graph can be configured. The default configuration c
 
 - ***mg.config.max_missing_edges*** : int
   - Maximum number of missing edges that are shown with default value 2. Dashed references are used to indicate that there are more references to a node than are shown.
+
+- ***mg.config.fontname*** : str
+  - The font used in the graph, default 'Times-Roman' (widely available on the web).
+
+- ***mg.config.fontsize*** : str
+  - The font size used in the graph, default '14'.
 
 
 ## Simplified Graph ##
@@ -1062,7 +1102,7 @@ $ bash create_gif.sh animated
 ```
 
 # Troubleshooting #
-- Adobe Acrobat Reader [doesn't refresh a PDF file](https://community.adobe.com/t5/acrobat-reader-discussions/reload-refresh-pdfs/td-p/9632292) when it changes on disk and blocks updates which results in an `Could not open 'somefile.pdf' for writing : Permission denied` error. One solution is to install a PDF reader that does refresh ([SumatraPDF](https://www.sumatrapdfreader.org/), [Okular](https://okular.kde.org/),  ...) and set it as the default PDF reader. Another solution is to `render()` the graph to a different output format and to open it manually.
+- Adobe Acrobat Reader [doesn't refresh a PDF file](https://community.adobe.com/t5/acrobat-reader-discussions/reload-refresh-pdfs/td-p/9632292) when it changes on disk and blocks updates which results in an `Could not open 'memory_graph.pdf' for writing : Permission denied` error. One solution is to install a PDF reader that does refresh ([SumatraPDF](https://www.sumatrapdfreader.org/), [Okular](https://okular.kde.org/),  ...) and set it as your default PDF reader. Another solution is to `render()` the graph to a different output format.
 
 - When graph edges overlap it can be hard to distinguish them. Using an interactive graphviz viewer, such as [xdot](https://github.com/jrfonseca/xdot.py), on a '*.gv' DOT output file will help.
 

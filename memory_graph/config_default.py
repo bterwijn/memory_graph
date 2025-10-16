@@ -23,7 +23,10 @@ def reset():
     
     """ The default filename to render to. """
     config.render_filename = 'memory_graph.pdf'
-    
+
+    """ Show the type of each node as label. """
+    config.type_labels = True
+
     """ Determines if the filename, line number and functions name is printed on mg.block(). """
     config.block_prints_location = True
 
@@ -129,5 +132,8 @@ def reset():
     """ Maximum number of missing edges that are shown. """
     config.max_missing_edges = 2
 
+    """ Font name and size used in the graph. """
+    config.fontname = 'Times-Roman'
+    config.fontsize = '14'
 
 reset()
