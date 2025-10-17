@@ -1,3 +1,4 @@
+import copy
 
 a = [ [1, 2], ['x', 'y'] ]  # a nested list (a list containing lists)
 
