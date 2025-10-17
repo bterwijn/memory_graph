@@ -210,6 +210,7 @@ mg.show(locals())
 
 ![copy_mutbale.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_mutable.png)
 
+Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/copies.py&play).
 
 ## Custom Copy ##
 We can write our own custom copy function or method in case the three standard "copy" options don't do what we want. For example, in the code below the `custom_copy()` method of My_Class copies the `digits` but shares the `letters` between two objects.
