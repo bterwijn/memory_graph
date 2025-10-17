@@ -3,3 +3,5 @@ b = a
 
 b += [1]        # changes the value of 'b' and 'a'
 b = [100, 200]  # rebinds 'b' to another value, 'a' is unaffected
+
+print(f'{a=}\n{b=}')
