@@ -135,6 +135,5 @@ for font in webfonts:
 
 mg.config.fontsize = '32'          # change font size
 
-
 mg.config_default.reset()
 del lower, upper, punctuation, webfonts
