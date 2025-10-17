@@ -342,6 +342,8 @@ print(f"a:{a} b:{b[0]}")
 ```
 a:10 b:11
 ```
+Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/wrap.py&breakpoints=5&continues=1&play)
+
 The effect of calling `add_one()` is that `b[0]` increases by 1, while `a` is unaffected.
 
 ## Exercises ##
