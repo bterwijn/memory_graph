@@ -954,7 +954,7 @@ bits['a | b']  = bits['a'] | bits['b']  # bitwise or
 bits['b & c']  = bits['b'] & bits['c']  # bitwise and
 bits['b ^ c']  = bits['b'] ^ bits['c']  # bitwise exclusive or
 
-# negative numbers and two's complement 
+# negative numbers, inverse, and two's complement
 bits['d'] = 240
 bits['e'] = -240
 bits['f'] = -241                        # -(d+1)
