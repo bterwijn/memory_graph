@@ -92,8 +92,13 @@ class Sequence2D(Sequence):
             slicer0, slicer1 = slicer0
         else:
             slicer1 = slicer0
-        slices0 = slicer0.get_slices( len(self.data) )
-        slices1 = slicer1.get_slices( len(self.data[0]) )
+        s0, s1 = 0, 0
+        lens1 = len(self.data[0])
+        if lens1 > 0: # has any data
+            s1 = lens1
+            s0 = len(self.data)
+        slices0 = slicer0.get_slices( s0 )
+        slices1 = slicer1.get_slices( s1 )
         return Slices2D(slices0, slices1)
 
     def indices_all(self):
