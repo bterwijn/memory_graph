@@ -921,7 +921,7 @@ mg.config.type_to_node[List_View] = lambda data: mg.Node_Linear(data,
 ![bin_search_linear.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_search_linear.png)
 
 ## Bitwise Operators ##
-In this configuration example we show the decimal, binary and two's complement representation of `int` values of dictionary subclass `Bits` to show the result of bitwise operators:
+In this configuration example we show the decimal, binary and [two's complement representation](https://www.cs.cornell.edu/~tomf/notes/cps104/twoscomp.html) representation of `int` values of dictionary subclass `Bits` to show the result of [bitwise operators](https://docs.python.org/3/library/stdtypes.html?utm_source=chatgpt.com#bitwise-operations-on-integer-types). The `~` (inverse) operator can be a bit confusing if not shown with two's complement representation.
 
 ```python
 import memory_graph as mg
