@@ -934,7 +934,7 @@ def twos_complement(x: int, bits: int) -> str:
     mask = (1 << bits) - 1
     return format(x & mask, f"0{bits}b")
 
-# configure memory_graph to show binary representations of values in type Bits
+# configure memory_graph to show binary representations of values of type Bits
 mg.config.type_to_node[Bits] = lambda x : mg.Node_Table(x,
                                 [ ["expression", "decimal", "bin(expression)", "16bit two's_complement"] ] +
                                 [ [k,f'{v:>10}',f'{bin(v):>19}', twos_complement(v,16) ] for k,v in x.items()] )
