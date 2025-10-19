@@ -60,6 +60,7 @@ class Slices_Table_Iterator2D(Slices_Table_Iterator):
                 yield (-3, -3)
             for row_i in range(row_slice[0], row_slice[1]):
                 first_col_slice = True
+                col_i = 0
                 for col_slice in col_slices:
                     if first_col_slice:
                         if len(col_slices) > 0 and col_slice[0] > 0:
