@@ -920,6 +920,53 @@ mg.config.type_to_node[List_View] = lambda data: mg.Node_Linear(data,
 ```
 ![bin_search_linear.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_search_linear.png)
 
+## Bitwise Operators ##
+In this configuration example we show the decimal, binary and two's complement representation of `int` values of dictionary subclass `Bits` to show the result of bitwise operators:
+
+```python
+import memory_graph as mg
+
+class Bits(dict):
+   """ Dictionary subclass that we will configure to show binary representations. """
+
+def twos_complement(x: int, bits: int) -> str:
+    """Return the two's-complement bit string of x in `bits` bits."""
+    mask = (1 << bits) - 1
+    return format(x & mask, f"0{bits}b")
+
+# configure memory_graph to show binary representations of values in type Bits
+mg.config.type_to_node[Bits] = lambda x : mg.Node_Table(x,
+                                [ ["expression", "decimal", "bin(expression)", "16bit two's_complement"] ] +
+                                [ [k,f'{v:>10}',f'{bin(v):>19}', twos_complement(v,16) ] for k,v in x.items()] )
+mg.config.type_to_slicer[Bits] = (mg.Slicer(), mg.Slicer())  # no slicing
+mg.config.type_to_color[Bits] = 'gold'
+mg.config.fontname = 'Courier' # monospace font
+
+bits = Bits()
+
+# now add some some variables and expressions
+bits['a'] = 1
+bits['b'] = 32
+bits['c'] = 127
+bits['a << 3'] = bits['a'] << 3         # bit shift left by 3
+bits['b >> 3'] = bits['b'] >> 3         # bit shift right by 3
+bits['a | b']  = bits['a'] | bits['b']  # bitwise or
+bits['b & c']  = bits['b'] & bits['c']  # bitwise and
+bits['b ^ c']  = bits['b'] ^ bits['c']  # bitwise exclusive or
+
+# negative numbers and two's complement 
+bits['d'] = 240
+bits['e'] = -240
+bits['f'] = -241                        # -(d+1)
+bits['~d'] = ~ bits['d']                # inverse -(x+1)
+bits['~e'] = ~ bits['e']                # inverse -(x+1)
+bits['~f'] = ~ bits['f']                # inverse -(x+1)
+
+mg.s()
+```
+![bitwise_operators.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bitwise_operators.png)
+
+Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/bitwise_operators.py&breakpoints=22&continues=1&play)
 
 # Graph Depth #
 To limit the size of the graph the maximum depth of the graph is set by `mg.config.max_graph_depth`. Additionally for each type a depth can be set to further limit the graph, as is done for type `B` in the example below. Scissors indicate where the graph is cut short. Alternatively the `id()` of a data elements can be used to limit the graph for that specific element, as is done for the value referenced by variable `c`.

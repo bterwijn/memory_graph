@@ -35,6 +35,7 @@ python not_node_types.py
 # introspection
 python avltree.py
 python bin_search.py
+python bitwise_operators.py
 python introspect_depth.py
 python hidden_edges.py
 
