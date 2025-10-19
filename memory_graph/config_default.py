@@ -85,7 +85,7 @@ def reset():
         # ================= singular
         type(None) : "gray",
         bool : "pink",
-        int : "green",
+        int : "darkolivegreen1",
         float : "violetred1",
         complex : "yellow",
         str : "cyan",
