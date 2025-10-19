@@ -946,7 +946,7 @@ bits = Bits()
 
 # now add some some variables and expressions
 bits['a'] = 1
-bits['b'] = 32
+bits['b'] = 48
 bits['c'] = 127
 bits['a << 3'] = bits['a'] << 3         # bit shift left by 3
 bits['b >> 3'] = bits['b'] >> 3         # bit shift right by 3
