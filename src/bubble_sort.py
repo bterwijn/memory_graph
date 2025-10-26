@@ -1,6 +1,12 @@
 import random
 
-mg.config.embedded_types -= {float}  # show separate nodes for floats
+# show separate nodes for floats
+mg.config.embedded_types -= {float} 
+# show float as a table with Xs for size
+mg.config.type_to_node[float] = lambda f : mg.Node_Table(f, 
+                                [[str(f)]] + [['X']] * int(f) )
+# show full table
+mg.config.type_to_slicer[float] = (mg.Slicer(), mg.Slicer())
 
 def bubble_sort_section(data, begini, endi):
     swapped = False

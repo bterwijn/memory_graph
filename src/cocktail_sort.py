@@ -1,6 +1,12 @@
 import random
 
-mg.config.embedded_types -= {float}  # show separate nodes for floats
+# show separate nodes for floats
+mg.config.embedded_types -= {float} 
+# show float as a table with Xs for size
+mg.config.type_to_node[float] = lambda f : mg.Node_Table(f, 
+                                [[str(f)]] + [['X']] * int(f) )
+# show full table
+mg.config.type_to_slicer[float] = (mg.Slicer(), mg.Slicer())
 
 def cocktail_shaker_sort(data):
     n = len(data)
@@ -32,8 +38,7 @@ def cocktail_shaker_sort(data):
         start = new_start
         print('unsorted:', data)
         print('unsorted section:',start,'through',end)
-        
-        
+  
 n = 10
 data = [float(i) for i in range(n)]
 random.shuffle(data)
