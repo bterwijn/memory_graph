@@ -15,15 +15,15 @@ def bubble_sort_section(data, begini, endi):
                 begini = max(i-1, 0)
             last_swapi = i
     return begini, last_swapi
-        
+
 def bubble_sort(data):
     begini, endi = 0, len(data)-1
     while True:
-        print('sorting section',begini,'through',endi)
+        print('sorting section', begini, 'through', endi)
         begini, endi = bubble_sort_section(data, begini, endi)
         if begini >= endi:
             break
-        print('unsorted:', data) 
+        print('unsorted:', data)
 
 n = 10
 data = [float(i) for i in range(n)]
