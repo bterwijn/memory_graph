@@ -18,8 +18,7 @@ def selection_sort(data):
             if value < min_value:
                 min_index = j
                 min_value = value
-        if replace != min_value:
-            data[i], data[min_index] = min_value, replace
+        data[i], data[min_index] = min_value, replace
 
 n = 10
 data = [float(i) for i in range(n)]
