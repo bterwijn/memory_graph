@@ -9,7 +9,7 @@ mg.config.type_to_node[float] = lambda f : mg.Node_Table(f,
 mg.config.type_to_slicer[float] = (mg.Slicer(), mg.Slicer())
 
 def selection_sort(data):
-    for i in range(len(data)):
+    for i in range(len(data)-1):
         replace = data[i]
         min_index = i
         min_value = replace
