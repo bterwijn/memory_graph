@@ -1,7 +1,7 @@
 import memory_graph as mg
 import copy
 import random 
-random.seed(0)  # use same random numbers each run, feel free to remove
+random.seed(0)  # use same random numbers each run
 
 EMPTY_TILE = '█'
 RANDOM_MOVES = 20  # measure of difficulty
