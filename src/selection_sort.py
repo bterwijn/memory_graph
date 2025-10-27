@@ -10,8 +10,8 @@ mg.config.type_to_slicer[float] = (mg.Slicer(), mg.Slicer())
 
 def selection_sort(data):
     for i in range(len(data)):
+        replace = data[i]
         min_index = i
-        replace = data[min_index]
         min_value = replace
         for j in range(i + 1, len(data)):
             value = data[j]
