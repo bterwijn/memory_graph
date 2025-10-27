@@ -655,6 +655,7 @@ Here we show values being inserted in a HashSet in PyCharm. When inserting the l
 
 Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/hash_set.py&breakpoints=32&continues=1&timestep=0.5&play).
 
+
 # Sorting Algorithms #
 
 Visualization of different sorting algorithms in Memory Graph Web Debugger.
@@ -665,6 +666,15 @@ Visualization of different sorting algorithms in Memory Graph Web Debugger.
 - [bubble sort](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/bubble_sort.py&breakpoints=29,38&continues=1&timestep=0.2&play)
 - [cocktail shaker sort](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/cocktail_sort.py&breakpoints=17,46&continues=1&timestep=0.2&play)
 
+
+# Bitwise Operators #
+In this configuration example we show the decimal, binary and [two's complement representation](https://www.cs.cornell.edu/~tomf/notes/cps104/twoscomp.html) representation of `int` values of dictionary subclass `Bits` to show the result of [bitwise operators](https://docs.python.org/3/library/stdtypes.html?utm_source=chatgpt.com#bitwise-operations-on-integer-types). The `~` (inverse) operator can be a bit confusing if not shown with two's complement representation.
+
+- [bitwise operators](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/bitwise_operators.py&breakpoints=22&continues=1&play)
+
+![bitwise_operators.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bitwise_operators.png)
+
+
 # Sliding Puzzle Solver #
 
 A sliding puzzle solver as a challenging example showing how memory_graph deals with large amount of data. Click "Continue" to step through the breadth-first search generations until a solution path is found:
@@ -673,19 +683,6 @@ A sliding puzzle solver as a challenging example showing how memory_graph deals 
 
 ![sliding_puzzle.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/sliding_puzzle.png)
 
-# Bitwise Operators #
-In this configuration example we show the decimal, binary and [two's complement representation](https://www.cs.cornell.edu/~tomf/notes/cps104/twoscomp.html) representation of `int` values of dictionary subclass `Bits` to show the result of [bitwise operators](https://docs.python.org/3/library/stdtypes.html?utm_source=chatgpt.com#bitwise-operations-on-integer-types). The `~` (inverse) operator can be a bit confusing if not shown with two's complement representation.
-
-```python
-import memory_graph as mg
-
-class Bits(dict):
-   """ Dictionary subclass that we will configure to show binary representations. """
-
-def twos_complement(x: int, bits: int) -> str:
-    """Return the two's complement bit string of x in `bits` bits."""
-    mask = (1 << bits) - 1
-    return format(x & mask, f"0{bits}b")
 
 # Configuration #
 Different aspects of memory_graph can be configured. The default configuration can be reset by calling 'mg.config_default.reset()'. The Memory Graph Web Debugger gives examples of the [most important configurations](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/config.py&play).
@@ -957,40 +954,6 @@ mg.config.type_to_node[List_View] = lambda data: mg.Node_Linear(data,
                                                     data.lst[data.begin:data.end])
 ```
 ![bin_search_linear.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_search_linear.png)
-
-# configure memory_graph to show binary representations of values of type Bits
-mg.config.type_to_node[Bits] = lambda x : mg.Node_Table(x,
-    [ ["expression", "decimal", "bin(expression)", "16bit two's complement"] ] +
-    [ [k, f'{v:>10}', f'{bin(v):>19}', twos_complement(v,16)] for k, v in x.items()] )
-mg.config.type_to_slicer[Bits] = (mg.Slicer(), mg.Slicer())  # no slicing
-mg.config.type_to_color[Bits] = 'gold'
-mg.config.fontname = 'Courier' # monospace font
-
-bits = Bits()
-
-# now add some some variables and expressions
-bits['a'] = 1
-bits['b'] = 48
-bits['c'] = 127
-bits['a << 3'] = bits['a'] << 3         # bit shift left by 3
-bits['b >> 3'] = bits['b'] >> 3         # bit shift right by 3
-bits['a | b']  = bits['a'] | bits['b']  # bitwise or
-bits['b & c']  = bits['b'] & bits['c']  # bitwise and
-bits['b ^ c']  = bits['b'] ^ bits['c']  # bitwise exclusive or
-
-# negative numbers, inverse, and two's complement
-bits['d'] = 240
-bits['e'] = -240
-bits['f'] = -241                        # -(d+1)
-bits['~d'] = ~ bits['d']                # inverse -(x+1)
-bits['~e'] = ~ bits['e']                # inverse -(x+1)
-bits['~f'] = ~ bits['f']                # inverse -(x+1)
-
-mg.s()
-```
-![bitwise_operators.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bitwise_operators.png)
-
-Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/bitwise_operators.py&breakpoints=22&continues=1&play)
 
 # Graph Depth #
 To limit the size of the graph the maximum depth of the graph is set by `mg.config.max_graph_depth`. Additionally for each type a depth can be set to further limit the graph, as is done for type `B` in the example below. Scissors indicate where the graph is cut short. Alternatively the `id()` of a data elements can be used to limit the graph for that specific element, as is done for the value referenced by variable `c`.
