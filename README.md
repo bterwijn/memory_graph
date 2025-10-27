@@ -103,6 +103,10 @@ A better way to understand what values are shared is to draw a graph using [memo
 
 [Sorting Algorithms](#sorting-algorithms)
 
+[Bitwise Operators](#bitwise-operators)
+
+[Sliding Puzzle Solver](#sliding-puzzle-solver)
+
 [Configuration](#configuration)
 
 [Introspection](#introspection)
@@ -654,13 +658,34 @@ Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=ht
 # Sorting Algorithms #
 
 Visualization of different sorting algorithms in Memory Graph Web Debugger.
-![hash_set.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/selection_sort.gif)
+![selections_sort.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/selection_sort.gif)
 
 - [selection sort](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/selection_sort.py&breakpoints=13,27&continues=1&timestep=0.2&play)
 - [insertion sort](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/insertion_sort.py&breakpoints=13,29&continues=1&timestep=0.2&play)
 - [bubble sort](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/bubble_sort.py&breakpoints=29,38&continues=1&timestep=0.2&play)
 - [cocktail shaker sort](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/cocktail_sort.py&breakpoints=17,46&continues=1&timestep=0.2&play)
 
+# Sliding Puzzle Solver #
+
+A sliding puzzle solver as a challenging example showing how memory_graph deals with large amount of data. Click "Continue" to step through the breadth-first search generations until a solution path is found:
+
+- [sliding puzzle solver] https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/sliding_puzzle.py&breakpoints=17,27,29,40&continues=1
+
+![sliding_puzzle.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/sliding_puzzle.png)
+
+# Bitwise Operators #
+In this configuration example we show the decimal, binary and [two's complement representation](https://www.cs.cornell.edu/~tomf/notes/cps104/twoscomp.html) representation of `int` values of dictionary subclass `Bits` to show the result of [bitwise operators](https://docs.python.org/3/library/stdtypes.html?utm_source=chatgpt.com#bitwise-operations-on-integer-types). The `~` (inverse) operator can be a bit confusing if not shown with two's complement representation.
+
+```python
+import memory_graph as mg
+
+class Bits(dict):
+   """ Dictionary subclass that we will configure to show binary representations. """
+
+def twos_complement(x: int, bits: int) -> str:
+    """Return the two's complement bit string of x in `bits` bits."""
+    mask = (1 << bits) - 1
+    return format(x & mask, f"0{bits}b")
 
 # Configuration #
 Different aspects of memory_graph can be configured. The default configuration can be reset by calling 'mg.config_default.reset()'. The Memory Graph Web Debugger gives examples of the [most important configurations](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/config.py&play).
@@ -932,20 +957,6 @@ mg.config.type_to_node[List_View] = lambda data: mg.Node_Linear(data,
                                                     data.lst[data.begin:data.end])
 ```
 ![bin_search_linear.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_search_linear.png)
-
-## Bitwise Operators ##
-In this configuration example we show the decimal, binary and [two's complement representation](https://www.cs.cornell.edu/~tomf/notes/cps104/twoscomp.html) representation of `int` values of dictionary subclass `Bits` to show the result of [bitwise operators](https://docs.python.org/3/library/stdtypes.html?utm_source=chatgpt.com#bitwise-operations-on-integer-types). The `~` (inverse) operator can be a bit confusing if not shown with two's complement representation.
-
-```python
-import memory_graph as mg
-
-class Bits(dict):
-   """ Dictionary subclass that we will configure to show binary representations. """
-
-def twos_complement(x: int, bits: int) -> str:
-    """Return the two's complement bit string of x in `bits` bits."""
-    mask = (1 << bits) - 1
-    return format(x & mask, f"0{bits}b")
 
 # configure memory_graph to show binary representations of values of type Bits
 mg.config.type_to_node[Bits] = lambda x : mg.Node_Table(x,
