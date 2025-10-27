@@ -101,6 +101,8 @@ A better way to understand what values are shared is to draw a graph using [memo
 
 [Data Structure Examples](#data-structure-examples)
 
+[Sorting Algorithms](#sorting-algorithms)
+
 [Configuration](#configuration)
 
 [Introspection](#introspection)
@@ -648,6 +650,17 @@ Here we show values being inserted in a HashSet in PyCharm. When inserting the l
 ![images/hash_set.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/hash_set.gif)
 
 Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/hash_set.py&breakpoints=32&continues=1&timestep=0.5&play).
+
+# Sorting Algorithms #
+
+Visualization of different sorting algorithms in Memory Graph Web Debugger.
+![hash_set.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/selection_sort.gif)
+
+- [selection sort](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/selection_sort.py&breakpoints=13,27&continues=1&timestep=0.2&play)
+- [insertion sort](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/insertion_sort.py&breakpoints=13,29&continues=1&timestep=0.2&play)
+- [bubble sort](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/bubble_sort.py&breakpoints=29,38&continues=1&timestep=0.2&play)
+- [cocktail shaker sort](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/cocktail_sort.py&breakpoints=17,46&continues=1&timestep=0.2&play)
+
 
 # Configuration #
 Different aspects of memory_graph can be configured. The default configuration can be reset by calling 'mg.config_default.reset()'. The Memory Graph Web Debugger gives examples of the [most important configurations](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/config.py&play).
