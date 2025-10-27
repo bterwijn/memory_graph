@@ -669,7 +669,7 @@ Visualization of different sorting algorithms in Memory Graph Web Debugger.
 
 A sliding puzzle solver as a challenging example showing how memory_graph deals with large amount of data. Click "Continue" to step through the breadth-first search generations until a solution path is found:
 
-- [sliding puzzle solver] https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/sliding_puzzle.py&breakpoints=17,27,29,40&continues=1
+- [sliding puzzle solver](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/sliding_puzzle.py&breakpoints=17,27,29,40&continues=1)
 
 ![sliding_puzzle.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/sliding_puzzle.png)
 
