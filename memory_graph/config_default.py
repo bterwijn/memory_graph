@@ -86,7 +86,7 @@ def reset():
         type(None) : "gray",
         bool : "pink",
         int : "darkolivegreen1",
-        float : "violetred1",
+        float : "plum",
         complex : "yellow",
         str : "cyan",
         # ================= linear
