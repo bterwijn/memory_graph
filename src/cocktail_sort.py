@@ -9,9 +9,8 @@ mg.config.type_to_node[float] = lambda f : mg.Node_Table(f,
 mg.config.type_to_slicer[float] = (mg.Slicer(), mg.Slicer())
 
 def cocktail_shaker_sort(data):
-    n = len(data)
     start = 0
-    end = n - 1
+    end = len(data) - 1
     print('unserted section:',start,'through',end)
     while True:
         swapped = False

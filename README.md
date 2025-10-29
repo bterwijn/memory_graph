@@ -664,7 +664,7 @@ Visualization of different sorting algorithms in Memory Graph Web Debugger.
 - [selection sort](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/selection_sort.py&breakpoints=13,27&continues=1&timestep=0.2&play)
 - [insertion sort](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/insertion_sort.py&breakpoints=13,29&continues=1&timestep=0.2&play)
 - [bubble sort](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/bubble_sort.py&breakpoints=29,38&continues=1&timestep=0.2&play)
-- [cocktail shaker sort](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/cocktail_sort.py&breakpoints=17,46&continues=1&timestep=0.2&play)
+- [cocktail shaker sort](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/cocktail_sort.py&breakpoints=16,45&continues=1&timestep=0.2&play)
 
 
 # Bitwise Operators #
