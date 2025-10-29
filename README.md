@@ -302,7 +302,7 @@ mg.show(locals())
 ![copy_mix.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_mix.png)
 
 # Call Stack #
-The `mg.stack()` function retrieves the entire call stack, including the local variables for each function on the stack. This enables us to understand function calls, variable scope, and the **complete program state** through call stack visualization. By examining the graph, we can determine whether any local variables from different functions share data. For instance, consider the function `add_one()` which adds the value `1` to each of its parameters `a`, `b`, and `c`.
+The `mg.stack()` function retrieves the entire call stack, including the local variables for each function on the stack. This enables us to understand function calls, variable scope, and the **complete program state** through call stack visualization. By examining the graph, we can see whether local variables from different function calls share data. For instance, consider the function `add_one()` which adds the value `1` to each of its parameters `a`, `b`, and `c`.
 
 ```python
 import memory_graph as mg
