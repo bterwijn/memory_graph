@@ -3,19 +3,19 @@ import random
 mg.config.type_to_horizontal[list] = True # Visualize lists horizontally
 
 class Multi_Tree:
-    max_children = 3
+    max_children = 4
 
     def __init__(self):
         self.values = []
         self.children = []
 
     def add_value(self, value):
-        if len(self.values) < self.max_children:
+        if len(self.values) < self.max_children - 1:
             self.values.append(value)
             self.values.sort()
         else:
             if not self.children:
-                for _ in range(self.max_children+1):
+                for _ in range(self.max_children):
                     self.children.append(Multi_Tree())
             index = self._find_child_index(value)
             self.children[index].add_value(value)
@@ -24,8 +24,7 @@ class Multi_Tree:
         for i, v in enumerate(self.values):
             if value < v:
                 return i
-        return len(self.values)  # Go to the last child
-
+        return len(self.values)  # last child
 
 tree = Multi_Tree()
 n = 50
