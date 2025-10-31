@@ -949,9 +949,10 @@ print('index:', index, 'data[index]:', data[index])
 Arguably the visualization is then more clear when we show a List_View object as an actual sublist using a Node_linear node:
 
 ```python
-mg.config.type_to_color[List_View] = 'hotpink'
-mg.config.type_to_node[List_View] = lambda data: mg.Node_Linear(data,
-                                                    data.lst[data.begin:data.end])
+mg.config.type_to_node[List_View] = (lambda l: mg.Node_Linear(l,
+    [v if l.begin <= i < l.end else '' for i, v in enumerate(l.lst)]
+    if hasattr(l, 'end') else [])
+)
 ```
 ![bin_search_linear.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_search_linear.png)
 

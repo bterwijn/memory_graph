@@ -19,9 +19,10 @@ def bin_search(view, value):
     mid = view.get_mid()
     if view.begin == mid:
         mg.render(mg.stack(), 'bin_search.png')
-        mg.config.type_to_color[List_View] = 'hotpink'
-        mg.config.type_to_node[List_View] = lambda data: mg.node_linear.Node_Linear(data,
-                                                            data.lst[data.begin:data.end] )
+        mg.config.type_to_node[List_View] = (lambda l: mg.Node_Linear(l,
+           [v if l.begin <= i < l.end else '' for i, v in enumerate(l.lst)]
+           if hasattr(l, 'end') else [])
+        )
         mg.render(mg.stack(), 'bin_search_linear.png')
         return view.begin
     if value < view[mid]:
