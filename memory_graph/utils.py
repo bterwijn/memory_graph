@@ -48,6 +48,8 @@ def make_sliceable(data):
         return data
     except TypeError:
         return list(data)
+    except KeyError:
+        return []
 
 def is_finite_iterable(data):
     """ Returns 'True' if 'data' is finite iterable. """
