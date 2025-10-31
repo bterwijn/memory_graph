@@ -6,11 +6,11 @@ class List_View:
     def __init__(self, values, begin, end):
         self.values, self.begin, self.end = values, begin, end
 
-mg.config.type_to_node[List_View] = (lambda v: 
-     mg.Node_Linear(v, [i if v.begin<= i<v.end else '' for i in v.values]
-     if hasattr(v, 'end') else [])
+mg.config.type_to_node[List_View] = (lambda l: mg.Node_Linear(l,
+       [v if l.begin <= i < l.end else '' for i,v in enumerate(l.values)]
+       if hasattr(l, 'end') else []
+   )
 )
-
 mg.config.type_to_slicer[mg.Node_Linear] = mg.Slicer()
 
 def cocktail_shaker_sort(values, begin, end):
