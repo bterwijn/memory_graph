@@ -24,7 +24,7 @@ class Multiway_Tree:
                 self.children = [None] * self.max_children
             index = self._find_child_index(value)
             if self.children[index] is None:
-                self.children[index] = Multi_Tree()
+                self.children[index] = Multiway_Tree()
             self.children[index].add_value(value)
 
 tree = Multiway_Tree()
