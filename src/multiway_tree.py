@@ -1,6 +1,6 @@
 import random
 
-mg.config.type_to_horizontal[list] = True  # Visualize lists horizontally
+mg.config.type_to_horizontal[list] = True  # show lists horizontally
 
 class Multi_Tree:
     max_children = 4
@@ -8,6 +8,12 @@ class Multi_Tree:
     def __init__(self):
         self.values = []
         self.children = []
+
+    def _find_child_index(self, value):
+        for i, v in enumerate(self.values):
+            if value < v:
+                return i
+        return len(self.values)  # last child
 
     def add_value(self, value):
         if len(self.values) < self.max_children - 1:
@@ -20,12 +26,6 @@ class Multi_Tree:
             if self.children[index] is None:
                 self.children[index] = Multi_Tree()
             self.children[index].add_value(value)
-
-    def _find_child_index(self, value):
-        for i, v in enumerate(self.values):
-            if value < v:
-                return i
-        return len(self.values)  # last child
 
 tree = Multi_Tree()
 n = 50
