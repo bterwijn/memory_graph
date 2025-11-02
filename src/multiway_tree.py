@@ -2,7 +2,7 @@ import random
 
 mg.config.type_to_horizontal[list] = True  # show lists horizontally
 
-class Multi_Tree:
+class Multiway_Tree:
     max_children = 4
 
     def __init__(self):
@@ -27,7 +27,7 @@ class Multi_Tree:
                 self.children[index] = Multi_Tree()
             self.children[index].add_value(value)
 
-tree = Multi_Tree()
+tree = Multiway_Tree()
 n = 50
 for i in range(n):
     tree.add_value(random.randint(1, n * 10))
