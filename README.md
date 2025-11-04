@@ -609,7 +609,7 @@ for i in range(n):
 Here we show values being inserted in a Binary Tree in Visual Studio Code. When inserting the last value '29' we "Step Into" the code to show the recursive implementation.
 ![images/bin_tree.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_tree.gif)
 
-See it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/bin_tree.py&timestep=0.2&play) or see the more advanced [Multiway Tree](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/multiway_tree.py&breakpoints=19,33&continues=1&timestep=0.2&play) with more taen two children per node, resulting in a shallower and more efficient tree.
+See it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/bin_tree.py&timestep=0.2&play) or see the more advanced [Multiway Tree](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/multiway_tree.py&breakpoints=19,33&continues=1&timestep=0.2&play) with more than two children per node, making the tree less deep and more efficient.
 
 ## Hash Set ##
 ```python
