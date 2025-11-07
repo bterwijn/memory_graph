@@ -97,6 +97,10 @@ A better way to understand what values are shared is to draw a graph using [memo
 
 [Call Stack](#call-stack)
 
+[Data Model Exercises](#data-model-exercises)
+
+[Block](#block)
+
 [Debugging](#debugging)
 
 [Data Structure Examples](#data-structure-examples)
@@ -355,11 +359,11 @@ Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=ht
 
 The effect of calling `add_one()` is that `b[0]` increases by 1, while `a` is unaffected.
 
-## Exercises ##
+# Data Model Exercises #
 
 Now is a good time to practice with Python Data Model concepts. Here are [some exercises](https://github.com/bterwijn/memory_graph_videos/blob/main/exercises/exercises.md) on references, mutability, copies, and function calls.
 
-## Block ##
+# Block #
 It is often helpful to temporarily block program execution to inspect the graph. For this we can use the `mg.block()` function:
 
 ```python
