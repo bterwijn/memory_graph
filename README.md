@@ -6,7 +6,7 @@ pip install --upgrade memory_graph
 Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 
 # Highlights #
-![vscode_copying.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/vscode_copying.gif)
+![vscode_copying.gif](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/vscode_copying.gif)
 Run a live demo in the 👉 [**Memory Graph Web Debugger**](https://memory-graph.com/#breakpoints=8&continues=1&timestep=1.0&play) 👈 now, no installation required!
 
 - learn the right **mental model** to think about Python data (references, mutability, shallow vs deep copy)
@@ -14,7 +14,7 @@ Run a live demo in the 👉 [**Memory Graph Web Debugger**](https://memory-graph
 - understand function calls, variable scope, and the **complete program state** through call stack visualization
 
 An example Binary Tree data structure:
-![images/bin_tree.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_tree.gif)
+![images/bin_tree.gif](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/bin_tree.gif)
 Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/bin_tree.py&timestep=0.2&play).
 
 # Videos #
@@ -37,7 +37,7 @@ class My_Class:
 data = [ range(1, 2), (3, 4), {5, 6}, {7:'seven', 8:'eight'},  My_Class(9, 10) ]
 mg.show(data)
 ```
-![many_types.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/many_types.png)
+![many_types.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/many_types.png)
 
 Instead of showing the graph on screen you can also render it to an output file (see [Graphviz Output Formats](https://graphviz.org/docs/outputs/)) using for example:
 
@@ -76,7 +76,7 @@ mg.show( locals() )
 
 </td><td>
 
-![mutable2.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/mutable2.png)
+![mutable2.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/mutable2.png)
 
 a graph showing `a` and `b` share values
 
@@ -148,7 +148,7 @@ The main difference are that running memory_graph locally is a key design choice
 * [Reddit](https://www.reddit.com/r/Python_memory_graph/)
 
 ## Supported by ##
-<img src="https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/uva.png" alt="University of Amsterdam" width="600">
+<img src="https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/uva.png" alt="University of Amsterdam" width="600">
 
 ___
 ___
@@ -173,7 +173,7 @@ mg.render(locals(), 'immutable1.png')
 b += (1,)
 mg.render(locals(), 'immutable2.png')
 ```
-| ![mutable1.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/immutable1.png) | ![mutable2.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/immutable2.png) |
+| ![mutable1.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/immutable1.png) | ![mutable2.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/immutable2.png) |
 |:-----------------------------------------------------------:|:-------------------------------------------------------------:|
 | immutable1.png | immutable2.png |
 
@@ -191,7 +191,7 @@ mg.render(locals(), 'mutable1.png')
 b += [1]  # equivalent to:  b.append(1)
 mg.render(locals(), 'mutable2.png')
 ```
-| ![mutable1.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/mutable1.png) | ![mutable2.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/mutable2.png) |
+| ![mutable1.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/mutable1.png) | ![mutable2.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/mutable2.png) |
 |:-----------------------------------------------------------:|:-------------------------------------------------------------:|
 | mutable1.png | mutable2.png |
 
@@ -218,7 +218,7 @@ mg.show(locals())
 * `c2` is a **shallow copy**, only the first value is copied, all the underlying values are shared
 * `c3` is a **deep copy**, all the values are copied, nothing is shared
 
-![copy_mutbale.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_mutable.png)
+![copy_mutbale.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/copy_mutable.png)
 
 Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/copies.py&play).
 
@@ -246,7 +246,7 @@ b = a.custom_copy()
 
 mg.show(locals())
 ```
-![copy_method.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_method.png)
+![copy_method.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/copy_method.png)
 
 Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/custom_copy.py&breakpoints=15&continues=1&play).
 
@@ -264,7 +264,7 @@ b += [1]        # changes the value of 'b' and 'a'
 b = [100, 200]  # rebinds 'b' to another value, 'a' is unaffected
 mg.render(locals(), 'rebinding2.png')
 ```
-| ![rebinding1.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/rebinding1.png) | ![rebinding2.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/rebinding2.png) |
+| ![rebinding1.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/rebinding1.png) | ![rebinding2.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/rebinding2.png) |
 |:-----------------------------------------------------------:|:-------------------------------------------------------------:|
 | rebinding1.png | rebinding2.png |
 
@@ -286,7 +286,7 @@ c3 = copy.deepcopy(a)
 
 mg.show(locals())
 ```
-![copy_immutbale.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_immutable.png)
+![copy_immutbale.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/copy_immutable.png)
 
 ## Copying a Mix of Mutable and Immutable Values ##
 When copying a mix of values of mutable and immutable type, to save on time and space, a deep copy will try to copy as few values of immutable type as possible in order to copy each value of mutable type.
@@ -303,7 +303,7 @@ c3 = copy.deepcopy(a)
 
 mg.show(locals())
 ```
-![copy_mix.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_mix.png)
+![copy_mix.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/copy_mix.png)
 
 # Call Stack #
 The `mg.stack()` function retrieves the entire call stack, including the local variables for each function on the stack. This enables us to understand function calls, variable scope, and the **complete program state** through call stack visualization. By examining the graph, we can see whether local variables from different function calls share data. For instance, consider the function `add_one()` which adds the value `1` to each of its parameters `a`, `b`, and `c`.
@@ -324,7 +324,7 @@ add_one(a, b, c.copy())
 
 print(f"a:{a} b:{b} c:{c}")
 ```
-![add_one.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/add_one.png)
+![add_one.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/add_one.png)
 
 Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/function_call.py&play).
 
@@ -351,7 +351,7 @@ add_one(a, b)
 
 print(f"a:{a} b:{b[0]}")
 ```
-![wap_int.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/wrap_int.png)
+![wap_int.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/wrap_int.png)
 ```
 a:10 b:11
 ```
@@ -392,7 +392,7 @@ def factorial(n):
 
 print( factorial(4) )
 ```
-![factorial.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/factorial.gif)
+![factorial.gif](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/factorial.gif)
 
 and the result is: 1 x 2 x 3 x 4 = 24
 
@@ -415,7 +415,7 @@ def binary(value: int) -> list[int]:
 
 print( binary(100) )
 ```
-![factorial.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/binary.gif)
+![factorial.gif](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/binary.gif)
 ```
 [1, 1, 0, 0, 1, 0, 0]
 ```
@@ -447,7 +447,7 @@ def power_set(data):
 print( power_set(['a', 'b', 'c']) )
 ```
 
-![power_set.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/power_set.gif)
+![power_set.gif](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/power_set.gif)
 ```
 [['a', 'b', 'c'], ['a', 'b'], ['a', 'c'], ['a'], ['b', 'c'], ['b'], ['c'], []]
 ```
@@ -478,7 +478,7 @@ The ```mg.stack()``` doesn't work well in **watch** context in most debuggers be
 | [PyCharm](https://www.jetbrains.com/pycharm/) | `mg.stack_pycharm()` |
 | [Wing](https://wingware.com/) | `mg.stack_wing()` |
 
-![vscode_copying.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/vscode_copying.gif)
+![vscode_copying.gif](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/vscode_copying.gif)
 See the [Quick Intro (3:49)](https://www.youtube.com/watch?v=23_bHcr7hqo) video for the setup.
 
 ## Other Debuggers ##
@@ -528,7 +528,7 @@ for i in range(1, 6):
 ```
 and pressing &lt;Enter&gt; a number of times, results in:
 
-![debugging.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/debugging.gif)
+![debugging.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/debugging.gif)
 
 # Data Structure Examples #
 Package memory_graph can **visualize the structure of your data** to easily understand and debug data structures, some examples:
@@ -565,11 +565,11 @@ for i in range(n):
     linked_list.add_back(value)
     mg.block(mg.show, locals())  # <--- draw locals
 ```
-![linked_list.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/linked_list.png)
+![linked_list.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/linked_list.png)
 
 ### Linked List in Cursor AI ###
 Here we show values being added to a Linked List in Cursor AI. When adding the last value '5' we "Step Into" the code to show more of the details.
-![linked_list.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/linked_list.gif)
+![linked_list.gif](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/linked_list.gif)
 
 Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/linked_list.py&timestep=0.2&play).
 
@@ -607,11 +607,11 @@ for i in range(n):
     value = random.randrange(n)
     tree.add(value)
 ```
-![bin_tree.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_tree.png)
+![bin_tree.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/bin_tree.png)
 
 ### Binary Tree in Visual Studio Code ###
 Here we show values being inserted in a Binary Tree in Visual Studio Code. When inserting the last value '29' we "Step Into" the code to show the recursive implementation.
-![images/bin_tree.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_tree.gif)
+![images/bin_tree.gif](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/bin_tree.gif)
 
 See it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/bin_tree.py&timestep=0.2&play) or see the more advanced [Multiway Tree](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/multiway_tree.py&breakpoints=19,33&continues=1&timestep=0.2&play) with more than two children per node, making the tree less deep and more efficient.
 
@@ -651,11 +651,11 @@ for i in range(n):
     new_value = random.randrange(n)
     hash_set.add(new_value)
 ```
-![hash_set.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/hash_set.png)
+![hash_set.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/hash_set.png)
 
 ### Hash Set in PyCharm ###
 Here we show values being inserted in a HashSet in PyCharm. When inserting the last value '44' we "Step Into" the code to show more of the details.
-![images/hash_set.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/hash_set.gif)
+![images/hash_set.gif](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/hash_set.gif)
 
 Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/hash_set.py&breakpoints=32&continues=1&timestep=0.5&play).
 
@@ -663,7 +663,7 @@ Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=ht
 # Sorting Algorithms #
 
 Visualization of different sorting algorithms in Memory Graph Web Debugger.
-![selections_sort.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/selection_sort.gif)
+![selections_sort.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/selection_sort.gif)
 
 - [selection sort](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/selection_sort.py&breakpoints=13,27&continues=1&timestep=0.2&play)
 - [insertion sort](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/insertion_sort.py&breakpoints=13,29&continues=1&timestep=0.2&play)
@@ -676,7 +676,7 @@ In this configuration example we show the decimal, binary and [two's complement 
 
 - [bitwise operators](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/bitwise_operators.py&breakpoints=22&continues=1&play)
 
-![bitwise_operators.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bitwise_operators.png)
+![bitwise_operators.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/bitwise_operators.png)
 
 
 # Sliding Puzzle Solver #
@@ -685,7 +685,7 @@ A sliding puzzle solver as a challenging example showing how memory_graph deals 
 
 - [sliding puzzle solver](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/sliding_puzzle.py&breakpoints=17,27,29,40&continues=1)
 
-![sliding_puzzle.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/sliding_puzzle.png)
+![sliding_puzzle.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/sliding_puzzle.png)
 
 
 # Configuration #
@@ -767,7 +767,7 @@ mg.config.embedded_types.remove(int)  # now show separate nodes for int values
 
 mg.render(locals(), 'embedded2.png')
 ```
-| ![embedded1](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/embedded1.png) | ![embedded2](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/embedded2.png) |
+| ![embedded1](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/embedded1.png) | ![embedded2](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/embedded2.png) |
 |:-----------------------------------------------------------:|:-------------------------------------------------------------:|
 | embedded1.png — simplified | embedded2.png — technically correct |
 
@@ -789,7 +789,7 @@ tree.insert(15, "fifteen")
 
 mg.show(locals())
 ```
-![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_fail.png)
+![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/avltree_fail.png)
 
 ## All attributes using dir() ##
 A useful start is to give it some color, show the list of all its attributes using `dir()`, and setting an empty Slicer to see the attribute list in full.
@@ -812,7 +812,7 @@ mg.config.type_to_slicer[bintrees.avltree.Node] = mg.Slicer()
 
 mg.show(locals())
 ```
-![avltree_dir.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_dir.png)
+![avltree_dir.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/avltree_dir.png)
 
 Next figure out what the attributes are you want to graph and choose a Node type, there are four options:
 
@@ -835,7 +835,7 @@ mg.config.type_to_node[bintrees.avltree.Node] = lambda data: mg.Node_Leaf(data,
 
 mg.show(locals())
 ```
-![avltree_leaf.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_leaf.png)
+![avltree_leaf.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/avltree_leaf.png)
 
 ## 2) Node_Linear ##
 Node_Linear shows multiple values in a line like a list.
@@ -859,7 +859,7 @@ mg.config.type_to_node[bintrees.avltree.Node] = lambda data: mg.Node_Linear(data
 
 mg.show(locals())
 ```
-![avltree_linear.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_linear.png)
+![avltree_linear.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/avltree_linear.png)
 
 ## 3) Node_Key_Value ##
 Node_Key_Value shows key-value pairs like a dictionary. Note the required `items()` call at the end.
@@ -883,7 +883,7 @@ mg.config.type_to_node[bintrees.avltree.Node] = lambda data: mg.Node_Key_Value(d
 
 mg.show(locals())
 ```
-![avltree_key_value.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_key_value.png)
+![avltree_key_value.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/avltree_key_value.png)
 
 ## 4) Node_Table ##
 Node_Table shows all the values as a table.
@@ -905,7 +905,7 @@ mg.config.type_to_node[bintrees.avltree.Node] = lambda data: mg.Node_Table(data,
 
 mg.show(locals())
 ```
-![avltree_table.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_table.png)
+![avltree_table.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/avltree_table.png)
 
 ## Binary Search ##
 For binary search we can use a List_View class to represent a particular sublist without making a list copy.
@@ -948,7 +948,7 @@ value = data[random.randrange(n)]
 index = bin_search(List_View(data, 0, len(data)), value)
 print('index:', index, 'data[index]:', data[index])
 ```
-![bin_search.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_search.png)
+![bin_search.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/bin_search.png)
 
 Arguably the visualization is then more clear when we show a List_View object as an actual sublist using a Node_linear node:
 
@@ -958,7 +958,7 @@ mg.config.type_to_node[List_View] = (lambda l: mg.Node_Linear(l,
     if hasattr(l, 'end') else [])
 )
 ```
-![bin_search_linear.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_search_linear.png)
+![bin_search_linear.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/bin_search_linear.png)
 
 # Graph Depth #
 To limit the size of the graph the maximum depth of the graph is set by `mg.config.max_graph_depth`. Additionally for each type a depth can be set to further limit the graph, as is done for type `B` in the example below. Scissors indicate where the graph is cut short. Alternatively the `id()` of a data elements can be used to limit the graph for that specific element, as is done for the value referenced by variable `c`.
@@ -1010,7 +1010,7 @@ mg.config.type_to_depth[B] = 3
 mg.config.type_to_depth[id(c)] = 2
 mg.show(locals())
 ```
-![introspect_depth.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/introspect_depth.png)
+![introspect_depth.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/introspect_depth.png)
 
 ## Hidden Edges ##
 
@@ -1026,7 +1026,7 @@ for i in range(20):
 
 mg.show(locals())
 ```
-![hidden_edges.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/hidden_edges.png)
+![hidden_edges.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/hidden_edges.png)
 
 # Extensions #
 Different extensions are available for types from other Python packages. 
@@ -1047,7 +1047,7 @@ ndarray_3d = np.random.rand(2,2,2)
 
 mg.show(locals())
 ```
-![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_numpy.png)
+![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/extension_numpy.png)
 
 Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#micropip=numpy&codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/mg_numpy.py&continues=1).
 
@@ -1068,7 +1068,7 @@ dataframe2 = pd.DataFrame({  'Name'   : [ 'Tom', 'Anna', 'Steve', 'Lisa'],
                             index=['one', 'two', 'three', 'four']) # with row names
 mg.show(locals())
 ```
-![extension_pandas.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_pandas.png)
+![extension_pandas.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/extension_pandas.png)
 
 Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#micropip=pandas&codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/mg_pandas.py&continues=1).
 
@@ -1087,11 +1087,11 @@ tensor_3d = torch.rand(2, 2, 2)
 
 mg.show(locals())
 ```
-![extension_torch.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_torch.png)
+![extension_torch.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/extension_torch.png)
 
 # Memory Graph Web Debugger #
 The <a href="https://memory-graph.com/#play" target="_blank">Memory Graph Web Debugger</a> lets us use memory_graph without any installation.
-![memory_graph_web_debugger.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/memory_graph_web_debugger.png)
+![memory_graph_web_debugger.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/memory_graph_web_debugger.png)
 
 # Jupyter Notebook #
 In Jupyter Notebook `locals()` has additional variables that cause problems in the graph, use `mg.locals_jupyter()` to get the local variables with these problematic variables filtered out. Use `mg.stack_jupyter()` to get the whole call stack with these variables filtered out.
@@ -1104,7 +1104,7 @@ mg.block(display, mg.create_graph(mg.locals_jupyter()) ) # the same but blocked
 ```
 
 See for example [jupyter_example.ipynb](https://raw.githubusercontent.com/bterwijn/memory_graph/main/src/jupyter_example.ipynb).
-![jupyter_example.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/jupyter_example.png)
+![jupyter_example.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/jupyter_example.png)
 
 # ipython #
 In ipython `locals()` has additional variables that cause problems in the graph, use `mg.locals_ipython()` to get the local variables with these problematic variables filtered out. Use `mg.stack_ipython()` to get the whole call stack with these variables filtered out.
@@ -1114,19 +1114,19 @@ Additionally install file [auto_memory_graph.py](https://raw.githubusercontent.c
 * Windows: `%USERPROFILE%\.ipython\profile_default\startup\`
 
 Then after starting 'ipython' call function `mg_switch()` to turn on/off the automatic visualization of local variables after each command.
-![ipyton.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/ipython.png)
+![ipyton.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/ipython.png)
 
 # Google Colab #
 In Google Colab `locals()` has additional variables that cause problems in the graph, use `mg.locals_colab()` to get the local variables with these problematic variables filtered out. Use `mg.stack_colab()` to get the whole call stack with these variables filtered out.
 
 See for example [colab_example.ipynb](https://raw.githubusercontent.com/bterwijn/memory_graph/main/src/colab_example.ipynb).
-![colab_example.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/colab_example.png)
+![colab_example.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/colab_example.png)
 
 # Marimo #
 In Marimo `locals()` has additional variables that cause problems in the graph, use `mg.locals_marimo()` to get the local variables with these problematic variables filtered out. Use `mg.stack_marimo()` to get the whole call stack with these variables filtered out. Memory_graph only works when running Marimo locally, not in the playground.
 
 See for example [marimo_example.py](https://raw.githubusercontent.com/bterwijn/memory_graph/main/src/marimo_example.py).
-![marimo_example.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/marimo_example.png)
+![marimo_example.png](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/marimo_example.png)
 
 
 # Animated GIF #
@@ -1139,7 +1139,7 @@ in your source or better as a *watch* in a debugger so that stepping through the
 
 &nbsp;&nbsp;&nbsp; animated0.png, animated1.png, animated2.png, ...
 
-Then use these images to make an animated GIF, for example using this Bash script [create_gif.sh](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/create_gif.sh):
+Then use these images to make an animated GIF, for example using this Bash script [create_gif.sh](https://raw.githubusercontent.com/bterwijn/memory_graph_images/main/images/create_gif.sh):
 
 ```bash
 $ bash create_gif.sh animated
