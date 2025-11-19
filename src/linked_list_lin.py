@@ -3,8 +3,8 @@ class Node:
     """ Node in a doubly linked list """
 
     def __init__(self, value, prev=None, next=None):
-        self.value = value
         self.prev = prev
+        self.value = value
         self.next = next
 
 class Linked_List:
