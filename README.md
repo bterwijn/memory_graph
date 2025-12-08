@@ -141,7 +141,7 @@ Bas Terwijn
 ## Inspiration ##
 Inspired by [Python Tutor](https://pythontutor.com/).
 
-The main difference are that running memory_graph locally is a key design choice to support Python Tutor’s [unsupported features](https://github.com/pythontutor-dev/pythontutor/blob/master/unsupported-features.md#unsupported-features) and mirroring the data’s hierarchy improves graph readability.
+The main differences are that running memory_graph locally is a key design choice to support Python Tutor’s [unsupported features](https://github.com/pythontutor-dev/pythontutor/blob/master/unsupported-features.md#unsupported-features) and mirroring the data’s hierarchy improves graph readability.
 
 ## Social Media #
 * [LinkedIn](https://www.linkedin.com/groups/13244150/)
@@ -753,7 +753,7 @@ Different aspects of memory_graph can be configured. The default configuration c
 
 
 ## Simplified Graph ##
-Memory_graph simplifies the visualization (and the viewer's mental model) by **not** showing separate nodes for immutable types like `bool`, `int`, `float`, `complex`, and `str` by default. This simplification can sometimes be slightly misleading. As in the example below, after a shallow copy, lists `a` and `b` technically share their `int` values, but the graph makes it appear as though `a` and `b` each have their own copies. However, since `int` is immutable, this simplification will never lead to unexpected changes (changing `a` won’t affect `b`) so will never result in bugs.
+Memory_graph simplifies the visualization (and the viewer's mental model) by **not** showing separate nodes for immutable types like `bool`, `int`, `float`, `complex`, and `str` by default. This simplification can sometimes be slightly misleading. As in the example below, after a shallow copy, lists `a` and `b` technically share their `int` values, but the graph makes it appear as though `a` and `b` each have their own copies. However, since `int` is immutable, this simplification will never lead to unexpected changes (changing `a`'s ints won’t affect `b`) so will never result in bugs.
 
 The simplification strikes a balance: it is slightly misleading but keeps the graph clean and easy to understand and focuses on the mutable types where unexpected changes can occur. This is why it is the default behavior. If you do want to show separate nodes for `int` values, such as for educational purposes, you can simply remove `int` from the `mg.config.embedded_types` set:
 ```python

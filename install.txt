@@ -13,10 +13,12 @@ pip install --upgrade .
 # ===== prepare packages for upload
 # - increase version number in: pyproject.toml  memory_graph/__init__.py 
 # - update images:
+
 cd images; bash create_images.sh; cd ..
+
 # - git commit -am "version X.X.X" && git push
 
-git status | grep -E 'images\/|src\/|memory_graph\/'
+git status | grep 'memory_graph\/'
 
 rm -rf ./dist/ ./build/ ./*.egg-info && python -m build -n -s -w
 
