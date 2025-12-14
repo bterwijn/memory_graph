@@ -253,7 +253,7 @@ Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=ht
 ## Name Rebinding ##
 When `a` and `b` share a mutable value, then changing the value of `b` changes the value of `a` and vice versa. However, reassigning `b` does not change `a`. When you reassign `b`, you only **rebind** the name `b` to another value without affecting any other variable. 
 
-Also note the difference between statement `b += [1]` that changes `b` and `a` and statement `c = b + [300]` that first create the new value `b + [300]` and assigns this value to `c` without effecting `b`. This makes clear that `x += y` is not the same as `x = x + y` for values of mutable type.
+Also note the difference between statement `b += [1]` that changes `b` and `a`, and statement `c = b + [300]` that first creates the new value `b + [300]` and assigns this value to `c` without effecting `b`. This makes clear that `x += y` is not the same as `x = x + y` for values of mutable type.
 
 ```python
 import memory_graph as mg
