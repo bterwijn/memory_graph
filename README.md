@@ -253,7 +253,7 @@ Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=ht
 ## Name Rebinding ##
 When `a` and `b` share a mutable value, then changing the value of `b` changes the value of `a` and vice versa. However, reassigning `b` does not change `a`. When you reassign `b`, you only **rebind** the name `b` to another value without affecting any other variable. 
 
-Also note the difference between statement `b += [1]` that changes `b` and `a`, and statement `c = b + [300]` that first creates the new value `b + [300]` and assigns this value to `c` without effecting `b`. This makes clear that `x += y` is not the same as `x = x + y` for values of mutable type.
+Also note the difference between statement `b += [1]` that changes `b` and `a`, and statement `c = b + [300]` that first creates the new value `b + [300]` and assigns this value to `c` without effecting `b`. This shows that `x += y` is not the same as `x = x + y` for values of mutable type.
 
 ```python
 import memory_graph as mg
@@ -265,12 +265,14 @@ mg.render(locals(), 'rebinding1.png')
 b += [1]        # changes the value of 'b' and 'a'
 b = [100, 200]  # rebinds 'b' to another value, 'a' is unaffected
 c = b
-c = b + [300]   # rebinds 'c' to new value 'b + [300]', `b` is unaffected
 mg.render(locals(), 'rebinding2.png')
+
+c = b + [300]   # rebinds 'c' to new value 'b + [300]', `b` is unaffected
+mg.render(locals(), 'rebinding3.png')
 ```
-| ![rebinding1.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/rebinding1.png) | ![rebinding2.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/rebinding2.png) |
-|:-----------------------------------------------------------:|:-------------------------------------------------------------:|
-| rebinding1.png | rebinding2.png |
+| ![rebinding1.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/rebinding1.png) | ![rebinding2.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/rebinding2.png) | ![rebinding3.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/rebinding3.png) |
+|:--------------:|:--------------:|:--------------:|
+| rebinding1.png | rebinding2.png | rebinding3.png |
 
 Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/rebind.py&play).
 
