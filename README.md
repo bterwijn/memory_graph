@@ -367,7 +367,7 @@ The effect of calling `add_one()` is that `b[0]` increases by 1, while `a` is un
 
 # Data Model Exercises #
 
-Now is a good time to practice with Python Data Model concepts. Here are [some exercises](https://github.com/bterwijn/memory_graph_videos/blob/main/exercises/exercises.md) on references, mutability, copies, and function calls.
+Now is a good time to practice with these Python Data Model concepts. Here are [some exercises](https://github.com/bterwijn/memory_graph_videos/blob/main/exercises/exercises.md) on references, mutability, copies, and function calls. Also see the programming exercises at [the end of the Mutability video](https://www.youtube.com/watch?v=pvIJgHCaXhU&t=891s).
 
 # Block #
 It is often helpful to temporarily block program execution to inspect the graph. For this we can use the `mg.block()` function:
@@ -380,7 +380,7 @@ This function:
 * first executes `fun(arg1, arg2, ...)`
 * then prints the current source location in the program
 * then blocks execution until the &lt;Enter&gt; key is pressed
-* finally returns the return value of the `fun()` call
+* and returns the return value of the `fun()` call
 
 ## Recursion ##
 The call stack is also helpful to visualize how recursion works. Here we use `mg.block()` to show each step of how recursively `factorial(4)` is computed:
