@@ -263,7 +263,7 @@ b = a
 mg.render(locals(), 'rebinding1.png')
 
 b += [1]        # changes the value of 'b' and 'a'
-b = [100, 200]  # rebinds 'b' to another value, 'a' is unaffected
+b = [100, 200]  # rebinds 'b' to a new value, 'a' is unaffected
 c = b
 mg.render(locals(), 'rebinding2.png')
 
