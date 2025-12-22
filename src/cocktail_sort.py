@@ -11,7 +11,7 @@ mg.config.type_to_slicer[float] = (mg.Slicer(), mg.Slicer())
 def cocktail_shaker_sort(data):
     start = 0
     end = len(data) - 1
-    print('unserted section:',start,'through',end)
+    print('unsorted section:',start,'through',end)
     while True:
         swapped = False
         for i in range(start, end):
