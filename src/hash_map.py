@@ -46,9 +46,9 @@ class Hash_Map:
         new_size = len(self.buckets) * 2  # double size
         new_buckets = [[] for i in range(new_size)]
         for bucket in self.buckets:
-            for k, v in bucket:
+            for i, (k, v) in enumerate(bucket):
                 index = hash(k) % new_size
-                new_buckets[index].append((k,v))
+                new_buckets[index].append(bucket[i])
         self.buckets = new_buckets
         print("rehashing completed")
 
