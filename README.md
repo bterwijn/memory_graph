@@ -251,7 +251,9 @@ mg.show(locals())
 Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/custom_copy.py&breakpoints=15&continues=1&play).
 
 ## Name Rebinding ##
-When `a` and `b` share a mutable value, then changing the value of `b` changes the value of `a` and vice versa. However, reassigning `b` does not change `a`. When you reassign `b`, you only **rebind** the name `b` to another value without affecting any other variable.
+When `a` and `b` share a mutable value, then changing the value of `b` changes the value of `a` and vice versa. However, reassigning `b` does not change `a`. When you reassign `b`, you only **rebind** the name `b` to another value without affecting any other variable. 
+
+Also note the difference between statement `b += [1]` that changes `b` and `a`, and statement `c = b + [300]` that first creates the new value `b + [300]` and assigns this value to `c` without effecting `b`. This shows that `x += y` is not the same as `x = x + y` for values of mutable type.
 
 ```python
 import memory_graph as mg
@@ -261,12 +263,16 @@ b = a
 mg.render(locals(), 'rebinding1.png')
 
 b += [1]        # changes the value of 'b' and 'a'
-b = [100, 200]  # rebinds 'b' to another value, 'a' is unaffected
+b = [100, 200]  # rebinds 'b' to a new value, 'a' is unaffected
+c = b
 mg.render(locals(), 'rebinding2.png')
+
+c = b + [300]   # rebinds 'c' to new value 'b + [300]', `b` is unaffected
+mg.render(locals(), 'rebinding3.png')
 ```
-| ![rebinding1.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/rebinding1.png) | ![rebinding2.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/rebinding2.png) |
-|:-----------------------------------------------------------:|:-------------------------------------------------------------:|
-| rebinding1.png | rebinding2.png |
+| ![rebinding1.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/rebinding1.png) | ![rebinding2.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/rebinding2.png) | ![rebinding3.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/rebinding3.png) |
+|:--------------:|:--------------:|:--------------:|
+| rebinding1.png | rebinding2.png | rebinding3.png |
 
 Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/rebind.py&play).
 
@@ -361,7 +367,7 @@ The effect of calling `add_one()` is that `b[0]` increases by 1, while `a` is un
 
 # Data Model Exercises #
 
-Now is a good time to practice with Python Data Model concepts. Here are [some exercises](https://github.com/bterwijn/memory_graph_videos/blob/main/exercises/exercises.md) on references, mutability, copies, and function calls.
+Now is a good time to practice with these Python Data Model concepts. Here are [some exercises](https://github.com/bterwijn/memory_graph_videos/blob/main/exercises/exercises.md) on references, mutability, copies, and function calls. Also see the programming exercises at [the end of the Mutability video](https://www.youtube.com/watch?v=pvIJgHCaXhU&t=891s).
 
 # Block #
 It is often helpful to temporarily block program execution to inspect the graph. For this we can use the `mg.block()` function:
@@ -374,7 +380,7 @@ This function:
 * first executes `fun(arg1, arg2, ...)`
 * then prints the current source location in the program
 * then blocks execution until the &lt;Enter&gt; key is pressed
-* finally returns the return value of the `fun()` call
+* and returns the return value of the `fun()` call
 
 ## Recursion ##
 The call stack is also helpful to visualize how recursion works. Here we use `mg.block()` to show each step of how recursively `factorial(4)` is computed:
