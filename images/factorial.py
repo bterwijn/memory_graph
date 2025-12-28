@@ -6,7 +6,7 @@ import memory_graph as mg
 
 def factorial(n):
     mg.render( mg.stack(), 'factorial.png', numbered=True)
-    if n==0:
+    if n<=1:
         return 1
     result = n*factorial(n-1)
     mg.render( mg.stack(), 'factorial.png', numbered=True)
