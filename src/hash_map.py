@@ -85,3 +85,5 @@ all_keys = hash_map.keys()
 for key in all_keys:
     print(f"delete {key}")
     del hash_map[key]
+
+print("=== done")
