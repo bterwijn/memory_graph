@@ -1,8 +1,10 @@
 import random
 
+mg.config.type_to_horizontal[list] = True
+
 END = "_end_"
 
-def make_trie(words):
+def build_trie(words):
     root = {}
     for w in words:
         node = root
@@ -11,30 +13,30 @@ def make_trie(words):
         node[END] = True
     return root
 
-def complete_words(trie, start):
+def word_completions(trie, prefix):
     results = []
 
-    def dfs(node, prefix):
+    def depth_first_search(node, prefix):
         if END in node:
             results.append(prefix)
         for ch, child in node.items():
             if ch != END:
-                dfs(child, prefix + ch)
+                depth_first_search(child, prefix + ch)
 
     node = trie
-    for ch in start:
+    for ch in prefix:
         if ch in node:
             node = node[ch]
         else:
             return []
-    dfs(node, start)
+    depth_first_search(node, prefix)
     return results
     
 words = ["to", 
          "too", "top", "toy", "ton", "toe", "tor", 
          "torn", "tore", "toss", "told", "toll", "tone"]
 random.shuffle(words)
-trie = make_trie(words)
+trie = build_trie(words)
 
-print( complete_words(trie, "to") )
-print( complete_words(trie, "tor") )
+print( word_completions(trie, "to") )
+print( word_completions(trie, "tor") )
