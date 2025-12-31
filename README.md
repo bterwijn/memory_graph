@@ -49,7 +49,7 @@ mg.render(data, "my_graph.gv") # Graphviz DOT file
 mg.render(data) # renders to default: 'memory_graph.pdf'
 ```
 
-# Sharing Values #
+# Sharing Values, Aliasing #
 In Python, assigning a list from variable `a` to variable `b` causes both variables to reference the same list value and thus share it. Consequently, any change applied through one variable will impact the other. This behavior can lead to elusive bugs if a programmer incorrectly assumes that list `a` and `b` are independent.
 
 <table><tr><td> 
@@ -300,7 +300,7 @@ When copying a mix of values of mutable and immutable type, to save on time and 
 import memory_graph as mg
 import copy
 
-a = ( [1, 2], ('x', 'y') ) # mix of mutable and immutable
+a = ( [1, 2], ('x', 'y') ) # mix of mutable and immutable values
 
 # three different ways to make a "copy" of 'a':
 c1 = a
