@@ -78,7 +78,7 @@ mg.show( locals() )
 
 ![mutable2.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/mutable2.png)
 
-a graph showing `a` and `b` share values
+a graph showing `a` and `b` share the list
 
 </td></tr></table>
 
