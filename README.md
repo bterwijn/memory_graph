@@ -66,7 +66,7 @@ b.append(1) # changing 'b' changes 'a'
 print('a:', a)
 print('b:', b)
 
-# check if 'a' and 'b' share values
+# check if 'a' and 'b' share the list
 print('ids:', id(a), id(b))
 print('identical?:', a is b)
 
@@ -82,7 +82,7 @@ a graph showing `a` and `b` share the list
 
 </td></tr></table>
 
-The fact that `a` and `b` share values can not be verified by printing the lists. It can be verified by comparing the identity of both variables using the `id()` function or by using the `is` comparison operator as shown in the program output below, but this quickly becomes impractical for larger programs.
+The fact that `a` and `b` share the list can not be verified by printing the lists. It can be verified by comparing the identity of both variables using the `id()` function or by using the `is` comparison operator as shown in the program output below, but this quickly becomes impractical for larger programs.
 ```{verbatim}
 a: 4, 3, 2, 1
 b: 4, 3, 2, 1
