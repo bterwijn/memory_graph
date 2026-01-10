@@ -13,7 +13,7 @@ Run a live demo in the 👉 [**Memory Graph Web Debugger**](https://memory-graph
 - **visualize the structure of your data** to more easily understand and debug any data structure
 - understand function calls, variable scope, and the **complete program state** through call stack visualization
 
-An example recursive Binary Tree data structure:
+An example Binary Tree data structure:
 ![images/bin_tree.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_tree.gif)
 Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/bin_tree.py&timestep=0.2&play).
 
