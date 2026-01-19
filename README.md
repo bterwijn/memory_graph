@@ -966,6 +966,8 @@ mg.config.type_to_node[List_View] = (lambda l: mg.Node_Linear(l,
 ```
 ![bin_search_linear.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_search_linear.png)
 
+Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/bin_search.py&breakpoints=32&continues=1&timestep=0.5&play)
+
 # Graph Depth #
 To limit the size of the graph the maximum depth of the graph is set by `mg.config.max_graph_depth`. Additionally for each type a depth can be set to further limit the graph, as is done for type `B` in the example below. Scissors indicate where the graph is cut short. Alternatively the `id()` of a data elements can be used to limit the graph for that specific element, as is done for the value referenced by variable `c`.
 
