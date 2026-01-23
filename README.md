@@ -258,16 +258,16 @@ Also note the difference between statement `b += [1]` that changes `b` and `a`, 
 ```python
 import memory_graph as mg
 
-a = [4, 3, 2]
+a = [100, 200]
 b = a
 mg.render(locals(), 'rebinding1.png')
 
-b += [1]        # changes the value of 'b' and 'a'
-b = [100, 200]  # rebinds 'b' to a new value, 'a' is unaffected
+b += [300]      # changes the value of 'b' and 'a'
+b = [400, 500]  # rebinds 'b' to a new value, 'a' is unaffected
 c = b
 mg.render(locals(), 'rebinding2.png')
 
-c = b + [300]   # rebinds 'c' to new value 'b + [300]', `b` is unaffected
+c = b + [600]   # rebinds 'c' to new value 'b + [600]', `b` is unaffected
 mg.render(locals(), 'rebinding3.png')
 ```
 | ![rebinding1.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/rebinding1.png) | ![rebinding2.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/rebinding2.png) | ![rebinding3.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/rebinding3.png) |
