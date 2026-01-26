@@ -10,7 +10,7 @@ Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 Run a live demo in the 👉 [**Memory Graph Web Debugger**](https://memory-graph.com/#breakpoints=8&continues=1&timestep=1.0&play) 👈 now, no installation required!
 
 - learn the right **mental model** to think about Python data (references, mutability, shallow vs deep copy)
-- **visualize the structure of your data** to easily understand and debug any data structure
+- **visualize the structure of your data** to more easily understand and debug any data structure
 - understand function calls, variable scope, and the **complete program state** through call stack visualization
 
 An example Binary Tree data structure:
@@ -49,7 +49,7 @@ mg.render(data, "my_graph.gv") # Graphviz DOT file
 mg.render(data) # renders to default: 'memory_graph.pdf'
 ```
 
-# Sharing Values #
+# Sharing Values, Aliasing #
 In Python, assigning a list from variable `a` to variable `b` causes both variables to reference the same list value and thus share it. Consequently, any change applied through one variable will impact the other. This behavior can lead to elusive bugs if a programmer incorrectly assumes that list `a` and `b` are independent.
 
 <table><tr><td> 
@@ -66,7 +66,7 @@ b.append(1) # changing 'b' changes 'a'
 print('a:', a)
 print('b:', b)
 
-# check if 'a' and 'b' share values
+# check if 'a' and 'b' share the list
 print('ids:', id(a), id(b))
 print('identical?:', a is b)
 
@@ -78,11 +78,11 @@ mg.show( locals() )
 
 ![mutable2.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/mutable2.png)
 
-a graph showing `a` and `b` share values
+a graph showing `a` and `b` share the list
 
 </td></tr></table>
 
-The fact that `a` and `b` share values can not be verified by printing the lists. It can be verified by comparing the identity of both variables using the `id()` function or by using the `is` comparison operator as shown in the program output below, but this quickly becomes impractical for larger programs.
+The fact that `a` and `b` share the list can not be verified by printing the lists. It can be verified by comparing the identity of both variables using the `id()` function or by using the `is` comparison operator as shown in the program output below, but this quickly becomes impractical for larger programs.
 ```{verbatim}
 a: 4, 3, 2, 1
 b: 4, 3, 2, 1
@@ -258,12 +258,12 @@ Also note the difference between statement `b += [1]` that changes `b` and `a`, 
 ```python
 import memory_graph as mg
 
-a = [4, 3, 2]
+a = [100, 200]
 b = a
 mg.render(locals(), 'rebinding1.png')
 
-b += [1]        # changes the value of 'b' and 'a'
-b = [100, 200]  # rebinds 'b' to a new value, 'a' is unaffected
+b += [300]      # changes the value of 'b' and 'a'
+b = [400, 500]  # rebinds 'b' to a new value, 'a' is unaffected
 c = b
 mg.render(locals(), 'rebinding2.png')
 
@@ -300,7 +300,7 @@ When copying a mix of values of mutable and immutable type, to save on time and 
 import memory_graph as mg
 import copy
 
-a = ( [1, 2], ('x', 'y') ) # mix of mutable and immutable
+a = ( [1, 2], ('x', 'y') ) # mix of mutable and immutable values
 
 # three different ways to make a "copy" of 'a':
 c1 = a
@@ -965,6 +965,8 @@ mg.config.type_to_node[List_View] = (lambda l: mg.Node_Linear(l,
 )
 ```
 ![bin_search_linear.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_search_linear.png)
+
+Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/bin_search.py&breakpoints=32&continues=1&timestep=0.5&play)
 
 # Graph Depth #
 To limit the size of the graph the maximum depth of the graph is set by `mg.config.max_graph_depth`. Additionally for each type a depth can be set to further limit the graph, as is done for type `B` in the example below. Scissors indicate where the graph is cut short. Alternatively the `id()` of a data elements can be used to limit the graph for that specific element, as is done for the value referenced by variable `c`.

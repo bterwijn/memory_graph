@@ -1,5 +1,6 @@
 import random
 
+# horizontal lists
 mg.config.type_to_horizontal[list] = True
 
 END = "_end_"

@@ -1,11 +1,11 @@
 import memory_graph as mg
 
-a = [4, 3, 2]
+a = [100, 200]
 b = a
 mg.render(locals(), 'rebinding1.png')
 
-b += [1]        # changes value of 'b' and 'a'
-b = [100, 200]  # rebinds 'b' to a new value, 'a' is uneffected
+b += [300]      # changes value of 'b' and 'a'
+b = [400, 500]  # rebinds 'b' to a new value, 'a' is uneffected
 c = b
 mg.render(locals(), 'rebinding2.png')
 
