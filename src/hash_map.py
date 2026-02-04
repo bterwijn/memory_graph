@@ -38,6 +38,7 @@ class Hash_Map:
         for i, (k, v) in enumerate(bucket):
             if k == key:
                 bucket.pop(i)
+                self.key_count -= 1
                 return
         raise KeyError(f"Key {key} not found")
 
