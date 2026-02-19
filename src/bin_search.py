@@ -1,4 +1,3 @@
-import memory_graph as mg
 import random
 
 class List_View:
@@ -10,16 +9,16 @@ class List_View:
 
     def __getitem__(self, index):
         return self.lst[index]
-        
+
     def get_mid(self):
         return (self.begin + self.end) // 2
 
-mg.config.type_to_node[List_View] = lambda l: mg.Node_Linear(l,
+# Show List_View as sublist
+mg.config.type_to_node[List_View] = (lambda l: mg.Node_Linear(l,
     [v if l.begin <= i < l.end else '' for i, v in enumerate(l.lst)]
-    if hasattr(l, 'end') else [])    
-
-mg.config.type_to_slicer[mg.Node_Linear] = mg.Slicer()
-
+    if hasattr(l, 'end') else [])
+)
+    
 def bin_search(view, value):
     mid = view.get_mid()
     if view.begin == mid:
@@ -30,11 +29,11 @@ def bin_search(view, value):
         return bin_search(List_View(view.lst, mid, view.end), value)
 
 # create sorted list
-n = 30
+n = 15
 data = [random.randrange(1000) for _ in range(n)]
 data.sort()
 
 # search 'value'
-value = data[random.randrange(n)]
+value = data[random.randrange(len(data))]
 index = bin_search(List_View(data, 0, len(data)), value)
-print('index:', index, 'data[index]:', data[index])
+print('found at index:', index, 'data[index]:', data[index])
