@@ -23,7 +23,7 @@ Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=ht
 | [Quick Intro (3:49)](https://www.youtube.com/watch?v=23_bHcr7hqo) | [Mutability (17:29)](https://www.youtube.com/watch?v=pvIJgHCaXhU) |
 
 # Memory Graph #
-For program understanding and debugging, the [memory_graph](https://pypi.org/project/memory-graph/) package can visualize your data, supporting many different data types, including but not limited to:
+For program understanding and debugging, the [memory_graph](https://github.com/bterwijn/memory_graph) package can visualize your data, supporting many different data types, including but not limited to:
 
 ```python
 import memory_graph as mg
@@ -89,7 +89,7 @@ b: 4, 3, 2, 1
 ids: 126432214913216 126432214913216
 identical?: True
 ```
-A better way to understand what values are shared is to draw a graph using [memory_graph](https://pypi.org/project/memory-graph/).
+A better way to understand what values are shared is to draw a graph using [memory_graph](https://github.com/bterwijn/memory_graph).
 
 # Topics #
 
@@ -1159,4 +1159,4 @@ $ bash create_gif.sh animated
 - When graph edges overlap it can be hard to distinguish them. Using an interactive graphviz viewer, such as [xdot](https://github.com/jrfonseca/xdot.py), on a '*.gv' DOT output file will help.
 
 # Other Packages #
-The [memory_graph](https://pypi.org/project/memory-graph/) package visualizes your data. If instead you want to visualize function calls, check out the [invocation_tree](https://pypi.org/project/invocation-tree/) package.
+The [memory_graph](https://github.com/bterwijn/memory_graph) package visualizes your data. If instead you want to visualize function calls, check out the [invocation_tree](https://github.com/bterwijn/memory_graph) package.
