@@ -141,7 +141,7 @@ Bas Terwijn
 ## Inspiration ##
 Inspired by [Python Tutor](https://pythontutor.com/).
 
-The main differences are that running memory_graph locally is a key design choice to support Python Tutor’s [unsupported features](https://github.com/pythontutor-dev/pythontutor/blob/master/unsupported-features.md#unsupported-features) and mirroring the data’s hierarchy improves graph readability.
+The main differences are that by running memory_graph locally we support Python Tutor’s [unsupported features](https://github.com/pythontutor-dev/pythontutor/blob/master/unsupported-features.md#unsupported-features) so that it scales to full programs instead of just code snippets, and by mirroring the data’s hierarchy we improve graph readability for larger graphs.
 
 ## Social Media #
 * [LinkedIn](https://www.linkedin.com/groups/13244150/)
