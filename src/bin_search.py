@@ -35,5 +35,6 @@ data.sort()
 
 # search 'value'
 value = data[random.randrange(len(data))]
+print('searching:', value)
 index = bin_search(List_View(data, 0, len(data)), value)
 print('found at index:', index, 'data[index]:', data[index])
