@@ -1159,4 +1159,4 @@ $ bash create_gif.sh animated
 - When graph edges overlap it can be hard to distinguish them. Using an interactive graphviz viewer, such as [xdot](https://github.com/jrfonseca/xdot.py), on a '*.gv' DOT output file will help.
 
 # Other Packages #
-The [memory_graph](https://github.com/bterwijn/memory_graph) package visualizes your data. If instead you want to visualize function calls, check out the [invocation_tree](https://github.com/bterwijn/memory_graph) package.
+The [memory_graph](https://github.com/bterwijn/memory_graph) package visualizes your data. If instead you want to visualize function calls, check out the [invocation_tree](https://github.com/bterwijn/invocation_tree) package.
