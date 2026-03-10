@@ -241,6 +241,51 @@ def stack_slice(begin_functions : List[Tuple[str, int]] = [],
     end_index = stack_end_index(stack_functions, begin_index, end_functions)
     return stack_frames_to_dict(reversed(frameInfos[begin_index+stack_index:end_index+1]))
 
+def stack_multi_slice(drop_functions : List[Tuple[str, int]] = [],
+                      end_functions : List[str] = ["<module>"],
+                      stack_index : int = 0,
+                      frameInfos : List[inspect.FrameInfo] = None,
+                      ignore_frame_condition = None):
+    """
+    Returns a slice of the call stack, dropping all occurrences of the specified drop_functions.
+    Parameters:
+      drop_functions - list of (function-name, offset), drops all matching 'function-name' frames
+                       including 'offset' number of parent frames for each match.
+      end_functions - list of function-names, ends at the index of the first 'function-name'
+                      that is found in the call stack after stack index (inclusive),
+                      otherwise ends at the last index
+      stack_index - number of frames removed from the beginning
+      ignore_frame_condition - optional callable that takes an inspect.FrameInfo and returns True if the frame should be dropped
+    """
+    if frameInfos is None:
+        frameInfos = inspect.stack()
+    
+    stack_functions = [s.function for s in frameInfos]
+    
+    # establish where to start (skipping innermost debugger eval frames)
+    begin_index = stack_begin_index(stack_functions, drop_functions)
+    if begin_index == 0:
+        begin_index += stack_index
+        
+    end_index = stack_end_index(stack_functions, begin_index, end_functions)
+    
+    drop_indices = set()
+    for drop_func, offset in drop_functions:
+        for i, func in enumerate(stack_functions[begin_index:end_index+1]):
+            actual_i = i + begin_index
+            if func == drop_func:
+                for j in range(actual_i, actual_i + offset):
+                    drop_indices.add(j)
+                    
+    if ignore_frame_condition:
+        for i in range(begin_index, end_index + 1):
+            if i not in drop_indices and ignore_frame_condition(frameInfos[i]):
+                drop_indices.add(i)
+    
+    filtered_frames = [frameInfos[i] for i in range(begin_index, end_index + 1) if i not in drop_indices]
+    
+    return stack_frames_to_dict(reversed(filtered_frames))
+
 def stack(end_functions=["<module>"], stack_index=0):
     return stack_slice([], end_functions, stack_index+2)
 
@@ -273,6 +318,56 @@ def stack_wing(begin_functions=[("_py_line_event",1), ("_py_return_event",1)],
                stack_index=0):
     """ Get the call stack in a 'wing' debugger session, filtering out the 'wing' functions that polute the graph. """
     return stack_slice(begin_functions, end_functions, stack_index)
+
+
+banned_vscode_jupyter_strings = ['pydevd', 'debugpy', 'ipython', 'ipykernel', 'asyncio', 'tornado', 'traitlets', 'runpy']
+
+def is_vscode_jupyter_banned(frameInfo):
+    module_name = frameInfo.frame.f_globals.get('__name__', '')
+    filename = frameInfo.filename
+    func_name = frameInfo.function
+    
+    module_name_lower = module_name.lower()
+    func_name_lower = func_name.lower()
+    filename_lower = filename.lower()
+    
+    # Exempt user notebook/cell code from being banned.
+    if module_name == '__main__' or filename_lower.startswith('<ipython-input'):
+        return False
+    
+    for b in banned_vscode_jupyter_strings:
+        if b in module_name_lower or b in func_name_lower or b in filename_lower:
+            return True
+            
+    return False
+
+def stack_vscode_jupyter(drop_functions=[("trace_dispatch",1), ("_line_event",1), ("_return_event",1), ("do_wait_suspend",1), ("_do_wait_suspend",2)],
+                         end_functions=["<module>"],
+                         stack_index=0):
+    """ Get the call stack natively in a 'vscode' debugging 'jupyter' notebook session, 
+    filtering out the noisy environment specific functions and modules that pollute the graph. """
+    # stack_index + 2 to account for stack_vscode_jupyter and stack_multi_slice
+    call_stack_dict = stack_multi_slice(drop_functions, end_functions, stack_index + 2, ignore_frame_condition=is_vscode_jupyter_banned)
+    
+    for level_key, local_dict in call_stack_dict.items():
+        if '__pydevd_ret_val_dict' in local_dict:
+            ret_vals = local_dict.pop('__pydevd_ret_val_dict')
+            if isinstance(ret_vals, dict):
+                for k, v in ret_vals.items():
+                    # filter out Jupyter internal return values, particularly I/O stream writes
+                    if not any(b in k.lower() for b in banned_vscode_jupyter_strings) and 'write' not in k.lower():
+                        # Place return value in the function's own frame if it is still on the stack
+                        target_dict = local_dict
+                        for l_key, l_dict in call_stack_dict.items():
+                            if ": " in l_key and l_key.split(": ", 1)[1] == k:
+                                target_dict = l_dict
+                                break
+                        target_dict[f"<return> {k}"] = v
+        
+        if "<module>" in level_key:
+            call_stack_dict[level_key] = jupyter_locals_filter(local_dict)
+
+    return call_stack_dict
 
 
 def save_call_stack(filename):
@@ -308,6 +403,12 @@ def pycharm(filename=None, data=None):
 def wing(filename=None, data=None):
     if data is None:
         data = stack_wing()
+    render(data, filename)
+
+def vscode_jupyter(filename=None, data=None):
+    if data is None:
+        # stack_index=1 since this function counts as an extra stack frame
+        data = stack_vscode_jupyter(stack_index=1)
     render(data, filename)
 
 def locals_filter(locals, keys):
