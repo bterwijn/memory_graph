@@ -14,7 +14,7 @@ Run a live demo in the 👉 [**Memory Graph Web Debugger**](https://memory-graph
 - understand function calls, variable scope, and the **complete program state** through call stack visualization
 
 An example Binary Tree data structure:
-![images/bin_tree.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_tree.gif)
+![images/bin_tree_vs.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_tree_vs.gif)
 Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/bin_tree.py&timestep=0.2&play).
 
 # Videos #
