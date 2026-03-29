@@ -1,5 +1,6 @@
 import string
 import random
+random.seed(0) # same random graph each run
 
 class Node:
     
@@ -16,6 +17,7 @@ class Node:
     def get_edges(self):
         return self.edges
 
+# configure memory_graph to show graph nicely
 def node_table(d):
     if hasattr(d, 'edges'):
         cells = [[i] for i in [d.name] + d.edges]
@@ -60,6 +62,8 @@ def print_paths(begin_node, end_name):
         
     path = [begin_node]
     print_paths_recursive(end_name, path)
-    
-graph = create_graph(string.ascii_lowercase)
+
+nr_nodes = 8
+graph = create_graph(string.ascii_lowercase[:nr_nodes])
 print_paths(graph, 'b')
+
