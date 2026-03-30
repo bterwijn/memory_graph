@@ -267,7 +267,7 @@ b = [400, 500]  # rebinds 'b' to a new value, 'a' is unaffected
 c = b
 mg.render(locals(), 'rebinding2.png')
 
-c = c + [300]   # rebinds 'c' to new value 'c + [300]', `b` is unaffected
+c = c + [600]   # rebinds 'c' to new value 'c + [600]', `b` is unaffected
 mg.render(locals(), 'rebinding3.png')
 ```
 | ![rebinding1.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/rebinding1.png) | ![rebinding2.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/rebinding2.png) | ![rebinding3.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/rebinding3.png) |
@@ -795,7 +795,7 @@ tree.insert(15, "fifteen")
 
 mg.show(locals())
 ```
-![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_fail.png)
+![avltree_fail.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_fail.png)
 
 ## All attributes using dir() ##
 A useful start is to give it some color, show the list of all its attributes using `dir()`, and setting an empty Slicer to see the attribute list in full.
@@ -1040,12 +1040,12 @@ mg.show(locals())
 Different extensions are available for types from other Python packages. 
 
 ## Numpy ##
-Numpy types `array` and `matrix` and `ndarray` can be graphed with "memory_graph.extension_numpy":
+For Numpy types `array` and `matrix` and `ndarray`, use `mg.extend_numpy()`:
 
 ```python
 import memory_graph as mg
 import numpy as np
-import memory_graph.extension_numpy
+mg.extend_numpy()
 np.random.seed(0) # use same random numbers each run
 
 matrix = np.matrix([[i*5+j for j in range(4)] for i in range(5)])
@@ -1060,12 +1060,12 @@ mg.show(locals())
 Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#micropip=numpy&codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/mg_numpy.py&continues=1).
 
 ## Pandas ##
-Pandas types `Series` and `DataFrame` can be graphed with "memory_graph.extension_pandas":
+For pandas types `Series` and `DataFrame`, use `mg.extend_pandas()`:
 
 ```python
 import memory_graph as mg
 import pandas as pd
-import memory_graph.extension_pandas
+mg.extend_pandas()
 
 series = pd.Series( [i for i in range(20)] )
 dataframe1 = pd.DataFrame({  "calories": [420, 380, 390],
@@ -1081,12 +1081,12 @@ mg.show(locals())
 Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#micropip=pandas&codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/mg_pandas.py&continues=1).
 
 ## PyTorch ##
-Torch type `tensor` can be graphed with "memory_graph.extension_torch":
+For torch type `tensor`, use `mg.extend_torch()`:
 
 ```python
 import memory_graph as mg
 import torch
-import memory_graph.extension_torch
+mg.extend_torch()
 torch.manual_seed(0) # same random numbers each run
 
 tensor_1d = torch.rand(3)

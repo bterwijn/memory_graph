@@ -391,3 +391,26 @@ def stack_marimo(end_functions=["<cell line: 0>", "<module>"], stack_index=0):
     globals_frame = next(iter(call_stack))
     call_stack[globals_frame] = marimo_locals_filter(call_stack[globals_frame])
     return call_stack
+
+# ------------ extensions
+
+def extend_numpy(on=True):
+    import memory_graph.extension_numpy as ext_np
+    if on:
+        ext_np.extend_numpy()
+    else:
+        ext_np.unextend_numpy()
+
+def extend_pandas(on=True):
+    import memory_graph.extension_pandas as ext_pd
+    if on:
+        ext_pd.extend_pandas()
+    else:
+        ext_pd.unextend_pandas()
+
+def extend_torch(on=True):
+    import memory_graph.extension_torch as ext_torch
+    if on:
+        ext_torch.extend_torch()
+    else:
+        ext_torch.unextend_torch()

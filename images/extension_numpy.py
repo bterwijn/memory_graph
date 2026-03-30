@@ -4,7 +4,7 @@
 
 import memory_graph as mg
 import numpy as np
-import memory_graph.extension_numpy
+mg.extend_numpy()
 np.random.seed(0) # use same random numbers each run
 
 matrix = np.matrix([[i*5+j for j in range(4)] for i in range(5)])

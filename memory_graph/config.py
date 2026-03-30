@@ -7,7 +7,7 @@
 reopen_viewer = None
 render_filename = None
 
-type_lables = None
+type_labels = None
 
 block_prints_location = None
 press_enter_message = None
