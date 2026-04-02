@@ -480,6 +480,7 @@ The ```mg.stack()``` doesn't work well in **watch** context in most debuggers be
 |:---|:---|
 | [pdb](https://docs.python.org/3/library/pdb.html), [pudb](https://pypi.org/project/pudb/) | `mg.stack_pdb()` |
 | [Visual Studio Code](https://code.visualstudio.com/docs/languages/python) | `mg.stack_vscode()` |
+| [Jupyter Notebooks in VS Code](https://code.visualstudio.com/docs/datascience/jupyter-notebooks) | `mg.stack_vscode_jupyter()` |
 | [Cursor AI](https://www.cursor.com/) | `mg.stack_cursor()` |
 | [PyCharm](https://www.jetbrains.com/pycharm/) | `mg.stack_pycharm()` |
 | [Wing](https://wingware.com/) | `mg.stack_wing()` |
