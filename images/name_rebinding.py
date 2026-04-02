@@ -9,5 +9,5 @@ b = [400, 500]  # rebinds 'b' to a new value, 'a' is uneffected
 c = b
 mg.render(locals(), 'rebinding2.png')
 
-c = c + [300]   # rebinds 'c' to new value 'c + [300]', `b` is unaffected
+c = c + [600]   # rebinds 'c' to new value 'c + [600]', `b` is unaffected
 mg.render(locals(), 'rebinding3.png')

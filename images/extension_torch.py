@@ -1,6 +1,6 @@
 import memory_graph as mg
 import torch
-import memory_graph.extension_torch
+mg.extend_torch()
 torch.manual_seed(0) # same random numbers each run
 
 tensor_1d = torch.rand(3)

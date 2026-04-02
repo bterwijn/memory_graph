@@ -14,7 +14,7 @@ Run a live demo in the 👉 [**Memory Graph Web Debugger**](https://memory-graph
 - understand function calls, variable scope, and the **complete program state** through call stack visualization
 
 An example Binary Tree data structure:
-![images/bin_tree.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_tree.gif)
+![images/bin_tree_vs.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_tree_vs.gif)
 Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/bin_tree.py&timestep=0.2&play).
 
 # Videos #
@@ -141,7 +141,7 @@ Bas Terwijn
 ## Inspiration ##
 Inspired by [Python Tutor](https://pythontutor.com/).
 
-The main differences are that by running memory_graph locally we support Python Tutor’s [unsupported features](https://github.com/pythontutor-dev/pythontutor/blob/master/unsupported-features.md#unsupported-features) so that it scales to full programs instead of just code snippets, and by mirroring the data’s hierarchy we improve graph readability for larger graphs.
+The main differences are that by running memory_graph locally we support Python Tutor’s [unsupported features](https://github.com/pythontutor-dev/pythontutor/blob/master/unsupported-features.md#unsupported-features) so that it scales to full programs in many environments and IDEs instead of just code snippets in a webbrowser, and by mirroring the data’s hierarchy we improve graph readability for larger graphs.
 
 ## Social Media #
 * [LinkedIn](https://www.linkedin.com/groups/13244150/)
@@ -267,7 +267,7 @@ b = [400, 500]  # rebinds 'b' to a new value, 'a' is unaffected
 c = b
 mg.render(locals(), 'rebinding2.png')
 
-c = c + [300]   # rebinds 'c' to new value 'c + [300]', `b` is unaffected
+c = c + [600]   # rebinds 'c' to new value 'c + [600]', `b` is unaffected
 mg.render(locals(), 'rebinding3.png')
 ```
 | ![rebinding1.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/rebinding1.png) | ![rebinding2.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/rebinding2.png) | ![rebinding3.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/rebinding3.png) |
@@ -762,7 +762,7 @@ Different aspects of memory_graph can be configured. The default configuration c
 ## Simplified Graph ##
 Memory_graph simplifies the visualization (and the viewer's mental model) by **not** showing separate nodes for immutable types like `bool`, `int`, `float`, `complex`, and `str` by default. This simplification can sometimes be slightly misleading. As in the example below, after a shallow copy, lists `a` and `b` technically share their `int` values, but the graph makes it appear as though `a` and `b` each have their own copies. However, since `int` is immutable, this simplification will never lead to unexpected changes (changing `a`'s ints won’t affect `b`) so will never result in bugs.
 
-The simplification strikes a balance: it is slightly misleading but keeps the graph clean and easy to understand and focuses on the mutable types where unexpected changes can occur. This is why it is the default behavior. If you do want to show separate nodes for `int` values, such as for educational purposes, you can simply remove `int` from the `mg.config.embedded_types` set:
+The simplification strikes a balance: it is slightly misleading but keeps the graph clean and easy to understand to focus on mutable types where unexpected changes can occur. This is why it is the default behavior. If you do want to show separate nodes for `int` values, such as for educational purposes, you can simply remove `int` from the `mg.config.embedded_types` set:
 ```python
 import memory_graph as mg
 
@@ -796,7 +796,7 @@ tree.insert(15, "fifteen")
 
 mg.show(locals())
 ```
-![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_fail.png)
+![avltree_fail.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_fail.png)
 
 ## All attributes using dir() ##
 A useful start is to give it some color, show the list of all its attributes using `dir()`, and setting an empty Slicer to see the attribute list in full.
@@ -1041,12 +1041,12 @@ mg.show(locals())
 Different extensions are available for types from other Python packages. 
 
 ## Numpy ##
-Numpy types `array` and `matrix` and `ndarray` can be graphed with "memory_graph.extension_numpy":
+For Numpy types `array` and `matrix` and `ndarray`, use `mg.extend_numpy()`:
 
 ```python
 import memory_graph as mg
 import numpy as np
-import memory_graph.extension_numpy
+mg.extend_numpy()
 np.random.seed(0) # use same random numbers each run
 
 matrix = np.matrix([[i*5+j for j in range(4)] for i in range(5)])
@@ -1061,12 +1061,12 @@ mg.show(locals())
 Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#micropip=numpy&codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/mg_numpy.py&continues=1).
 
 ## Pandas ##
-Pandas types `Series` and `DataFrame` can be graphed with "memory_graph.extension_pandas":
+For pandas types `Series` and `DataFrame`, use `mg.extend_pandas()`:
 
 ```python
 import memory_graph as mg
 import pandas as pd
-import memory_graph.extension_pandas
+mg.extend_pandas()
 
 series = pd.Series( [i for i in range(20)] )
 dataframe1 = pd.DataFrame({  "calories": [420, 380, 390],
@@ -1082,12 +1082,12 @@ mg.show(locals())
 Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#micropip=pandas&codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/mg_pandas.py&continues=1).
 
 ## PyTorch ##
-Torch type `tensor` can be graphed with "memory_graph.extension_torch":
+For torch type `tensor`, use `mg.extend_torch()`:
 
 ```python
 import memory_graph as mg
 import torch
-import memory_graph.extension_torch
+mg.extend_torch()
 torch.manual_seed(0) # same random numbers each run
 
 tensor_1d = torch.rand(3)
@@ -1160,4 +1160,4 @@ $ bash create_gif.sh animated
 - When graph edges overlap it can be hard to distinguish them. Using an interactive graphviz viewer, such as [xdot](https://github.com/jrfonseca/xdot.py), on a '*.gv' DOT output file will help.
 
 # Other Packages #
-The [memory_graph](https://github.com/bterwijn/memory_graph) package visualizes your data. If instead you want to visualize function calls, check out the [invocation_tree](https://github.com/bterwijn/memory_graph) package.
+The [memory_graph](https://github.com/bterwijn/memory_graph) package visualizes your data. If instead you want to visualize function calls, check out the [invocation_tree](https://github.com/bterwijn/invocation_tree) package.
