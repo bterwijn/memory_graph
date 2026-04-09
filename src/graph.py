@@ -42,28 +42,29 @@ def create_graph(names, nr_edges=2):
                     break     
     return nodes[0]
 
-def print_path(path):
-    for n in path:
-        print(n.name, end=' ')
-    print()
-
-def print_paths(begin_node, end_name):
-    def print_paths_recursive(end_name, path):
-        cur = path[-1]
-        if cur.name == end_name:
-            print_path(path)
-        else:
-            neighbors = cur.get_edges()
-            for n in neighbors:
-                if not n in path:
-                    path.append(n)
-                    print_paths_recursive(end_name, path)
-                    path.pop()
-        
-    path = [begin_node]
-    print_paths_recursive(end_name, path)
+def breadth_first_paths(begin_node, end_name):
+    paths = [[begin_node]]
+    shortest_paths = []
+    while True:
+        new_paths = []    
+        for path in paths:
+            current_node = path[-1]
+            path[-1] = current_node.name
+            if current_node.name == end_name:
+                shortest_paths.append(path)
+            else:
+                if nodes := current_node.get_edges():
+                    for node in nodes:
+                        if node.name not in path:
+                            pc = path.copy()
+                            pc.append(node)
+                            new_paths.append(pc)
+        paths = new_paths
+        if shortest_paths or not paths:
+            break
+    return shortest_paths
 
 nr_nodes = 8
-graph = create_graph(string.ascii_lowercase[:nr_nodes])
-print_paths(graph, 'b')
-
+begin_node = create_graph(string.ascii_lowercase[:nr_nodes])
+shortest_paths = breadth_first_paths(begin_node, 'b')
+print(f'{shortest_paths=}')
