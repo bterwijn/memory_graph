@@ -10,8 +10,7 @@ def main():
     goal = Sliding_Puzzle(f"1,2,3;4,5,6;7,8,{EMPTY_TILE}")
     print('=== goal:')
     print(goal)
-    board = goal.copy()
-    board.random_move(RANDOM_MOVES) # make random moves to shuffle the board
+    board = random_moves(goal, RANDOM_MOVES) # make random moves to shuffle the board
     print('=== starting board:')
     print(board)
     solution, visited_boards = solve(board, goal)
@@ -76,6 +75,7 @@ class Sliding_Puzzle:
         self.tiles = [row.split(',') for row in board.split(';')]
         self.rows = len(self.tiles)
         self.cols = len(self.tiles[0]) if self.rows > 0 else 0
+        self.empty_pos = self.find_empty_position()
 
     def __repr__(self):
         """ Provide a unique string representation of the board."""
@@ -85,13 +85,16 @@ class Sliding_Puzzle:
         """ Provide a human-readable string representation of the board."""
         return '\n'.join([' '.join(row) for row in self.tiles])
     
-    def get_empty_position(self):
-        """ Return the (row, col) of the empty space (EMPTY_TILE). """
+    def find_empty_position(self):
+        """ Searched and returns the (row, col) of the empty space (EMPTY_TILE). """
         for r in range(self.rows):
             for c in range(self.cols):
                 if self.tiles[r][c] == EMPTY_TILE:
                     return (r, c)
-        return None
+    
+    def get_empty_position(self):
+        """ Return the (row, col) of the empty space (EMPTY_TILE). """
+        return self.empty_pos
     
     def copy(self):
         """ Return a deep copy of the current board. """
@@ -110,17 +113,19 @@ class Sliding_Puzzle:
                 child = self.copy()
                 ct = child.tiles
                 ct[empty_r][empty_c], ct[new_r][new_c] = ct[new_r][new_c], ct[empty_r][empty_c]
+                child.empty_pos = (new_r, new_c)
                 children.append(child)
         return children
 
     def __eq__(self, other):
         """ Check if two boards are equal. """
         return self.tiles == other.tiles
-    
-    def random_move(self, moves=100):
-        """ Perform a series of random valid moves to shuffle the board. """
-        for _ in range(moves):
-            self.tiles = random.choice(self.get_childeren()).tiles
+
+def random_moves(board, moves=100):
+    """ Perform a series of random valid moves to shuffle the board. """
+    for _ in range(moves):
+        board = random.choice(board.get_childeren())
+    return board
 
 # show Sliding_Puzzle instance as magenta table
 mg.config.type_to_color[Sliding_Puzzle] = 'magenta'

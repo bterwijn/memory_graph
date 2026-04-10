@@ -690,7 +690,7 @@ In this configuration example we show the decimal, binary and [two's complement 
 
 A sliding puzzle solver as a challenging example showing how memory_graph deals with large amounts of data. Click "Continue" to step through the breadth-first search generations until a solution path is found:
 
-- [sliding puzzle solver](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/sliding_puzzle.py&breakpoints=17,27,29,40&continues=1)
+- [sliding puzzle solver](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/sliding_puzzle.py&breakpoints=16,26,28,39&continues=1)
 
 ![sliding_puzzle.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/sliding_puzzle.png)
 
