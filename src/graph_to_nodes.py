@@ -1,6 +1,13 @@
 import string
 import random
-random.seed(0) # same random graph each run
+
+def create_graph(names, nr_edges):
+    graph = {}
+    names_set = set(names)
+    for i in names:
+        valid_edges = list(names_set - {i})
+        graph[i] = ''.join([ e for e in random.sample(valid_edges, nr_edges)])
+    return graph
 
 class Node:
     
@@ -27,20 +34,17 @@ def node_table(d):
 mg.config.type_to_node[Node] = node_table
 mg.config.type_to_color[Node] = "aqua"
 
-def create_graph(names, nr_edges=2):
+def graph_to_nodes(graph):
     # create nodes
-    nodes = []
-    for n in names:
-        nodes.append(Node(n))
+    nodes = {}
+    for n in graph:
+        nodes[n]=Node(n)
     # create edges
-    for n in nodes:
-        while True:
-            n2 = random.choice(nodes)
-            if n2 is not n and n2 not in n.get_edges():
-                n.add_edge(n2)
-                if len(n.get_edges()) >= nr_edges:
-                    break     
-    return nodes[0]
+    for n, edges in graph.items():
+        for e in edges:
+            nodes[n].add_edge(nodes[e])
+    n, node = next(iter(nodes.items()))
+    return node
 
 def breadth_first_paths(begin_node, end_name):
     paths = [[begin_node]]
@@ -64,7 +68,9 @@ def breadth_first_paths(begin_node, end_name):
             break
     return shortest_paths
 
-nr_nodes = 8
-begin_node = create_graph(string.ascii_lowercase[:nr_nodes])
+nr_nodes = 26
+nr_edges = 2
+graph = create_graph(string.ascii_lowercase[:nr_nodes], nr_edges)
+begin_node = graph_to_nodes(graph)
 shortest_paths = breadth_first_paths(begin_node, 'b')
-print(f'{shortest_paths=}')
+print(shortest_paths)
