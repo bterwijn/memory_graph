@@ -1030,7 +1030,7 @@ import memory_graph as mg
 
 data = []
 x = ['x']
-for i in range(20):
+for i in range(35):
     data.append(x)
 
 mg.show(locals())
