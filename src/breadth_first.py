@@ -28,7 +28,7 @@ def breadth_first(graph, begin, end):
             return paths_shortest
 
 nr_nodes = 26
-nr_edges = 2
+nr_edges = 3
 graph = create_graph(string.ascii_lowercase[:nr_nodes], nr_edges)
 paths_shortest = breadth_first(graph, 'a', 'b')
 print(paths_shortest)

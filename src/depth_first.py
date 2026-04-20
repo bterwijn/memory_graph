@@ -29,7 +29,7 @@ def depth_first(graph, begin, end):
     return paths_all
 
 nr_nodes = 26
-nr_edges = 2
+nr_edges = 3
 graph = create_graph(string.ascii_lowercase[:nr_nodes], nr_edges)
 paths_all = depth_first(graph, 'a', 'b')
 print(paths_all)
