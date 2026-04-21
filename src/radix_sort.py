@@ -1,7 +1,7 @@
 import random
 
 def counting_sort(new_data, data, digit):
-    """ Sorts `data` to the digit at position `digit` using stable 
+    """ Sorts `data` to the digit at position `digit` using 
     Counting Sort. The sorted data is writen to `new_data`. """
     counts = [0] * 10
     exp = 10 ** digit
@@ -16,7 +16,7 @@ def counting_sort(new_data, data, digit):
         new_data[counts[d]] = data[i]
 
 def radix_sort(data, nr_digits):
-    """ Sorts the `data` using radix sort. The number of digits in the largest 
+    """ Sorts `data` using radix sort. The number of digits in the largest 
     number is `nr_digits`. """
     new_data = data.copy()
     for d in range(nr_digits):
