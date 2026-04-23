@@ -12,20 +12,18 @@ def create_graph(names, nr_edges):
 def breadth_first(graph, begin, end):
     paths = [ begin ]
     paths_shortest = []
-    while True:
+    while paths and not paths_shortest:
         paths_new = []
         for path in paths:
             current = path[-1]
             if current == end:
                 paths_shortest.append(path)
             else:
-                if current in graph:
-                    for n in graph[current]:
-                        if n not in path:
-                            paths_new.append(path + n)
+                for n in graph[current]:
+                    if n not in path:
+                        paths_new.append(path + n)
         paths = paths_new
-        if paths_shortest or not paths:
-            return paths_shortest
+    return paths_shortest
 
 nr_nodes = 26
 nr_edges = 3
