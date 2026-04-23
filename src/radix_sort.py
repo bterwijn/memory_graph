@@ -18,7 +18,7 @@ def counting_sort(new_data, data, digit):
 def radix_sort(data, nr_digits):
     """ Sorts `data` using radix sort. The number of digits in the largest 
     number is `nr_digits`. """
-    new_data = data.copy()
+    new_data = [0] * len(data)
     for d in range(nr_digits):
         counting_sort(new_data, data, d)
         data, new_data = new_data, data
