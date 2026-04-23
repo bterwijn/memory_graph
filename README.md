@@ -156,7 +156,7 @@ ___
 # Python Data Model #
 Learn the right **mental model** to think about Python data. The [Python Data Model](https://docs.python.org/3/reference/datamodel.html) makes a distiction between immutable and mutable types:
 
-* **immutable**: bool, int, float, complex, str, tuple, bytes, frozenset
+* **immutable**: bool, int, float, complex, str, tuple, frozenset, frozendict, bytes
 * **mutable**: list, set, dict, classes, ... (most other types)
 
 
