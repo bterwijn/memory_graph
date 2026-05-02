@@ -676,6 +676,7 @@ Visualization of different sorting algorithms in Memory Graph Web Debugger.
 - [insertion sort](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/insertion_sort.py&breakpoints=13,29&continues=1&timestep=0.2&play)
 - [bubble sort](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/bubble_sort.py&breakpoints=29,38&continues=1&timestep=0.2&play)
 - [cocktail shaker sort](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/cocktail_sort.py&breakpoints=16,45&continues=1&timestep=0.2&play)
+- [bucket sort](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/bucket_sort.py&timestep=0.2&play)
 - [radix sort](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/radix_sort.py&timestep=0.2&play)
 
 
