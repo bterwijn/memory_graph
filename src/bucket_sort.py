@@ -10,7 +10,7 @@ class Bucket_Sort:
             self.buckets = [ [] for _ in range(nr_buckets)]
             bucket_size = (max_val - min_val) / nr_buckets
             for i in data:
-                b = int((i - min_val) // bucket_size)
+                b = int((i - min_val) / bucket_size)
                 b = min(b, nr_buckets-1)
                 self.buckets[b].append(i)
             for bi in range(len(self.buckets)):
