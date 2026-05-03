@@ -290,14 +290,14 @@ def stack_multi_slice(drop_functions : List[Tuple[str, int]] = [],
 def stack(end_functions=["<module>"], stack_index=0):
     return stack_slice([], end_functions, stack_index+2)
 
-def stack_exception(exception):
+def stack_exception(exception, stack_index=0):
     """ Get the call stack at the point 'exception' was thrown. """
     tb = exception.__traceback__
     frame_infos = []
     while tb is not None:
         frame_infos.append(types.SimpleNamespace(frame=tb.tb_frame))
         tb = tb.tb_next
-    return stack_frames_to_dict(frame_infos)
+    return stack_frames_to_dict(frame_infos[stack_index:])
 
 def stack_pdb(begin_functions=[("trace_dispatch",1)],
               end_functions=["<module>"],
