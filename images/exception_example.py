@@ -15,5 +15,5 @@ def fun1():
 try:
     fun1()
 except Exception as e:
-    traceback.print_exc()           # print trace back
+    # traceback.print_exc()           # print trace back
     mg.render(mg.stack_exception(e), 'exception_example.png')  # graph trace back
