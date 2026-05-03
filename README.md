@@ -537,6 +537,48 @@ and pressing &lt;Enter&gt; a number of times, results in:
 
 ![debugging.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/debugging.gif)
 
+## Debugging using Exceptions ##
+
+To get the call stack at the point where exception `e` was thrown use `mg.stack_exception(e)`. This allows you to graph the trace back for easier debugging, for example:
+
+``` python
+import memory_graph as mg
+import traceback;
+
+def fun3():
+    d = [0] * 3
+    for i in range(4):
+        d[i] = i  # throws IndexError when i = 3
+    
+def fun2():
+    fun3()
+    
+def fun1():
+    fun2()
+
+try:
+    fun1()
+except Exception as e:
+    traceback.print_exc()           # print trace back
+    mg.show(mg.stack_exception(e))  # graph trace back
+```
+```
+$ python exception_example.py
+Traceback (most recent call last):
+  File "exception_example.py", line 16, in <module>
+    fun1()
+  File "exception_example.py", line 13, in fun1
+    fun2()
+  File "exception_example.py", line 10, in fun2
+    fun3()
+  File "exception_example.py", line 7, in fun3
+    d[i] = i  # throws IndexError when i = 3
+    ~^^^
+IndexError: list assignment index out of range
+```
+![exception_example.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/exception_example.png)
+
+
 # Data Structure Examples #
 Package memory_graph can **visualize the structure of your data** to easily understand and debug data structures, some examples:
 

@@ -13,6 +13,7 @@ import memory_graph.utils as utils
 import inspect
 import sys
 import itertools as it
+import types
 from memory_graph.call_stack import call_stack
 
 import graphviz
@@ -288,6 +289,15 @@ def stack_multi_slice(drop_functions : List[Tuple[str, int]] = [],
 
 def stack(end_functions=["<module>"], stack_index=0):
     return stack_slice([], end_functions, stack_index+2)
+
+def stack_exception(exception):
+    """ Get the call stack at the point 'exception' was thrown. """
+    tb = exception.__traceback__
+    frame_infos = []
+    while tb is not None:
+        frame_infos.append(types.SimpleNamespace(frame=tb.tb_frame))
+        tb = tb.tb_next
+    return stack_frames_to_dict(frame_infos)
 
 def stack_pdb(begin_functions=[("trace_dispatch",1)],
               end_functions=["<module>"],

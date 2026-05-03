@@ -23,6 +23,7 @@ python binary.py
 bash create_gif.sh binary -d
 python power_set.py
 bash create_gif.sh power_set -d
+python exception_example.py
 
 # datastructures
 python linked_list.py
