@@ -1,0 +1,33 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Test, coverage, and type-checker caches
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# Build and packaging output
+build/
+dist/
+*.egg-info/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Local editor and OS files
+.DS_Store
+.idea/
+.vscode/
+
+# Generated memory_graph render output
+memory_graph.gv
+memory_graph.pdf
+memory_graph.png
+test_graph*.png

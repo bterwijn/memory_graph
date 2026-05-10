@@ -10,7 +10,7 @@ def status(index):
         return index[0]
     return index
 
-def test_slicing(sequence, slicer):
+def check_slicing(sequence, slicer):
     print(sequence)
     print(slicer)
     for i in sequence.indices_all():
@@ -25,13 +25,13 @@ def test_slicing(sequence, slicer):
 def test_sequence():
     sequence = Sequence1D([i for i in range(8)])
     slicer = Slicer(2,3)
-    test_slicing(sequence, slicer)
+    check_slicing(sequence, slicer)
 
     width = 5
     height = 6
     sequence = Sequence2D([[x+y*width for x in range(width)] for y in range(height)])
     slicer = (Slicer(1,2), Slicer(2,1))
-    test_slicing(sequence, slicer)
+    check_slicing(sequence, slicer)
 
 if __name__ == '__main__':
     test_sequence()

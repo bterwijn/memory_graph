@@ -5,6 +5,17 @@ pip install --upgrade memory_graph
 ```
 Additionally [Graphviz](https://graphviz.org/download/) needs to be installed.
 
+# Development #
+Install the package with test dependencies from the repository root:
+```
+python3 -m pip install -e ".[test]"
+```
+
+Run the test suite with:
+```
+python3 -m pytest
+```
+
 # Highlights #
 ![vscode_copying.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/vscode_copying.gif)
 Run a live demo in the 👉 [**Memory Graph Web Debugger**](https://memory-graph.com/#breakpoints=8&continues=1&timestep=1.0&play) 👈 now, no installation required!

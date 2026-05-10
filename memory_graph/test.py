@@ -3,6 +3,8 @@
 # SPDX-License-Identifier: BSD-2-Clause
 
 """ Some test data to make memory graph of for test purposes. """
+__test__ = False
+
 import memory_graph.utils as utils
 import memory_graph.config as config
 

@@ -25,9 +25,27 @@ dependencies = [
     "graphviz",
 ]
 
+[project.optional-dependencies]
+test = [
+    "numpy",
+    "pandas",
+    "pytest",
+]
+dev = [
+    "build",
+    "numpy",
+    "pandas",
+    "pytest",
+    "twine",
+]
+
 [project.urls]
 Homepage = "https://github.com/bterwijn/memory_graph"
 Repository = "https://github.com/bterwijn/memory_graph.git"
 
 [tool.setuptools]
 packages = ["memory_graph"]
+
+[tool.pytest.ini_options]
+testpaths = ["memory_graph"]
+python_files = ["test*.py"]
