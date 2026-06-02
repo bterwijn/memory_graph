@@ -128,7 +128,7 @@ try:
 except Exception as e:
     print(e)
     # choose shorter string representation for BaseException
-    mg.config.type_to_string[BaseException] = lambda data: mg.utils.exception_to_string_short(data)
+    mg.config.type_to_string[BaseException] = lambda e: mg.utils.exception_to_string_short(e)
     print(mg.utils.exception_to_string_short(e))
 
 mg.config_default.reset()
