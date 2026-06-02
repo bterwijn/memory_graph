@@ -24,9 +24,14 @@ def exception_to_string_no_path(e):
     """ Helper function to convert the traceback of an exception to a string without file paths. """
     s = exception_to_string(e)
     # Convert traceback file paths like File "/a/b/c.py" to File "c.py".
+    def _strip_path(match):
+        file_path = match.group(2).replace('\\', '/')  # for Windows paths
+        file_name = file_path.rsplit('/', 1)[-1]
+        return f'{match.group(1)}{file_name}{match.group(3)}'
+
     return re.sub(
         r'(^\s*File ")(.*?)(")',
-        lambda m: f'{m.group(1)}{m.group(2).replace("\\", "/").rsplit("/", 1)[-1]}{m.group(3)}',
+        _strip_path,
         s,
         flags=re.MULTILINE,
     )
