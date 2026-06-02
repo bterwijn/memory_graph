@@ -122,7 +122,7 @@ del MyClass, a
 
 # Exceptions
 
-mylist = [1, 2]
+mylist = [0, 1]
 try:
     mylist[2]
 except Exception as e:
