@@ -36,7 +36,7 @@ def default_to_string(data):
     except Exception as e:
         s = 'no stringification, '+ type(e).__name__ +': '+ str(e)
     finally:
-        return utils.limit_string(s)
+        return utils.prep_str(s)
 
 def get_to_string(data, default=lambda d: default_to_string(d)):
     return get_property(id(data),

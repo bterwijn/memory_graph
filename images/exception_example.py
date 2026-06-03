@@ -1,5 +1,5 @@
 import memory_graph as mg
-mg.config.type_to_string[BaseException] = lambda data: mg.utils.exception_to_string_no_path(data)
+mg.config.type_to_string[BaseException] = lambda data: mg.utils.prep_exception_str((mg.utils.exception_to_string_no_path(data)))
 def fun3():
     d = [0] * 3
     for i in range(4):

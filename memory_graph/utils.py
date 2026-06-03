@@ -7,14 +7,31 @@ import types
 import functools
 import traceback
 import re
+import html
 
 import memory_graph.config as config
 
 def limit_string(s):
-    """ Helper function to limit the length of a string s to the 'max_string_length' in the config. """
+    """ Limit the length of a string s to the 'max_string_length' in the config. """
     if len(s) > config.max_string_length:
         return s[:config.max_string_length] + '...'
     return s
+
+def html_escape(s):
+    """ Escape HTML characters in 's' for safe display in the graph. """
+    return html.escape(s)
+
+def newlines_to_br(s):
+    """ Replace newlines in 's' with <BR/> tags for HTML display. """
+    return s.replace('\n', ' <BR/> ')
+
+def prep_str(s):
+    """ Prepare 's' by limiting length, escaping HTML, and replacing newlines. """
+    return newlines_to_br(html_escape(limit_string(s)))
+
+def quote_string(s):
+    """ Quote 's' if it is a string. """
+    return "'" + s + "'"
 
 def exception_to_string(e):
     """ Helper function to convert the traceback of an exception to a string. """
@@ -39,6 +56,23 @@ def exception_to_string_no_path(e):
 def exception_to_string_short(e):
     """ Helper function to convert an exception to a short string. """
     return f'{type(e).__name__}: {e}'
+
+def mono_font(s):
+    """ Helper function to wrap in monospaced font. """
+    return f'<FONT FACE="Courier">{s}</FONT>'
+
+def caret_line_length(s):
+    """ Adds whitespace to caret line in 's' so it is as long as the previois line. """
+    lines = s.split('\n')
+    for i in range(len(lines)-2, -1, -1):
+        if re.fullmatch(r'\s*~*\^+\s*', lines[i]):  # match line like '  ~~~^^ '
+            lines[i] = lines[i].ljust(len(lines[i - 1]))
+            break
+    return '\n'.join(lines)
+
+def prep_exception_str(s):
+    """ Helper function to prepare an exception string for HTML display. """
+    return newlines_to_br(mono_font(html_escape(caret_line_length(s))))
 
 def get_all_types(obj):
     cls = type(obj)

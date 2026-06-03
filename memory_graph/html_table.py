@@ -6,7 +6,7 @@ from memory_graph.node_base import Node_Base
 import memory_graph.node_base
 import memory_graph.config as config
 import memory_graph.config_helpers as config_helpers
-import html
+import memory_graph.utils as utils
 
 def html_table_frame(s, border, color, spacing=5):
     """ Helper function to add the HTML table frame to the string s setting the 'border' and 'color'. """
@@ -18,9 +18,7 @@ def format_string(value, quote_str):
     to_string = config_helpers.get_to_string(value)
     s = to_string(value)
     if quote_str and isinstance(value, str):
-        s = "'" + s + "'"
-    s = html.escape(s)
-    s = s.replace('\n', ' <BR/> ')
+        s = utils.quote_string(s)
     return s
 
 class HTML_Table:
