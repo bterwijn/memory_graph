@@ -16,8 +16,12 @@ def html_table_frame(s, border, color, spacing=5):
 def format_string(value, quote_str):
     """ Helper function to format 'value' to be shown in the graph. We escape html characters and convert newlines to <BR/> tags. """
     to_string = config_helpers.get_to_string(value)
-    s = html.escape(to_string(value, quote_str))
-    return s.replace('\n', ' <BR/> ')
+    s = to_string(value)
+    if quote_str and isinstance(value, str):
+        s = "'" + s + "'"
+    s = html.escape(s)
+    s = s.replace('\n', ' <BR/> ')
+    return s
 
 class HTML_Table:
     """
