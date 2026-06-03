@@ -25,18 +25,21 @@ def get_data_to_node(data, default=None):
                         config.type_to_node, 
                         default )
 
-def default_to_string(data):
+def default_to_string(data, quote_str):
     """ Convert data to string. """
     try:
         if isinstance(data, str):
-            s = data
+            if quote_str:
+                s = "'" + data + "'"
+            else:
+                s = data
         else:
             s = str(data)
         return utils.limit_string(s)
     except Exception as e:
         return f'no stringification, {type(e).__name__}: {e}'
 
-def get_to_string(data, default=lambda s: default_to_string(s)):
+def get_to_string(data, default=lambda d, q: default_to_string(d, q)):
     return get_property(id(data),
                         utils.get_all_types(data),
                         None,

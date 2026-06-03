@@ -13,10 +13,10 @@ def html_table_frame(s, border, color, spacing=5):
     return (f'<\n<TABLE BORDER="{border}" CELLBORDER="1" CELLSPACING="{spacing}" CELLPADDING="0" BGCOLOR="{color}" PORT="table">\n    <TR>' +
             s + '</TR>\n</TABLE>\n>')
 
-def format_string(value):
+def format_string(value, quote_str):
     """ Helper function to format 'value' to be shown in the graph. We escape html characters and convert newlines to <BR/> tags. """
     to_string = config_helpers.get_to_string(value)
-    s = html.escape(to_string(value))
+    s = html.escape(to_string(value, quote_str))
     return s.replace('\n', ' <BR/> ')
 
 class HTML_Table:
@@ -77,7 +77,7 @@ class HTML_Table:
         """ Helper function to add 'value' to the table. """
         self.check_add_new_line()
         r = ' STYLE="ROUNDED"' if rounded else ''
-        self.html += f'<TD BORDER="{border}"{r}> {format_string(value)} </TD>'
+        self.html += f'<TD BORDER="{border}"{r}> {format_string(value, not rounded)} </TD>'
         self.is_empty = False
         self.col_count += 1
 
