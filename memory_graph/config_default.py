@@ -42,7 +42,7 @@ def reset():
 
     """ Types that by default will be embedded in the node of their parent. """
     config.embedded_types = {
-        type(None), bool, int, float, complex, str, unquoted,
+        type(None), bool, int, float, complex, str, unquoted, html_str,
         types.FunctionType,
         types.MethodType,
         classmethod,
