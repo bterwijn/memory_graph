@@ -15,7 +15,7 @@ def format_string(value, quote_str):
     """ Helper function to format 'value' to be shown in the graph. We escape html characters and convert newlines to <BR/> tags. """
     to_string = config_helpers.get_to_string(value)
     s = to_string(value)
-    if quote_str and isinstance(value, str) or isinstance(value, utils.full_str):
+    if quote_str and isinstance(value, (str, utils.full_str)):
         s = utils.quote_string(s)
     return s
 
