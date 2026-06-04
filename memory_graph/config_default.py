@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: BSD-2-Clause
 
 """ Sets the default configuration values for the memory graph. """
+from memory_graph.utils          import unquoted
 from memory_graph.node_leaf      import Node_Leaf
 from memory_graph.node_linear    import Node_Linear
 from memory_graph.node_key_value import Node_Key_Value
@@ -41,7 +42,7 @@ def reset():
 
     """ Types that by default will be embedded in the node of their parent. """
     config.embedded_types = {
-        type(None), bool, int, float, complex, str,
+        type(None), bool, int, float, complex, str, unquoted,
         types.FunctionType,
         types.MethodType,
         classmethod,
@@ -66,6 +67,7 @@ def reset():
         staticmethod: lambda data: utils.prep_str(data.__qualname__),
         type(len): lambda data: utils.prep_str(data.__qualname__),
         BaseException: lambda data: utils.prep_exception_str(utils.exception_to_string(data)),
+        unquoted: lambda data: utils.html_escape(str(data)),
     }
     
     """ Conversion from type to Node objects. """

@@ -2,6 +2,7 @@
 # Copyright (c) 2023, Bas Terwijn.
 # SPDX-License-Identifier: BSD-2-Clause
 
+from memory_graph.utils import unquoted
 from memory_graph.node_base import Node_Base 
 import memory_graph.node_base
 import memory_graph.config as config
@@ -71,7 +72,7 @@ class HTML_Table:
             if child_id in id_to_slices:
                 self.add_reference(node, child, rounded, border, dashed)
             else:
-                self.add_value(config.graph_cut_symbol, rounded, border)
+                self.add_value(unquoted(config.graph_cut_symbol), rounded, border)
         else:
             self.add_value(child, rounded, border)
 
@@ -104,7 +105,7 @@ class HTML_Table:
         """ Construct the HTML table string with the 'border' and 'color' settings. """
         if self.col_count == 0 and self.row_count == 0:
             if self.is_empty:
-                self.add_value('', border=0)
+                self.add_value(unquoted(''), border=0)
             return html_table_frame(self.html, border, color, spacing=0)
         return html_table_frame(self.html, border, color)
     

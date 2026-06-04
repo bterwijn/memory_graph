@@ -36,8 +36,7 @@ def read_nodes(data):
         """ Recursively reads through each reference found in 'data', creates a node for
         it and adds, and adds it to 'nodes'.
         """
-        data_type = type(data)
-        if not data_type in config.embedded_types or parent is None:
+        if not config_helpers.is_embedded_type(data) or parent is None:
             data_id = id(data)
             if data_id in nodes:
                 node = nodes[data_id]

@@ -25,6 +25,22 @@ def get_data_to_node(data, default=None):
                         config.type_to_node, 
                         default )
 
+def is_property(data_id, data_types, node_type, types_set):
+    if data_id in types_set:
+        return True
+    for data_type in data_types:
+        if data_type in types_set:
+            return True
+    if node_type in types_set:
+        return True
+    return False
+
+def is_embedded_type(data):
+    return is_property(id(data),
+                       utils.get_all_types(data),
+                       None,
+                       config.embedded_types )
+
 def default_to_string(data):
     """ Convert data to string. """
     try:
