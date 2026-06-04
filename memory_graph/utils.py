@@ -17,6 +17,12 @@ class unquoted():
     def __str__(self):
         return self.s
 
+class html_str():
+    def __init__(self, s):
+        self.s = s
+    def __str__(self):
+        return self.s
+
 def limit_string(s):
     """ Limit the length of a string s to the 'max_string_length' in the config. """
     if len(s) > config.max_string_length:
