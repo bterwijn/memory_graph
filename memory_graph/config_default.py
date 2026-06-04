@@ -68,7 +68,7 @@ def reset():
         type(len): lambda data: utils.prep_str(data.__qualname__),
         BaseException: lambda data: utils.prep_exception_str(utils.exception_to_string(data)),
         unquoted: lambda data: utils.newlines_to_br(utils.html_escape(str(data))),
-        html_str: lambda data: utils.newlines_to_br(str(data)),
+        html_str: lambda data: str(data),
     }
     
     """ Conversion from type to Node objects. """
