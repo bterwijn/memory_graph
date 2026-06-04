@@ -11,17 +11,20 @@ import html
 
 import memory_graph.config as config
 
-class unquoted():
+class Base_Str():
     def __init__(self, s):
         self.s = s
     def __str__(self):
         return self.s
+    
+class unquoted(Base_Str):
+    pass
+    
+class full_str(Base_Str):
+    pass 
 
-class html_str():
-    def __init__(self, s):
-        self.s = s
-    def __str__(self):
-        return self.s
+class html_str(Base_Str):
+    pass
 
 def limit_string(s):
     """ Limit the length of a string s to the 'max_string_length' in the config. """

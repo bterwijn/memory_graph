@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: BSD-2-Clause
 
 """ Sets the default configuration values for the memory graph. """
-from memory_graph.utils          import unquoted, html_str
+from memory_graph.utils          import unquoted, full_str, html_str
 from memory_graph.node_leaf      import Node_Leaf
 from memory_graph.node_linear    import Node_Linear
 from memory_graph.node_key_value import Node_Key_Value
@@ -68,6 +68,7 @@ def reset():
         type(len): lambda data: utils.prep_str(data.__qualname__),
         BaseException: lambda data: utils.prep_exception_str(utils.exception_to_string(data)),
         unquoted: lambda data: utils.newlines_to_br(utils.html_escape(str(data))),
+        full_str: lambda data: utils.quote_string(utils.newlines_to_br(utils.html_escape(str(data)))),
         html_str: lambda data: str(data),
     }
     
