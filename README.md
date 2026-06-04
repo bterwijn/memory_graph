@@ -1225,7 +1225,7 @@ Arguably the visualization is then more clear when we show a List_View object as
 
 ```python
 mg.config.type_to_node[List_View] = (lambda l: mg.Node_Linear(l,
-    [v if l.begin <= i < l.end else '' for i, v in enumerate(l.lst)]
+    [v if l.begin <= i < l.end else mg.unquoted('') for i, v in enumerate(l.lst)]
     if hasattr(l, 'end') else [])
 )
 ```

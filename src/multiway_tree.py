@@ -1,3 +1,4 @@
+import memory_graph as mg
 import random
 
 mg.config.type_to_horizontal[list] = True  # show lists horizontally

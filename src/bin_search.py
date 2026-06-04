@@ -1,3 +1,4 @@
+import memory_graph as mg
 import random
 
 class List_View:
@@ -15,7 +16,7 @@ class List_View:
 
 # Show List_View as sublist
 mg.config.type_to_node[List_View] = (lambda l: mg.Node_Linear(l,
-    [v if l.begin <= i < l.end else '' for i, v in enumerate(l.lst)]
+    [v if l.begin <= i < l.end else mg.quoted('') for i, v in enumerate(l.lst)]
     if hasattr(l, 'end') else [])
 )
     

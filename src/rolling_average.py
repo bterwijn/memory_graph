@@ -1,3 +1,4 @@
+import memory_graph as mg
 import random
 
 class Rolling_Average:

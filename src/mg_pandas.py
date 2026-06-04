@@ -1,3 +1,4 @@
+import memory_graph as mg
 import pandas as pd
 mg.extend_pandas()
 

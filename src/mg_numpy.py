@@ -1,3 +1,4 @@
+import memory_graph as mg
 import numpy as np
 mg.extend_numpy()
 
