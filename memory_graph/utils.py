@@ -17,7 +17,7 @@ class Base_Str():
     def __str__(self):
         return self.s
     
-class unquoted(Base_Str):
+class unquoted_str(Base_Str):
     pass
     
 class full_str(Base_Str):

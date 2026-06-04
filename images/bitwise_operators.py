@@ -1,5 +1,4 @@
 import memory_graph as mg
-from memory_graph import unquoted
 
 class Bits(dict):
    """ Dictionary subclass that we will configure to show binary representations. """
@@ -11,7 +10,7 @@ def twos_complement(x: int, bits: int) -> str:
 
 # configure memory_graph to show binary representations of values of type Bits
 mg.config.type_to_node[Bits] = lambda x : mg.Node_Table(x,
-   [ [unquoted(k), unquoted(f'{v:>10}'), unquoted(f'{bin(v):>19}'), unquoted(twos_complement(v,16))]
+   [ [mg.unquoted_str(k), mg.unquoted_str(f'{v:>10}'), mg.unquoted_str(f'{bin(v):>19}'), mg.unquoted_str(twos_complement(v,16))]
      for k, v in x.items()],
    col_names=["expression", "decimal", "bin(expression)", "16bit two's complement"])
 mg.config.type_to_slicer[Bits] = (mg.Slicer(), mg.Slicer())  # no slicing

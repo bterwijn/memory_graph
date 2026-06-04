@@ -5,7 +5,8 @@
 from memory_graph.node_base import Node_Base
 from memory_graph.sequence  import Sequence2D
 from memory_graph.list_view import List_View
-from memory_graph.utils     import unquoted
+
+import memory_graph.utils as utils
 
 class Node_Table(Node_Base):
     """
@@ -44,10 +45,10 @@ class Node_Table(Node_Base):
         col_slices = slices.get_col_slices()
 
         # use column indices for header row
-        html_table.add_value(unquoted(''), border=0)
+        html_table.add_value(utils.unquoted_str(''), border=0)
         for coli in col_slices.table_iter(children_width):
             if coli == -1:
-                html_table.add_value(unquoted(''), border=0)
+                html_table.add_value(utils.unquoted_str(''), border=0)
             else:
                 self.add_index_or_name(html_table, coli, self.col_names)
         html_table.add_new_line()
@@ -66,7 +67,7 @@ class Node_Table(Node_Base):
                 first_col = True
             elif coli == -3:
                 html_table.add_new_line()
-                html_table.add_value(unquoted(''), border=0)
+                html_table.add_value(utils.unquoted_str(''), border=0)
                 for _ in range (html_table.get_max_column()-1):
                     html_table.add_dots()
                 html_table.add_new_line()

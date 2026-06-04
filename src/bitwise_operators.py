@@ -10,7 +10,7 @@ def twos_complement(x: int, bits: int) -> str:
 
 # configure memory_graph to show binary representations of values of type Bits
 mg.config.type_to_node[Bits] = lambda x : mg.Node_Table(x,
-   [ [mg.unquoted(k), mg.unquoted(f'{v:>10}'), mg.unquoted(f'{bin(v):>19}'), mg.unquoted(twos_complement(v,16))]
+   [ [mg.unquoted_str(k), mg.unquoted_str(f'{v:>10}'), mg.unquoted_str(f'{bin(v):>19}'), mg.unquoted_str(twos_complement(v,16))]
      for k, v in x.items()],
    col_names=["expression", "decimal", "bin(expression)", "16bit two's complement"])
 mg.config.type_to_slicer[Bits] = (mg.Slicer(), mg.Slicer())  # no slicing

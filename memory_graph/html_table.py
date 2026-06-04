@@ -2,9 +2,6 @@
 # Copyright (c) 2023, Bas Terwijn.
 # SPDX-License-Identifier: BSD-2-Clause
 
-from memory_graph.utils import unquoted
-from memory_graph.node_base import Node_Base 
-import memory_graph.node_base
 import memory_graph.config as config
 import memory_graph.config_helpers as config_helpers
 import memory_graph.utils as utils
@@ -18,7 +15,7 @@ def format_string(value, quote_str):
     """ Helper function to format 'value' to be shown in the graph. We escape html characters and convert newlines to <BR/> tags. """
     to_string = config_helpers.get_to_string(value)
     s = to_string(value)
-    if quote_str and isinstance(value, str):
+    if quote_str and isinstance(value, str) or isinstance(value, utils.full_str):
         s = utils.quote_string(s)
     return s
 
@@ -72,7 +69,7 @@ class HTML_Table:
             if child_id in id_to_slices:
                 self.add_reference(node, child, rounded, border, dashed)
             else:
-                self.add_value(unquoted(config.graph_cut_symbol), rounded, border)
+                self.add_value(utils.unquoted_str(config.graph_cut_symbol), rounded, border)
         else:
             self.add_value(child, rounded, border)
 
@@ -105,7 +102,7 @@ class HTML_Table:
         """ Construct the HTML table string with the 'border' and 'color' settings. """
         if self.col_count == 0 and self.row_count == 0:
             if self.is_empty:
-                self.add_value(unquoted(''), border=0)
+                self.add_value(utils.unquoted_str(''), border=0)
             return html_table_frame(self.html, border, color, spacing=0)
         return html_table_frame(self.html, border, color)
     
