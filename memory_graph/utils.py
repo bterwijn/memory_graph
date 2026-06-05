@@ -45,8 +45,12 @@ def prep_str(s):
     return newlines_to_br(html_escape(limit_string(s)))
 
 def quote_string(s):
-    """ Quote 's' if it is a string. """
+    """ Quote string 's'. """
     return "'" + s + "'"
+
+def pad_string(s):
+    """ Pad string 's'. """
+    return " " + s + " "
 
 def exception_to_string(e):
     """ Helper function to convert the traceback of an exception to a string. """

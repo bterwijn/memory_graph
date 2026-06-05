@@ -17,6 +17,8 @@ def format_string(value, quote_str):
     s = to_string(value)
     if quote_str and isinstance(value, (str, utils.full_str)):
         s = utils.quote_string(s)
+    if not isinstance(value, utils.html_str): # <IMG> can't have padding in Graphviz
+        s = utils.pad_string(s)
     return s
 
 class HTML_Table:
@@ -77,7 +79,7 @@ class HTML_Table:
         """ Helper function to add 'value' to the table. """
         self.check_add_new_line()
         r = ' STYLE="ROUNDED"' if rounded else ''
-        self.html += f'<TD BORDER="{border}"{r}> {format_string(value, not rounded)} </TD>'
+        self.html += f'<TD BORDER="{border}"{r}>{format_string(value, not rounded)}</TD>'
         self.is_empty = False
         self.col_count += 1
 
