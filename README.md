@@ -82,7 +82,7 @@ a graph showing `a` and `b` share the list
 
 </td></tr></table>
 
-The fact that `a` and `b` share the list can not be verified by printing the lists. It can be verified by comparing the identity of both variables using the `id()` function or by using the `is` comparison operator as shown in the program output below, but this quickly becomes impractical for larger programs.
+The fact that `a` and `b` share the list can **not** be verified by printing the lists. It can be verified by comparing the identity of both variables using the `id()` function or by using the `is` comparison operator as shown in the program output below, but this quickly becomes impractical for larger programs.
 ```{verbatim}
 a: 4, 3, 2, 1
 b: 4, 3, 2, 1
@@ -255,7 +255,11 @@ Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=ht
 ## Name Rebinding ##
 When `a` and `b` share a mutable value, then changing the value of `b` changes the value of `a` and vice versa. However, reassigning `b` does not change `a`. When you reassign `b`, you only **rebind** the name `b` to another value without affecting any other variable. 
 
-Also note the difference between statement `b += [1]` that changes `b` and `a`, and statement `c = c + [300]` that first creates the new value `c + [300]` and assigns this value to `c` without effecting `b`. This shows that `x += y` is not the same as `x = x + y` for values of mutable type.
+In the example below, also note the difference between expressions:
+- `b += [300]`: that changes both `b` and `a`
+- `c = c + [600]`: that first creates a new value `c + [600]` and then assigns this new value to `c` without affecting `b`
+
+This shows that `x += y` is not the same as `x = x + y` for values of mutable type.
 
 ```python
 import memory_graph as mg
