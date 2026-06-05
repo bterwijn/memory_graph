@@ -259,7 +259,7 @@ In the example below, also note the difference between expressions:
 - `b += [300]`: that changes both `b` and `a`
 - `c = c + [600]`: that first creates a new value `c + [600]` and then assigns this new value to `c` without affecting `b`
 
-This shows that `x += y` is not the same as `x = x + y` for values of mutable type.
+This shows that `x += y` is not the same as `x = x + y` for a value `x` of mutable type.
 
 ```python
 import memory_graph as mg
