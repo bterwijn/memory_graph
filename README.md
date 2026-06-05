@@ -1368,7 +1368,7 @@ mg.show(locals())
 ```
 ![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_numpy.png)
 
-Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#micropip=numpy&codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/mg_numpy.py&continues=1).
+Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#micropip=numpy&codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/mg_numpy.py&play).
 
 ## Pandas ##
 For pandas types `Series` and `DataFrame`, use `mg.extend_pandas()`:
@@ -1389,7 +1389,7 @@ mg.show(locals())
 ```
 ![extension_pandas.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_pandas.png)
 
-Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#micropip=pandas&codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/mg_pandas.py&continues=1).
+Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#micropip=pandas&codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/mg_pandas.py&play).
 
 ## PyTorch ##
 For torch type `tensor`, use `mg.extend_torch()`:
