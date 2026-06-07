@@ -1,6 +1,7 @@
 # Some useful memory_graph configuration examples.
 # Step through this file to see the effects.
 
+import memory_graph as mg
 print('memory_graph version:', mg.__version__)
 
 
@@ -133,6 +134,24 @@ except Exception as e:
 
 mg.config_default.reset()
 del mylist
+
+
+# Strings
+
+import string
+normal_str   = '\n'.join([string.ascii_lowercase] * 3)
+full_str     = mg.full_str(normal_str)      # no size limit
+unquoted_str = mg.unquoted_str(normal_str)  # no quotes
+html_str     = mg.html_str("""
+<TABLE BORDER="1">
+  <TR><TD>  <B>c1</B>                    </TD><TD>  <I>c2</I>                       </TD></TR>
+  <TR><TD>  <S>c3</S>                    </TD><TD>  <FONT FACE="Courier">c4</FONT>  </TD></TR>
+  <TR><TD>  <U>c5</U>                    </TD><TD>  <O>c6</O>                       </TD></TR>
+  <TR><TD>  <FONT COLOR="red">c7</FONT>  </TD><TD>  <FONT COLOR="green">c8</FONT>   </TD></TR>
+</TABLE>
+""")  # Grahviz html-like: https://graphviz.org/doc/info/shapes.html#html
+
+del normal_str, full_str, unquoted_str, html_str
 
 
 # Font
