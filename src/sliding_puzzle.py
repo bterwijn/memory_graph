@@ -133,3 +133,4 @@ mg.config.type_to_node[Sliding_Puzzle] = lambda s : mg.Node_Table(s, s.tiles)
 
 if __name__ == "__main__":
     solution_path = main()
+    print('done')
