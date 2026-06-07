@@ -1235,7 +1235,7 @@ mg.config.type_to_node[List_View] = (lambda l: mg.Node_Linear(l,
 ```
 ![bin_search_linear.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_search_linear.png)
 
-Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/bin_search.py&breakpoints=32&continues=1&timestep=0.5&play)
+Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/bin_search.py&breakpoints=38&continues=1&timestep=0.5&play)
 
 ## Collapse Type ##
 
