@@ -16,7 +16,7 @@ class List_View:
 
 # Show List_View as sublist
 mg.config.type_to_node[List_View] = (lambda l: mg.Node_Linear(l,
-    [v if l.begin <= i < l.end else mg.quoted_str('') for i, v in enumerate(l.lst)]
+    [v if l.begin <= i < l.end else mg.unquoted_str('') for i, v in enumerate(l.lst)]
     if hasattr(l, 'end') else [])
 )
     
