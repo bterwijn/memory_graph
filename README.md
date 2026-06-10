@@ -15,7 +15,7 @@ Run a live demo in the 👉 [**Memory Graph Web Debugger**](https://memory-graph
 
 An example Binary Tree data structure:
 ![bin_tree_vs.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_tree_vs.gif)
-Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/bin_tree.py&timestep=0.2&play).
+Or see it in the [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/bin_tree.py&timestep=0.2&play).
 
 # Videos #
 | [![Quick Intro](https://img.youtube.com/vi/23_bHcr7hqo/0.jpg)](https://www.youtube.com/watch?v=23_bHcr7hqo) | [![Mutability](https://img.youtube.com/vi/pvIJgHCaXhU/0.jpg)](https://www.youtube.com/watch?v=pvIJgHCaXhU) |
@@ -222,7 +222,7 @@ mg.show(locals())
 
 ![copy_mutbale.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_mutable.png)
 
-Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/copies.py&play).
+Or see it in the [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/copies.py&play).
 
 ## Custom Copy ##
 We can write our own custom copy function or method in case the three standard "copy" options don't do what we want. For example, in the code below the `custom_copy()` method of My_Class copies the `digits` but shares the `letters` between two objects.
@@ -250,7 +250,7 @@ mg.show(locals())
 ```
 ![copy_method.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/copy_method.png)
 
-Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/custom_copy.py&breakpoints=15&continues=1&play).
+Or see it in the [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/custom_copy.py&breakpoints=15&continues=1&play).
 
 ## Name Rebinding ##
 When `a` and `b` share a mutable value, then changing the value of `b` changes the value of `a` and vice versa. However, reassigning `b` does not change `a`. When you reassign `b`, you only **rebind** the name `b` to another value without affecting any other variable. 
@@ -280,7 +280,7 @@ mg.render(locals(), 'rebinding3.png')
 |:--------------:|:--------------:|:--------------:|
 | rebinding1.png | rebinding2.png | rebinding3.png |
 
-Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/rebind.py&play).
+Or see it in the [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/rebind.py&play).
 
 ## Copying Values of Immutable Type ## 
 Because a value of immutable type will be copied automatically when it is changed, there is no need to copy it beforehand. Therefore, a shallow or deep copy of a value of immutable type will result in just an assignment to save on the time needed to make the copy and the space (=memory) needed to store the values.
@@ -338,7 +338,7 @@ print(f"a:{a} b:{b} c:{c}")
 ```
 ![add_one.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/add_one.png)
 
-Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/function_call.py&play).
+Or see it in the [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/function_call.py&play).
 
 In the printed output we see that only `a` is changed as a result of the function call:
 ```
@@ -367,7 +367,7 @@ print(f"a:{a} b:{b[0]}")
 ```
 a:10 b:11
 ```
-Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/wrap.py&breakpoints=5&continues=1&play)
+Or see it in the [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/wrap.py&breakpoints=5&continues=1&play)
 
 The effect of calling `add_one()` is that `b[0]` increases by 1, while `a` is unaffected.
 
@@ -408,7 +408,7 @@ print( factorial(4) )
 
 and the result is: 1 x 2 x 3 x 4 = 24
 
-Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/factorial.py&timestep=1.0&play).
+Or see it in the [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/factorial.py&timestep=1.0&play).
 
 ## Binary Conversion ##
 A more interesting recursive example is function `binary()` that converts a integer from decimal to binary representation. 
@@ -432,7 +432,7 @@ print( binary(100) )
 [1, 1, 0, 0, 1, 0, 0]
 ```
 
-Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/binary_convert.py&timestep=1.0&play).
+Or see it in the [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/binary_convert.py&timestep=1.0&play).
 
 ## Power Set ##
 A more complex recursive example is function `power_set()` where lists are shared by different function calls. A power set is the set of all subsets of a collection of values.
@@ -464,7 +464,7 @@ print( power_set(['a', 'b', 'c']) )
 [['a', 'b', 'c'], ['a', 'b'], ['a', 'c'], ['a'], ['b', 'c'], ['b'], ['c'], []]
 ```
 
-Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/power_set.py&timestep=1.0&play).
+Or see it in the [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/power_set.py&timestep=1.0&play).
 
 ## Invocation Tree ##
 The memory_graph package visualizes data at the currect time, but to better understand recursion it can also be helpful to visualize different function calls over time. This is what the [invocation_tree](https://github.com/bterwijn/invocation_tree?tab=readme-ov-file#installation) package does.
@@ -628,7 +628,7 @@ for i in range(n):
 Here we show values being added to a Linked List in Cursor AI. When adding the last value '5' we "Step Into" the code to show more of the details.
 ![linked_list.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/linked_list.gif)
 
-Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/linked_list.py&timestep=0.2&play).
+Or see it in the [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/linked_list.py&timestep=0.2&play).
 
 ## Binary Tree ##
 ```python
@@ -670,7 +670,7 @@ for i in range(n):
 Here we show values being inserted in a Binary Tree in Visual Studio Code. When inserting the last value '29' we "Step Into" the code to show the recursive implementation.
 ![images/bin_tree.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_tree.gif)
 
-See it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/bin_tree.py&timestep=0.2&play) or see the more advanced [Multiway Tree](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/multiway_tree.py&breakpoints=19,33&continues=1&timestep=0.2&play) with more than two children per node, making the tree less deep and more efficient.
+See it in the [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/bin_tree.py&timestep=0.2&play) or see the more advanced [Multiway Tree](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/multiway_tree.py&breakpoints=19,33&continues=1&timestep=0.2&play) with more than two children per node, making the tree less deep and more efficient.
 
 ## Hash Set ##
 ```python
@@ -714,7 +714,7 @@ for i in range(n):
 Here we show values being inserted in a HashSet in PyCharm. When inserting the last value '44' we "Step Into" the code to show more of the details.
 ![images/hash_set.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/hash_set.gif)
 
-Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/hash_set.py&breakpoints=32&continues=1&timestep=0.5&play).
+Or see it in the [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/hash_set.py&breakpoints=32&continues=1&timestep=0.5&play).
 
 
 # Sorting Algorithms #
@@ -1235,7 +1235,7 @@ mg.config.type_to_node[List_View] = (lambda l: mg.Node_Linear(l,
 ```
 ![bin_search_linear.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_search_linear.png)
 
-Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/bin_search.py&breakpoints=38&continues=1&timestep=0.5&play)
+Or see it in the [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/bin_search.py&breakpoints=38&continues=1&timestep=0.5&play)
 
 ## Collapse Type ##
 
@@ -1368,7 +1368,7 @@ mg.show(locals())
 ```
 ![extension_numpy.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_numpy.png)
 
-Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#micropip=numpy&codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/mg_numpy.py&play).
+Or see it in the [Memory Graph Web Debugger](https://memory-graph.com/#micropip=numpy&codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/mg_numpy.py&play).
 
 ## Pandas ##
 For pandas types `Series` and `DataFrame`, use `mg.extend_pandas()`:
@@ -1389,7 +1389,7 @@ mg.show(locals())
 ```
 ![extension_pandas.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_pandas.png)
 
-Or see it in the [Memory Grah Web Debugger](https://memory-graph.com/#micropip=pandas&codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/mg_pandas.py&play).
+Or see it in the [Memory Graph Web Debugger](https://memory-graph.com/#micropip=pandas&codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/mg_pandas.py&play).
 
 ## PyTorch ##
 For torch type `tensor`, use `mg.extend_torch()`:
