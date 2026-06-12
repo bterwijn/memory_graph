@@ -111,7 +111,7 @@ def reset():
         types.MappingProxyType : "dodgerblue2", # not used
         range : "cornsilk2",
         # ================= exception
-        BaseException : "#ff5555",
+        BaseException : "#ff6666",
     }
 
 
