@@ -1237,6 +1237,65 @@ mg.config.type_to_node[List_View] = (lambda l: mg.Node_Linear(l,
 
 Or see it in the [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/bin_search.py&breakpoints=38&continues=1&timestep=0.5&play)
 
+## String Types ##
+
+Different `str` types are available:
+
+| string type                | format |
+|:--------------------------:|:--------------------:|
+| `str`                      | normal Python `str` type is limited by `config.max_string_length` |
+| `mg.full_str('text')`      | not limited |
+| `mg.unquoted_str('text')`  | not limited and not quoted |
+| `mg.html_str('text')       | for [Grahviz html-like](https://graphviz.org/doc/info/shapes.html#html) formatting |
+
+The [Grahviz html-like](https://graphviz.org/doc/info/shapes.html#html) formatting supports a subset of html tags that allow for things like:
+```python
+import memory_graph as mg
+
+elements = ['<B>bold</B>', 
+            '<I>italic</I>', 
+            '<S>strikethrough</S>',
+            '<U>under</U><O>over</O>',
+            '<SUB>sub</SUB><SUP>sup</SUP>',
+            '<FONT FACE="Courier">monospaced</FONT>', 
+            '<FONT COLOR="red">red</FONT><FONT COLOR="green">green</FONT>',
+            '<FONT POINT-SIZE="20">Large</FONT><FONT POINT-SIZE="10">small</FONT>',
+            '<TABLE BORDER="1"><TR><TD>c1</TD><TD>c2</TD></TR></TABLE>',
+            'line1<BR/>line2<BR/>line3<BR/>']
+
+normal_str = '<TABLE BORDER="0">\n'
+for element in elements:
+    normal_str += '<TR><TD> ' + mg.utils.html_escape(element) + ' </TD><TD> ' + element+ ' </TD></TR>element\n' 
+normal_str += '</TABLE>\n'
+
+html_example = mg.html_str(normal_str)
+del elements, element, normal_str
+mg.show(locals())
+```
+![html_str_exmaple.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/html_str_exmaple.png)
+
+The `<IMG>` tag allows to show a local image file, but it doesn't work in 'Viz.js' in the Memory Graph Web Debugger unfortunately.
+
+```python
+import memory_graph as mg
+import matplotlib.pyplot as plt
+import random
+random.seed(0)
+
+N = 100
+value = 0
+data = [value]
+for i in range(N):
+    value += random.uniform(-1, 1)
+    data.append(value)
+    
+plt.plot(data)
+plt.savefig('plot.png')
+image = {mg.html_str('<IMG SRC="plot.png"/>')}
+mg.show(locals())
+```
+![html_str_image.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/html_str_image.png)
+
 ## Collapse Type ##
 
 Sometimes a type has too many attributes or too many child nodes in the graph for it to stay readable. We use type 'MyClass' as an example here:

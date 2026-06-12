@@ -29,6 +29,7 @@ python exception_example.py
 python linked_list.py
 python bin_tree.py
 python hash_set.py
+python bitwise_operators.py
 
 # exception tree
 python exception_tree.py
@@ -39,9 +40,10 @@ python not_node_types.py
 # introspection
 python avltree.py
 python bin_search.py
+python html_str_example.py
+python html_str_image.py
 python collapse_type1.py
 python collapse_type2.py
-python bitwise_operators.py
 python introspect_depth.py
 python hidden_edges.py
 
