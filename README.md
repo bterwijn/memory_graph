@@ -1272,7 +1272,7 @@ html_example = mg.html_str(normal_str)
 del elements, element, normal_str
 mg.show(locals())
 ```
-![html_str_exmaple.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/html_str_exmaple.png)
+![html_str_example.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/html_str_example.png)
 
 The `<IMG>` tag allows to show a local image file, but it doesn't work in 'Viz.js' in the Memory Graph Web Debugger unfortunately.
 
