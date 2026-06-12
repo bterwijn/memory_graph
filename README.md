@@ -1239,16 +1239,16 @@ Or see it in the [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=h
 
 ## String Types ##
 
-Different `str` types are available:
+For special string formatting different `str` types are available:
 
 | string type                | format |
 |:--------------------------:|:--------------------:|
 | `str`                      | normal Python `str` type is limited by `config.max_string_length` |
 | `mg.full_str('text')`      | not limited |
 | `mg.unquoted_str('text')`  | not limited and not quoted |
-| `mg.html_str('text')`      | for [Grahviz html-like](https://graphviz.org/doc/info/shapes.html#html) formatting |
+| `mg.html_str('text')`      | for [Grahviz html-like formatting](https://graphviz.org/doc/info/shapes.html#html) |
 
-The [Grahviz html-like](https://graphviz.org/doc/info/shapes.html#html) formatting supports a subset of html tags that allow for things like:
+The [Grahviz html-like formatting](https://graphviz.org/doc/info/shapes.html#html) supports a subset of html tags that allow for things like:
 ```python
 import memory_graph as mg
 
@@ -1274,7 +1274,7 @@ mg.show(locals())
 ```
 ![html_str_example.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/html_str_example.png)
 
-The `<IMG>` tag allows to show a local image file, but it doesn't work in 'Viz.js' in the Memory Graph Web Debugger unfortunately.
+Including the `<IMG>` tag that allows for showing local image files only, but that currently doesn't work in the Memory Graph Web Debugger, that uses 'Viz.js' for graph rendering, unfortunately.
 
 ```python
 import memory_graph as mg
