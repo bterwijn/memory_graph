@@ -1246,7 +1246,7 @@ Different `str` types are available:
 | `str`                      | normal Python `str` type is limited by `config.max_string_length` |
 | `mg.full_str('text')`      | not limited |
 | `mg.unquoted_str('text')`  | not limited and not quoted |
-| `mg.html_str('text')       | for [Grahviz html-like](https://graphviz.org/doc/info/shapes.html#html) formatting |
+| `mg.html_str('text')`      | for [Grahviz html-like](https://graphviz.org/doc/info/shapes.html#html) formatting |
 
 The [Grahviz html-like](https://graphviz.org/doc/info/shapes.html#html) formatting supports a subset of html tags that allow for things like:
 ```python
