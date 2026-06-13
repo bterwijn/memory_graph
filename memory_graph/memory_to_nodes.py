@@ -218,11 +218,11 @@ def build_graph(graphviz_graph, nodes, root_id, id_to_slices):
         border = 3 if node.is_root() else 1
         if config.type_labels:
             graphviz_graph.node(node.get_name(),
-                                html_table.to_string(border, color),
+                                html_table.to_string(border, color, config.foreground_color),
                                 xlabel=node.get_label(slices))
         else:
             graphviz_graph.node(node.get_name(),
-                                html_table.to_string(border, color))
+                                html_table.to_string(border, color, config.foreground_color))
             # ------------ edges
         for parent,child,dashed in edges:
             graphviz_graph.edge(parent, child+':table', style='dashed' if dashed else 'solid')
@@ -261,9 +261,9 @@ def memory_to_nodes(data):
     id_to_slices = add_missing_edges(nodes, id_to_slices, config.max_missing_edges)
     #print('id_to_slices:',id_to_slices)
     embed_keys_in_key_value_nodes(nodes, nodes_key_value, id_to_slices)
-    graphviz_graph_attr = {'fontname': config.fontname, 'fontsize': config.fontsize}
-    graphviz_node_attr = {'fontname': config.fontname, 'fontsize': config.fontsize, 'shape': 'plaintext'}
-    graphviz_edge_attr = {'fontname': config.fontname, 'fontsize': config.fontsize}
+    graphviz_graph_attr = {'fontname': config.fontname, 'fontsize': config.fontsize, 'fontcolor': config.foreground_color, 'bgcolor': config.background_color}
+    graphviz_node_attr = {'fontname': config.fontname, 'fontsize': config.fontsize, 'shape': 'plaintext', 'fontcolor': config.foreground_color}
+    graphviz_edge_attr = {'fontname': config.fontname, 'fontsize': config.fontsize, 'fontcolor': config.foreground_color, 'color': config.foreground_color}
     graphviz_graph=graphviz.Digraph('memory_graph',
                                     graph_attr=graphviz_graph_attr,
                                     node_attr=graphviz_node_attr,

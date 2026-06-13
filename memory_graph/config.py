@@ -29,6 +29,9 @@ type_to_string = { }
 
 type_to_node = { }
 
+foreground_color = None
+index_color = None
+background_color = None
 type_to_color = { }
 
 type_to_horizontal = { }

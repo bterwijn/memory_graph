@@ -6,9 +6,9 @@ import memory_graph.config as config
 import memory_graph.config_helpers as config_helpers
 import memory_graph.utils as utils
 
-def html_table_frame(s, border, color, spacing=5):
+def html_table_frame(s, border, color, line_color='black', spacing=5):
     """ Helper function to add the HTML table frame to the string s setting the 'border' and 'color'. """
-    return (f'<\n<TABLE BORDER="{border}" CELLBORDER="1" CELLSPACING="{spacing}" CELLPADDING="0" BGCOLOR="{color}" PORT="table">\n    <TR>' +
+    return (f'<\n<TABLE BORDER="{border}" CELLBORDER="1" CELLSPACING="{spacing}" CELLPADDING="0" BGCOLOR="{color}" COLOR="{line_color}" PORT="table">\n    <TR>' +
             s + '</TR>\n</TABLE>\n>')
 
 def format_string(value, quote_str):
@@ -60,7 +60,7 @@ class HTML_Table:
     def add_index(self, s):
         """ Add an index s to the table. """
         self.check_add_new_line()
-        self.html += f'<TD BORDER="0"><font color="#505050">{str(s)}</font></TD>'
+        self.html += f'<TD BORDER="0"><font color="{config.index_color}">{str(s)}</font></TD>'
         self.col_count += 1
 
     def add_entry(self, node, nodes, child, id_to_slices, rounded=False, border=1, dashed=False, embed=False):
@@ -100,13 +100,13 @@ class HTML_Table:
         self.html += f'<TD BORDER="{border}" {r}>...</TD>'
         self.col_count += 1
 
-    def to_string(self, border=1, color='white'):
+    def to_string(self, border=1, color='white', line_color='black'):
         """ Construct the HTML table string with the 'border' and 'color' settings. """
         if self.col_count == 0 and self.row_count == 0:
             if self.is_empty:
                 self.add_value(utils.unquoted_str(''), border=0)
-            return html_table_frame(self.html, border, color, spacing=0)
-        return html_table_frame(self.html, border, color)
+            return html_table_frame(self.html, border, color, line_color, spacing=0)
+        return html_table_frame(self.html, border, color, line_color)
     
     def get_column(self):
         """ Get the number of columns in the table. """

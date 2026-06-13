@@ -86,7 +86,12 @@ def reset():
         ),
         BaseException: lambda data: Node_Leaf(data, data),
     }
-    
+
+    """ Colors of the graph. """
+    config.foreground_color = 'black'
+    config.index_color = '#505050'
+    config.background_color = 'white'
+        
     """ Colors of different types in the graph. """
     config.type_to_color = {
         # ================= singular
