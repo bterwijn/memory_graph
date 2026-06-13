@@ -17,7 +17,85 @@ import memory_graph.utils as utils
 
 import types
 
+""" Colors of the graph. """
+foreground_color_light = 'black'
+index_color_light = '#505050'
+background_color_light = 'white'
+""" Colors of different types in the graph. """
+type_to_color_light = {
+    # ================= singular
+    type(None) : "gray",
+    bool : "pink",
+    int : "darkolivegreen1",
+    float : "plum",
+    complex : "yellow",
+    str : "cyan",
+    # ================= linear
+    tuple : "orange",
+    list : "lightcoral",
+    set : "orchid1",
+    frozenset : "orchid2",
+    bytes : "khaki1",
+    bytearray : "khaki2",
+    # ================= key_value
+    Node_Key_Value : "seagreen1", # for classes
+    call_stack : 'khaki',
+    type: "seagreen3",            # where class variables are stored
+    dict : "#60a5ff",
+    types.MappingProxyType : "dodgerblue2", # not used
+    range : "cornsilk2",
+    # ================= exception
+    BaseException : "#ff6666",
+}
+
+background_color_dark = "#1d1d1d"
+foreground_color_dark = "#cccccc"
+index_color_dark = "#999999"
+type_to_color_dark = {
+    # ================= singular
+    type(None) : "#646464",
+    bool : "#8d646d",
+    int : "#507835",
+    float : "#7e4974",
+    complex : "#707500",
+    str : "#006f6f",
+    # ================= linear
+    tuple : "#956200",
+    list : "#783438",
+    set : "#811b7d",
+    frozenset : "#6a1666",
+    bytes : "#73753f",
+    bytearray : "#6a6c3b",
+    # ================= key_value
+    Node_Key_Value : "#00905d",
+    call_stack : '#7e8148',
+    type: "#00784e",
+    dict : "#355393",
+    types.MappingProxyType : "#304a84",
+    range : "#7e7d6c",
+    # ================= exception
+    BaseException : "#a52e37",
+}
+
+def dark_mode(dark = None):
+    if dark is None:
+        config.color_mode_dark = not config.color_mode_dark
+    else:
+        config.color_mode_dark = dark
+    if config.color_mode_dark:
+        config.foreground_color = foreground_color_dark
+        config.index_color = index_color_dark
+        config.background_color = background_color_dark
+        config.type_to_color = type_to_color_dark
+    else:
+        config.foreground_color = foreground_color_light
+        config.index_color = index_color_light
+        config.background_color = background_color_light
+        config.type_to_color = type_to_color_light
+
 def reset():
+
+    dark_mode(config.color_mode_dark) # set colors based on mode
 
     """ Reopen viewer each time show() is called, this might change window focus. """
     config.reopen_viewer = True
@@ -86,39 +164,6 @@ def reset():
         ),
         BaseException: lambda data: Node_Leaf(data, data),
     }
-
-    """ Colors of the graph. """
-    config.foreground_color = 'black'
-    config.index_color = '#505050'
-    config.background_color = 'white'
-        
-    """ Colors of different types in the graph. """
-    config.type_to_color = {
-        # ================= singular
-        type(None) : "gray",
-        bool : "pink",
-        int : "darkolivegreen1",
-        float : "plum",
-        complex : "yellow",
-        str : "cyan",
-        # ================= linear
-        tuple : "orange",
-        list : "lightcoral",
-        set : "orchid1",
-        frozenset : "orchid2",
-        bytes : "khaki1",
-        bytearray : "khaki2",
-        # ================= key_value
-        Node_Key_Value : "seagreen1", # for classes
-        call_stack : 'khaki',
-        type: "seagreen3",            # where class variables are stored
-        dict : "#60a5ff",
-        types.MappingProxyType : "dodgerblue2", # not used
-        range : "cornsilk2",
-        # ================= exception
-        BaseException : "#ff6666",
-    }
-
 
     """ Types that will be visualized in horizontal or vertical orientation based on a True/False value.
     The 'type_to_horizontal' takes precedence over 'type_to_vertical'.
