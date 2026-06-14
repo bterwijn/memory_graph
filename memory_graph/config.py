@@ -30,6 +30,7 @@ type_to_string = { }
 type_to_node = { }
 
 color_mode_dark = False
+transparent_background = False
 foreground_color = None
 index_color = None
 background_color = None

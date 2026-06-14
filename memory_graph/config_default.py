@@ -77,12 +77,8 @@ type_to_color_dark = {
     BaseException : "#a52e37",
 }
 
-def dark_mode(dark = None):
-    if dark is None:
-        config.color_mode_dark = not config.color_mode_dark
-    else:
-        config.color_mode_dark = dark
-    if config.color_mode_dark:
+def set_colors(dark, transparent):
+    if dark:
         config.foreground_color = foreground_color_dark
         config.index_color = index_color_dark
         config.background_color = background_color_dark
@@ -92,10 +88,26 @@ def dark_mode(dark = None):
         config.index_color = index_color_light
         config.background_color = background_color_light
         config.type_to_color = type_to_color_light
+    if transparent:
+        config.background_color = "transparent"
+
+def transparent_background(transparent = None):
+    if transparent is None:
+        config.transparent_background = not config.transparent_background
+    else:
+        config.transparent_background = transparent
+    set_colors(config.color_mode_dark, config.transparent_background)
+
+def dark_mode(dark = None):
+    if dark is None:
+        config.color_mode_dark = not config.color_mode_dark
+    else:
+        config.color_mode_dark = dark
+    set_colors(config.color_mode_dark, config.transparent_background)
 
 def reset():
 
-    dark_mode(config.color_mode_dark) # set colors based on mode
+    set_colors(config.color_mode_dark, config.transparent_background)
 
     """ Reopen viewer each time show() is called, this might change window focus. """
     config.reopen_viewer = True
