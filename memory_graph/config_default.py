@@ -77,7 +77,11 @@ type_to_color_dark = {
     BaseException : "#a52e37",
 }
 
-def set_colors(dark, transparent):
+def set_colors(dark=None, transparent=None):
+    if dark is None:
+        dark = config.color_mode_dark
+    if transparent is None:
+        transparent = config.transparent_background
     if dark:
         config.foreground_color = foreground_color_dark
         config.index_color = index_color_dark

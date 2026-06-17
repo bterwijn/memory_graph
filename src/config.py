@@ -154,6 +154,24 @@ html_str     = mg.html_str("""
 del normal_str, full_str, unquoted_str, html_str
 
 
+# Dark Mode
+
+current_dark_mode = mg.config.color_mode_dark
+mg.dark_mode(True)
+mg.dark_mode()              # toggle dark mode
+mg.dark_mode()
+
+current_trans = mg.config.transparent_background
+mg.transparent_background(False)
+mg.transparent_background()  # toggle transparent_background
+mg.transparent_background()
+
+mg.config.color_mode_dark = current_dark_mode     # restore
+mg.config.transparent_background = current_trans  # restore
+mg.set_colors()
+del current_dark_mode, current_trans
+
+
 # Font
 
 import string
