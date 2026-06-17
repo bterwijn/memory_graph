@@ -86,12 +86,12 @@ def set_colors(dark=None, transparent=None):
         config.foreground_color = foreground_color_dark
         config.index_color = index_color_dark
         config.background_color = background_color_dark
-        config.type_to_color = type_to_color_dark
+        config.type_to_color = type_to_color_dark.copy()
     else:
         config.foreground_color = foreground_color_light
         config.index_color = index_color_light
         config.background_color = background_color_light
-        config.type_to_color = type_to_color_light
+        config.type_to_color = type_to_color_light.copy()
     if transparent:
         config.background_color = "transparent"
 

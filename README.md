@@ -1032,7 +1032,7 @@ Different aspects of memory_graph can be configured. The default configuration c
   - Set dark mode to 'True' or 'False', or 'None' to toggle.
 
 - **mg.transparent_background(b: bool = None)**
-  - Set transparent_background to 'True' or 'False', or 'None' to toggle.
+  - Set transparent background to 'True' or 'False', or 'None' to toggle.
 
 ## Simplified Graph ##
 Memory_graph simplifies the visualization (and the viewer's mental model) by **not** showing separate nodes for immutable types like `bool`, `int`, `float`, `complex`, and `str` by default. This simplification can sometimes be slightly misleading. As in the example below, after a shallow copy, lists `a` and `b` technically share their `int` values, but the graph makes it appear as though `a` and `b` each have their own copies. However, since `int` is immutable, this simplification will never lead to unexpected changes (changing `a`'s ints won’t affect `b`) so will never result in bugs.
