@@ -48,7 +48,6 @@ def default_to_string(data):
             s = data
         else:
             s = str(data)
-        return 
     except Exception as e:
         s = 'no stringification, '+ type(e).__name__ +': '+ str(e)
     return utils.prep_str(s)
