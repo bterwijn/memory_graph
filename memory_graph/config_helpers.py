@@ -51,8 +51,7 @@ def default_to_string(data):
         return 
     except Exception as e:
         s = 'no stringification, '+ type(e).__name__ +': '+ str(e)
-    finally:
-        return utils.prep_str(s)
+    return utils.prep_str(s)
 
 def get_to_string(data, default=lambda d: default_to_string(d)):
     return get_property(id(data),
@@ -61,7 +60,7 @@ def get_to_string(data, default=lambda d: default_to_string(d)):
                         config.type_to_string, 
                         default )
 
-def get_node_color(node, default='white'):
+def get_node_color(node, default=config.background_color):
     return get_property(node.get_id(),
                         utils.get_all_types(node.get_data()),
                         type(node),
