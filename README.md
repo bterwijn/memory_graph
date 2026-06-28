@@ -762,7 +762,7 @@ class My_Class:
 
     def __init__(self):
         print("__init__ called, initialize instance variables of object")
-        self.my_instance_variable = []  # instance variable
+        self.my_instance_variable = []  # create instance variable
         My_Class.count += 1  # also change class variable
 
     def my_instance_method(self):
@@ -772,7 +772,7 @@ class My_Class:
 
     @classmethod
     def my_class_method(cls):
-        print("my_class_method called, only class vatriables via 'cls', no instance variables")
+        print("my_class_method called, access class variables via 'cls', no instance variables")
         print(f"{cls.count=}")
 
     @staticmethod
