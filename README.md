@@ -747,7 +747,7 @@ A sliding puzzle solver as a challenging example showing how memory_graph deals 
 
 # Control Flow #
 
-Some examples where we focus on the flow of control of Python code.
+Some examples where we focus on the flow of control and access to state in Python code.
 
 ## Different Methods ##
 
