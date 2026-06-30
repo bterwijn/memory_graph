@@ -22,7 +22,7 @@ class My_Class:
 
     @staticmethod
     def my_static_method():
-        print("static method called, no 'self' or 'cls'")
+        print("my_static_method called, no 'self' or 'cls'")
         print(f"{My_Class.count=}")  # but still access to class variables
               
 obj1 = My_Class()
