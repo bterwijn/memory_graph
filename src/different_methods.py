@@ -17,7 +17,7 @@ class My_Class:
 
     @classmethod
     def my_class_method(cls):
-        print("my_class_method called, access class variables via 'cls', no instance variables")
+        print("my_class_method called, access to class variables via 'cls', no instance variables")
         print(f"{cls.count=}")
 
     @staticmethod
