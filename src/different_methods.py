@@ -11,7 +11,7 @@ class My_Class:
         My_Class.count += 1  # also change class variable
     
     def my_instance_method(self):
-        print("my_instance_method called, accees to instance variables via 'self'")
+        print("my_instance_method called, access to instance variables via 'self'")
         self.my_instance_variable.append(My_Class.unique_value)
         My_Class.unique_value += 1  # also change class variable
 
