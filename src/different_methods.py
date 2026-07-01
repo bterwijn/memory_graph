@@ -1,15 +1,15 @@
 
 class My_Class:
-    
+
     # class variables:
     count = 0
     unique_value = 0
-    
+
     def __init__(self):
         print("__init__ called, initialize instance variables of object")
         self.my_instance_variable = []  # create instance variable
         My_Class.count += 1  # also change class variable
-    
+
     def my_instance_method(self):
         print("my_instance_method called, access to instance variables via 'self'")
         self.my_instance_variable.append(My_Class.unique_value)
@@ -24,7 +24,7 @@ class My_Class:
     def my_static_method():
         print("my_static_method called, no 'self' or 'cls'")
         print(f"{My_Class.count=}")  # but still access to class variables
-              
+
 obj1 = My_Class()
 obj2 = My_Class()
 
@@ -32,7 +32,7 @@ obj1.my_instance_method()
 obj1.my_class_method()
 obj1.my_static_method()
 
-for i in range(2):
+for _ in range(2):
     obj1.my_instance_method()
     obj2.my_instance_method()
 

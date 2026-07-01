@@ -766,18 +766,18 @@ class My_Class:
         My_Class.count += 1  # also change class variable
 
     def my_instance_method(self):
-        print("my_instance_method called, accees to instance variables via 'self'")
+        print("my_instance_method called, access to instance variables via 'self'")
         self.my_instance_variable.append(My_Class.unique_value)
         My_Class.unique_value += 1  # also change class variable
 
     @classmethod
     def my_class_method(cls):
-        print("my_class_method called, access class variables via 'cls', no instance variables")
+        print("my_class_method called, access to class variables via 'cls', no instance variables")
         print(f"{cls.count=}")
 
     @staticmethod
     def my_static_method():
-        print("static method called, no 'self' or 'cls'")
+        print("my_static_method called, no 'self' or 'cls'")
         print(f"{My_Class.count=}")  # but still access to class variables
 
 obj1 = My_Class()
@@ -787,7 +787,7 @@ obj1.my_instance_method()
 obj1.my_class_method()
 obj1.my_static_method()
 
-for i in range(2):
+for _ in range(2):
     obj1.my_instance_method()
     obj2.my_instance_method()
 
