@@ -36,8 +36,8 @@ for _ in range(2):
     obj1.my_instance_method()
     obj2.my_instance_method()
 
-print(f"{obj1.count=}")     # reading class variable if no instance variable found
-obj1.count = 100            # creating instance variable
-print(f"{obj1.count=}")     # now finding and reading instance variable
-print(f"{My_Class.count}")  # class variable still available via class name
-print(f"{obj2.count=}")     # obj2 still reads the class variable
+print(f"{obj1.count=}")      # reading class variable if no instance variable found
+obj1.count = 100             # creating instance variable
+print(f"{obj1.count=}")      # now finding and reading instance variable
+print(f"{My_Class.count=}")  # class variable still available via class name
+print(f"{obj2.count=}")      # obj2 still reads the class variable
