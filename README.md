@@ -1332,6 +1332,8 @@ mg.show(locals())
 ```
 ![html_str_example.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/html_str_example.png)
 
+### Images
+
 Including the `<IMG>` tag that allows for showing local image files only, but that currently doesn't work in the Memory Graph Web Debugger, that uses 'Viz.js' for graph rendering, unfortunately.
 
 ```python
