@@ -109,6 +109,19 @@ def dark_mode(dark = None):
         config.color_mode_dark = dark
     set_colors(config.color_mode_dark, config.transparent_background)
 
+
+def layout(horizontal = None):
+    if horizontal is None:
+        config.horizontal = not config.horizontal
+    else:
+        config.horizontal = horizontal
+    if config.horizontal:
+        config.type_to_horizontal[Node_Linear] = False
+        config.type_to_horizontal[Node_Key_Value] = False
+    else:
+        del config.type_to_horizontal[Node_Linear] 
+        del config.type_to_horizontal[Node_Key_Value]
+
 def reset():
 
     set_colors(config.color_mode_dark, config.transparent_background)

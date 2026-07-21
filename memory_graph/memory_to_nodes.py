@@ -268,5 +268,6 @@ def memory_to_nodes(data):
                                     graph_attr=graphviz_graph_attr,
                                     node_attr=graphviz_node_attr,
                                     edge_attr=graphviz_edge_attr)
+    graphviz_graph.attr(rankdir= "LR" if config.horizontal else "TB")
     build_graph(graphviz_graph, nodes, root_id, id_to_slices)
     return graphviz_graph

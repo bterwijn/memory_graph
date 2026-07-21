@@ -26,7 +26,7 @@ if not hasattr(builtins, "mg"):
     builtins.mg = mg
 
 # re-exports for shorter names
-from .config_default  import dark_mode, transparent_background, set_colors
+from .config_default  import layout, dark_mode, transparent_background, set_colors
 from .slicer          import Slicer
 from .node_leaf       import Node_Leaf
 from .node_linear     import Node_Linear

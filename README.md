@@ -1079,6 +1079,9 @@ Different aspects of memory_graph can be configured. The default configuration c
 
 ## Functions ##
 
+- **mg.layout(horizontal: bool = None)**
+  - Set graph layout to 'True' for horizontal, 'False' for vertical, or 'None' to toggle.
+
 - **mg.dark_mode(b: bool = None)**
   - Set dark mode to 'True' or 'False', or 'None' to toggle.
 
