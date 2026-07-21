@@ -49,7 +49,10 @@ class Node_Linear(Node_Base):
         """
         if slices is None:
             return
-        if self.is_vertical(nodes, slices, id_to_slices):
+        vertical = self.is_vertical(nodes, slices, id_to_slices)
+        if config.horizontal:
+            vertical = not vertical  # flip orientation if horizontal layout is set
+        if vertical:
             self.fill_html_table_vertical(html_table, nodes, slices, id_to_slices)
         else:
             self.fill_html_table_horizontal(html_table, nodes, slices, id_to_slices)
