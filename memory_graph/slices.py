@@ -107,6 +107,9 @@ class Slices1D(Slices):
     def __iter__(self):
         return Slices_Iterator1D(self)
 
+    def reverse_iter(self):
+        return Slices_Iterator1D(self, reverse=True)
+
     def has_index(self, index):
         insert = bisect.bisect_right([s[0] for s in self.slices], index)
         # print('insert:',insert,'index:',index,'slices:',self.slices)
@@ -149,6 +152,9 @@ class Slices2D(Slices):
 
     def __iter__(self):
         return Slices_Iterator2D(self)
+
+    def reverse_iter(self):
+        return Slices_Iterator2D(self, reverse=True)
 
     def has_index(self, index):
         i0, i1 = index

@@ -6,6 +6,7 @@ from memory_graph.node_base import Node_Base
 from memory_graph.sequence  import Sequence2D
 from memory_graph.list_view import List_View
 
+import memory_graph.config as config
 import memory_graph.utils as utils
 
 class Node_Table(Node_Base):
@@ -43,6 +44,9 @@ class Node_Table(Node_Base):
         children_size = children.size()
         children_width = children_size[1]
         col_slices = slices.get_col_slices()
+
+        if config.horizontal:
+            html_table.reverse_rows()
 
         # use column indices for header row
         html_table.add_value(utils.unquoted_str(''), border=0)

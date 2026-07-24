@@ -60,6 +60,8 @@ class Node_Key_Value(Node_Base):
         vertical = self.is_vertical(nodes, slices, id_to_slices)
         if config.horizontal:
             vertical = not vertical
+            if vertical:
+                html_table.reverse_rows()
         if vertical:
             self.fill_html_table_vertical(html_table, nodes, slices, id_to_slices)
         else:

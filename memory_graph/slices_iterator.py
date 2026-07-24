@@ -17,9 +17,9 @@ class Slices_Iterator(ABC):
 
 class Slices_Iterator1D(Slices_Iterator):
 
-    def __init__(self, slices1d):
+    def __init__(self, slices1d, reverse=False):
         self.slices = slices1d
-        self.gen = self.generate()
+        self.gen = self.reverse_generate() if reverse else self.generate()
 
     def __iter__(self):
         return self
@@ -30,14 +30,20 @@ class Slices_Iterator1D(Slices_Iterator):
             for i in range(slices[si][0], slices[si][1]):
                 yield i
 
+    def reverse_generate(self):
+        slices = self.slices.get_slices()
+        for si in range(len(slices)-1, -1, -1):
+            for i in range(slices[si][1]-1, slices[si][0]-1, -1):
+                yield i
+
     def __next__(self):
         return next(self.gen)
     
 class Slices_Iterator2D(Slices_Iterator):
 
-    def __init__(self, slices2d):
+    def __init__(self, slices2d, reverse=False):
         self.slices = slices2d
-        self.gen = self.generate()
+        self.gen = self.reverse_generate() if reverse else self.generate()
 
     def __iter__(self):
         return self
@@ -49,6 +55,15 @@ class Slices_Iterator2D(Slices_Iterator):
             for row_i in range(row_slice[0], row_slice[1]):
                 for col_slice in col_slices:
                     for col_i in range(col_slice[0], col_slice[1]):
+                        yield (row_i, col_i)
+
+    def reverse_generate(self):
+        row_slices = self.slices.get_row_slices().get_slices()
+        col_slices = self.slices.get_col_slices().get_slices()
+        for row_slice in reversed(row_slices):
+            for row_i in range(row_slice[1]-1, row_slice[0]-1, -1):
+                for col_slice in reversed(col_slices):
+                    for col_i in range(col_slice[1]-1, col_slice[0]-1, -1):
                         yield (row_i, col_i)
 
     def __next__(self):

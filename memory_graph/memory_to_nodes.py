@@ -239,7 +239,8 @@ def build_graph(graphviz_graph, nodes, root_id, id_to_slices):
             if node_id in id_to_slices:
                 slices = id_to_slices[node_id]
                 if not slices is None:
-                    for index in slices:
+                    slices_iter = slices.reverse_iter() if config.horizontal else iter(slices)
+                    for index in slices_iter:
                         child_id = id(children[index])
                         build_graph_depth_first(graphviz_graph, nodes, child_id, id_to_slices, nodes_at_depth, subgraphed_nodes, depth+1)
             if not node.is_hidden_node():
@@ -268,6 +269,7 @@ def memory_to_nodes(data):
                                     graph_attr=graphviz_graph_attr,
                                     node_attr=graphviz_node_attr,
                                     edge_attr=graphviz_edge_attr)
-    graphviz_graph.attr(rankdir= "LR" if config.horizontal else "TB")
+    if config.horizontal:
+        graphviz_graph.attr(rankdir='LR')
     build_graph(graphviz_graph, nodes, root_id, id_to_slices)
     return graphviz_graph
