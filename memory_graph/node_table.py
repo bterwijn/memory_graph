@@ -45,8 +45,9 @@ class Node_Table(Node_Base):
         children_width = children_size[1]
         col_slices = slices.get_col_slices()
 
-        if config.horizontal:
-            html_table.reverse_rows()
+        # Better keep a table in normal order, I think
+        #if config.horizontal:
+        #    html_table.reverse_rows()
 
         # use column indices for header row
         html_table.add_value(utils.unquoted_str(''), border=0)
