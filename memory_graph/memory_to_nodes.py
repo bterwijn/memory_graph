@@ -208,6 +208,8 @@ def build_graph(graphviz_graph, nodes, root_id, id_to_slices):
         """ Adds a subgraph to 'graphviz_graph' for 'nodes_to_subgraph'. """
         new_node_names = [node.get_name() for node in nodes_to_subgraph]
         if len(new_node_names) > 1:
+            if config.horizontal:
+                new_node_names.reverse() # reverse order for horizontal layout
             graphviz_graph.body.append('subgraph { rank=same; '+ ' -> '.join(new_node_names) + '[weight='+str(config.graph_stability)+', style=invis]; }\n')
 
     def add_to_graphviz_graph(graphviz_graph, nodes, node, slices, id_to_slices):
@@ -223,7 +225,6 @@ def build_graph(graphviz_graph, nodes, root_id, id_to_slices):
         else:
             graphviz_graph.node(node.get_name(),
                                 html_table.to_string(border, color, config.foreground_color))
-            # ------------ edges
         for parent,child,dashed in edges:
             graphviz_graph.edge(parent, child+':table', style='dashed' if dashed else 'solid')
 
@@ -239,8 +240,7 @@ def build_graph(graphviz_graph, nodes, root_id, id_to_slices):
             if node_id in id_to_slices:
                 slices = id_to_slices[node_id]
                 if not slices is None:
-                    slices_iter = slices.reverse_iter() if config.horizontal else iter(slices)
-                    for index in slices_iter:
+                    for index in slices:
                         child_id = id(children[index])
                         build_graph_depth_first(graphviz_graph, nodes, child_id, id_to_slices, nodes_at_depth, subgraphed_nodes, depth+1)
             if not node.is_hidden_node():
