@@ -45,6 +45,8 @@ b = [4, 5, 6]
 c = [7, 8, 9]
 b.append([10, 11, 12])                      # vertical unless it has a reference
 print(f'{mg.config.type_to_horizontal=}')
+mg.config.type_to_horizontal[mg.Node_Linear] = True  # all Node_Linear horizontal
+mg.config.type_to_horizontal[mg.Node_Linear] = None  # back to vertical unless it has a reference
 mg.config.type_to_horizontal[list] = True   # all lists horizontal
 mg.config.type_to_horizontal[list] = False  # all lists vertical
 mg.config.type_to_horizontal[list] = None   # back to vertical unless it has a reference
