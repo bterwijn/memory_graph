@@ -733,7 +733,7 @@ Visualization of different sorting algorithms in Memory Graph Web Debugger.
 # Bitwise Operators #
 In this configuration example we show the decimal, binary and [two's complement representation](https://www.cs.cornell.edu/~tomf/notes/cps104/twoscomp.html) representation of `int` values of dictionary subclass `Bits` to show the result of [bitwise operators](https://docs.python.org/3/library/stdtypes.html?utm_source=chatgpt.com#bitwise-operations-on-integer-types). The `~` (inverse) operator can be a bit confusing if not shown with two's complement representation.
 
-- [bitwise operators](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/bitwise_operators.py&breakpoints=22&continues=1&play)
+- [bitwise operators](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/bitwise_operators.py&breakpoints=23&continues=1&play)
 
 ![bitwise_operators.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bitwise_operators.png)
 
