@@ -111,7 +111,7 @@ A better way to understand what values are shared is to draw a graph using [memo
 
 [Sliding Puzzle Solver](#sliding-puzzle-solver)
 
-[Control Flow](#control-flow)
+[Flow Control](#flow-control)
 
 [Configuration](#configuration)
 
@@ -745,9 +745,9 @@ A sliding puzzle solver as a challenging example showing how memory_graph deals 
 
 ![sliding_puzzle.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/sliding_puzzle.png)
 
-# Control Flow #
+# Flow Control #
 
-Some examples where we focus on the flow of control and access to state in Python code.
+Some examples where we focus more on the flow of execution in Python code.
 
 ## Different Methods ##
 
@@ -848,6 +848,47 @@ sms = SMS_Notification(3, '0123456789')
 sms.send('001122334455', 'Update to Privacy Policy')
 ```
 Run it in the [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/inheritance.py&breakpoints=35&continues=1&play).
+
+## Iterator ##
+
+What actually happens when Python executes a for-loop?
+
+```python
+for value in container:
+    print(value)
+```
+
+Behind the scenes, Python uses the [iterator protocol](https://docs.python.org/3/glossary.html#term-iterator):
+
+```python
+iterator = iter(container)
+while True: 
+    try: 
+        value = next(iterator)
+        print(value)
+    except StopIteration:
+        break
+```
+
+- `iter(container)`: creates an iterator.
+- `next(iterator)`: retrieves one value at a time.
+
+When there are no more values, the iterator raises StopIteration. The for-loop catches this exception automatically and ends the loop. For containers that support backward iteration, Python also provides:
+
+- `reversed(container)`: creates a backward iterator.
+
+We can support these operations in our own classes by implementing:
+
+```python
+def __iter__(self):
+def __next__(self):
+def __reversed__(self):
+```
+
+This provides a powerful abstraction: an algorithm can process values without needing to know how a container stores them internally. The same algorithm can therefore work with lists, sets, dictionaries, linked lists, trees, and many other containers.
+
+Run a Linked_List iterator example in the [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/list_iter.py&continues=0.2&play).
+
 
 ## Decorator ##
 
