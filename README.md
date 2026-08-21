@@ -849,7 +849,7 @@ sms.send('001122334455', 'Update to Privacy Policy')
 ```
 Run it in the [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/inheritance.py&breakpoints=35&continues=1&play).
 
-## Iterator ##
+## Iterators ##
 
 What actually happens when Python executes a for-loop?
 
@@ -887,7 +887,7 @@ def __reversed__(self):
 
 This provides a powerful abstraction: an algorithm can process values without needing to know how a container stores them internally. The same algorithm can therefore work with lists, sets, dictionaries, linked lists, trees, and many other containers.
 
-Run a Linked_List iterator example in the [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/list_iter.py&continues=0.2&play).
+Run a Linked_List iterator example in the [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/list_iter.py&timestep=0.2&play).
 
 
 ## Decorator ##
