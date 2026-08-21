@@ -1051,6 +1051,8 @@ create: 2
 use: 2
 ```
 
+Lazy evaluation is critical when you want to quickly start to process the first elements of a large stream of data, that may not even fit in your RAM entirely, or process just a section of an infite stream.
+
   </td></tr>
 </table>
 
