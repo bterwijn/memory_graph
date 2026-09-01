@@ -18,9 +18,9 @@ An example Binary Tree data structure:
 Or see it in the [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/bin_tree.py&timestep=0.2&play).
 
 # Videos
-| [![Quick Intro](https://www.dailymotion.com/thumbnail/video/xb2u52e)](https://dai.ly/xb2u52e&autoplay=false) | [![Mutability](https://www.dailymotion.com/thumbnail/video/xb2u4eq)](https://dai.ly/xb2u4eq&autoplay=false) |
+| [![Quick Intro](https://www.dailymotion.com/thumbnail/video/xb2u52e)](https://dai.ly/xb2u52e) | [![Mutability](https://www.dailymotion.com/thumbnail/video/xb2u4eq)](https://dai.ly/xb2u4eq) |
 |:--:|:--:|
-| [Quick Intro (3:49)](https://dai.ly/xb2u52e&autoplay=false) | [Mutability (17:29)](https://dai.ly/xb2u4eq&autoplay=false) |
+| [Quick Intro (3:49)](https://dai.ly/xb2u52e) | [Mutability (17:29)](https://dai.ly/xb2u4eq) |
 
 # Memory Graph #
 For program understanding and debugging, the [memory_graph](https://github.com/bterwijn/memory_graph) package can visualize your data, supporting many different data types, including but not limited to:
@@ -492,7 +492,7 @@ The ```mg.stack()``` doesn't work well in **watch** context in most debuggers be
 | [Wing](https://wingware.com/) | `mg.stack_wing()` |
 
 ![vscode_copying.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/vscode_copying.gif)
-See the [Quick Intro (3:49)](https://www.dailymotion.com/video/xb2u52e?start=124) video for the setup.
+See the [Quick Intro (3:49)](https://dai.ly/xb2u52e?start=124) video for the setup.
 
 ## Other Debuggers ##
 For other debuggers, invoke this function within the **watch** context. Then, in the "call_stack.txt" file, identify the slice of functions you wish to include as stack frames in the call stack.
