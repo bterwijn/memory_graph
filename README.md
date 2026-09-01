@@ -17,10 +17,10 @@ An example Binary Tree data structure:
 ![bin_tree_vs.gif](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/bin_tree_vs.gif)
 Or see it in the [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/bin_tree.py&timestep=0.2&play).
 
-# Videos #xb2u52e
-| [![Quick Intro](https://www.dailymotion.com/thumbnail/video/xb2u52e)](https://dai.ly/xb2u52e) | [![Mutability](https://www.dailymotion.com/thumbnail/video/xb2u4eq)](https://dai.ly/xb2u4eq) |
+# Videos
+| [![Quick Intro](https://www.dailymotion.com/thumbnail/video/xb2u52e)](https://dai.ly/xb2u52e&autoplay=false) | [![Mutability](https://www.dailymotion.com/thumbnail/video/xb2u4eq)](https://dai.ly/xb2u4eq&autoplay=false) |
 |:--:|:--:|
-| [Quick Intro (3:49)](https://dai.ly/xb2u52e) | [Mutability (17:29)](https://dai.ly/xb2u4eq) |
+| [Quick Intro (3:49)](https://dai.ly/xb2u52e&autoplay=false) | [Mutability (17:29)](https://dai.ly/xb2u4eq&autoplay=false) |
 
 # Memory Graph #
 For program understanding and debugging, the [memory_graph](https://github.com/bterwijn/memory_graph) package can visualize your data, supporting many different data types, including but not limited to:
