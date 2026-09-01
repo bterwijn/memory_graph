@@ -373,7 +373,7 @@ The effect of calling `add_one()` is that `b[0]` increases by 1, while `a` is un
 
 # Data Model Exercises #
 
-Now is a good time to practice with these Python Data Model concepts. Here are [some exercises](https://github.com/bterwijn/memory_graph_videos/blob/main/exercises/exercises.md) on references, mutability, copies, and function calls. Also see the programming exercises at [the end of the Mutability video](https://www.youtube.com/watch?v=pvIJgHCaXhU&t=891s).
+Now is a good time to practice with these Python Data Model concepts. Here are [some exercises](https://github.com/bterwijn/memory_graph_videos/blob/main/exercises/exercises.md) on references, mutability, copies, and function calls. Also see the programming exercises at [the end of the Mutability video](https://dai.ly/xb2u4eq?start=891).
 
 # Block #
 It is often helpful to temporarily block program execution to inspect the graph. For this we can use the `mg.block()` function:
