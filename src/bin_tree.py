@@ -21,9 +21,20 @@ class Bin_Tree:
             else:
                 self.larger.add(value)
 
+    def print_values(self):
+        if self.smaller:
+            self.smaller.print_values()
+        print(self.value, end=' ')
+        if self.larger:
+            self.larger.print_values()
+
 tree = Bin_Tree()
+print("build the tree")
 n = 20
 for i in range(n):
     value = random.randint(0, n * 10)
     print(f'{i+1}/{n} insert: {value}')
     tree.add(value)
+
+print("print values in sorted order")
+tree.print_values()
