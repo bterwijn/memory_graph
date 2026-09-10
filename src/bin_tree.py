@@ -30,7 +30,7 @@ class Bin_Tree:
 
 tree = Bin_Tree()
 print("build the tree")
-n = 20
+n = 12
 for i in range(n):
     value = random.randint(0, n * 10)
     print(f'{i+1}/{n} insert: {value}')
