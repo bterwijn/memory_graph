@@ -9,6 +9,7 @@ END = "_end_"
 def build_trie(words):
     root = {}
     for w in words:
+        print(f'add "{w}"')
         node = root
         for ch in w:
             node = node.setdefault(ch, {})
@@ -25,6 +26,7 @@ def word_completions(trie, prefix):
             if ch != END:
                 depth_first_search(child, prefix + ch)
 
+    print(f'\ncomplete "{prefix}..."')
     node = trie
     for ch in prefix:
         if ch in node:
@@ -38,6 +40,7 @@ words = ["to",
          "too", "top", "toy", "ton", "toe", "tor", 
          "torn", "tore", "toss", "told", "toll", "tone"]
 random.shuffle(words)
+print('build the Trie')
 trie = build_trie(words)
 
 print( word_completions(trie, "to") )
