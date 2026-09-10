@@ -24,4 +24,6 @@ class Bin_Tree:
 tree = Bin_Tree()
 n = 20
 for i in range(n):
-    tree.add(random.randint(0, n * 10))
+    value = random.randint(0, n * 10)
+    print(f'{i+1}/{n} insert: {value}')
+    tree.add(value)
