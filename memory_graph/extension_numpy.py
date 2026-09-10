@@ -7,6 +7,7 @@ from memory_graph.node_linear import Node_Linear
 from memory_graph.node_table import Node_Table
 
 import memory_graph.config as config
+import memory_graph.config_default as config_default
 
 def ndarray_to_node(data, ndarray_data):
     dim = len(ndarray_data.shape)
@@ -34,8 +35,18 @@ def extend_numpy():
     config.type_to_node[np.matrix] = lambda data : Node_Table(data, np.asarray(data)) # convert to ndarray to avoid infinite recursion due to index issue
     config.type_to_node[np.ndarray] = lambda data : ndarray_to_node(data, data)
 
-    config.type_to_color[np.ndarray] = "hotpink1"
-    config.type_to_color[np.matrix] = "hotpink2"
+    config_default.type_to_color_light[np.ndarray] = "hotpink1"
+    config_default.type_to_color_light[np.matrix] = "hotpink2"
+
+    config_default.type_to_color_dark[np.ndarray] = "#652c47"
+    config_default.type_to_color_dark[np.matrix] = "#652c47"
+
+    if not config.color_mode_dark:
+        config.type_to_color[np.ndarray] = config_default.type_to_color_light[np.ndarray]
+        config.type_to_color[np.matrix] = config_default.type_to_color_light[np.matrix]
+    else:
+        config.type_to_color[np.ndarray] = config_default.type_to_color_dark[np.ndarray]
+        config.type_to_color[np.matrix] = config_default.type_to_color_dark[np.matrix]
 
 def unextend_numpy():
     import numpy as np

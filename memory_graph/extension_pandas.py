@@ -7,6 +7,7 @@ from memory_graph.node_linear import Node_Linear
 from memory_graph.node_table import Node_Table
 
 import memory_graph.config as config
+import memory_graph.config_default as config_default
 
 def extend_pandas():
     import pandas as pd
@@ -23,8 +24,19 @@ def extend_pandas():
         Node_Linear(data, data.tolist())
     )
 
-    config.type_to_color[pd.DataFrame] = "olivedrab1"
-    config.type_to_color[pd.Series] = "olivedrab2"
+    config_default.type_to_color_light[pd.DataFrame] = "olivedrab1"
+    config_default.type_to_color_light[pd.Series] = "olivedrab2"
+
+    config_default.type_to_color_dark[pd.DataFrame] = "#3a4d13"
+    config_default.type_to_color_dark[pd.Series] = "#3a4d13"
+
+    if not config.color_mode_dark:
+        config.type_to_color[pd.DataFrame] = config_default.type_to_color_light[pd.DataFrame]
+        config.type_to_color[pd.Series] = config_default.type_to_color_light[pd.Series]
+    else:
+        config.type_to_color[pd.DataFrame] = config_default.type_to_color_dark[pd.DataFrame]
+        config.type_to_color[pd.Series] = config_default.type_to_color_dark[pd.Series]
+
 
 def unextend_pandas():
     import pandas as pd
