@@ -36,5 +36,5 @@ for i in range(n):
     print(f'{i+1}/{n} insert: {value}')
     tree.add(value)
 
-print("print values in sorted order")
+print("\nprint values in sorted order")
 tree.print_values()
