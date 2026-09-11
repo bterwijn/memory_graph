@@ -46,5 +46,5 @@ random.shuffle(words)
 print('build the Trie')
 trie = build_trie(words)
 
-print( word_completions(trie, "to") )
 print( word_completions(trie, "tor") )
+print( word_completions(trie, "to") )
