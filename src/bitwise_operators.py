@@ -14,7 +14,6 @@ mg.config.type_to_node[Bits] = lambda x : mg.Node_Table(x,
      for k, v in x.items()],
    col_names=["expression", "decimal", "bin(expression)", "16bit two's complement"])
 mg.config.type_to_slicer[Bits] = (mg.Slicer(), mg.Slicer())  # no slicing
-mg.config.type_to_color[Bits] = 'gold'
 mg.config.fontname = 'Courier' # monospace font
 
 bits = Bits()
