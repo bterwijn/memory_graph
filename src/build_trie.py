@@ -9,11 +9,14 @@ END = "_end_"
 def build_trie(words):
     root = {}
     for w in words:
-        print(f'add "{w}"')
+        qw = f'"{w}"'
+        print(f'add {qw:7}:', end=' ')
         node = root
         for ch in w:
+            print(ch, end=' ')
             node = node.setdefault(ch, {})
         node[END] = True
+        print()
     return root
 
 def word_completions(trie, prefix):
@@ -26,7 +29,7 @@ def word_completions(trie, prefix):
             if ch != END:
                 depth_first_search(child, prefix + ch)
 
-    print(f'\ncomplete "{prefix}..."')
+    print(f'\ncomplete "{prefix}..." :', end=' ')
     node = trie
     for ch in prefix:
         if ch in node:
