@@ -18,7 +18,7 @@ mg.config.fontname = 'Courier' # monospace font
 
 bits = Bits()
 
-# now add some some variables and expressions
+# now add some variables and expressions
 bits['a'] = 1
 bits['b'] = 48
 bits['c'] = 127
