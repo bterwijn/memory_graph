@@ -895,11 +895,11 @@ Run a Linked_List iterator example in the [Memory Graph Web Debugger](https://me
 This example shows the flow of control when using a decorator. A decorator wraps a function and is active before and after the function is called.
 
 ```python
-def log_call(function):
+def log_call(function):  # decorator example
     def wrapper(*args, **kwargs):
-        print(f"Calling {function.__name__} with: {args}, {kwargs}")
+        print(f"log: '{function.__name__}' called with: {args}, {kwargs}")
         return_value = function(*args, **kwargs)
-        print(f"Finished {function.__name__} with return value: {returned}")
+        print(f"log: '{function.__name__}' returned with: {return_value}")
         return return_value
     return wrapper
 
