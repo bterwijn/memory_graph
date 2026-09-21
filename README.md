@@ -912,7 +912,7 @@ def calculate_total(price, quantity, rounding=False):
 def send_email(receiver, message, sender="support@company.com"):
     print(f"Sending email to:{receiver} from:{sender}, {message}")
 
-total = calculate_total(7.5, 3, rounding=True)
+total = calculate_total(2.4, 3, rounding=True)
 print(total)
 send_email("alice@example.com", "Your order is ready")
 ```
