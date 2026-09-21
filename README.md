@@ -916,7 +916,7 @@ total = calculate_total(2.4, 3, rounding=True)
 print(total)
 send_email("alice@example.com", "Your order is ready")
 ```
-Run it in the [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/decorator.py&breakpoints=18&continues=1&play).
+Run it in the [Memory Graph Web Debugger](https://memory-graph.com/#codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/decorator.py&breakpoints=19&continues=1&play).
 
 ## Exception Handling ##
 
