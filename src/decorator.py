@@ -1,9 +1,9 @@
 def log_call(function):
     def wrapper(*args, **kwargs):
         print(f"Calling {function.__name__} with: {args}, {kwargs}")
-        returned = function(*args, **kwargs)
+        return_value = function(*args, **kwargs)
         print(f"Finished {function.__name__} with return value: {returned}")
-        return returned
+        return return_value
     return wrapper
 
 @log_call
