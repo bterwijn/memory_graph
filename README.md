@@ -1535,6 +1535,8 @@ mg.show(locals())
 
 Or see it in the [Memory Graph Web Debugger](https://memory-graph.com/#micropip=numpy&codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/mg_numpy.py&play).
 
+See this [introduction to numpy operations](https://memory-graph.com/#micropip=numpy&codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/numpy_operations.py&timestep=0.5&play).
+
 ## Pandas ##
 For pandas types `Series` and `DataFrame`, use `mg.extend_pandas()`:
 
