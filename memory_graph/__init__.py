@@ -537,3 +537,15 @@ def collapse_type(type_name):
 def reset_type(type_name):
     del mg.config.type_to_node[type_name]
     del mg.config.type_to_color[type_name]
+
+# ------------ atributes to Node_Key_Value
+
+def node_all_attributes(data):
+    return Node_Key_Value(data, [(attr, getattr(data, attr)) for attr in dir(data)])
+
+def node_non_callable_attributes(data):
+    attr_values = [(attr, getattr(data, attr)) for attr in dir(data)]
+    return Node_Key_Value(data, [(attr, value) for attr, value in attr_values if not callable(value)])
+
+def node_non_dunder_attributes(data):
+    return Node_Key_Value(data, [(attr, getattr(data, attr)) for attr in dir(data) if not attr.startswith('__')])

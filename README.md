@@ -1171,7 +1171,13 @@ mg.show(locals())
 ![avltree_fail.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_fail.png)
 
 ## All attributes using dir() ##
-A useful start is to give it some color, show the list of all its attributes using `dir()`, and setting an empty Slicer to see the attribute list in full.
+Then first give it some color, show the its attributes using either of:
+
+- mg.node_all_attributes(data)
+- mg.node_non_callable_attributes(data)
+- mg.node_non_dunder_attributes(data)
+
+and set an empty Slicer to see all attributes.
 
 ```python
 import memory_graph as mg
@@ -1185,15 +1191,15 @@ tree.insert(20, "twenty")
 tree.insert(15, "fifteen")
 
 mg.config.type_to_color[bintrees.avltree.Node] = "sandybrown"
-mg.config.type_to_node[bintrees.avltree.Node] = lambda data: mg.Node_Linear(data,
-                                                dir(data))
+mg.config.type_to_node[bintrees.avltree.Node] = lambda data: mg.node_non_dunder_attributes(data)
 mg.config.type_to_slicer[bintrees.avltree.Node] = mg.Slicer()
 
 mg.show(locals())
 ```
-![avltree_dir.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_dir.png)
 
-Next figure out what the attributes are you want to graph and choose a Node type, there are four options:
+![avltree_dir.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_non_dunder.png)
+
+Next figure out what the attributes are you actually want to graph and choose a Node type, there are four options:
 
 ## 1) Node_Leaf ##
 Node_Leaf is a node with no children and shows just a single value.
