@@ -1191,7 +1191,8 @@ tree.insert(20, "twenty")
 tree.insert(15, "fifteen")
 
 mg.config.type_to_color[bintrees.avltree.Node] = "sandybrown"
-mg.config.type_to_node[bintrees.avltree.Node] = lambda data: mg.node_non_dunder_attributes(data)
+mg.config.type_to_node[bintrees.avltree.Node] = lambda data: 
+                                                mg.node_non_dunder_attributes(data)
 mg.config.type_to_slicer[bintrees.avltree.Node] = mg.Slicer()
 
 mg.show(locals())
