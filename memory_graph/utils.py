@@ -165,6 +165,10 @@ def is_finite_iterable(data):
         return True
     except TypeError:
         return False
+
+def is_namedtuple(data):
+    """ Returns 'True' if 'data' is a namedtuple. """
+    return isinstance(data, tuple) and hasattr(data, '_fields')
     
 def get_type_name(data):
     """ Returns the name of the type of 'data'. """

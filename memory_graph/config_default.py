@@ -179,6 +179,11 @@ def reset():
         call_stack: lambda data: Node_Key_Value(data, data.items()),
         type: lambda data: Node_Key_Value(data, utils.filter_type_attributes(vars(data).items())),
         range: lambda data: Node_Key_Value(data, {'start':data.start, 'stop':data.stop, 'step':data.step}.items()),
+        tuple: lambda data: (
+            Node_Key_Value(data, zip(data._fields, iter(data)))
+            if utils.is_namedtuple(data) else
+            Node_Linear(data, iter(data))
+        ),
         dict: lambda data: (
             Node_Key_Value(data, utils.filter_dict(data) )
             if dict in config.embedding_types else 
