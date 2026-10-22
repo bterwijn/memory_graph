@@ -1170,14 +1170,14 @@ mg.show(locals())
 ```
 ![avltree_fail.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_fail.png)
 
-## All attributes using build_node() ##
-Then first give it some color, show the its attributes using:
+## Show attributes using build_node() ##
+Then first give it some color, show its attributes using:
 
 ```python
 mg.build_node(data)
 ```
 
-optionally with filters:
+optionally filter attributes using:
 
 ```python
 mg.build_node(data,
