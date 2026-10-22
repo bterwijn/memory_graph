@@ -540,12 +540,23 @@ def reset_type(type_name):
 
 # ------------ atributes to Node_Key_Value
 
-def node_all_attributes(data):
-    return Node_Key_Value(data, [(attr, getattr(data, attr)) for attr in dir(data)])
+def build_node(data, filters=None):
+    attr_values = ((attr, utils.safe_getattr(data, attr)) for attr in dir(data))
+    if filters is not None:
+        for filter in filters:
+            attr_values = filter(attr_values)
+    return Node_Key_Value(data, ((attr, value)
+                                 for attr, value in attr_values
+                                   if value is not utils.SENTINEL
+                                ))
 
-def node_non_callable_attributes(data):
-    attr_values = [(attr, getattr(data, attr)) for attr in dir(data)]
-    return Node_Key_Value(data, [(attr, value) for attr, value in attr_values if not callable(value)])
-
-def node_non_dunder_attributes(data):
-    return Node_Key_Value(data, [(attr, getattr(data, attr)) for attr in dir(data) if not attr.startswith('__')])
+def filter_non_callable(tuples):
+    return ((k,v) for k, v in tuples if not callable(v))
+def filter_non_dunder(tuples):
+    return ((k,v) for k, v in tuples if not k.startswith('__'))
+def filter_non_underscore(tuples):
+    return ((k,v) for k, v in tuples if not k.startswith('_'))
+def filter_names(names):
+    def filter(tuples):
+        return ((k,v) for k, v in tuples if k in names)
+    return filter

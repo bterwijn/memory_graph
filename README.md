@@ -1170,14 +1170,28 @@ mg.show(locals())
 ```
 ![avltree_fail.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/avltree_fail.png)
 
-## All attributes using dir() ##
-Then first give it some color, show the its attributes using either of:
+## All attributes using build_node() ##
+Then first give it some color, show the its attributes using:
 
-- mg.node_all_attributes(data)
-- mg.node_non_callable_attributes(data)
-- mg.node_non_dunder_attributes(data)
+```python
+mg.build_node(data)
+```
 
-and set an empty Slicer to see all attributes.
+optionally with filters:
+
+```python
+mg.build_node(data,
+    filters=[mg.filter_non_callable,
+             mg.filter_non_dunder,
+             mg.filter_non_underscore
+             mg.filter_names({'left', 'right'}),
+             lambda kvs : ((k,v) for k,v in kvs
+                             if k in {'left', 'right'} and
+                                not callable(v))
+            ])
+```
+
+and set an empty Slicer to show all attributes even if the sequence is long.
 
 ```python
 import memory_graph as mg
@@ -1191,8 +1205,8 @@ tree.insert(20, "twenty")
 tree.insert(15, "fifteen")
 
 mg.config.type_to_color[bintrees.avltree.Node] = "sandybrown"
-mg.config.type_to_node[bintrees.avltree.Node] = lambda data: 
-                                                mg.node_non_dunder_attributes(data)
+mg.config.type_to_node[bintrees.avltree.Node] = lambda data: mg.build_node(data,
+                                                  filters=[mg.filter_non_dunder])
 mg.config.type_to_slicer[bintrees.avltree.Node] = mg.Slicer()
 
 mg.show(locals())

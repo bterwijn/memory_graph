@@ -19,7 +19,8 @@ mg.config.type_to_node[bintrees.avltree.Node] = lambda data: mg.Node_Linear(data
 mg.config.type_to_slicer[bintrees.avltree.Node] = mg.Slicer()
 # mg.render(locals(), 'avltree_dir.png') # stuff changes
 
-mg.config.type_to_node[bintrees.avltree.Node] = lambda data: mg.node_non_dunder_attributes(data)
+mg.config.type_to_node[bintrees.avltree.Node] = lambda data: mg.build_node(data,
+                                                  filters=[mg.filter_non_dunder])
 mg.render(locals(), 'avltree_non_dunder.png')
 
 

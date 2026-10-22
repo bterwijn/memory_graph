@@ -11,6 +11,14 @@ import html
 
 import memory_graph.config as config
 
+SENTINEL = object()
+
+def safe_getattr(obj, attr):
+    try:
+        return getattr(obj, attr, SENTINEL)
+    except Exception:
+        return SENTINEL
+
 class Base_Str():
     def __init__(self, s):
         self.s = s
@@ -198,3 +206,4 @@ def generator_has_data(generator):
         return True
     except StopIteration:
         return False
+
