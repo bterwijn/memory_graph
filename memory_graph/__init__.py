@@ -520,6 +520,13 @@ def extend_pandas(on=True):
     else:
         ext_pd.unextend_pandas()
 
+def extend_polars(on=True):
+    import memory_graph.extension_polars as ext_pl
+    if on:
+        ext_pl.extend_polars()
+    else:
+        ext_pl.unextend_polars()
+
 def extend_torch(on=True):
     import memory_graph.extension_torch as ext_torch
     if on:

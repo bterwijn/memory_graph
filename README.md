@@ -1536,8 +1536,8 @@ mg.show(locals())
 # Extensions #
 Different extensions are available for types from other Python packages. 
 
-## Numpy ##
-For Numpy types `array` and `matrix` and `ndarray`, use `mg.extend_numpy()`:
+## NumPy ##
+For NumPy types `array` and `matrix` and `ndarray`, use `mg.extend_numpy()`:
 
 ```python
 import memory_graph as mg
@@ -1559,7 +1559,7 @@ Or see it in the [Memory Graph Web Debugger](https://memory-graph.com/#micropip=
 See this [introduction to NumPy operations](https://memory-graph.com/#micropip=numpy&codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/numpy_operations.py&timestep=0.5&play).
 
 ## Pandas ##
-For pandas types `Series` and `DataFrame`, use `mg.extend_pandas()`:
+For Pandas types `Series` and `DataFrame`, use `mg.extend_pandas()`:
 
 ```python
 import memory_graph as mg
@@ -1580,6 +1580,27 @@ mg.show(locals())
 Or see it in the [Memory Graph Web Debugger](https://memory-graph.com/#micropip=pandas&codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/mg_pandas.py&play).
 
 See this [introduction to Pandas operations](https://memory-graph.com/#micropip=numpy&codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/pandas_operations.py&timestep=0.5&play).
+
+## Polars ##
+For Polars types `DataFrame`, use `mg.extend_polars()`:
+
+```python
+import memory_graph as mg
+import polars as pl
+mg.extend_polars()
+
+df = pl.DataFrame(
+    {
+        "name": ["Alice Archer", "Ben Brown", "Chloe Cooper", "Daniel Donovan"],
+        "weight": [57.9, 72.5, 53.6, 83.1],  # (kg)
+        "height": [1.56, 1.77, 1.65, 1.75],  # (m)
+    }
+)
+
+mg.show(locals())
+```
+![extension_polars.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_polars.png)
+
 
 ## PyTorch ##
 For torch type `tensor`, use `mg.extend_torch()`:
