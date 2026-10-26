@@ -1619,6 +1619,39 @@ mg.show(locals())
 ```
 ![extension_torch.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_torch.png)
 
+## SQLite3 ##
+For sqlite3 use `mg.extend_sqlite3()`:
+
+```python
+import memory_graph as mg
+import sqlite3
+mg.extend_sqlite3()
+
+conn = sqlite3.connect(":memory:")
+
+conn.executescript("""
+    CREATE TABLE students (
+        id INTEGER PRIMARY KEY,
+        name TEXT NOT NULL,
+        age INTEGER
+    );
+""")
+
+conn.executemany(
+    "INSERT INTO students VALUES (?, ?, ?)",
+    [
+        (1, "Alice", 20),
+        (2, "Bob", 21),
+        (3, "Charlie", 22),
+    ]
+)
+
+mg.show(locals())
+conn.close()
+```
+![extension_sqlite3.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_sqlite3.png)
+
+
 # Memory Graph Web Debugger #
 The <a href="https://memory-graph.com/#play" target="_blank">Memory Graph Web Debugger</a> lets us use memory_graph without any installation.
 ![memory_graph_web_debugger.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/memory_graph_web_debugger.png)

@@ -534,6 +534,12 @@ def extend_torch(on=True):
     else:
         ext_torch.unextend_torch()
 
+def extend_sqlite3(on=True):
+    import memory_graph.extension_sqlite3 as ext_sqlite3
+    if on:
+        ext_sqlite3.extend_sqlite3()
+    else:
+        ext_sqlite3.unextend_sqlite3()
 
 # ------------ collapse type
     
