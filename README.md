@@ -1579,7 +1579,7 @@ mg.show(locals())
 
 Or see it in the [Memory Graph Web Debugger](https://memory-graph.com/#micropip=pandas&codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/mg_pandas.py&play).
 
-See this [introduction to Pandas operations](https://memory-graph.com/#micropip=numpy&codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/pandas_operations.py&timestep=0.5&play).
+See this [introduction to Pandas operations](https://memory-graph.com/#micropip=numpy,pandas&codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph/refs/heads/main/src/pandas_operations.py&timestep=0.5&play).
 
 ## Polars ##
 For Polars types `DataFrame`, use `mg.extend_polars()`:
