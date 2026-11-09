@@ -142,6 +142,7 @@ mg.config.type_to_slicer[MyClass] = (mg.Slicer(), mg.Slicer())
 mg.config.type_to_slicer[MyClass] = (mg.Slicer(4), mg.Slicer(0,2))
 # show first 2, middle 3, and last 2 rows and columns
 mg.config.type_to_slicer[MyClass] = (mg.Slicer(2,3,2), mg.Slicer(2,3,2))
+del MyClass, a
 
 
 # Exceptions
