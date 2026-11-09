@@ -123,6 +123,27 @@ mg.config_default.reset()
 del MyClass, a
 
 
+# Table Slicer
+
+class MyClass:
+    def __init__(self, rows, cols):
+        self.data = []
+        data = [i for i in range(rows*cols)]
+        self.data = [data[r*cols:(r+1)*cols] for r in range(rows)]
+
+mg.config.type_to_node[MyClass] = lambda d: mg.Node_Table(d,
+                                  d.data if hasattr(d,'data') else [[]])
+
+a = MyClass(15, 15) # default: only first 3, middle 2, and last 3 rows and columns
+
+# show all rows and columns
+mg.config.type_to_slicer[MyClass] = (mg.Slicer(), mg.Slicer())
+# show first 4 rows and last 2 columns
+mg.config.type_to_slicer[MyClass] = (mg.Slicer(4), mg.Slicer(0,2))
+# show first 2, middle 3, and last 2 rows and columns
+mg.config.type_to_slicer[MyClass] = (mg.Slicer(2,3,2), mg.Slicer(2,3,2))
+
+
 # Exceptions
 
 mylist = [0, 1]
