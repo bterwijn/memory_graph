@@ -2,7 +2,7 @@
 # Copyright (c) 2023, Bas Terwijn.
 # SPDX-License-Identifier: BSD-2-Clause
 
-""" Extension to add the memory graph configuration for Numpy types. """
+""" Extension to add the memory graph configuration for SQLite3 types. """
 from memory_graph.node_key_value import Node_Key_Value
 from memory_graph.node_table import Node_Table
 
@@ -50,38 +50,53 @@ def get_table(conn, table_name):
 
 
 def get_tables(conn):
-    table_names = (
-        row[0] for row in conn.execute(
-            "SELECT name FROM sqlite_master "
-            "WHERE type = 'table' AND name NOT LIKE 'sqlite_%'"
+    import sqlite3
+    try:
+        table_names = (
+            row[0] for row in conn.execute(
+                "SELECT name FROM sqlite_master "
+                "WHERE type = 'table' AND name NOT LIKE 'sqlite_%'"
+            )
         )
-    )
-    tables = {name: get_table(conn, name) for name in table_names}
-    return tables
-
+        tables = {name: get_table(conn, name) for name in table_names}
+        return tables
+    except sqlite3.Error as e:
+        typename= type(e).__name__
+        error_msg = str(e)
+        tables = {typename: error_msg}
+        return tables
 
 def sqlite_table_node(d):
-    headers = []
-    for name in d.header:
-        labels = []
-        # Declared SQLite column type
-        column_type = d.column_types.get(name)
-        if column_type:
-            labels.append(column_type)
-        # Primary key
-        if name in d.primary_keys:
-            labels.append("PK")
-        # Foreign key
-        if any(fk[0] == name for fk in d.foreign_keys):
-            labels.append("FK")
+    import sqlite3
+    try:
+        headers = []
+        for name in d.header:
+            labels = []
+            # Declared SQLite column type
+            column_type = d.column_types.get(name)
+            if column_type:
+                labels.append(column_type)
+            # Primary key
+            if name in d.primary_keys:
+                labels.append("PK")
+            # Foreign key
+            if any(fk[0] == name for fk in d.foreign_keys):
+                labels.append("FK")
 
-        suffix = f" ({', '.join(labels)})" if labels else ""
-        headers.append(name + suffix)
-    return Node_Table(
-        d,
-        list(d.rows),
-        col_names=headers
-    )
+            suffix = f" ({', '.join(labels)})" if labels else ""
+            headers.append(name + suffix)
+        return Node_Table(
+            d,
+            list(d.rows),
+            col_names=headers
+        )
+    except sqlite3.Error as e:
+        typename= type(e).__name__
+        error_msg = str(e)
+        return Node_Table(
+            d,
+            [[typename, error_msg]],
+        )
 
 def extend_sqlite3():
     import sqlite3
