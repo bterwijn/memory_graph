@@ -55,6 +55,8 @@ class Sequence1D(Sequence):
         return Slices1D()
 
     def slice(self, slicer):
+        if type(slicer) is tuple: # (row, column) slicer for a type that is sometimes 1D, use the first
+            slicer = slicer[0]
         return slicer.get_slices( len(self.data) )
 
     def indices_all(self):
