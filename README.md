@@ -1651,6 +1651,7 @@ conn.close()
 ```
 ![extension_sqlite3.png](https://raw.githubusercontent.com/bterwijn/memory_graph/main/images/extension_sqlite3.png)
 
+Or see this larger example in the [Memory Graph Web Debugger](https://memory-graph.com/#micropip=sqlite3&codeurl=https://raw.githubusercontent.com/bterwijn/memory_graph_examples/refs/heads/main/sqlite3_example.py&timestep=0.2&play).
 
 # Memory Graph Web Debugger #
 The <a href="https://memory-graph.com/#play" target="_blank">Memory Graph Web Debugger</a> lets us use memory_graph without any installation.

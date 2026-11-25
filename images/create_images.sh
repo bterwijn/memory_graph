@@ -51,7 +51,7 @@ python hidden_edges.py
 python extension_numpy.py
 python extension_pandas.py
 python extension_polars.py
-python extension_torch.py
+#python extension_torch.py
 python extension_sqlite3.py
 
 # clean up the graphviz files
