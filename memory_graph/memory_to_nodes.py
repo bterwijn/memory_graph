@@ -266,8 +266,8 @@ def memory_to_nodes(data):
                            'fontsize': config.fontsize, 
                            'fontcolor': config.foreground_color, 
                            'bgcolor': config.background_color,
-                           #'splines': 'polyline',
-                           #'ordering': 'out',
+                           'splines': str(config.splines),
+                           'ranksep': str(config.ranksep),
                            }
     graphviz_node_attr = {'fontname': config.fontname, 
                           'fontsize': config.fontsize, 
