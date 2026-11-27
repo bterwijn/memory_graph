@@ -9,7 +9,9 @@ from memory_graph.node_table import Node_Table
 import memory_graph.config as config
 import memory_graph.config_default as config_default
 
-def ndarray_to_node(data, ndarray_data):
+def ndarray_to_node(data, ndarray_data, precision=None):
+    if precision is not None and ndarray_data.dtype.kind in 'fc':
+        ndarray_data = ndarray_data.round(precision)
     dim = len(ndarray_data.shape)
     if dim > 2:
         return Node_Linear(data, [i for i in ndarray_data])
@@ -28,12 +30,13 @@ def get_numpy_immutables():
         np.bool_, np.bytes_, np.str_, np.datetime64, np.timedelta64
     }
 
-def extend_numpy():
+def extend_numpy(precision: int = None):
     import numpy as np
 
     config.embedded_types |= get_numpy_immutables()
-    config.type_to_node[np.matrix] = lambda data : Node_Table(data, np.asarray(data)) # convert to ndarray to avoid infinite recursion due to index issue
-    config.type_to_node[np.ndarray] = lambda data : ndarray_to_node(data, data)
+    # np.asarray converts matrix to ndarray to avoid infinite recursion due to index issue
+    config.type_to_node[np.matrix] = lambda data : ndarray_to_node(data, np.asarray(data), precision)
+    config.type_to_node[np.ndarray] = lambda data : ndarray_to_node(data, data, precision)
 
     config_default.type_to_color_light[np.ndarray] = "hotpink1"
     config_default.type_to_color_light[np.matrix] = "hotpink2"

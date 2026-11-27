@@ -506,10 +506,13 @@ def stack_marimo(end_functions=["<cell line: 0>", "<module>"], stack_index=0):
 
 # ------------ extensions
 
-def extend_numpy(on=True):
+def extend_numpy(on=True, precision=None):
+    """ Extend/unextend numpy support. An int as first argument, e.g. extend_numpy(3), sets the 'precision'. """
     import memory_graph.extension_numpy as ext_np
+    if isinstance(on, int) and not isinstance(on, bool):
+        on, precision = True, on
     if on:
-        ext_np.extend_numpy()
+        ext_np.extend_numpy(precision)
     else:
         ext_np.unextend_numpy()
 
