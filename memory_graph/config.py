@@ -30,6 +30,7 @@ type_to_string = { }
 type_to_node = { }
 
 horizontal = False
+precision = None
 splines = 'spline'
 ranksep = '1.0'
 color_mode_dark = False

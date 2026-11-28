@@ -199,6 +199,19 @@ def my_round(value):
     """ Rounds the value to the nearest integer rounding '.5' up consistantly. """
     return math.floor(value + 0.5)
 
+def round_float(value, precision):
+    """ Rounds float and complex values (including numpy scalars) to 'precision' digits after the decimal point, other values are returned unchanged. """
+    if precision is None:
+        return value
+    if isinstance(value, float):
+        return round(value, precision)
+    if isinstance(value, complex):
+        return complex(round(value.real, precision), round(value.imag, precision))
+    dtype = getattr(value, 'dtype', None)
+    if dtype is not None and dtype.kind in 'fc' and getattr(value, 'shape', None) == ():
+        return value.round(precision)
+    return value
+
 def generator_has_data(generator):
     """ Returns 'True' if the generator has data. """
     try:

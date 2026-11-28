@@ -14,6 +14,13 @@ mg.config_default.reset()
 del a
 
 
+# Float Precision
+
+myfloats = [1.23456789, 2.3456789, 3.456789]
+mg.config.precision = 3     # round floats to just 3 decimals
+mg.config.precision = None  # no rounding
+
+
 # Type Labels
 
 a = [1, 2]
@@ -31,8 +38,8 @@ a = [1, 2, 3]
 b = [4, 5, 6]
 c = [7, 8, 9]
 print(f'{mg.config.type_to_color=}')
-mg.config.type_to_color[list] = "red"       # set color for list type
-mg.config.type_to_color[id(b)] = "green"    # set color for id
+mg.config.type_to_color[list] = "red"         # set color for list type
+mg.config.type_to_color[id(b)] = "green"      # set color for id
 mg.config.type_to_color[id(c)] = "#1177FF"  # set RGB color for id
 mg.config_default.reset()
 del a, b, c

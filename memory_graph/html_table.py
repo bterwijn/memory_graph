@@ -9,7 +9,7 @@ import memory_graph.utils as utils
 def format_string(value, quote_str):
     """ Helper function to format 'value' to be shown in the graph. We escape html characters and convert newlines to <BR/> tags. """
     to_string = config_helpers.get_to_string(value)
-    s = to_string(value)
+    s = to_string(utils.round_float(value, config.precision))
     if quote_str and isinstance(value, (str, utils.full_str)):
         s = utils.quote_string(s)
     if not isinstance(value, utils.html_str): # <IMG> can't have padding in Graphviz

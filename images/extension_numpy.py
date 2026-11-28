@@ -6,6 +6,7 @@ import memory_graph as mg
 import numpy as np
 mg.extend_numpy()
 np.random.seed(0) # use same random numbers each run
+mg.config.precision = 3 # round floats to just 3 decimals
 
 matrix = np.matrix([[i*5+j for j in range(4)] for i in range(5)])
 ndarray_1d = np.array([1.1, 2, 3, 4, 5])

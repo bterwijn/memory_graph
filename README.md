@@ -1078,6 +1078,9 @@ Different aspects of memory_graph can be configured. The default configuration c
 - ***mg.config.max_string_length*** : int
   - The maximum length of strings shown in the graph. Longer strings will be truncated.
 
+- ***mg.config.precision*** : int
+  - Round floats to this number of decimals, default None (no rouding).
+
 - ***mg.config.embedded_types*** : set[type]
   - Holds all types for which no separate node is drawn but that are embedded in their parent Node.
 
@@ -1550,6 +1553,7 @@ import memory_graph as mg
 import numpy as np
 mg.extend_numpy()
 np.random.seed(0) # use same random numbers each run
+mg.config.precision = 3 # round floats to just 3 decimals
 
 matrix = np.matrix([[i*5+j for j in range(4)] for i in range(5)])
 ndarray_1d = np.array([1.1, 2, 3, 4, 5])
