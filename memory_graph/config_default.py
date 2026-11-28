@@ -121,7 +121,7 @@ def spline(splines = None):
 
 def ranksep(ranksep = None):
     """ Set the graphviz 'ranksep' attribute (separation between ranks in inches), None restores the default. """
-    config.ranksep = '1.0' if ranksep is None else str(ranksep)
+    config.ranksep = '0.5' if ranksep is None else str(ranksep)
 
 def reset():
 
